@@ -1,0 +1,7 @@
+{
+    "name": "sigmalibre/inventarios",
+    "description": "Sistema de gestión de inventarios para empresas.",
+    "type": "project",
+    "license": "GNU GPL v3.0",
+    "require": {}
+}
