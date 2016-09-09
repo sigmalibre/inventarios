@@ -25,12 +25,13 @@ class Controller
      * Ahora en lugar de escribir $this->container->obj
      * Se puede escribir simplemente $this->obj
      *
-     * @param  mixed $property El objeto que se quiera encontrar en el contenedor.
-     * @return mixed El objeto, si este existe.
+     * @param  string $property El objeto que se quiera encontrar en el contenedor.
+     * @return mixed El objeto o valor, si este existe en el contenedor.
      */
     public function __get($property)
     {
         if ($this->container->{$property}) {
+            var_dump($property);
             return $this->container->{$property};
         }
     }
