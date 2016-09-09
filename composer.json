@@ -3,5 +3,8 @@
     "description": "Sistema de gestión de inventarios para empresas.",
     "type": "project",
     "license": "GNU GPL v3.0",
-    "require": {}
+    "require": {
+        "slim/slim": "^3.5",
+        "slim/twig-view": "^2.1"
+    }
 }
