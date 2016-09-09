@@ -31,5 +31,5 @@ $container['view'] = function($container)
 // Ruta de la homepage
 $app->get('/', function ($request, $response) {
     return $this->view->render($response, 'homepage.html');
-});
+})->setName('homepage');
 $app->run();
