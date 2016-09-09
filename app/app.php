@@ -27,9 +27,6 @@ $container['view'] = function($container)
 };
 
 // RUTAS (URLs)
+require APP_ROOT . '/app/routes.php';
 
-// Ruta de la homepage
-$app->get('/', function ($request, $response) {
-    return $this->view->render($response, 'homepage.html');
-})->setName('homepage');
 $app->run();
