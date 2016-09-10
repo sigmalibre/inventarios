@@ -31,7 +31,6 @@ class Controller
     public function __get($property)
     {
         if ($this->container->{$property}) {
-            var_dump($property);
             return $this->container->{$property};
         }
     }
