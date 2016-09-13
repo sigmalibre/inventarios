@@ -11,8 +11,8 @@ $app = new \Slim\App($config);
 // CONTENEDOR DE DEPENDENCIAS
 $container = $app->getContainer();
 
-// Agregar las dependencias al contenedor:
-
+// AGREGA LAS DEPENDENCIAS AL CONTENEDOR
+// Vistas:
 $container['view'] = function($container)
 {
     // Se utilizará Twig para las vistas.
@@ -24,6 +24,19 @@ $container['view'] = function($container)
     ));
 
     return $view;
+};
+
+// Content Negotiator:
+$container['negotiator'] = function($container)
+{
+    $acceptHeader = $container->request->getHeaderLine('Accept');
+    $priorities = ['text/html; charset=UTF-8', 'application/json'];
+
+    $negotiator = new \Negotiation\Negotiator;
+
+    $mediaType = $negotiator->getBest($acceptHeader, $priorities);
+
+    return $mediaType;
 };
 
 // RUTAS (URLs)
