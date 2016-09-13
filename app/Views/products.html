@@ -25,14 +25,19 @@
                                 <input id="modeloProducto" class="form-control" type="text" name="modeloProducto" placeholder="Modelo del producto">
                             </div>
                             <div class="form-group">
-                                <label for="descripcionProducto">Descripción</label>
-                                <input id="descripcionProducto" class="form-control" type="text" name="descripcionProducto" placeholder="Descripción del producto">
-                            </div>
-                            <div class="form-group">
                                 <label for="ubicacionProducto">Ubicación</label>
                                 <input id="ubicacionProducto" class="form-control" type="text" name="ubicacionProducto" placeholder="Ubicación del producto">
                             </div>
-                            <button class="btn btn-primary" type="submit">Buscar</button>
+                            <div class="form-group">
+                                <label for="descripcionProducto">Descripción</label>
+                                <input id="descripcionProducto" class="form-control" type="text" name="descripcionProducto" placeholder="Descripción del producto">
+                            </div>
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+                            </button>
+                            <button class="btn btn-default" type="reset">
+                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> Limpiar
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -42,30 +47,32 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">Resultados</h2>
                     </div>
-                    <table class="table">
-                        <tr>
-                            <th>Código</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Descripción</th>
-                            <th>Cantidad</th>
-                            <th>Ubicación</th>
-                        </tr>
-                        {% for product in products %}
-                        <tr>
-                            <td>{{ product.codigo }}</td>
-                            <td>{{ product.marca }}</td>
-                            <td>{{ product.modelo }}</td>
-                            <td>{{ product.descripcion }}</td>
-                            <td>{{ product.cantidad }}</td>
-                            <td>{{ product.ubicacion }}</td>
-                        </tr>
-                        {% else %}
-                        <tr>
-                            <td class="text-center" colspan="6">No se encontraron resultados</td>
-                        </tr>
-                        {% endfor %}
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Código</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Ubicación</th>
+                            </tr>
+                            {% for product in products %}
+                            <tr>
+                                <td>{{ product.codigo_producto }}</td>
+                                <td>{{ product.marca_producto }}</td>
+                                <td>{{ product.modelo_producto }}</td>
+                                <td>{{ product.descripcion_producto }}</td>
+                                <td>{{ product.cantidad_producto }}</td>
+                                <td>{{ product.ubicacion_producto }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td class="text-center" colspan="6">No se encontraron resultados</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
