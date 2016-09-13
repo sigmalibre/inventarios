@@ -1,5 +1,5 @@
 <?php
-namespace Sigmalibre\DataSource;
+namespace Sigmalibre\DataSource\MySQL;
 
 /**
  * Crea conexiones hacia la base de datos especificada en la configuración.
