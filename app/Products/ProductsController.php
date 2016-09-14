@@ -20,18 +20,9 @@ class ProductsController extends \Sigmalibre\Controller\Controller
             return $this->view->render($response, 'products.html');
         }
 
-        // mapeado desde los inputs del formulario a la lista con los identificadores.
-        $identifiers = [
-            'codigo' => (empty($parameters['codigoProducto'])) ? '' : $parameters['codigoProducto'],
-            'marca' => (empty($parameters['marcaProducto'])) ? '' : $parameters['marcaProducto'],
-            'modelo' => (empty($parameters['modeloProducto'])) ? '' : $parameters['modeloProducto'],
-            'ubicacion' => (empty($parameters['ubicacionProducto'])) ? '' : $parameters['ubicacionProducto'],
-            'descripcion' => (empty($parameters['descripcionProducto'])) ? '' : $parameters['descripcionProducto'],
-        ];
-
         $dataSource = new \Sigmalibre\DataSource\MySQL\ProductsDataSource($this->container);
         $products = new Products($dataSource);
-        $product_list = $products->getProducts($identifiers);
+        $product_list = $products->getProducts($parameters);
 
         return $this->view->render($response, 'products.html', [
             'products' => $product_list
