@@ -63,7 +63,9 @@ class ProductsDataSource implements \Sigmalibre\DataSource\DataSourceInterface
 
         if (empty($identifiers['descripcionProducto']) === false) {
             $preparedStatement .= $add_AND_before . ' MATCH(descripcion_producto) AGAINST(:descripcion)';
-            $inputParameters[':descripcion'] = $this->escWildCards($identifiers['descripcionProducto']);
+            // Se deben escapar los asteriscos para las búsquedas full text debido a un bug cuando solo
+            // se encuentra un asterisco en la búsqueda.
+            $inputParameters[':descripcion'] = addcslashes($identifiers['descripcionProducto'], '*');
         }
 
         if (empty($inputParameters) === true) {
