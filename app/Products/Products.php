@@ -22,7 +22,7 @@ class Products
      * @param  [type] $identifiers Los términos de búsqueda que el usuario ha ingresado junto con sus identificadores.
      * @return array Lista con los resultados obtenidos desde la fuente de datos.
      */
-    public function getProducts($identifiers)
+    public function readProductList($identifiers)
     {
         return $this->dataSource->read($identifiers);
     }

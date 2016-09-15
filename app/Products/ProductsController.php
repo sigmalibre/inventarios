@@ -12,7 +12,7 @@ class ProductsController extends \Sigmalibre\Controller\Controller
      * @param  object $response HTTP response.
      * @return object HTTP Response conteniendo el resultado de las búsquedas, con formato dependiendo del header Accept.
      */
-    public function getProducts($request, $response)
+    public function getProductList($request, $response)
     {
         $parameters = $request->getQueryParams();
 
@@ -22,7 +22,7 @@ class ProductsController extends \Sigmalibre\Controller\Controller
 
         $dataSource = new \Sigmalibre\DataSource\MySQL\ProductsDataSource($this->container);
         $products = new Products($dataSource);
-        $product_list = $products->getProducts($parameters);
+        $product_list = $products->readProductList($parameters);
 
         return $this->view->render($response, 'products.html', [
             'products' => $product_list
