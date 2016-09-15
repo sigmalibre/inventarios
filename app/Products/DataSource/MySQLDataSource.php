@@ -1,16 +1,16 @@
 <?php
-namespace Sigmalibre\DataSource\MySQL;
+namespace Sigmalibre\Products\DataSource;
 
 /**
  * Fuente de datos de los productos en MySQL.
  */
-class ProductsDataSource implements \Sigmalibre\DataSource\DataSourceInterface
+class MySQLDataSource implements \Sigmalibre\DataSource\DataSourceInterface
 {
     protected $db;
 
     public function __construct($container)
     {
-        $this->db = new MySQL($container);
+        $this->db = new \Sigmalibre\DataSource\MySQL($container);
     }
 
     /**

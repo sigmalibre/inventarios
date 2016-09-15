@@ -20,7 +20,7 @@ class ProductsController extends \Sigmalibre\Controller\Controller
             return $this->view->render($response, 'products.html');
         }
 
-        $dataSource = new \Sigmalibre\DataSource\MySQL\ProductsDataSource($this->container);
+        $dataSource = new \Sigmalibre\Products\DataSource\MySQLDataSource($this->container);
         $products = new Products($dataSource);
         $product_list = $products->readProductList($parameters);
 
