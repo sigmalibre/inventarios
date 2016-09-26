@@ -4,14 +4,25 @@ namespace Sigmalibre\Homepage;
 /**
  * Controlador para la Homepage, muestra la página de inicio de la aplicación.
  */
-class HomeController extends \Sigmalibre\Controller\Controller
+class HomeController
 {
+    private $container;
+
     /**
-     * Método home es llamado automáticamente por Slim, ya que está definido en las rutas.
+     * Slim pasa el contenedor de dependencias a los controladores de rutas.
+     * @param \Slim\Container $container El contenedor de dependencias.
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
+    /**
+     * Renderiza la vista del homepage.
      * @return Response Retorna una respuesta conteniendo la vista de la homepage.
      */
     public function home($request, $response)
     {
-        return $this->view->render($response, 'homepage.html');
+        return $this->container->view->render($response, 'homepage.html');
     }
 }

@@ -4,8 +4,19 @@ namespace Sigmalibre\Products;
 /**
  * Controlador para las operaciones sobre productos.
  */
-class ProductsController extends \Sigmalibre\Controller\Controller
+class ProductsController
 {
+    private $container;
+
+    /**
+     * Slim pasa el contenedor de dependencias a los controladores de rutas.
+     * @param \Slim\Container $container El contenedor de dependencias.
+     */
+    public function __construct($container)
+    {
+        $this->container = $container;
+    }
+
     /**
      * Responde la lista de productos según los términos de búsqueda.
      * @param  object $request HTTP request.
@@ -17,14 +28,14 @@ class ProductsController extends \Sigmalibre\Controller\Controller
         $parameters = $request->getQueryParams();
 
         if (empty($parameters) === true) {
-            return $this->view->render($response, 'products.html');
+            return $this->container->view->render($response, 'products.html');
         }
 
         $dataSource = new \Sigmalibre\Products\DataSource\MySQLDataSource($this->container);
         $products = new Products($dataSource);
         $product_list = $products->readProductList($parameters);
 
-        return $this->view->render($response, 'products.html', [
+        return $this->container->view->render($response, 'products.html', [
             'products' => $product_list
         ]);
     }
