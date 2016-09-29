@@ -16,10 +16,10 @@ class SearchAllProducts implements \Sigmalibre\DataSource\ReadDataSourceInterfac
 
     public function read($pagination)
     {
-        $totalPages = ceil($pagination['totalCountOfRows'] / $rowsPerPage);
-
-        $currentPage = $pagination['currentPage'];
         $rowsPerPage = $pagination['perPage'];
+        $currentPage = $pagination['currentPage'];
+
+        $totalPages = ceil($pagination['totalCountOfRows'] / $rowsPerPage);
 
         if ($currentPage > $totalPages) {
             $currentPage = $totalPages;
