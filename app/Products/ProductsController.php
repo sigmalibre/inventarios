@@ -1,4 +1,5 @@
 <?php
+
 namespace Sigmalibre\Products;
 
 /**
@@ -10,7 +11,8 @@ class ProductsController
 
     /**
      * Slim pasa el contenedor de dependencias a los controladores de rutas.
-     * @param \Slim\Container $container El contenedor de dependencias.
+     *
+     * @param \Slim\Container $container El contenedor de dependencias
      */
     public function __construct($container)
     {
@@ -19,24 +21,21 @@ class ProductsController
 
     /**
      * Responde la lista de productos según los términos de búsqueda.
-     * @param  object $request HTTP request.
-     * @param  object $response HTTP response.
-     * @return object HTTP Response conteniendo el resultado de las búsquedas, con formato dependiendo del header Accept.
+     *
+     * @param object $request  HTTP request
+     * @param object $response HTTP response
+     *
+     * @return object HTTP Response conteniendo el resultado de las búsquedas.
      */
-    public function getProductList($request, $response)
+    public function indexProducts($request, $response)
     {
         $parameters = $request->getQueryParams();
 
-        if (empty($parameters) === true) {
-            return $this->container->view->render($response, 'products.html');
-        }
-
-        $dataSource = new \Sigmalibre\Products\DataSource\MySQLDataSource($this->container);
-        $products = new Products($dataSource);
-        $product_list = $products->readProductList($parameters);
+        $products = new Products($this->container, $parameters);
+        $productList = $products->readProductList();
 
         return $this->container->view->render($response, 'products.html', [
-            'products' => $product_list
+            'products' => $productList,
         ]);
     }
 }

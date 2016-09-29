@@ -1,29 +1,58 @@
 <?php
+
 namespace Sigmalibre\Products;
 
 /**
- * Modelo para operaciones CRUD sobre productos.
+ * Realiza operaciones CRUD sobre los productos.
  */
 class Products
 {
-    protected $dataSource;
+    private $container;
+    private $userInput;
 
-    /**
-     * Obtiene cualquier fuete de datos que implemente la interfaz DataSourceInterface.
-     * @param Sigmalibre\DataSource\DataSourceInterface $dataSource Fuente de datos sobre los productos.
-     */
-    public function __construct(\Sigmalibre\DataSource\DataSourceInterface $dataSource)
+    public function __construct($container, $userInput)
     {
-        $this->dataSource = $dataSource;
+        $this->container = $container;
+        $this->userInput = $userInput;
     }
 
     /**
-     * Obtiene los productos de los cuales se haya recibido términos de búsqueda.
-     * @param  [type] $identifiers Los términos de búsqueda que el usuario ha ingresado junto con sus identificadores.
-     * @return array Lista con los resultados obtenidos desde la fuente de datos.
+     * Instancia las fuentes de datos para hacer una lectura de la lista de productos.
+     *
+     * @return array Lista de los productos
      */
-    public function readProductList($identifiers)
+    public function readProductList()
     {
-        return $this->dataSource->read($identifiers);
+        $productCount = new DataSource\MySQL\CountAllProducts($this->container);
+        $productList = new DataSource\MySQL\SearchAllProducts($this->container);
+
+        $productSearch = new ProductSearch($productCount);
+
+        // Si no se recibe correctamente la paginación desde el ciente, ajustar por defecto a 1.
+        if (isset($this->userInput['productsPage']) === false || is_numeric($this->userInput['productsPage']) === false) {
+            $productsPage = 1;
+        }
+
+        $productsPage = isset($productsPage) ? $productsPage : (int) $this->userInput['productsPage'];
+
+        // Si no se recibe correctamente la cantidad de articulos por página desde el ciente, ajustar por defecto a 10;
+        if (isset($this->userInput['productsPerPage']) === false || is_numeric($this->userInput['productsPerPage']) === false) {
+            $productsPerPage = 10;
+        }
+
+        $productsPerPage = isset($productsPerPage) ? $productsPerPage : (int) $this->userInput['productsPerPage'];
+
+        // Cantidad máxima de productos por página es 50.
+        $productsPerPage = $productsPerPage > 50 ? 50 : $productsPerPage;
+
+        $pagination = [
+            'totalCountOfRows' => (int) $productSearch->search([])[0]['cuenta'],
+            'currentPage' => $productsPage,
+            'perPage' => $productsPerPage,
+        ];
+
+        $productSearch->setStrategy($productList);
+
+        return $productSearch->search($pagination);
     }
 }

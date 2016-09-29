@@ -2,4 +2,4 @@
 
 $app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
 
-$app->get('/productos', '\Sigmalibre\Products\ProductsController:getProductList')->setName('products');
+$app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')->setName('products');

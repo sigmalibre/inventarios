@@ -51,20 +51,18 @@
                         <table class="table table-striped">
                             <tr>
                                 <th>Código</th>
+                                <th>Categoría</th>
                                 <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Descripción</th>
+                                <th>Nombre</th>
                                 <th>Cantidad</th>
-                                <th>Ubicación</th>
                             </tr>
                             {% for product in products %}
                             <tr>
-                                <td>{{ product.codigo_producto }}</td>
-                                <td>{{ product.marca_producto }}</td>
-                                <td>{{ product.modelo_producto }}</td>
-                                <td>{{ product.descripcion_producto }}</td>
-                                <td>{{ product.cantidad_producto }}</td>
-                                <td>{{ product.ubicacion_producto }}</td>
+                                <td>{{ product.codigo_mas }}</td>
+                                <td>{{ product.nombre_cat }}</td>
+                                <td>{{ product.marca_mas }}</td>
+                                <td>{{ product.nombre_mas }}</td>
+                                <td>{{ product.saldou_mas }}</td>
                             </tr>
                             {% else %}
                             <tr>
