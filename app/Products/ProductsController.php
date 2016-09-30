@@ -37,6 +37,7 @@ class ProductsController
         return $this->container->view->render($response, 'products.html', [
             'products' => $productList['productList'],
             'pagination' => $productList['pagination'],
+            'input' => $productList['userInput'],
         ]);
     }
 }

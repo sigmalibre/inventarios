@@ -55,7 +55,8 @@ class Products
                 'currentPage' => $productsPage,
                 'perPage' => $productsPerPage,
                 'totalPages' => $totalPages,
-            ]
+            ],
+            'userInput' => $this->userInput,
         ];
     }
 

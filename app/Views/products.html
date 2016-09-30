@@ -14,23 +14,19 @@
                         <form action="{{ path_for('products') }}" method="get" role="form">
                             <div class="form-group">
                                 <label for="codigoProducto">Código</label>
-                                <input id="codigoProducto" class="form-control" type="text" name="codigoProducto" placeholder="Código del producto">
+                                <input id="codigoProducto" class="form-control" type="text" name="codigoProducto" placeholder="Código del producto" value="{{ input.codigoProducto }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="categoriaProducto">Categoría</label>
+                                <input id="categoriaProducto" class="form-control" type="text" name="categoriaProducto" placeholder="Categoría del producto" value="{{ input.categoriaProducto }}">
                             </div>
                             <div class="form-group">
                                 <label for="marcaProducto">Marca</label>
-                                <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto">
+                                <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto" value="{{ input.marcaProducto }}">
                             </div>
                             <div class="form-group">
-                                <label for="modeloProducto">Modelo</label>
-                                <input id="modeloProducto" class="form-control" type="text" name="modeloProducto" placeholder="Modelo del producto">
-                            </div>
-                            <div class="form-group">
-                                <label for="ubicacionProducto">Ubicación</label>
-                                <input id="ubicacionProducto" class="form-control" type="text" name="ubicacionProducto" placeholder="Ubicación del producto">
-                            </div>
-                            <div class="form-group">
-                                <label for="descripcionProducto">Descripción</label>
-                                <input id="descripcionProducto" class="form-control" type="text" name="descripcionProducto" placeholder="Descripción del producto">
+                                <label for="nombreProducto">Nombre</label>
+                                <input id="nombreProducto" class="form-control" type="text" name="nombreProducto" placeholder="Nombre del producto" value="{{ input.nombreProducto }}">
                             </div>
                             <button class="btn btn-primary" type="submit">
                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
