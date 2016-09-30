@@ -23,36 +23,68 @@ class Products
      */
     public function readProductList()
     {
-        $productCount = new DataSource\MySQL\CountAllProducts($this->container);
-        $productList = new DataSource\MySQL\SearchAllProducts($this->container);
+        $productSearch = new ProductSearch(new DataSource\MySQL\CountAllProducts($this->container));
 
-        $productSearch = new ProductSearch($productCount);
+        // Validar los productos por página.
+        $productsPerPage = isset($this->userInput['productsPerPage']) ? $this->userInput['productsPerPage'] : 10;
+        $productsPerPage = $this->validatePagination($productsPerPage, 50, 10, 1);
 
-        // Si no se recibe correctamente la paginación desde el ciente, ajustar por defecto a 1.
-        if (isset($this->userInput['productsPage']) === false || is_numeric($this->userInput['productsPage']) === false) {
-            $productsPage = 1;
-        }
+        // Realizar un conteo de todos los productos existentes.
+        $rowCount = (int) $productSearch->search([])[0]['cuenta'];
 
-        $productsPage = isset($productsPage) ? $productsPage : (int) $this->userInput['productsPage'];
+        // Calcular la cantidad de páginas según cuantos productos se quieran ver.
+        $totalPages = (int) ceil($rowCount / $productsPerPage);
 
-        // Si no se recibe correctamente la cantidad de articulos por página desde el ciente, ajustar por defecto a 10;
-        if (isset($this->userInput['productsPerPage']) === false || is_numeric($this->userInput['productsPerPage']) === false) {
-            $productsPerPage = 10;
-        }
-
-        $productsPerPage = isset($productsPerPage) ? $productsPerPage : (int) $this->userInput['productsPerPage'];
-
-        // Cantidad máxima de productos por página es 50.
-        $productsPerPage = $productsPerPage > 50 ? 50 : $productsPerPage;
+        // Validar la página que el cliente quiere ver.
+        $productsPage = isset($this->userInput['productsPage']) ? $this->userInput['productsPage'] : 1;
+        $productsPage = $this->validatePagination($productsPage, $totalPages, 1, 1);
 
         $pagination = [
-            'totalCountOfRows' => (int) $productSearch->search([])[0]['cuenta'],
             'currentPage' => $productsPage,
             'perPage' => $productsPerPage,
         ];
 
-        $productSearch->setStrategy($productList);
+        $productSearch->setStrategy(new DataSource\MySQL\SearchAllProducts($this->container));
 
-        return $productSearch->search($pagination);
+        // Retornar la búsqueda de los productos según la paginación.
+        $searchResults = $productSearch->search($pagination);
+
+        return [
+            'productList' => $searchResults,
+            'pagination' => [
+                'currentPage' => $productsPage,
+                'perPage' => $productsPerPage,
+                'totalPages' => $totalPages,
+            ]
+        ];
+    }
+
+    /**
+     * Valida el los input para la paginación de la lista de productos.
+     *
+     * @param string $input   Input desde el cliente
+     * @param int    $max     Cantidad máxima para el input
+     * @param int    $default Cantidad por defecto si el input es incorrecto
+     * @param int    $min     Cantidad mínima para el input
+     *
+     * @return int El input validado
+     */
+    private function validatePagination($input, $max, $default, $min = 1)
+    {
+        if (is_numeric($input) === false) {
+            return $default;
+        }
+
+        $input = (int) $input;
+
+        if ($input < $min) {
+            return $min;
+        }
+
+        if ($input > $max) {
+            return $max;
+        }
+
+        return $input;
     }
 }
