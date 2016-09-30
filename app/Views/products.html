@@ -11,7 +11,7 @@
                         <h2 class="panel-title">Busqueda de Productos</h2>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ path_for('products') }}" method="get" role="form">
+                        <form id="productsForm" action="{{ path_for('products') }}" method="get" role="form">
                             <div class="form-group has-feedback has-clear">
                                 <label for="codigoProducto">Código</label>
                                 <input id="codigoProducto" class="form-control" type="text" name="codigoProducto" placeholder="Código del producto" value="{{ input.codigoProducto }}">
@@ -32,7 +32,18 @@
                                 <input id="nombreProducto" class="form-control" type="text" name="nombreProducto" placeholder="Nombre del producto" value="{{ input.nombreProducto }}">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreProducto %}hidden{% endif %}"></span>
                             </div>
-                            <button class="btn btn-primary" type="submit">
+                            <div class="form-group">
+                                <label for="productsPerPage">Cantidad por página</label>
+                                <select class="form-control" name="productsPerPage">
+                                    {% set perPageOpts = [10, 25, 50] %}
+                                    {% for opt in perPageOpts %}
+                                        <option value="{{ opt }}" {% if pagination.perPage == opt %}selected{% endif %}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="hidden" name="productsPage" value="{{ pagination.currentPage }}">
+                            <!-- <input type="hidden" name="productsPerPage" value="{{ pagination.perPage }}"> -->
+                            <button class="btn btn-primary link-submit" type="submit" data-input="productsPage" data-value="1" >
                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
                             </button>
                         </form>
@@ -73,17 +84,17 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination">
                         <li class="{% if pagination.currentPage == 1 %}disabled{% endif %}">
-                            <a href="{% if pagination.currentPage > 1 %}{{ path_for('products') }}?productsPage={{ pagination.currentPage - 1 }}{% else %}#{% endif %}" aria-label="Previous">
+                            <a disabled class="link-submit" data-input="productsPage" data-value="{% if pagination.currentPage > 1 %}{{ pagination.currentPage - 1 }}{% else %}1{% endif %}" href="#" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
                         {% for i in pagination.currentPage - 3 .. pagination.currentPage + 3 if pagination.currentPage %}
                             {% if i >= 1 and i <= pagination.totalPages%}
-                                <li class="{% if i == pagination.currentPage %}active{% endif %}"><a href="{{ path_for('products') }}?productsPage={{ i }}">{{ i }}</a></li>
+                                <li class="{% if i == pagination.currentPage %}active{% endif %}"><a class="link-submit" data-input="productsPage" data-value="{{ i }}" href="#">{{ i }}</a></li>
                             {% endif %}
                         {% endfor %}
                         <li class="{% if pagination.currentPage == pagination.totalPages %}disabled{% endif %}">
-                            <a href="{% if pagination.currentPage < pagination.totalPages %}{{ path_for('products') }}?productsPage={{ pagination.currentPage + 1 }}{% else %}#{% endif %}" aria-label="Next">
+                            <a class="link-submit" data-input="productsPage" data-value="{% if pagination.currentPage < pagination.totalPages %}{{ pagination.currentPage + 1 }}{% else %}{{ pagination.totalPages }}{% endif %}" href="#" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
@@ -92,7 +103,4 @@
             </div>
         </div>
     </div>
-    <pre>
-        {{ dump(pagination) }}
-    </pre>
 {% endblock %}
