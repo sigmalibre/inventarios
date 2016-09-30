@@ -1,6 +1,6 @@
 <?php
 
-namespace Sigmalibre\Products\DataSource\Mysql;
+namespace Sigmalibre\Products\DataSource\MySQL;
 
 /**
  * Realiza una búsqueda de los productos en la BD con paginación.
