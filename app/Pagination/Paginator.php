@@ -79,9 +79,14 @@ class Paginator
             return $default;
         }
 
+
         $input = (int) $input;
 
         if ($input < 1) {
+            return 1;
+        }
+
+        if ($max < 1) {
             return 1;
         }
 
