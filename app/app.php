@@ -25,6 +25,8 @@ $container['view'] = function($container)
 
     $view->addExtension(new \Twig_Extension_Debug());
 
+    $view->getEnvironment()->addGlobal('uri_path', $container->request->getUri()->getPath());
+
     return $view;
 };
 
