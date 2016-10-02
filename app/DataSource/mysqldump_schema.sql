@@ -70,7 +70,8 @@ DROP TABLE IF EXISTS `tbcategoriaproductos`;
 CREATE TABLE `tbcategoriaproductos` (
   `codigo_cat` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nombre_cat` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_cat`)
+  PRIMARY KEY (`codigo_cat`),
+  KEY `tbcategoriaproductos_nombre_cat_idx` (`nombre_cat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -636,4 +637,4 @@ CREATE TABLE `tbuser` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-09-30 19:06:10
+-- Dump completed on 2016-10-01 22:03:42
