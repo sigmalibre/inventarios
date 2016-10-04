@@ -27,7 +27,7 @@ class CategoriesController
         $categoryResults = $categories->readCategoryList();
 
         return $this->container->view->render($response, 'categories.html', [
-            'categories' => $categoryResults['categoryList'],
+            'categories' => $categoryResults['itemList'],
             'pagination' => $categoryResults['pagination'],
             'input' => $categoryResults['userInput'],
         ]);
