@@ -9,11 +9,18 @@ class Products
 {
     private $container;
     private $userInput;
+    private $listReader;
 
     public function __construct($container, $userInput)
     {
         $this->container = $container;
         $this->userInput = $userInput;
+        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountAllFilteredProducts($container),
+            new DataSource\MySQL\FilterAllProducts($container),
+            new \Sigmalibre\Pagination\Paginator($userInput),
+            $userInput
+        );
     }
 
     /**
@@ -23,32 +30,9 @@ class Products
      */
     public function readProductList()
     {
-        $productSearch = new ProductSearch(new DataSource\MySQL\CountAllFilteredProducts($this->container));
+        $productList = $this->listReader->read();
+        $productList['userInput'] = $this->userInput;
 
-        // Realizar un conteo de todos los productos existentes.
-        $rowCount = (int) $productSearch->search([
-            'input' => $this->userInput,
-        ])[0]['cuenta'];
-
-        // Obtiene detalles para la paginación.
-        $paginator = new \Sigmalibre\Pagination\Paginator($this->userInput);
-        $pagination = $paginator->calculate($rowCount);
-
-        $productSearch->setStrategy(new DataSource\MySQL\FilterAllProducts($this->container));
-
-        // Retornar la búsqueda de los productos según la paginación.
-        $searchResults = $productSearch->search([
-            'offset' => $pagination['offset'],
-            'items' => $pagination['itemsPerPage'],
-            'input' => $this->userInput,
-        ]);
-
-        $pagination['totalItems'] = $rowCount;
-
-        return [
-            'productList' => $searchResults,
-            'pagination' => $pagination,
-            'userInput' => $this->userInput,
-        ];
+        return $productList;
     }
 }
