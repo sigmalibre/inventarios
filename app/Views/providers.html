@@ -1,0 +1,88 @@
+{% extends 'templates/base.html' %}
+
+{% block title %}Proveedores{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-0 col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Búsqueda de Proveedores</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form id="providersForm" action="{{ path_for('providers') }}" method="get" role="form">
+                            <div class="form-group has-feedback has-clear">
+                                <label for="codigoProveedor">Código</label>
+                                <input id="codigoProveedor" class="form-control" type="text" name="codigoProveedor" placeholder="Código de el proveedor" value="{{ input.codigoProveedor }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoProveedor %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nombreProveedor">Nombre</label>
+                                <input id="nombreProveedor" class="form-control" type="text" name="nombreProveedor" placeholder="Nombre de el proveedor" value="{{ input.nombreProveedor }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreProveedor %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="numregProveedor">Número de Registro</label>
+                                <input id="numregProveedor" class="form-control" type="text" name="numregProveedor" placeholder="Número de registro de el proveedor" value="{{ input.numregProveedor }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.numregProveedor %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nitProveedor">NIT</label>
+                                <input id="nitProveedor" class="form-control" type="text" name="nitProveedor" placeholder="NIT de el proveedor" value="{{ input.nitProveedor }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nitProveedor %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="providersPerPage">Cantidad por página</label>
+                                <select id="providersPerPage" class="form-control" name="itemsPerPage">
+                                    {% set perPageOpts = [10, 25, 50] %}
+                                    {% for opt in perPageOpts %}
+                                        <option value="{{ opt }}" {% if pagination.itemsPerPage == opt %}selected{% endif %}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
+                            <button class="btn btn-primary link-submit" type="button" data-input="currentPage" data-value="1">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-0 col-lg-9">
+                <div class="panel no-margin-bottom {% if providers %}panel-success{% else %}panel-default{% endif %}">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Registro</th>
+                                <th>NIT</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                            </tr>
+                            {% for provider in providers %}
+                            <tr>
+                                <td>{{ provider.codigo_prov }}</td>
+                                <td>{{ provider.nombre_prov }}</td>
+                                <td>{{ provider.numreg_prov }}</td>
+                                <td>{{ provider.numnit_prov }}</td>
+                                <td>{{ provider.direccion_prov }}</td>
+                                <td>{{ provider.telefono_prov }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td class="text-center" colspan="7">No se encontraron resultados</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                {% include 'templates/listpagination.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
