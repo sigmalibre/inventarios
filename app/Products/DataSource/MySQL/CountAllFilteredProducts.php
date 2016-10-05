@@ -29,8 +29,8 @@ class CountAllFilteredProducts implements \Sigmalibre\DataSource\ReadDataSourceI
         }
 
         if (empty($input['categoriaProducto']) === false) {
-            $filters[] = 'tbmaster.codigo_cat LIKE :codigo_cat';
-            $params[':codigo_cat'] = $input['categoriaProducto'] . '%';
+            $filters[] = 'tbcategoriaproductos.nombre_cat LIKE :nombre_cat';
+            $params[':nombre_cat'] = $input['categoriaProducto'] . '%';
         }
 
         if (empty($input['marcaProducto']) === false) {
