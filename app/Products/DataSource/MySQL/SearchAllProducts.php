@@ -16,7 +16,10 @@ class SearchAllProducts implements \Sigmalibre\DataSource\ReadDataSourceInterfac
 
     public function read($pagination)
     {
-        $statement = 'SELECT codigo_mas, nombre_prov, nombre_cat, nombre_subcat, nombre_mas, foto_mas, marca_mas, excentoiva_mas, saldou_mas, saldov_mas, ingresou_mas, egresou_mas, ingresov_mas, egresou_mas, promedio_mas, fechaingreso_mas, stock_mas, activo, nombre_medida, descripcion_catbiendet, descripcion_reflibrodet FROM tbmaster LEFT JOIN tbproveedor USING (codigo_prov) LEFT JOIN tbcategoriaproductos USING (codigo_cat) LEFT JOIN tbsubcategoria USING (codigo_subcat) LEFT JOIN tbmedida USING (codigo_medida) LEFT JOIN tbcategoriabiendet USING (codigo_catbiendet) LEFT JOIN tbreferencialibrodet USING (codigo_reflibrodet) LIMIT '.$pagination['offset'].', '.$pagination['items'];
+        $statement = 'SELECT codigo_mas, nombre_prov, nombre_cat, nombre_subcat, nombre_mas, foto_mas, marca_mas, excentoiva_mas, saldou_mas, saldov_mas, ingresou_mas, egresou_mas, ingresov_mas, egresou_mas, promedio_mas, fechaingreso_mas, stock_mas, activo, nombre_medida, descripcion_catbiendet, descripcion_reflibrodet FROM tbmaster LEFT JOIN tbproveedor USING (codigo_prov) LEFT JOIN tbcategoriaproductos USING (codigo_cat) LEFT JOIN tbsubcategoria USING (codigo_subcat) LEFT JOIN tbmedida USING (codigo_medida) LEFT JOIN tbcategoriabiendet USING (codigo_catbiendet) LEFT JOIN tbreferencialibrodet USING (codigo_reflibrodet) LIMIT :offset, :items';
+
+        $params[':offset'] = $options['offset'];
+        $params[':items'] = $options['items'];
 
         return $this->connection->query($statement, []);
     }

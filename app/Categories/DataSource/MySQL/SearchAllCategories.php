@@ -16,8 +16,11 @@ class SearchAllCategories implements \Sigmalibre\DataSource\ReadDataSourceInterf
 
     public function read($pagination)
     {
-        $statement = 'SELECT codigo_cat, nombre_cat FROM tbcategoriaproductos LIMIT '.$pagination['offset'].', '.$pagination['items'];
+        $statement = 'SELECT codigo_cat, nombre_cat FROM tbcategoriaproductos LIMIT :offset, :items';
 
-        return $this->connection->query($statement, []);
+        $params[':offset'] = $options['offset'];
+        $params[':items'] = $options['items'];
+
+        return $this->connection->query($statement, $params);
     }
 }

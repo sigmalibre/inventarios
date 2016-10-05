@@ -48,7 +48,10 @@ class FilterAllProviders implements \Sigmalibre\DataSource\ReadDataSourceInterfa
             $statement .= implode(' AND ', $filters);
         }
 
-        $statement .= ' LIMIT '.$options['offset'].', '.$options['items'];
+        $statement .= ' LIMIT :offset, :items';
+
+        $params[':offset'] = $options['offset'];
+        $params[':items'] = $options['items'];
 
         return $this->connection->query($statement, $params);
     }
