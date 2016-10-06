@@ -1,0 +1,89 @@
+{% extends 'templates/base.html' %}
+
+{% block title  %}Clientes{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-0 col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Búsqueda de Clientes</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form id="productsForm" action="{{ path_for('clients') }}" method="get" role="form">
+                            <div class="form-group has-feedback has-clear">
+                                <label for="codigoCliente">Código</label>
+                                <input id="codigoCliente" class="form-control" type="text" name="codigoCliente" placeholder="Código del cliente" value="{{ input.codigoCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoCliente %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nombreCliente">Nombre</label>
+                                <input id="nombreCliente" class="form-control" type="text" name="nombreCliente" placeholder="Nombre del cliente" value="{{ input.nombreCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreCliente %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nitCliente">NIT</label>
+                                <input id="nitCliente" class="form-control" type="text" name="nitCliente" placeholder="NIT del cliente" value="{{ input.nitCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nitCliente %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="duiCliente">DUI</label>
+                                <input id="duiCliente" class="form-control" type="text" name="duiCliente" placeholder="DUI del cliente" value="{{ input.duiCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.duiCliente %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="clientsPerPage">Cantidad por página</label>
+                                <select id="clientsPerPage" class="form-control" name="itemsPerPage">
+                                    {% set perPageOpts = [10, 25, 50] %}
+                                    {% for opt in perPageOpts %}
+                                        <option value="{{ opt }}" {% if pagination.itemsPerPage == opt %}selected{% endif %}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
+                            <button class="btn btn-primary link-submit" type="submit" data-input="currentPage" data-value="1" >
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-0 col-lg-9">
+                <div class="panel no-margin-bottom {% if clients %}panel-success{% else %}panel-default{% endif %}">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tr>
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>NIT</th>
+                                <th>DUI</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                            </tr>
+                            {% for client in clients %}
+                            <tr>
+                                <td>{{ client.codigo_cln }}</td>
+                                <td>{{ client.nombre_cln }}</td>
+                                <td>{{ client.NIT_cln }}</td>
+                                <td>{{ client.DUI_cln }}</td>
+                                <td>{{ client.direccion_cln }}</td>
+                                <td>{{ client.telefono_cln }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td class="text-center" colspan="6">No se encontraron resultados</td>
+                            </tr>
+                            {% endfor %}
+
+                        </table>
+                    </div>
+                </div>
+                {% include 'templates/listpagination.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
