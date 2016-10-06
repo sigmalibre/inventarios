@@ -9,3 +9,5 @@ $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCateg
 $app->get('/proveedores', '\Sigmalibre\Providers\ProvidersController:indexProviders')->setName('providers');
 
 $app->get('/facturas', '\Sigmalibre\Invoices\InvoicesController:indexInvoices')->setName('invoices');
+
+$app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
