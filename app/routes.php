@@ -11,3 +11,5 @@ $app->get('/proveedores', '\Sigmalibre\Providers\ProvidersController:indexProvid
 $app->get('/facturas', '\Sigmalibre\Invoices\InvoicesController:indexInvoices')->setName('invoices');
 
 $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
+
+$app->get('/sucursales', '\Sigmalibre\Stores\StoresController:indexStores')->setName('stores');
