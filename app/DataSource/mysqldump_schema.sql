@@ -42,7 +42,8 @@ CREATE TABLE `tbbodegas` (
   `nombre_bod` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `encargado_bod` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `direccion_bod` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_bod`)
+  PRIMARY KEY (`codigo_bod`),
+  KEY `tbmaster_nombre_bod_idx` (`nombre_bod`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -92,7 +93,10 @@ CREATE TABLE `tbcliente` (
   `municipio_cln` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `departamento_cln` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telefono_cln` varchar(9) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_cln`)
+  PRIMARY KEY (`codigo_cln`),
+  KEY `tbcliente_nit_cln_idx` (`NIT_cln`),
+  KEY `tbcliente_dui_cln_idx` (`DUI_cln`),
+  KEY `tbcliente_nombre_cln_idx` (`nombre_cln`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -536,7 +540,8 @@ CREATE TABLE `tbsucursales` (
   `nombre_scr` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `direccion_scr` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telefono_scr` varchar(9) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`codigo_scr`)
+  PRIMARY KEY (`codigo_scr`),
+  KEY `tbsucursales_nombre_scr_idx` (`nombre_scr`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -637,4 +642,4 @@ CREATE TABLE `tbuser` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-10-01 22:03:42
+-- Dump completed on 2016-10-06  6:27:26
