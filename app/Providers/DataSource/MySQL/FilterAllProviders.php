@@ -5,54 +5,34 @@ namespace Sigmalibre\Providers\DataSource\MySQL;
 /**
  * Obtiene una lista de todos los proveedores en la BD que cumplan con los campos de búsqueda del usuario.
  */
-class FilterAllProviders implements \Sigmalibre\DataSource\ReadDataSourceInterface
+class FilterAllProviders extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    private $connection;
-
-    public function __construct($container)
-    {
-        $this->connection = new \Sigmalibre\DataSource\MySQL($container);
-    }
-
-    public function read($options)
-    {
-        $statement = 'SELECT codigo_prov, nombre_prov, numreg_prov, numnit_prov, direccion_prov, contacto_prov, telefono_prov, cel_prov, email_prov FROM tbproveedor WHERE 1';
-
-        $filters = [];
-        $params = [];
-
-        $input = $options['input'];
-
-        if (empty($input['codigoProveedor']) === false) {
-            $filters[] = 'codigo_prov LIKE :codigo_prov';
-            $params[':codigo_prov'] = $input['codigoProveedor'].'%';
-        }
-
-        if (empty($input['nombreProveedor']) === false) {
-            $filters[] = 'nombre_prov LIKE :nombre_prov';
-            $params[':nombre_prov'] = $input['nombreProveedor'].'%';
-        }
-
-        if (empty($input['numregProveedor']) === false) {
-            $filters[] = 'numreg_prov LIKE :numreg_prov';
-            $params[':numreg_prov'] = $input['numregProveedor'].'%';
-        }
-
-        if (empty($input['nitProveedor']) === false) {
-            $filters[] = 'numnit_prov LIKE :numnit_prov';
-            $params[':numnit_prov'] = $input['nitProveedor'].'%';
-        }
-
-        if (empty($filters) === false) {
-            $statement .= ' AND ';
-            $statement .= implode(' AND ', $filters);
-        }
-
-        $statement .= ' LIMIT :offset, :items';
-
-        $params[':offset'] = $options['offset'];
-        $params[':items'] = $options['items'];
-
-        return $this->connection->query($statement, $params);
-    }
+    protected $baseQuery = 'SELECT codigo_prov, nombre_prov, numreg_prov, numnit_prov, direccion_prov, contacto_prov, telefono_prov, cel_prov, email_prov FROM tbproveedor WHERE 1';
+    protected $setLimit = true;
+    protected $filterFields = [
+        [
+            'filterName' => 'codigoProveedor',
+            'tableName' => 'tbproveedor',
+            'columnName' => 'codigo_prov',
+            'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'nombreProveedor',
+            'tableName' => 'tbproveedor',
+            'columnName' => 'nombre_prov',
+            'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'numregProveedor',
+            'tableName' => 'tbproveedor',
+            'columnName' => 'numreg_prov',
+            'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'nitProveedor',
+            'tableName' => 'tbproveedor',
+            'columnName' => 'numnit_prov',
+            'searchType' => 'LIKE',
+        ],
+    ];
 }
