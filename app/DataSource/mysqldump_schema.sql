@@ -305,7 +305,7 @@ CREATE TABLE `tbempleados` (
   `nombreplaza_emp` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`codigo_emp`),
   KEY `tbsucursalestbempleados` (`codigo_src`),
-  CONSTRAINT `tbsucursalestbempleados` FOREIGN KEY (`codigo_src`) REFERENCES `inventariotmp`.`tbsucursales` (`codigo_scr`) ON DELETE SET NULL ON UPDATE CASCADE
+  CONSTRAINT `tbsucursalestbempleados` FOREIGN KEY (`codigo_src`) REFERENCES `tbsucursales` (`codigo_scr`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -410,10 +410,10 @@ CREATE TABLE `tbmaster` (
   KEY `tbcategoriabiendettbmaster` (`codigo_catbiendet`),
   KEY `tbmaster_marca_mas_idx` (`marca_mas`),
   FULLTEXT KEY `tbmaster_nombre_mas_ftidx` (`nombre_mas`),
-  CONSTRAINT `tbcategoriabiendettbmaster` FOREIGN KEY (`codigo_catbiendet`) REFERENCES `inventariotmp`.`tbcategoriabiendet` (`codigo_catbiendet`),
-  CONSTRAINT `tbcategoriaproductostbmaster` FOREIGN KEY (`codigo_cat`) REFERENCES `inventariotmp`.`tbcategoriaproductos` (`codigo_cat`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `tbproveedortbmaster` FOREIGN KEY (`codigo_prov`) REFERENCES `inventariotmp`.`tbproveedor` (`codigo_prov`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `tbreferencialibrodettbmaster` FOREIGN KEY (`codigo_reflibrodet`) REFERENCES `inventariotmp`.`tbreferencialibrodet` (`codigo_reflibrodet`)
+  CONSTRAINT `tbcategoriabiendettbmaster` FOREIGN KEY (`codigo_catbiendet`) REFERENCES `tbcategoriabiendet` (`codigo_catbiendet`),
+  CONSTRAINT `tbcategoriaproductostbmaster` FOREIGN KEY (`codigo_cat`) REFERENCES `tbcategoriaproductos` (`codigo_cat`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `tbproveedortbmaster` FOREIGN KEY (`codigo_prov`) REFERENCES `tbproveedor` (`codigo_prov`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `tbreferencialibrodettbmaster` FOREIGN KEY (`codigo_reflibrodet`) REFERENCES `tbreferencialibrodet` (`codigo_reflibrodet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -431,7 +431,7 @@ CREATE TABLE `tbmedida` (
   PRIMARY KEY (`codigo_medida`),
   UNIQUE KEY `codigo_medida` (`codigo_medida`),
   KEY `tbsubcategoriatbmedida` (`codigo_subcat`),
-  CONSTRAINT `tbsubcategoriatbmedida` FOREIGN KEY (`codigo_subcat`) REFERENCES `inventariotmp`.`tbsubcategoria` (`codigo_subcat`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `tbsubcategoriatbmedida` FOREIGN KEY (`codigo_subcat`) REFERENCES `tbsubcategoria` (`codigo_subcat`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
