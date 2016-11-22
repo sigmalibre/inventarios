@@ -21,10 +21,8 @@ class CategoriesController
      */
     public function indexCategories($request, $response)
     {
-        $parameters = $request->getQueryParams();
-
-        $categories = new Categories($this->container, $parameters);
-        $categoryResults = $categories->readCategoryList();
+        $categories = new Categories($this->container);
+        $categoryResults = $categories->readCategoryList($request->getQueryParams());
 
         return $this->container->view->render($response, 'categories.html', [
             'categories' => $categoryResults['itemList'],

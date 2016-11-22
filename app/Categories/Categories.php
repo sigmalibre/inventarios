@@ -8,19 +8,10 @@ namespace Sigmalibre\Categories;
 class Categories
 {
     private $container;
-    private $userInput;
-    private $listReader;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredCategories($container),
-            new DataSource\MySQL\FilterAllCategories($container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
-            $userInput
-        );
     }
 
     /**
@@ -28,10 +19,17 @@ class Categories
      *
      * @return array Lista con los datos obtenidos por la lectura, filtrados por términos de búsqueda y paginados
      */
-    public function readCategoryList()
+    public function readCategoryList($userInput)
     {
-        $categoryList = $this->listReader->read();
-        $categoryList['userInput'] = $this->userInput;
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountAllFilteredCategories($this->container),
+            new DataSource\MySQL\FilterAllCategories($this->container),
+            new \Sigmalibre\Pagination\Paginator($userInput),
+            $userInput
+        );
+
+        $categoryList = $listReader->read();
+        $categoryList['userInput'] = $userInput;
 
         return $categoryList;
     }
