@@ -13,7 +13,7 @@ return [
         'db' => [
             'driver' => 'mysql',
             'host' => 'localhost',
-            'database' => 'inventarios',
+            'database' => 'inventario',
             'username' => 'invuser',
             'password' => 'invpass',
             'charset' => 'utf8mb4',
