@@ -62,14 +62,16 @@
                                 <th>Marca</th>
                                 <th>Nombre</th>
                                 <th>Cantidad</th>
+                                <th>Precio</th>
                             </tr>
                             {% for product in products %}
                             <tr>
-                                <td>{{ product.codigo_mas }}</td>
-                                <td>{{ product.nombre_cat }}</td>
-                                <td>{{ product.marca_mas }}</td>
-                                <td>{{ product.nombre_mas }}</td>
-                                <td>{{ product.saldou_mas }}</td>
+                                <td>{{ product.CodigoCategoria }}{{ product.CodigoProducto }}</td>
+                                <td>{{ product.NombreCategoria }}</td>
+                                <td>{{ product.NombreMarca }}</td>
+                                <td>{{ product.Descripcion }}</td>
+                                <td>{{ product.Cantidad }}</td>
+                                <td>${{ product.PrecioVenta }}</td>
                             </tr>
                             {% else %}
                             <tr>

@@ -7,31 +7,31 @@ namespace Sigmalibre\Products\DataSource\MySQL;
  */
 class FilterAllProducts extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT codigo_mas, nombre_prov, nombre_cat, nombre_subcat, nombre_mas, foto_mas, marca_mas, excentoiva_mas, saldou_mas, saldov_mas, ingresou_mas, egresou_mas, ingresov_mas, egresou_mas, promedio_mas, fechaingreso_mas, stock_mas, activo, nombre_medida, descripcion_catbiendet, descripcion_reflibrodet FROM tbmaster LEFT JOIN tbproveedor USING (codigo_prov) LEFT JOIN tbcategoriaproductos USING (codigo_cat) LEFT JOIN tbsubcategoria USING (codigo_subcat) LEFT JOIN tbmedida USING (codigo_medida) LEFT JOIN tbcategoriabiendet USING (codigo_catbiendet) LEFT JOIN tbreferencialibrodet USING (codigo_reflibrodet) WHERE 1';
+    protected $baseQuery = 'SELECT ProductoID, Productos.Codigo as CodigoProducto, Descripcion, ExcentoIVA, StockMin, PrecioVenta, FechaCreacion, FechaModificacion, UnidadMedida, CategoriaProductoID, CategoriaProductos.Codigo as CodigoCategoria, CategoriaProductos.Nombre as NombreCategoria, MarcaID, Marcas.Nombre as NombreMarca, COALESCE(SUM(DetalleIngresos.Cantidad), 0) - COALESCE(SUM(DetalleFactura.Cantidad), 0) as Cantidad FROM Productos LEFT JOIN CategoriaProductos USING (CategoriaProductoID) LEFT JOIN Marcas USING (MarcaID) LEFT JOIN DetalleIngresos USING (ProductoID) LEFT JOIN DetalleFactura USING (ProductoID) WHERE 1';
     protected $setLimit = true;
     protected $filterFields = [
         [
             'filterName' => 'codigoProducto',
-            'tableName' => 'tbmaster',
-            'columnName' => 'codigo_mas',
+            'tableName' => 'Productos',
+            'columnName' => 'Codigo',
             'searchType' => 'LIKE',
         ],
         [
             'filterName' => 'categoriaProducto',
-            'tableName' => 'tbcategoriaproductos',
-            'columnName' => 'nombre_cat',
-            'searchType' => 'LIKE',
+            'tableName' => 'CategoriaProductos',
+            'columnName' => 'CategoriaProductoID',
+            'searchType' => '=',
         ],
         [
             'filterName' => 'marcaProducto',
-            'tableName' => 'tbmaster',
-            'columnName' => 'marca_mas',
-            'searchType' => 'LIKE',
+            'tableName' => 'Marcas',
+            'columnName' => 'MarcaID',
+            'searchType' => '=',
         ],
         [
             'filterName' => 'nombreProducto',
-            'tableName' => 'tbmaster',
-            'columnName' => 'nombre_mas',
+            'tableName' => 'Productos',
+            'columnName' => 'Descripcion',
             'searchType' => 'MATCH',
         ],
     ];
