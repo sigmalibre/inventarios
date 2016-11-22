@@ -27,6 +27,12 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
             'columnName' => 'nombre_mas',
             'searchType' => 'MATCH',
         ],
+        [
+            'filterName' => 'categoriaProducto',
+            'tableName'  => 'tbcategoriaproductos',
+            'columnName' => 'codigo_cat',
+            'searchType' => '=',
+        ],
         */
     ];
 
@@ -51,9 +57,15 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
                     $this->params[$filter['columnName']] = $input[$filter['filterName']].'%';
                 }
 
-                // Si el filtro es de tipo FULL TEXT. Ej: SELECT * FROM tabla WHERE columna MATCH(columna) AGAINST('termino de búsqueda')
+                // Si el filtro es de tipo FULL TEXT. Ej: SELECT * FROM tabla WHERE MATCH(columna) AGAINST('termino de búsqueda')
                 if ($filter['searchType'] === 'MATCH') {
                     $this->filters[] = "MATCH({$filter['tableName']}.{$filter['columnName']}) AGAINST(:{$filter['columnName']})";
+                    $this->params[$filter['columnName']] = $input[$filter['filterName']];
+                }
+
+                // Si el filtro es de tipo igualdad. Ej: SELECT * FROM tabla WHERE columna = 'termino de búsqueda'
+                if ($filter['searchType'] === '=') {
+                    $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} = :{$filter['columnName']}";
                     $this->params[$filter['columnName']] = $input[$filter['filterName']];
                 }
             }
