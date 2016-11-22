@@ -7,19 +7,19 @@ namespace Sigmalibre\Categories\DataSource\MySQL;
  */
 class FilterAllCategories extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT codigo_cat, nombre_cat FROM tbcategoriaproductos WHERE 1';
+        protected $baseQuery = 'SELECT CategoriaProductoID, Nombre, Codigo FROM CategoriaProductos WHERE 1';
     protected $setLimit = true;
     protected $filterFields = [
         [
             'filterName' => 'codigoCategoria',
-            'tableName' => 'tbcategoriaproductos',
-            'columnName' => 'codigo_cat',
-            'searchType' => 'LIKE',
+            'tableName' => 'CategoriaProductos',
+            'columnName' => 'Codigo',
+            'searchType' => '=',
         ],
         [
             'filterName' => 'nombreCategoria',
-            'tableName' => 'tbcategoriaproductos',
-            'columnName' => 'nombre_cat',
+            'tableName' => 'CategoriaProductos',
+            'columnName' => 'Nombre',
             'searchType' => 'LIKE',
         ],
     ];

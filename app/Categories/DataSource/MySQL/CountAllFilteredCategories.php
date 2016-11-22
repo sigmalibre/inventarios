@@ -7,6 +7,6 @@ namespace Sigmalibre\Categories\DataSource\MySQL;
  */
 class CountAllFilteredCategories extends FilterAllCategories
 {
-    protected $baseQuery = 'SELECT COUNT(*) as cuenta FROM tbcategoriaproductos WHERE 1';
+    protected $baseQuery = 'SELECT COUNT(*) as cuenta FROM CategoriaProductos WHERE 1';
     protected $setLimit = false;
 }
