@@ -15,3 +15,5 @@ $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWareh
 $app->get('/sucursales', '\Sigmalibre\Stores\StoresController:indexStores')->setName('stores');
 
 $app->get('/clientes', '\Sigmalibre\Clients\ClientsController:indexClients')->setName('clients');
+
+$app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
