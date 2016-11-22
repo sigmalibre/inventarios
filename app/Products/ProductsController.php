@@ -40,4 +40,9 @@ class ProductsController
             'input' => $productList['userInput'],
         ]);
     }
+
+    public function indexNewProduct($request, $response)
+    {
+        return $this->container->view->render($response, 'products/newproduct.html');
+    }
 }
