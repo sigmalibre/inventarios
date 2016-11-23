@@ -33,4 +33,11 @@ class Categories
 
         return $categoryList;
     }
+
+    public function readAllCategories()
+    {
+        $categoryList = new DataSource\MySQL\SearchAllCategories($this->container);
+
+        return $categoryList->read([]);
+    }
 }

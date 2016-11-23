@@ -7,7 +7,7 @@ namespace Sigmalibre\Categories\DataSource\MySQL;
  */
 class FilterAllCategories extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-        protected $baseQuery = 'SELECT CategoriaProductoID, Nombre, Codigo FROM CategoriaProductos WHERE 1';
+    protected $baseQuery = 'SELECT CategoriaProductoID, Nombre, Codigo FROM CategoriaProductos WHERE 1';
     protected $setLimit = true;
     protected $filterFields = [
         [
