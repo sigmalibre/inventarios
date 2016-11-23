@@ -17,15 +17,23 @@
                                 <input id="codigoProducto" class="form-control" type="text" name="codigoProducto" placeholder="Código del producto" value="{{ input.codigoProducto }}">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoProducto %}hidden{% endif %}"></span>
                             </div>
-                            <div class="form-group has-feedback has-clear">
+                            <div class="form-group">
                                 <label for="categoriaProducto">Categoría</label>
-                                <input id="categoriaProducto" class="form-control" type="text" name="categoriaProducto" placeholder="Categoría del producto" value="{{ input.categoriaProducto }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.categoriaProducto %}hidden{% endif %}"></span>
+                                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                                    <option value="">Todas</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.CategoriaProductoID }}" {% if input.categoriaProducto == category.CategoriaProductoID %}selected{% endif %}>{{ category.Nombre }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-                            <div class="form-group has-feedback has-clear">
+                            <div class="form-group">
                                 <label for="marcaProducto">Marca</label>
-                                <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto" value="{{ input.marcaProducto }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.marcaProducto %}hidden{% endif %}"></span>
+                                <select class="form-control" name="marcaProducto" id="marcaProducto">
+                                    <option value="">Todas</option>
+                                    {% for brand in brands %}
+                                        <option value="{{ brand.MarcaID }}" {% if input.marcaProducto == brand.MarcaID %}selected{% endif %}>{{ brand.Nombre }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="form-group has-feedback has-clear">
                                 <label for="nombreProducto">Nombre</label>
@@ -70,8 +78,8 @@
                                 <td>{{ product.NombreCategoria }}</td>
                                 <td>{{ product.NombreMarca }}</td>
                                 <td>{{ product.Descripcion }}</td>
-                                <td>{{ product.Cantidad }}</td>
-                                <td>${{ product.PrecioVenta }}</td>
+                                <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
+                                <td>${{ product.PrecioVenta|number_format(2) }}</td>
                             </tr>
                             {% else %}
                             <tr>
