@@ -36,11 +36,14 @@ class ProductsController
 
         $categories = new \Sigmalibre\Categories\Categories($this->container);
 
+        $brands = new \Sigmalibre\Brands\Brands($this->container);
+
         return $this->container->view->render($response, 'products/products.html', [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
             'categories' => $categories->readAllCategories(),
+            'brands' => $brands->readAllBrands(),
         ]);
     }
 
