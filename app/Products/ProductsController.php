@@ -34,10 +34,13 @@ class ProductsController
         $products = new Products($this->container, $parameters);
         $productList = $products->readProductList();
 
+        $categories = new \Sigmalibre\Categories\Categories($this->container);
+
         return $this->container->view->render($response, 'products/products.html', [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
+            'categories' => $categories->readAllCategories(),
         ]);
     }
 
