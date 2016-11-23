@@ -81,7 +81,7 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
      */
     public function read($options)
     {
-        $input = $options['input'];
+        $input = isset($options['input'])? $options['input'] : [];
 
         $statement = $this->baseQuery;
 
