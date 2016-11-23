@@ -16,7 +16,7 @@ class Brands
         $this->container = $container;
         $this->userInput = $userInput;
         $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredBrands($container),
+            new DataSource\MySQL\CountAllBrands($container),
             new DataSource\MySQL\FilterAllBrands($container),
             new \Sigmalibre\Pagination\Paginator($userInput),
             $userInput
