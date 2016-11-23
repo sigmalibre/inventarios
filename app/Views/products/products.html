@@ -14,7 +14,7 @@
                         <form id="productsForm" action="{{ path_for('products') }}" method="get" role="form">
                             <div class="form-group has-feedback has-clear">
                                 <label for="codigoProducto">Código</label>
-                                <input id="codigoProducto" class="form-control" type="text" name="codigoProducto" placeholder="Código del producto" value="{{ input.codigoProducto }}">
+                                <input id="codigoProducto" class="form-control" type="text" name="codigoProducto" placeholder="Código del producto" value="{{ input.codigoCategoria }}{{ input.codigoProducto }}">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoProducto %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group">

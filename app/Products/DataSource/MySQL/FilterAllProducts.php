@@ -15,12 +15,18 @@ class FilterAllProducts extends \Sigmalibre\DataSource\MySQL\MySQLReader
             'filterName' => 'codigoProducto',
             'tableName' => 'Productos',
             'columnName' => 'Codigo',
-            'searchType' => 'LIKE',
+            'searchType' => '=',
         ],
         [
             'filterName' => 'categoriaProducto',
             'tableName' => 'Productos',
             'columnName' => 'CategoriaProductoID',
+            'searchType' => '=',
+        ],
+        [
+            'filterName' => 'codigoCategoria',
+            'tableName' => 'CategoriaProductos',
+            'columnName' => 'Codigo',
             'searchType' => '=',
         ],
         [
