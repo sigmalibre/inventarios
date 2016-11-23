@@ -29,10 +29,8 @@ class ProductsController
      */
     public function indexProducts($request, $response)
     {
-        $parameters = $request->getQueryParams();
-
-        $products = new Products($this->container, $parameters);
-        $productList = $products->readProductList();
+        $products = new Products($this->container);
+        $productList = $products->readProductList($request->getQueryParams());
 
         $categories = new \Sigmalibre\Categories\Categories($this->container);
 

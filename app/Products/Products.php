@@ -8,19 +8,10 @@ namespace Sigmalibre\Products;
 class Products
 {
     private $container;
-    private $userInput;
-    private $listReader;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredProducts($container),
-            new DataSource\MySQL\FilterAllProducts($container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
-            $userInput
-        );
     }
 
     /**
@@ -28,10 +19,17 @@ class Products
      *
      * @return array Lista de los productos
      */
-    public function readProductList()
+    public function readProductList($userInput)
     {
-        $productList = $this->listReader->read();
-        $productList['userInput'] = $this->userInput;
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountAllFilteredProducts($this->container),
+            new DataSource\MySQL\FilterAllProducts($this->container),
+            new \Sigmalibre\Pagination\Paginator($userInput),
+            $userInput
+        );
+
+        $productList = $listReader->read();
+        $productList['userInput'] = $userInput;
 
         return $productList;
     }
