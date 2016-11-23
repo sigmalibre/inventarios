@@ -8,26 +8,31 @@ namespace Sigmalibre\Brands;
 class Brands
 {
     private $container;
-    private $userInput;
-    private $listReader;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllBrands($container),
-            new DataSource\MySQL\FilterAllBrands($container),
+    }
+
+    public function readBrandList($userInput)
+    {
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountAllBrands($this->container),
+            new DataSource\MySQL\FilterAllBrands($this->container),
             new \Sigmalibre\Pagination\Paginator($userInput),
             $userInput
         );
-    }
 
-    public function readBrandList()
-    {
-        $brandList = $this->listReader->read();
-        $brandList['userInput'] = $this->userInput;
+        $brandList = $listReader->read();
+        $brandList['userInput'] = $userInput;
 
         return $brandList;
+    }
+
+    public function readAllBrands()
+    {
+        $brandList = new DataSource\MySQL\SearchAllBrands($this->container);
+
+        return $brandList->read([]);
     }
 }

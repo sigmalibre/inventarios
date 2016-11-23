@@ -16,10 +16,8 @@ class BrandsController
 
     public function indexBrands($request, $response)
     {
-        $parameters = $request->getQueryParams();
-
-        $brands = new Brands($this->container, $parameters);
-        $brandResult = $brands->readBrandList();
+        $brands = new Brands($this->container);
+        $brandResult = $brands->readBrandList($request->getQueryParams());
 
         return $this->container->view->render($response, 'brands.html', [
             'brands' => $brandResult['itemList'],
