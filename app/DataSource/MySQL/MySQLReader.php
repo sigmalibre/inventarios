@@ -9,6 +9,7 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
 {
     protected $connection;
     protected $baseQuery = '';
+    protected $endQuery = '';
     protected $setLimit = false;
     protected $filters = [];
     protected $params = [];
@@ -90,6 +91,10 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
         if (empty($this->filters) === false) {
             $statement .= ' AND ';
             $statement .= implode(' AND ', $this->filters);
+        }
+
+        if (empty($this->endQuery) === false) {
+            $statement .= ' ' . $this->endQuery;
         }
 
         if ($this->setLimit === true) {
