@@ -21,10 +21,12 @@ class Products
      */
     public function readProductList($userInput)
     {
-        $codigoProducto = $userInput['codigoProducto'];
+        if (empty($userInput['codigoProducto']) === false) {
+            $codigoProducto = $userInput['codigoProducto'];
 
-        $userInput['codigoProducto'] = (string) substr($codigoProducto, 2);
-        $userInput['codigoCategoria'] = (string) substr($codigoProducto, 0, 2);
+            $userInput['codigoProducto'] = (string) substr($codigoProducto, 2);
+            $userInput['codigoCategoria'] = (string) substr($codigoProducto, 0, 2);
+        }
 
         $listReader = new \Sigmalibre\ItemList\ItemListReader(
             new DataSource\MySQL\CountAllFilteredProducts($this->container),
