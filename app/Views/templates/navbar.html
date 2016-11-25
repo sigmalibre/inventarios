@@ -35,6 +35,12 @@
                             Ver Marcas
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ path_for('measurements') }}">
+                            <span class="glyphicon glyphicon-scale"></span>
+                            Ver Medidas
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="{% if uri_path == path_for('categories') %}active{% endif %}"><a href="{{ path_for('categories') }}">Categorías</a></li>

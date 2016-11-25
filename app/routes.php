@@ -18,3 +18,5 @@ $app->get('/sucursales', '\Sigmalibre\Stores\StoresController:indexStores')->set
 $app->get('/clientes', '\Sigmalibre\Clients\ClientsController:indexClients')->setName('clients');
 
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
+
+$app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexMeasurements')->setName('measurements');
