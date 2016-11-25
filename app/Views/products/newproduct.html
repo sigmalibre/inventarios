@@ -13,8 +13,9 @@
                             <div class="form-group">
                                 <label for="categoriaProducto">Categoría del Producto</label>
                                 <select class="form-control" name="categoriaProducto" id="categoriaProducto">
-                                    <option value="option">option</option>
-                                    <option value="option">option</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
                             <div class="form-group">
@@ -43,20 +44,18 @@
                                 <label for="marcaProducto">Marca</label>
                                 <input type="text" name="marcaProducto" value="" class="form-control" id="marcaProducto" maxlength="100" list="listaMarcas">
                                 <datalist id="listaMarcas">
-                                    <option>lolol</option>
-                                    <option>lolol</option>
-                                    <option>lolol</option>
-                                    <option>lolol</option>
+                                    {% for brand in brands %}
+                                        <option>{{ brand.Nombre }}</option>
+                                    {% endfor %}
                                 </datalist>
                             </div>
                             <div class="form-group">
                                 <label for="medidaProducto">Unidad de Medida</label>
                                 <input type="text" name="medidaProducto" value="" class="form-control" id="medidaProducto" maxlength="100" list="listaMedidas">
                                 <datalist id="listaMedidas">
-                                    <option>lolol</option>
-                                    <option>lolol</option>
-                                    <option>lolol</option>
-                                    <option>lolol</option>
+                                    {% for unit in measurements %}
+                                        <option>{{ unit.UnidadMedida }}</option>
+                                    {% endfor %}
                                 </datalist>
                             </div>
                             <div class="form-group">

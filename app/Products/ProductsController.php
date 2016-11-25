@@ -47,6 +47,16 @@ class ProductsController
 
     public function indexNewProduct($request, $response)
     {
-        return $this->container->view->render($response, 'products/newproduct.html');
+        $categories = new \Sigmalibre\Categories\Categories($this->container);
+
+        $brands = new \Sigmalibre\Brands\Brands($this->container);
+
+        $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
+
+        return $this->container->view->render($response, 'products/newproduct.html', [
+            'categories' => $categories->readAllCategories(),
+            'brands' => $brands->readAllBrands(),
+            'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
+        ]);
     }
 }
