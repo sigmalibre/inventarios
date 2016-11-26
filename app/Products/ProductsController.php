@@ -53,10 +53,13 @@ class ProductsController
 
         $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
 
+        $detCategories = new \Sigmalibre\DETCategories\DETCategories($this->container);
+
         return $this->container->view->render($response, 'products/newproduct.html', [
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
             'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
+            'detcategories' => $detCategories->readAllDETCategories(),
         ]);
     }
 }
