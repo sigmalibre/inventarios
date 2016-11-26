@@ -12,7 +12,8 @@
                         <form action="{{ path_for('products/createform') }}" method="get">
                             <div class="form-group">
                                 <label for="categoriaProducto">Categoría del Producto</label>
-                                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                                <select class="form-control new-product-category-select" name="categoriaProducto" id="categoriaProducto">
+                                    <option value="">Elige Una Categoría</option>
                                     {% for category in categories %}
                                         <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
                                     {% endfor %}
@@ -21,7 +22,7 @@
                             <div class="form-group">
                                 <label for="codigoProducto">Código</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon">--</span>
+                                    <span class="input-group-addon new-product-cat-preview">--</span>
                                     <input type="text" name="codigoProducto" value="" class="form-control" id="codigoProducto" maxlength="50">
                                 </div>
                             </div>
