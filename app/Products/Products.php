@@ -24,7 +24,7 @@ class Products
         if (empty($userInput['codigoProducto']) === false) {
             $codigoProducto = $userInput['codigoProducto'];
 
-            $userInput['codigoProducto'] = (string) substr($codigoProducto, 2);
+            $userInput['claveProducto'] = (string) substr($codigoProducto, 2);
             $userInput['codigoCategoria'] = (string) substr($codigoProducto, 0, 2);
         }
 

@@ -7,15 +7,15 @@ namespace Sigmalibre\Products\DataSource\MySQL;
  */
 class FilterAllProducts extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT ProductoID, Productos.Codigo as CodigoProducto, Descripcion, ExcentoIVA, StockMin, PrecioVenta, FechaCreacion, FechaModificacion, UnidadMedida, CategoriaProductoID, CategoriaProductos.Codigo as CodigoCategoria, CategoriaProductos.Nombre as NombreCategoria, MarcaID, Marcas.Nombre as NombreMarca, COALESCE((SELECT SUM(Cantidad) FROM DetalleIngresos WHERE DetalleIngresos.ProductoID = Productos.ProductoID), 0) - COALESCE((SELECT SUM(Cantidad) FROM DetalleFactura WHERE DetalleFactura.ProductoID = Productos.ProductoID), 0) as Cantidad FROM Productos LEFT JOIN CategoriaProductos USING (CategoriaProductoID) LEFT JOIN Marcas USING (MarcaID) LEFT JOIN Medidas USING (MedidaID) WHERE 1';
+    protected $baseQuery = 'SELECT ProductoID, Productos.Codigo as CodigoProducto, Descripcion, ExcentoIVA, StockMin, PrecioVenta, FechaCreacion, FechaModificacion, UnidadMedida, CategoriaProductoID, CategoriaProductos.Nombre as NombreCategoria, MarcaID, Marcas.Nombre as NombreMarca, COALESCE((SELECT SUM(Cantidad) FROM DetalleIngresos WHERE DetalleIngresos.ProductoID = Productos.ProductoID), 0) - COALESCE((SELECT SUM(Cantidad) FROM DetalleFactura WHERE DetalleFactura.ProductoID = Productos.ProductoID), 0) as Cantidad FROM Productos LEFT JOIN CategoriaProductos USING (CategoriaProductoID) LEFT JOIN Marcas USING (MarcaID) LEFT JOIN Medidas USING (MedidaID) WHERE 1';
 
     protected $setLimit = true;
     protected $filterFields = [
         [
-            'filterName' => 'codigoProducto',
+            'filterName' => 'claveProducto',
             'tableName' => 'Productos',
             'columnName' => 'Codigo',
-            'searchType' => '=',
+            'searchType' => 'LIKE',
         ],
         [
             'filterName' => 'categoriaProducto',
@@ -26,8 +26,8 @@ class FilterAllProducts extends \Sigmalibre\DataSource\MySQL\MySQLReader
         [
             'filterName' => 'codigoCategoria',
             'tableName' => 'CategoriaProductos',
-            'columnName' => 'Codigo',
-            'searchType' => '=',
+            'columnName' => 'CategoriaProductoID',
+            'searchType' => 'LIKE',
         ],
         [
             'filterName' => 'marcaProducto',
