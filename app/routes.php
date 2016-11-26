@@ -13,8 +13,6 @@ $app->get('/facturas', '\Sigmalibre\Invoices\InvoicesController:indexInvoices')-
 
 $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
 
-$app->get('/sucursales', '\Sigmalibre\Stores\StoresController:indexStores')->setName('stores');
-
 $app->get('/clientes', '\Sigmalibre\Clients\ClientsController:indexClients')->setName('clients');
 
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
