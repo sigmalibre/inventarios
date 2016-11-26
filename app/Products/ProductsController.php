@@ -55,11 +55,14 @@ class ProductsController
 
         $detCategories = new \Sigmalibre\DETCategories\DETCategories($this->container);
 
+        $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
+
         return $this->container->view->render($response, 'products/newproduct.html', [
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
             'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
             'detcategories' => $detCategories->readAllDETCategories(),
+            'detreferences' => $detReferences->readAllDETReferences(),
         ]);
     }
 }
