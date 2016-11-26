@@ -7,31 +7,25 @@ namespace Sigmalibre\Providers\DataSource\MySQL;
  */
 class FilterAllProviders extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT codigo_prov, nombre_prov, numreg_prov, numnit_prov, direccion_prov, contacto_prov, telefono_prov, cel_prov, email_prov FROM tbproveedor WHERE 1';
+    protected $baseQuery = 'SELECT EmpresaID, NombreComercial, RazonSocial, Giro, Registro, NumeroNIT FROM Empresas LEFT JOIN NITs USING(EmpresaID) WHERE EmpresaID IN (SELECT DISTINCT EmpresaID FROM DetalleIngresos)';
     protected $setLimit = true;
     protected $filterFields = [
         [
-            'filterName' => 'codigoProveedor',
-            'tableName' => 'tbproveedor',
-            'columnName' => 'codigo_prov',
-            'searchType' => 'LIKE',
-        ],
-        [
             'filterName' => 'nombreProveedor',
-            'tableName' => 'tbproveedor',
-            'columnName' => 'nombre_prov',
+            'tableName' => 'Empresas',
+            'columnName' => 'NombreComercial',
             'searchType' => 'LIKE',
         ],
         [
             'filterName' => 'numregProveedor',
-            'tableName' => 'tbproveedor',
-            'columnName' => 'numreg_prov',
+            'tableName' => 'Empresas',
+            'columnName' => 'Registro',
             'searchType' => 'LIKE',
         ],
         [
             'filterName' => 'nitProveedor',
-            'tableName' => 'tbproveedor',
-            'columnName' => 'numnit_prov',
+            'tableName' => 'NITs',
+            'columnName' => 'NumeroNIT',
             'searchType' => 'LIKE',
         ],
     ];
