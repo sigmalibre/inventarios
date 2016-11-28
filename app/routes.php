@@ -15,7 +15,7 @@ $app->get('/facturas', '\Sigmalibre\Invoices\InvoicesController:indexInvoices')-
 
 $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
 
-$app->get('/clientes', '\Sigmalibre\Clients\ClientsController:indexClients')->setName('clients');
+$app->get('/clientes/personas', '\Sigmalibre\Clients\ClientsController:indexPeople')->setName('clientes/personas');
 
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
 

@@ -47,7 +47,27 @@
             <li class="{% if uri_path == path_for('providers') %}active{% endif %}"><a href="{{ path_for('providers') }}">Proveedores</a></li>
             <li class="{% if uri_path == path_for('invoices') %}active{% endif %}"><a href="{{ path_for('invoices') }}">Facturas</a></li>
             <li class="{% if uri_path == path_for('warehouses') %}active{% endif %}"><a href="{{ path_for('warehouses') }}">Bodegas</a></li>
-            <li class="{% if uri_path == path_for('clients') %}active{% endif %}"><a href="{{ path_for('clients') }}">Clientes</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-heart"></span>
+                    Clientes
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path_for('clientes/personas') }}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Ver Clientes Personas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path_for('measurements') }}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Ver Clientes Empresas
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>

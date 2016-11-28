@@ -8,25 +8,23 @@ namespace Sigmalibre\Clients;
 class Clients
 {
     private $container;
-    private $userInput;
-    private $listReader;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredClients($container),
-            new DataSource\MySQL\FilterAllClients($container),
+    }
+
+    public function readPeopleList($userInput)
+    {
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountFilteredClientePersona($this->container),
+            new DataSource\MySQL\FilterClientePersona($this->container),
             new \Sigmalibre\Pagination\Paginator($userInput),
             $userInput
         );
-    }
 
-    public function readClientList()
-    {
-        $clientList = $this->listReader->read();
-        $clientList['userInput'] = $this->userInput;
+        $clientList = $listReader->read();
+        $clientList['userInput'] = $userInput;
 
         return $clientList;
     }

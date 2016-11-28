@@ -11,14 +11,12 @@ class ClientsController
         $this->container = $container;
     }
 
-    public function indexClients($request, $response)
+    public function indexPeople($request, $response)
     {
-        $parameters = $request->getQueryParams();
+        $clients = new Clients($this->container);
+        $clientList = $clients->readPeopleList($request->getQueryParams());
 
-        $clients = new Clients($this->container, $parameters);
-        $clientList = $clients->readClientList();
-
-        return $this->container->view->render($response, 'clients.html', [
+        return $this->container->view->render($response, 'clients/clientepersona.html', [
             'clients' => $clientList['itemList'],
             'pagination' => $clientList['pagination'],
             'input' => $clientList['userInput'],
