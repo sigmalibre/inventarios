@@ -40,4 +40,11 @@ class Products
 
         return $productList;
     }
+
+    public function save($userInput)
+    {
+        $productsWriter = new DataSource\MySQL\ProductWriter($this->container);
+
+        return $productsWriter->write($userInput);
+    }
 }

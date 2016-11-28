@@ -8,6 +8,7 @@ namespace Sigmalibre\Products;
 class ProductsController
 {
     private $container;
+    private $products;
 
     /**
      * Slim pasa el contenedor de dependencias a los controladores de rutas.
@@ -17,6 +18,7 @@ class ProductsController
     public function __construct($container)
     {
         $this->container = $container;
+        $this->products = new Products($container);
     }
 
     /**
@@ -29,8 +31,7 @@ class ProductsController
      */
     public function indexProducts($request, $response)
     {
-        $products = new Products($this->container);
-        $productList = $products->readProductList($request->getQueryParams());
+        $productList = $this->products->readProductList($request->getQueryParams());
 
         $categories = new \Sigmalibre\Categories\Categories($this->container);
 
@@ -64,5 +65,10 @@ class ProductsController
             'detcategories' => $detCategories->readAllDETCategories(),
             'detreferences' => $detReferences->readAllDETReferences(),
         ]);
+    }
+
+    public function createNew($request, $response)
+    {
+        return $response->withJson($this->products->save($request->getParsedBody()));
     }
 }
