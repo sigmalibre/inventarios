@@ -21,7 +21,7 @@ class WarehousesController
         $warehouses = new Warehouses($this->container, $parameters);
         $warehouseResults = $warehouses->readWarehouseList();
 
-        return $this->container->view->render($response, 'warehouses.html', [
+        return $this->container->view->render($response, 'warehouses/warehouses.html', [
             'warehouses' => $warehouseResults['itemList'],
             'pagination' => $warehouseResults['pagination'],
             'input' => $warehouseResults['userInput'],

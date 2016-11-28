@@ -1,30 +1,25 @@
 {% extends 'templates/base.html' %}
 
-{% block title %}Bodegas{% endblock %}
+{% block title %}Almacenes{% endblock %}
 
 {% block content %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-0 col-lg-3">
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h2 class="panel-title">Búsqueda de Bodegas</h2>
+                        <h2 class="panel-title">Búsqueda de Almacenes</h2>
                     </div>
                     <div class="panel-body">
-                        <form id="categoriesForm" action="{{ path_for('warehouses') }}" method="get" role="form">
+                        <form id="almacenesForm" action="{{ path_for('warehouses') }}" method="get" role="form">
                             <div class="form-group has-feedback has-clear">
-                                <label for="codigoBodega">Código</label>
-                                <input id="codigoBodega" class="form-control" type="text" name="codigoBodega" placeholder="Código de la bodega" value="{{ input.codigoBodega }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoBodega %}hidden{% endif %}"></span>
-                            </div>
-                            <div class="form-group has-feedback has-clear">
-                                <label for="nombreBodega">Nombre</label>
-                                <input id="nombreBodega" class="form-control" type="text" name="nombreBodega" placeholder="Nombre de la bodega" value="{{ input.nombreBodega }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreBodega %}hidden{% endif %}"></span>
+                                <label for="nombreAlmacen">Nombre</label>
+                                <input id="nombreAlmacen" class="form-control" type="text" name="nombreAlmacen" placeholder="Nombre del Almacen" value="{{ input.nombreAlmacen }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreAlmacen %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group">
-                                <label for="bodegasPerPage">Cantidad por página</label>
-                                <select id="bodegasPerPage" class="form-control" name="itemsPerPage">
+                                <label for="almacenesPerPage">Cantidad por página</label>
+                                <select id="almacenesPerPage" class="form-control" name="itemsPerPage">
                                     {% set perPageOpts = [10, 25, 50] %}
                                     {% for opt in perPageOpts %}
                                         <option value="{{ opt }}" {% if pagination.itemsPerPage == opt %}selected{% endif %}>{{ opt }}</option>
@@ -32,7 +27,7 @@
                                 </select>
                             </div>
                             <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
-                            <button class="btn btn-primary link-submit" type="submit" data-input="currentPage" data-value="1">
+                            <button class="btn btn-block btn-info link-submit" type="submit" data-input="currentPage" data-value="1">
                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
                             </button>
                         </form>
@@ -40,25 +35,25 @@
                 </div>
             </div>
             <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-0 col-lg-9">
-                <div class="panel no-margin-bottom {% if warehouses %}panel-success{% else %}panel-default{% endif %}">
+                <div class="panel no-margin-bottom {% if warehouses %}panel-primary{% else %}panel-default{% endif %}">
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <tr>
-                                <th>Código</th>
+                                <th>ID</th>
                                 <th>Nombre</th>
+                                <th>Cantidad de Productos</th>
                             </tr>
                             {% for warehouse in warehouses %}
                             <tr>
-                                <td>{{ warehouse.codigo_bod }}</td>
-                                <td>{{ warehouse.nombre_bod }}</td>
+                                <td>{{ warehouse.AlmacenID }}</td>
+                                <td>{{ warehouse.NombreAlmacen }}</td>
+                                <td>{{ warehouse.Cantidad }}</td>
                             </tr>
                             {% else %}
-                            <tr>
-                                <td class="text-center" colspan="2">No se encontraron resultados</td>
-                            </tr>
+                            <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>
                     </div>

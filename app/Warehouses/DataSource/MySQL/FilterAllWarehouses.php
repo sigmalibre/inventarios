@@ -7,19 +7,13 @@ namespace Sigmalibre\Warehouses\DataSource\MySQL;
  */
 class FilterAllWarehouses extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT codigo_bod, nombre_bod, encargado_bod, direccion_bod FROM tbbodegas WHERE 1';
+    protected $baseQuery = 'SELECT AlmacenID, NombreAlmacen, COALESCE((SELECT SUM(Cantidad) FROM DetalleAlmacenes WHERE DetalleAlmacenes.AlmacenID = Almacenes.AlmacenID), 0) AS Cantidad FROM Almacenes WHERE 1';
     protected $setLimit = true;
     protected $filterFields = [
         [
-            'filterName' => 'codigoBodega',
-            'tableName' => 'tbbodegas',
-            'columnName' => 'codigo_bod',
-            'searchType' => 'LIKE',
-        ],
-        [
-            'filterName' => 'nombreBodega',
-            'tableName' => 'tbbodegas',
-            'columnName' => 'nombre_bod',
+            'filterName' => 'nombreAlmacen',
+            'tableName' => 'Almacenes',
+            'columnName' => 'NombreAlmacen',
             'searchType' => 'LIKE',
         ],
     ];
