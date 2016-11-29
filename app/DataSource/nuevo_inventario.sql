@@ -167,7 +167,7 @@ CREATE TABLE `DetalleFactura` (
   KEY `fk_DetalleMovimientos_Facturas1_idx` (`FacturaID`),
   CONSTRAINT `fk_DetalleMovimientos_Facturas1` FOREIGN KEY (`FacturaID`) REFERENCES `Facturas` (`FacturaID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleMovimientos_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `DetalleFactura` (
 
 LOCK TABLES `DetalleFactura` WRITE;
 /*!40000 ALTER TABLE `DetalleFactura` DISABLE KEYS */;
-INSERT INTO `DetalleFactura` VALUES (1,25,10.0000,1,1),(2,30,0.0000,1,1),(3,10,15.0000,1,1);
+INSERT INTO `DetalleFactura` VALUES (1,25,10.0000,1,1),(2,30,0.0000,1,1),(3,10,15.0000,1,1),(4,5,45.2500,2,3);
 /*!40000 ALTER TABLE `DetalleFactura` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +305,7 @@ CREATE TABLE `Empleados` (
   UNIQUE KEY `ISSS_UNIQUE` (`ISSS`),
   UNIQUE KEY `DUI_UNIQUE` (`DUI`),
   UNIQUE KEY `NIT_UNIQUE` (`NIT`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -314,6 +314,7 @@ CREATE TABLE `Empleados` (
 
 LOCK TABLES `Empleados` WRITE;
 /*!40000 ALTER TABLE `Empleados` DISABLE KEYS */;
+INSERT INTO `Empleados` VALUES (1,'José','Sánchez','65489','186186','2016-11-29 06:45:20','2016-11-29 06:45:20','181681','18681681','1995-07-29','00001');
 /*!40000 ALTER TABLE `Empleados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,7 +336,7 @@ CREATE TABLE `Empresas` (
   UNIQUE KEY `NombreComercial_UNIQUE` (`NombreComercial`),
   UNIQUE KEY `Registro_UNIQUE` (`Registro`),
   UNIQUE KEY `NIT_UNIQUE` (`NIT`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='Empresas ya sean clientes o proveedores.';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='Empresas ya sean clientes o proveedores.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -344,7 +345,7 @@ CREATE TABLE `Empresas` (
 
 LOCK TABLES `Empresas` WRITE;
 /*!40000 ALTER TABLE `Empresas` DISABLE KEYS */;
-INSERT INTO `Empresas` VALUES (1,'Techos El Solazo!','Venta de techos.','Venta de techos','7516468-2','0511-156843-185-4'),(2,'Pisos El Temblor',NULL,'Venta de pisos.','68498165-5',NULL);
+INSERT INTO `Empresas` VALUES (1,'Techos El Solazo!','Venta de techos.','Venta de techos','7516468-2','0511-156843-185-4'),(2,'Pisos El Temblor',NULL,'Venta de pisos.','68498165-5',NULL),(3,'Puertas las inseguras','','Venta de puertas hechas de durapax','69581681','651651');
 /*!40000 ALTER TABLE `Empresas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,7 +376,7 @@ CREATE TABLE `Facturas` (
   CONSTRAINT `fk_Facturas_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Facturas_TiposFactura1` FOREIGN KEY (`TipoFacturaID`) REFERENCES `TiposFactura` (`TipoFacturaID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Facturas_TirajeFacturas1` FOREIGN KEY (`TirajeFacturaID`) REFERENCES `TirajeFacturas` (`TirajeFacturaID`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -384,7 +385,7 @@ CREATE TABLE `Facturas` (
 
 LOCK TABLES `Facturas` WRITE;
 /*!40000 ALTER TABLE `Facturas` DISABLE KEYS */;
-INSERT INTO `Facturas` VALUES (1,'2016-11-23 08:10:25',20001,1,NULL,1,NULL,NULL);
+INSERT INTO `Facturas` VALUES (1,'2016-11-23 08:10:25',20001,1,1,1,NULL,1),(2,'2016-11-29 01:52:19',20002,1,1,1,NULL,2),(3,'2016-11-29 04:02:12',1,2,1,2,2,NULL);
 /*!40000 ALTER TABLE `Facturas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -583,7 +584,7 @@ CREATE TABLE `TirajeFacturas` (
   `TirajeHasta` int(11) NOT NULL,
   PRIMARY KEY (`TirajeFacturaID`),
   UNIQUE KEY `CodigoTiraje_UNIQUE` (`CodigoTiraje`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -592,7 +593,7 @@ CREATE TABLE `TirajeFacturas` (
 
 LOCK TABLES `TirajeFacturas` WRITE;
 /*!40000 ALTER TABLE `TirajeFacturas` DISABLE KEYS */;
-INSERT INTO `TirajeFacturas` VALUES (1,'16ZA000F',20001,30000);
+INSERT INTO `TirajeFacturas` VALUES (1,'16ZA000F',20001,30000),(2,'15AZ000C',1,1500);
 /*!40000 ALTER TABLE `TirajeFacturas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -632,4 +633,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-28 18:56:04
+-- Dump completed on 2016-11-29  1:59:00
