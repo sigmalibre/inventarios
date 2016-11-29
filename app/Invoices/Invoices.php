@@ -5,25 +5,23 @@ namespace Sigmalibre\Invoices;
 class Invoices
 {
     private $container;
-    private $userInput;
-    private $listReader;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredInvoices($container),
-            new DataSource\MySQL\FilterAllInvoices($container),
+    }
+
+    public function readInvoiceList($userInput)
+    {
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountFilteredFacturas($this->container),
+            new DataSource\MySQL\FilterFacturas($this->container),
             new \Sigmalibre\Pagination\Paginator($userInput),
             $userInput
         );
-    }
 
-    public function readInvoiceList()
-    {
-        $invoiceList = $this->listReader->read();
-        $invoiceList['userInput'] = $this->userInput;
+        $invoiceList = $listReader->read();
+        $invoiceList['userInput'] = $userInput;
 
         return $invoiceList;
     }

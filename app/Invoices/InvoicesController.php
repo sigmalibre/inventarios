@@ -13,12 +13,10 @@ class InvoicesController
 
     public function indexInvoices($request, $response)
     {
-        $parameters = $request->getQueryParams();
+        $invoices = new Invoices($this->container);
+        $invoiceList = $invoices->readInvoiceList($request->getQueryParams());
 
-        $invoices = new Invoices($this->container, $parameters);
-        $invoiceList = $invoices->readInvoiceList();
-
-        return $this->container->view->render($response, 'invoices.html', [
+        return $this->container->view->render($response, 'invoices/facturas.html', [
             'invoices' => $invoiceList['itemList'],
             'pagination' => $invoiceList['pagination'],
             'input' => $invoiceList['userInput'],
