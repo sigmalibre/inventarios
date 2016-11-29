@@ -28,4 +28,19 @@ class Clients
 
         return $clientList;
     }
+
+    public function readCompanyList($userInput)
+    {
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountFilteredClienteEmpresa($this->container),
+            new DataSource\MySQL\FilterClienteEmpresa($this->container),
+            new \Sigmalibre\Pagination\Paginator($userInput),
+            $userInput
+        );
+
+        $clientList = $listReader->read();
+        $clientList['userInput'] = $userInput;
+
+        return $clientList;
+    }
 }
