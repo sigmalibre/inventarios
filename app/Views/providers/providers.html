@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-0 col-lg-9">
-                <div class="panel no-margin-bottom {% if providers %}panel-success{% else %}panel-default{% endif %}">
+                <div class="panel no-margin-bottom {% if providers %}panel-primary{% else %}panel-default{% endif %}">
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
@@ -65,9 +65,7 @@
                                 <td>{{ provider.Giro }}</td>
                             </tr>
                             {% else %}
-                            <tr>
-                                <td class="text-center" colspan="4">No se encontraron resultados</td>
-                            </tr>
+                            <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>
                     </div>
