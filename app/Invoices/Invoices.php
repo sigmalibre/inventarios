@@ -25,4 +25,19 @@ class Invoices
 
         return $invoiceList;
     }
+
+    public function readCreditoFiscalList($userInput)
+    {
+        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+            new DataSource\MySQL\CountFilteredCreditoFiscal($this->container),
+            new DataSource\MySQL\FilterCreditoFiscal($this->container),
+            new \Sigmalibre\Pagination\Paginator($userInput),
+            $userInput
+        );
+
+        $invoiceList = $listReader->read();
+        $invoiceList['userInput'] = $userInput;
+
+        return $invoiceList;
+    }
 }

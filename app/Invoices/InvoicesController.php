@@ -22,4 +22,16 @@ class InvoicesController
             'input' => $invoiceList['userInput'],
         ]);
     }
+
+    public function indexCreditoFiscal($request, $response)
+    {
+        $invoices = new Invoices($this->container);
+        $invoiceList = $invoices->readCreditoFiscalList($request->getQueryParams());
+
+        return $this->container->view->render($response, 'invoices/creditofiscal.html', [
+            'invoices' => $invoiceList['itemList'],
+            'pagination' => $invoiceList['pagination'],
+            'input' => $invoiceList['userInput'],
+        ]);
+    }
 }
