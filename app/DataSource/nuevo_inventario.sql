@@ -27,7 +27,7 @@ CREATE TABLE `Almacenes` (
   `NombreAlmacen` varchar(50) NOT NULL,
   PRIMARY KEY (`AlmacenID`),
   UNIQUE KEY `NombreAlmacen_UNIQUE` (`NombreAlmacen`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +36,7 @@ CREATE TABLE `Almacenes` (
 
 LOCK TABLES `Almacenes` WRITE;
 /*!40000 ALTER TABLE `Almacenes` DISABLE KEYS */;
+INSERT INTO `Almacenes` VALUES (1,'Casa Matríz'),(2,'Sucursal San Salvador');
 /*!40000 ALTER TABLE `Almacenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,64 +91,32 @@ INSERT INTO `CategoriasBienDet` VALUES ('04','Bien para la Construcción'),('03'
 UNLOCK TABLES;
 
 --
--- Table structure for table `Clientes`
+-- Table structure for table `ClientesPersonas`
 --
 
-DROP TABLE IF EXISTS `Clientes`;
+DROP TABLE IF EXISTS `ClientesPersonas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `Clientes` (
-  `ClienteID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `EmpresaID` int(10) unsigned DEFAULT NULL,
-  `PersonaID` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`ClienteID`),
-  UNIQUE KEY `EmpresaID_UNIQUE` (`EmpresaID`),
-  UNIQUE KEY `PersonaID_UNIQUE` (`PersonaID`),
-  KEY `fk_Clientes_Empresas1_idx` (`EmpresaID`),
-  KEY `fk_Clientes_PersonaCliente1_idx` (`PersonaID`),
-  CONSTRAINT `fk_Clientes_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Clientes_PersonaCliente1` FOREIGN KEY (`PersonaID`) REFERENCES `PersonaCliente` (`PersonaID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `ClientesPersonas` (
+  `ClientesPersonasID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Nombres` varchar(255) NOT NULL,
+  `Apellidos` varchar(255) NOT NULL,
+  `DUI` varchar(15) DEFAULT NULL,
+  `NIT` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`ClientesPersonasID`),
+  UNIQUE KEY `DUI_UNIQUE` (`DUI`),
+  UNIQUE KEY `NIT_UNIQUE` (`NIT`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Clientes`
+-- Dumping data for table `ClientesPersonas`
 --
 
-LOCK TABLES `Clientes` WRITE;
-/*!40000 ALTER TABLE `Clientes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `Clientes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `DUIs`
---
-
-DROP TABLE IF EXISTS `DUIs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `DUIs` (
-  `DuiID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `NumeroDUI` varchar(15) NOT NULL,
-  `PersonaID` int(10) unsigned DEFAULT NULL,
-  `EmpleadoID` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`DuiID`),
-  UNIQUE KEY `PersonaID_UNIQUE` (`PersonaID`),
-  UNIQUE KEY `EmpleadoID_UNIQUE` (`EmpleadoID`),
-  KEY `fk_DUIs_PersonaCliente1_idx` (`PersonaID`),
-  KEY `fk_DUIs_Empleados1_idx` (`EmpleadoID`),
-  CONSTRAINT `fk_DUIs_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DUIs_PersonaCliente1` FOREIGN KEY (`PersonaID`) REFERENCES `PersonaCliente` (`PersonaID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `DUIs`
---
-
-LOCK TABLES `DUIs` WRITE;
-/*!40000 ALTER TABLE `DUIs` DISABLE KEYS */;
-/*!40000 ALTER TABLE `DUIs` ENABLE KEYS */;
+LOCK TABLES `ClientesPersonas` WRITE;
+/*!40000 ALTER TABLE `ClientesPersonas` DISABLE KEYS */;
+INSERT INTO `ClientesPersonas` VALUES (1,'Javier','Portillo','5641681','651684681'),(2,'Marina','Portillo','75823727','78578');
+/*!40000 ALTER TABLE `ClientesPersonas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -167,7 +136,7 @@ CREATE TABLE `DetalleAlmacenes` (
   KEY `fk_DetalleAlmacenes_Productos1_idx` (`ProductoID`),
   CONSTRAINT `fk_DetalleAlmacenes_Almacenes1` FOREIGN KEY (`AlmacenID`) REFERENCES `Almacenes` (`AlmacenID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleAlmacenes_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +145,7 @@ CREATE TABLE `DetalleAlmacenes` (
 
 LOCK TABLES `DetalleAlmacenes` WRITE;
 /*!40000 ALTER TABLE `DetalleAlmacenes` DISABLE KEYS */;
+INSERT INTO `DetalleAlmacenes` VALUES (1,150,1,1),(2,100,1,2);
 /*!40000 ALTER TABLE `DetalleAlmacenes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,8 +160,6 @@ CREATE TABLE `DetalleFactura` (
   `DetalleFacutaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Cantidad` int(11) NOT NULL,
   `PrecioUnitario` decimal(19,4) NOT NULL,
-  `VentaExcenta` decimal(19,4) NOT NULL,
-  `VentaAfecta` decimal(19,4) NOT NULL,
   `ProductoID` int(10) unsigned DEFAULT NULL,
   `FacturaID` int(10) unsigned NOT NULL,
   PRIMARY KEY (`DetalleFacutaID`),
@@ -208,7 +176,7 @@ CREATE TABLE `DetalleFactura` (
 
 LOCK TABLES `DetalleFactura` WRITE;
 /*!40000 ALTER TABLE `DetalleFactura` DISABLE KEYS */;
-INSERT INTO `DetalleFactura` VALUES (1,25,10.0000,0.0000,250.0000,1,1),(2,30,0.0000,0.0000,0.0000,1,1),(3,10,15.0000,0.0000,150.0000,1,1);
+INSERT INTO `DetalleFactura` VALUES (1,25,10.0000,1,1),(2,30,0.0000,1,1),(3,10,15.0000,1,1);
 /*!40000 ALTER TABLE `DetalleFactura` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,16 +226,19 @@ CREATE TABLE `Direcciones` (
   `Municipio` varchar(45) NOT NULL,
   `Direccion` varchar(45) NOT NULL,
   `EmpresaID` int(10) unsigned DEFAULT NULL,
-  `PersonaID` int(10) unsigned DEFAULT NULL,
   `EmpleadoID` int(10) unsigned DEFAULT NULL,
+  `ClientesPersonasID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`DireccionID`),
+  UNIQUE KEY `ClientesPersonasID_UNIQUE` (`ClientesPersonasID`),
+  UNIQUE KEY `EmpleadoID_UNIQUE` (`EmpleadoID`),
+  UNIQUE KEY `EmpresaID_UNIQUE` (`EmpresaID`),
   KEY `fk_Direcciones_Empresas1_idx` (`EmpresaID`),
-  KEY `fk_Direcciones_PersonaCliente1_idx` (`PersonaID`),
   KEY `fk_Direcciones_Empleados1_idx` (`EmpleadoID`),
+  KEY `fk_Direcciones_ClientesPersonas1_idx` (`ClientesPersonasID`),
+  CONSTRAINT `fk_Direcciones_ClientesPersonas1` FOREIGN KEY (`ClientesPersonasID`) REFERENCES `ClientesPersonas` (`ClientesPersonasID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Direcciones_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Direcciones_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Direcciones_PersonaCliente1` FOREIGN KEY (`PersonaID`) REFERENCES `PersonaCliente` (`PersonaID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `fk_Direcciones_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +247,7 @@ CREATE TABLE `Direcciones` (
 
 LOCK TABLES `Direcciones` WRITE;
 /*!40000 ALTER TABLE `Direcciones` DISABLE KEYS */;
-INSERT INTO `Direcciones` VALUES (1,'El Salvador','San Salvador','San Salvador','Bo. El Barrio, #1',1,NULL,NULL);
+INSERT INTO `Direcciones` VALUES (1,'El Salvador','San Salvador','San Salvador','Bo. El Barrio, #1',1,NULL,NULL),(2,'El Salvador','San Salvador','San Salvador','Bo. El Calvario',NULL,NULL,1);
 /*!40000 ALTER TABLE `Direcciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,6 +291,8 @@ CREATE TABLE `Empleados` (
   `EmpleadoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Nombres` varchar(255) NOT NULL,
   `Apellidos` varchar(255) NOT NULL,
+  `DUI` varchar(15) DEFAULT NULL,
+  `NIT` varchar(20) DEFAULT NULL,
   `FechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `FechaModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `NUP` varchar(25) DEFAULT NULL,
@@ -327,8 +300,11 @@ CREATE TABLE `Empleados` (
   `FechaNacimiento` date DEFAULT NULL,
   `Codigo` varchar(5) NOT NULL,
   PRIMARY KEY (`EmpleadoID`),
+  UNIQUE KEY `Codigo_UNIQUE` (`Codigo`),
   UNIQUE KEY `NUP_UNIQUE` (`NUP`),
-  UNIQUE KEY `ISSS_UNIQUE` (`ISSS`)
+  UNIQUE KEY `ISSS_UNIQUE` (`ISSS`),
+  UNIQUE KEY `DUI_UNIQUE` (`DUI`),
+  UNIQUE KEY `NIT_UNIQUE` (`NIT`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -354,8 +330,12 @@ CREATE TABLE `Empresas` (
   `RazonSocial` varchar(50) DEFAULT NULL,
   `Giro` varchar(255) DEFAULT NULL,
   `Registro` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`EmpresaID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  `NIT` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`EmpresaID`),
+  UNIQUE KEY `NombreComercial_UNIQUE` (`NombreComercial`),
+  UNIQUE KEY `Registro_UNIQUE` (`Registro`),
+  UNIQUE KEY `NIT_UNIQUE` (`NIT`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='Empresas ya sean clientes o proveedores.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -364,7 +344,7 @@ CREATE TABLE `Empresas` (
 
 LOCK TABLES `Empresas` WRITE;
 /*!40000 ALTER TABLE `Empresas` DISABLE KEYS */;
-INSERT INTO `Empresas` VALUES (1,'Techos El Solazo!','Venta de techos.','Venta de techos','7516468-2'),(2,'Pisos El Temblor',NULL,'Venta de pisos.','68498165-5');
+INSERT INTO `Empresas` VALUES (1,'Techos El Solazo!','Venta de techos.','Venta de techos','7516468-2','0511-156843-185-4'),(2,'Pisos El Temblor',NULL,'Venta de pisos.','68498165-5',NULL);
 /*!40000 ALTER TABLE `Empresas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -380,16 +360,19 @@ CREATE TABLE `Facturas` (
   `FechaFacturacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Correlativo` int(11) NOT NULL,
   `TipoFacturaID` int(10) unsigned NOT NULL,
-  `ClienteID` int(10) unsigned DEFAULT NULL,
   `EmpleadoID` int(10) unsigned DEFAULT NULL,
   `TirajeFacturaID` int(10) unsigned NOT NULL,
+  `EmpresaID` int(10) unsigned DEFAULT NULL COMMENT 'La empresa cliente',
+  `ClientesPersonasID` int(10) unsigned DEFAULT NULL COMMENT 'La persona cliente',
   PRIMARY KEY (`FacturaID`),
   KEY `fk_Facturas_TiposFactura1_idx` (`TipoFacturaID`),
-  KEY `fk_Facturas_Clientes1_idx` (`ClienteID`),
   KEY `fk_Facturas_Empleados1_idx` (`EmpleadoID`),
   KEY `fk_Facturas_TirajeFacturas1_idx` (`TirajeFacturaID`),
-  CONSTRAINT `fk_Facturas_Clientes1` FOREIGN KEY (`ClienteID`) REFERENCES `Clientes` (`ClienteID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  KEY `fk_Facturas_Empresas1_idx` (`EmpresaID`),
+  KEY `fk_Facturas_ClientesPersonas1_idx` (`ClientesPersonasID`),
+  CONSTRAINT `fk_Facturas_ClientesPersonas1` FOREIGN KEY (`ClientesPersonasID`) REFERENCES `ClientesPersonas` (`ClientesPersonasID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Facturas_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `fk_Facturas_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Facturas_TiposFactura1` FOREIGN KEY (`TipoFacturaID`) REFERENCES `TiposFactura` (`TipoFacturaID`) ON DELETE NO ACTION ON UPDATE CASCADE,
   CONSTRAINT `fk_Facturas_TirajeFacturas1` FOREIGN KEY (`TirajeFacturaID`) REFERENCES `TirajeFacturas` (`TirajeFacturaID`) ON DELETE NO ACTION ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
@@ -401,7 +384,7 @@ CREATE TABLE `Facturas` (
 
 LOCK TABLES `Facturas` WRITE;
 /*!40000 ALTER TABLE `Facturas` DISABLE KEYS */;
-INSERT INTO `Facturas` VALUES (1,'2016-11-23 08:10:25',20001,1,NULL,NULL,1);
+INSERT INTO `Facturas` VALUES (1,'2016-11-23 08:10:25',20001,1,NULL,1,NULL,NULL);
 /*!40000 ALTER TABLE `Facturas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -453,66 +436,6 @@ LOCK TABLES `Medidas` WRITE;
 /*!40000 ALTER TABLE `Medidas` DISABLE KEYS */;
 INSERT INTO `Medidas` VALUES (1,'cm');
 /*!40000 ALTER TABLE `Medidas` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `NITs`
---
-
-DROP TABLE IF EXISTS `NITs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `NITs` (
-  `NitID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `NumeroNIT` varchar(20) NOT NULL,
-  `EmpresaID` int(10) unsigned DEFAULT NULL,
-  `PersonaID` int(10) unsigned DEFAULT NULL,
-  `EmpleadoID` int(10) unsigned DEFAULT NULL,
-  PRIMARY KEY (`NitID`),
-  UNIQUE KEY `NumeroNIT_UNIQUE` (`NumeroNIT`),
-  UNIQUE KEY `EmpresaID_UNIQUE` (`EmpresaID`),
-  UNIQUE KEY `PersonaID_UNIQUE` (`PersonaID`),
-  UNIQUE KEY `EmpleadoID_UNIQUE` (`EmpleadoID`),
-  KEY `fk_NITs_PersonaCliente1_idx` (`PersonaID`),
-  KEY `fk_NITs_Empleados1_idx` (`EmpleadoID`),
-  KEY `fk_NITs_Empresas1_idx` (`EmpresaID`),
-  CONSTRAINT `fk_NITs_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_NITs_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_NITs_PersonaCliente1` FOREIGN KEY (`PersonaID`) REFERENCES `PersonaCliente` (`PersonaID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `NITs`
---
-
-LOCK TABLES `NITs` WRITE;
-/*!40000 ALTER TABLE `NITs` DISABLE KEYS */;
-INSERT INTO `NITs` VALUES (1,'0511-200395-101-5',1,NULL,NULL);
-/*!40000 ALTER TABLE `NITs` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `PersonaCliente`
---
-
-DROP TABLE IF EXISTS `PersonaCliente`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `PersonaCliente` (
-  `PersonaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(255) NOT NULL,
-  PRIMARY KEY (`PersonaID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `PersonaCliente`
---
-
-LOCK TABLES `PersonaCliente` WRITE;
-/*!40000 ALTER TABLE `PersonaCliente` DISABLE KEYS */;
-/*!40000 ALTER TABLE `PersonaCliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -599,16 +522,16 @@ CREATE TABLE `Telefonos` (
   `TelefonoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Telefono` varchar(30) NOT NULL,
   `EmpresaID` int(10) unsigned DEFAULT NULL,
-  `PersonaID` int(10) unsigned DEFAULT NULL,
   `EmpleadoID` int(10) unsigned DEFAULT NULL,
+  `ClientesPersonasID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`TelefonoID`),
   KEY `fk_Telefonos_Empresas1_idx` (`EmpresaID`),
-  KEY `fk_Telefonos_PersonaCliente1_idx` (`PersonaID`),
   KEY `fk_Telefonos_Empleados1_idx` (`EmpleadoID`),
+  KEY `fk_Telefonos_ClientesPersonas1_idx` (`ClientesPersonasID`),
+  CONSTRAINT `fk_Telefonos_ClientesPersonas1` FOREIGN KEY (`ClientesPersonasID`) REFERENCES `ClientesPersonas` (`ClientesPersonasID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Telefonos_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Telefonos_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_Telefonos_PersonaCliente1` FOREIGN KEY (`PersonaID`) REFERENCES `PersonaCliente` (`PersonaID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `fk_Telefonos_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -617,7 +540,7 @@ CREATE TABLE `Telefonos` (
 
 LOCK TABLES `Telefonos` WRITE;
 /*!40000 ALTER TABLE `Telefonos` DISABLE KEYS */;
-INSERT INTO `Telefonos` VALUES (1,'22011008',1,NULL,NULL);
+INSERT INTO `Telefonos` VALUES (1,'22011008',1,NULL,NULL),(2,'73885967',NULL,NULL,1),(3,'20000000',NULL,NULL,1),(4,'71111111',NULL,NULL,2),(5,'60000000',NULL,NULL,2);
 /*!40000 ALTER TABLE `Telefonos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -656,10 +579,10 @@ DROP TABLE IF EXISTS `TirajeFacturas`;
 CREATE TABLE `TirajeFacturas` (
   `TirajeFacturaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `CodigoTiraje` varchar(50) NOT NULL,
-  `NumeroFacturaActual` int(11) NOT NULL,
   `TirajeDesde` int(11) NOT NULL,
   `TirajeHasta` int(11) NOT NULL,
-  PRIMARY KEY (`TirajeFacturaID`)
+  PRIMARY KEY (`TirajeFacturaID`),
+  UNIQUE KEY `CodigoTiraje_UNIQUE` (`CodigoTiraje`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -669,7 +592,7 @@ CREATE TABLE `TirajeFacturas` (
 
 LOCK TABLES `TirajeFacturas` WRITE;
 /*!40000 ALTER TABLE `TirajeFacturas` DISABLE KEYS */;
-INSERT INTO `TirajeFacturas` VALUES (1,'16ZA000F',20001,20001,30000);
+INSERT INTO `TirajeFacturas` VALUES (1,'16ZA000F',20001,30000);
 /*!40000 ALTER TABLE `TirajeFacturas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -686,6 +609,7 @@ CREATE TABLE `Usuarios` (
   `Password` varchar(255) NOT NULL,
   PRIMARY KEY (`EmpleadoID`),
   UNIQUE KEY `Username_UNIQUE` (`Username`),
+  UNIQUE KEY `EmpleadoID_UNIQUE` (`EmpleadoID`),
   CONSTRAINT `fk_Usuarios_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -708,4 +632,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-26  6:56:53
+-- Dump completed on 2016-11-28 18:56:04
