@@ -35,4 +35,16 @@ class Brands
 
         return $brandList->read([]);
     }
+
+    public function save($userInput)
+    {
+        // La marca del producto debe ser un string de 100 caracteres o menos
+        if ($this->container->validator::stringType()->length(1, 100)->validate($userInput['nombreMarca']) === false) {
+            return false;
+        }
+
+        $brandsWriter = new DataSource\MySQL\SaveNewBrand($this->container);
+
+        return $brandsWriter->write($userInput);
+    }
 }
