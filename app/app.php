@@ -43,6 +43,12 @@ $container['negotiator'] = function($container)
     return $mediaType;
 };
 
+// Respect Validator
+$container['validator'] = function($container)
+{
+    return new \Respect\Validation\Validator;
+};
+
 // RUTAS (URLs)
 require APP_ROOT . '/app/routes.php';
 
