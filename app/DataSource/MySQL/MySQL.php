@@ -53,4 +53,12 @@ class MySQL
         $query = $this->connection->prepare($preparedStatement);
         return $query->execute($inputParameters);
     }
+
+    /**
+     * Obtiene la ID de la última inserción de datos.
+     */
+    public function lastId()
+    {
+        return $this->connection->lastInsertId();
+    }
 }
