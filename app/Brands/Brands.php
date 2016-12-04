@@ -47,4 +47,25 @@ class Brands
 
         return $brandsWriter->write($userInput);
     }
+
+    /**
+     * Obtiene la ID de una marca a partir de su nombre.
+     *
+     * @param string $name Nombre de la marca, sin distinción entre mayúsculas y minúsculas
+     *
+     * @return string La Id si fue encontrada, false de lo contrario
+     */
+    public function idFromName($name)
+    {
+        $brandList = $this->readAllBrands();
+
+        // Revisar si ya existe la marca, y obtener su ID.
+        foreach ($brandList as $brand) {
+            if (strtolower($brand['Nombre']) === strtolower($name)) {
+                return $brand['MarcaID'];
+            }
+        }
+
+        return false;
+    }
 }
