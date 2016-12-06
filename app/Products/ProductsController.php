@@ -46,7 +46,7 @@ class ProductsController
         ]);
     }
 
-    public function indexNewProduct($request, $response)
+    public function indexNewProduct($request, $response, $arguments, $productSaved = null, $failedInputs = null)
     {
         $categories = new \Sigmalibre\Categories\Categories($this->container);
 
@@ -64,11 +64,20 @@ class ProductsController
             'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
             'detcategories' => $detCategories->readAllDETCategories(),
             'detreferences' => $detReferences->readAllDETReferences(),
+            'productSaved' => $productSaved,
+            'failedInputs' => $failedInputs,
+            'input' => $request->getParsedBody(),
         ]);
     }
 
     public function createNew($request, $response)
     {
-        return $response->withJson($this->products->save($request->getParsedBody()));
+        $brands = new \Sigmalibre\Brands\Brands($this->container);
+
+        $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
+
+        $isProductSaved = $this->products->save($request->getParsedBody(), $brands, $unitsOfMeasurement);
+
+        $this->indexNewProduct($request, $response, null, $isProductSaved, $this->products->getInvalidInputs());
     }
 }

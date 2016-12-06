@@ -12,6 +12,7 @@ class Products
     public function __construct($container)
     {
         $this->container = $container;
+        $this->validator = new ProductValidator($container);
     }
 
     /**
@@ -41,10 +42,80 @@ class Products
         return $productList;
     }
 
-    public function save($userInput)
+    /**
+     * Guarda un producto nuevo en la fuente de datos.
+     *
+     * @param array $userInput    Lista con los inputs del usuario
+     * @param array $brands       Lista de las marcas de productos, para buscar si existe la que ingresó el usuario y crearla sino
+     * @param array $measurements Lista de unidades de medidad, para buscar si existe la que ingresó el usuario y crearla sino
+     *
+     * @return bool True si se ha guardado el producto; False si no aprueba la validación o si ha ocurrido un error
+     */
+    public function save($userInput, $brands, $measurements)
     {
-        $productsWriter = new DataSource\MySQL\ProductWriter($this->container);
+        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
+        $userInput = array_map('trim', $userInput);
 
+        // Ya que el campo de excentoIvaProducto es opcional, si no se pasa un valor, dejar 0 por defecto.
+        if (empty($userInput['excentoIvaProducto']) === true) {
+            $userInput['excentoIvaProducto'] = 0;
+        }
+
+        // Validar los inputs del usuario.
+        if ($this->validator->validateNewProduct($userInput) === false) {
+            return false;
+        }
+
+        // Si la marca ingresada ya existe, utilizar esa.
+        $brandId = $brands->idFromName($userInput['marcaProducto']);
+
+        // Si la marca no existe, crear una nueva.
+        if ($brandId === false) {
+            $brandId = $brands->save(['nombreMarca' => $userInput['marcaProducto']]);
+        }
+
+        // Si no se pudo obtener una marca, retorna false.
+        if ($brandId === false) {
+            $this->validator->setInvalidInput('marcaProducto');
+
+            return false;
+        }
+
+        // Si la unidad de medida ya existe, utilizar esa.
+        $unitId = $measurements->idFromName($userInput['medidaProducto']);
+
+        // Si la unidad no existe, crear una nueva.
+        if ($unitId === false) {
+            $unitId = $measurements->save(['unidadMedida' => $userInput['medidaProducto']]);
+        }
+
+        // Si no se pudo obtener una unidad de medida, retorna false.
+        if ($unitId === false) {
+            $this->validator->setInvalidInput('medidaProducto');
+
+            return false;
+        }
+
+        // Si se pudo obtener una marca, reemplazar su nombre por su id para hacer la inserción.
+        $userInput['marcaProducto'] = $brandId;
+
+        // Si se pudo obtener una medida, reemplazar su nombre por su id para hacer l ainserción.
+        $userInput['medidaProducto'] = $unitId;
+
+        // Guardar el producto.
+        $productsWriter = new DataSource\MySQL\SaveNewProduct($this->container);
+
+        // return true;
         return $productsWriter->write($userInput);
+    }
+
+    /**
+     * Obtiene una lista de los inputs inválidos si una operación de guardado ha fallado.
+     *
+     * @return array La lista con los inputs inválidos
+     */
+    public function getInvalidInputs()
+    {
+        return $this->validator->getInvalidInputs();
     }
 }
