@@ -8,6 +8,7 @@ namespace Sigmalibre\Products;
 class Products
 {
     private $container;
+    private $validator;
 
     public function __construct($container)
     {
