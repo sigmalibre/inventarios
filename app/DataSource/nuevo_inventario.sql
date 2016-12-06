@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS `CategoriaProductos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CategoriaProductos` (
   `CategoriaProductoID` varchar(2) NOT NULL,
-  `Nombre` varchar(100) NOT NULL,
+  `Nombre` varchar(30) NOT NULL,
   PRIMARY KEY (`CategoriaProductoID`),
   UNIQUE KEY `Nombre_UNIQUE` (`Nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -61,7 +61,7 @@ CREATE TABLE `CategoriaProductos` (
 
 LOCK TABLES `CategoriaProductos` WRITE;
 /*!40000 ALTER TABLE `CategoriaProductos` DISABLE KEYS */;
-INSERT INTO `CategoriaProductos` VALUES ('HM','Herramientas Manuales'),('PT','Pinturas');
+INSERT INTO `CategoriaProductos` VALUES ('EC','Electricidad'),('EK','Electrónica'),('HM','Herramientas Manuales'),('PT','Pinturas');
 /*!40000 ALTER TABLE `CategoriaProductos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +199,7 @@ CREATE TABLE `DetalleIngresos` (
   KEY `fk_DetalleIngresos_Empresas1_idx` (`EmpresaID`),
   CONSTRAINT `fk_DetalleIngresos_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleIngresos_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +208,7 @@ CREATE TABLE `DetalleIngresos` (
 
 LOCK TABLES `DetalleIngresos` WRITE;
 /*!40000 ALTER TABLE `DetalleIngresos` DISABLE KEYS */;
-INSERT INTO `DetalleIngresos` VALUES (1,100,15.0000,'2016-11-23 07:47:06',1,1),(2,100,15.3500,'2016-11-26 05:46:37',1,1),(3,35,15.6700,'2016-11-26 05:47:15',1,2);
+INSERT INTO `DetalleIngresos` VALUES (1,100,15.0000,'2016-11-23 07:47:06',1,1),(2,100,15.3500,'2016-11-26 05:46:37',1,1),(3,35,15.6700,'2016-11-26 05:47:15',1,2),(4,20,3.5700,'2016-12-06 08:30:57',2,2);
 /*!40000 ALTER TABLE `DetalleIngresos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -238,7 +238,7 @@ CREATE TABLE `Direcciones` (
   CONSTRAINT `fk_Direcciones_ClientesPersonas1` FOREIGN KEY (`ClientesPersonasID`) REFERENCES `ClientesPersonas` (`ClientesPersonasID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Direcciones_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_Direcciones_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -401,7 +401,7 @@ CREATE TABLE `Marcas` (
   `Nombre` varchar(100) NOT NULL,
   PRIMARY KEY (`MarcaID`),
   UNIQUE KEY `Nombre_UNIQUE` (`Nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -410,7 +410,7 @@ CREATE TABLE `Marcas` (
 
 LOCK TABLES `Marcas` WRITE;
 /*!40000 ALTER TABLE `Marcas` DISABLE KEYS */;
-INSERT INTO `Marcas` VALUES (4,'3M'),(9,'ALLEN'),(7,'BLACK & DECKER'),(6,'BOSCH'),(10,'CRAFTSMAN'),(2,'DeWALT'),(8,'DREMEL'),(12,'IRWIN'),(11,'KARCHER'),(5,'Makita'),(3,'SKIL'),(1,'STANLEY');
+INSERT INTO `Marcas` VALUES (4,'3M'),(14,'ACCENT'),(9,'ALLEN'),(7,'BLACK & DECKER'),(6,'BOSCH'),(30,'Corona'),(10,'CRAFTSMAN'),(31,'Dell'),(2,'DeWALT'),(8,'DREMEL'),(32,'Fluke'),(28,'Honda'),(12,'IRWIN'),(11,'KARCHER'),(26,'KIA'),(5,'Makita'),(29,'Mazda'),(13,'Nike'),(16,'Nissan'),(3,'SKIL'),(1,'STANLEY'),(20,'Toyota');
 /*!40000 ALTER TABLE `Marcas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,7 +426,7 @@ CREATE TABLE `Medidas` (
   `UnidadMedida` varchar(100) NOT NULL,
   PRIMARY KEY (`MedidaID`),
   UNIQUE KEY `UnidadMedida_UNIQUE` (`UnidadMedida`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +435,7 @@ CREATE TABLE `Medidas` (
 
 LOCK TABLES `Medidas` WRITE;
 /*!40000 ALTER TABLE `Medidas` DISABLE KEYS */;
-INSERT INTO `Medidas` VALUES (1,'cm');
+INSERT INTO `Medidas` VALUES (1,'cm'),(4,'Galones'),(7,'Km'),(3,'litro'),(6,'mm'),(2,'pul'),(5,'Unidades');
 /*!40000 ALTER TABLE `Medidas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -448,11 +448,11 @@ DROP TABLE IF EXISTS `Productos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Productos` (
   `ProductoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `Codigo` varchar(50) NOT NULL,
-  `Descripcion` varchar(255) NOT NULL,
+  `Codigo` varchar(20) NOT NULL,
+  `Descripcion` varchar(30) NOT NULL,
   `ExcentoIVA` tinyint(1) NOT NULL DEFAULT '0',
-  `StockMin` smallint(5) unsigned NOT NULL,
-  `PrecioVenta` decimal(19,4) NOT NULL,
+  `StockMin` int(10) unsigned NOT NULL DEFAULT '0',
+  `PrecioVenta` decimal(19,4) unsigned NOT NULL,
   `FechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `FechaModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Activo` tinyint(1) NOT NULL DEFAULT '1',
@@ -474,7 +474,7 @@ CREATE TABLE `Productos` (
   CONSTRAINT `fk_Productos_Marcas1` FOREIGN KEY (`MarcaID`) REFERENCES `Marcas` (`MarcaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Productos_Medidas1` FOREIGN KEY (`MedidaID`) REFERENCES `Medidas` (`MedidaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Productos_ReferenciaLibroDet1` FOREIGN KEY (`CodigoLibroDet`) REFERENCES `ReferenciaLibroDet` (`CodigoLibroDet`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -483,7 +483,7 @@ CREATE TABLE `Productos` (
 
 LOCK TABLES `Productos` WRITE;
 /*!40000 ALTER TABLE `Productos` DISABLE KEYS */;
-INSERT INTO `Productos` VALUES (1,'0001','Los pollitos dicen: pio pio pio. Cuando tienen hambre, cuando tienen frio',0,5,10.5000,'2016-11-22 08:59:00','2016-11-26 02:06:15',1,'01','01',1,1,'HM'),(2,'0002','Había una vez un pollito que respiraba por las patitas, se paró en un charquito y se ahogó. Fin.',0,5,0.6500,'2016-11-23 08:30:22','2016-11-26 02:06:26',1,'01','02',5,1,'PT');
+INSERT INTO `Productos` VALUES (1,'0001','Tornillos',0,5,10.5000,'2016-11-22 08:59:00','2016-11-30 21:35:22',1,'01','01',1,1,'HM'),(2,'0002','Martillos',0,5,0.6500,'2016-11-23 08:30:22','2016-11-30 21:35:33',1,'01','02',5,1,'PT'),(3,'132456','Producto de Pruebas',0,0,0.5000,'2016-12-04 17:59:16','2016-12-04 17:59:16',1,'01','01',4,1,'HM'),(16,'789','Creado desde Postman',1,0,0.0100,'2016-12-04 21:53:12','2016-12-04 21:53:12',1,'01','01',29,3,'HM'),(18,'788','Creado desde Postman',1,0,0.0100,'2016-12-04 21:53:54','2016-12-04 21:53:54',1,'01','01',29,3,'HM'),(19,'74185293','Gris Mate',0,5,25.0000,'2016-12-04 22:11:48','2016-12-04 22:11:48',1,'03','01',30,4,'PT'),(20,'789654123','Blanco Huezo',0,5,25.0000,'2016-12-04 22:12:41','2016-12-04 22:12:41',1,'03','01',30,4,'PT'),(21,'123456987','Turqueza',0,5,25.0000,'2016-12-04 22:15:19','2016-12-04 22:15:19',1,'03','01',30,4,'PT'),(22,'159263487','Desarmador Plano Pequeño',0,0,2.3500,'2016-12-04 22:50:11','2016-12-04 22:50:11',1,'03','01',1,5,'HM'),(25,'486151','Desarmador Philips Grande',0,0,3.5100,'2016-12-04 22:57:41','2016-12-04 22:57:41',1,'03','01',1,5,'HM'),(26,'6546846','Alicates',0,0,2.7500,'2016-12-06 05:37:25','2016-12-06 05:37:25',1,'03','01',1,5,'HM'),(27,'05156','adfadfs',0,0,0.0000,'2016-12-06 06:42:57','2016-12-06 06:42:57',1,'03','01',16,4,'PT'),(33,'132456a','qweqweqwe',0,0,151.0000,'2016-12-06 06:46:41','2016-12-06 06:46:41',1,'03','01',29,2,'PT'),(34,'awghhh','aehj5ja4j',0,0,52.0000,'2016-12-06 06:47:23','2016-12-06 06:47:23',1,'03','01',29,2,'HM'),(38,'0003','651651',1,18,951.0000,'2016-12-06 06:53:06','2016-12-06 06:53:06',1,'01','03',31,7,'HM'),(39,'168168165','Sierra Eléctrica',0,3,80.0000,'2016-12-06 08:19:44','2016-12-06 08:19:44',1,'03','01',3,5,'EC'),(40,'abcd','Multímetro Digital',0,0,10.0000,'2016-12-06 08:27:11','2016-12-06 08:27:11',1,'03','01',32,5,'EK');
 /*!40000 ALTER TABLE `Productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,4 +633,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-29  1:59:00
+-- Dump completed on 2016-12-06  2:34:32
