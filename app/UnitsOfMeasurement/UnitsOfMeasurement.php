@@ -35,8 +35,10 @@ class UnitsOfMeasurement
 
     public function save($userInput)
     {
+        $validator = $this->container->validator;
+
         // La unidad de medida del producto debe ser un string de 100 caracteres o menos
-        if ($this->container->validator::stringType()->length(1, 100)->validate($userInput['unidadMedida']) === false) {
+        if ($validator::stringType()->length(1, 100)->validate($userInput['unidadMedida']) === false) {
             return false;
         }
 
