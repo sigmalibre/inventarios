@@ -6,16 +6,22 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
+                {% if productSaved is same as(true) %}
+                <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El producto ha sido creado exitosamente!</div>
+                {% endif %}
+                {% if productSaved is same as(false) %}
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo crear el producto.</div>
+                {% endif %}
                 <div class="panel panel-primary">
                     <div class="panel-heading">Introduce un nuevo producto</div>
                     <div class="panel-body">
-                        <form action="{{ path_for('products/createform') }}" method="get">
+                        <form action="{{ path_for('products') }}" method="post">
                             <div class="form-group">
                                 <label for="categoriaProducto">Categoría del Producto</label>
                                 <select class="form-control new-product-category-select" name="categoriaProducto" id="categoriaProducto">
                                     <option value="">Elige Una Categoría</option>
                                     {% for category in categories %}
-                                        <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
+                                        <option value="{{ category.CategoriaProductoID }}" {% if input.categoriaProducto == category.CategoriaProductoID and productSaved is same as(false) %}selected{% endif %}>{{ category.Nombre }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -23,27 +29,27 @@
                                 <label for="codigoProducto">Código</label>
                                 <div class="input-group">
                                     <span class="input-group-addon new-product-cat-preview">--</span>
-                                    <input type="text" name="codigoProducto" value="" class="form-control" id="codigoProducto" maxlength="50">
+                                    <input type="text" name="codigoProducto" value="{% if productSaved is same as(false) %}{{ input.codigoProducto }}{% endif %}" class="form-control" id="codigoProducto" maxlength="50">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="descripcionProducto">Descripción</label>
-                                <input type="text" name="descripcionProducto" value="" class="form-control" id="descripcionProducto" maxlength="255">
+                                <input type="text" name="descripcionProducto" value="{% if productSaved is same as(false) %}{{ input.descripcionProducto }}{% endif %}" class="form-control" id="descripcionProducto" maxlength="255">
                             </div>
                             <div class="form-group">
                                 <label for="precioVentaProducto">Precio de Venta</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">$</span>
-                                    <input type="number" name="precioVentaProducto" value="0" class="form-control" id="precioVentaProducto" step="0.01" min="0" max="999999999999999">
+                                    <input type="number" name="precioVentaProducto" value="{% if productSaved is same as(false) %}{{ input.precioVentaProducto ?? 0 }}{% else %}0{% endif %}" class="form-control" id="precioVentaProducto" step="0.01" min="0" max="999999999999999">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="stockMinProducto">Stock Mínimo</label>
-                                <input type="number" name="stockMinProducto" value="0" class="form-control" id="stockMinProducto" min="0">
+                                <input type="number" name="stockMinProducto" value="{% if productSaved is same as(false) %}{{ input.stockMinProducto ?? 0 }}{% else %}0{% endif %}" class="form-control" id="stockMinProducto" min="0">
                             </div>
                             <div class="form-group">
                                 <label for="marcaProducto">Marca</label>
-                                <input type="text" name="marcaProducto" value="" class="form-control" id="marcaProducto" maxlength="100" list="listaMarcas">
+                                <input type="text" name="marcaProducto" value="{% if productSaved is same as(false) %}{{ input.marcaProducto }}{% endif %}" class="form-control" id="marcaProducto" maxlength="100" list="listaMarcas">
                                 <datalist id="listaMarcas">
                                     {% for brand in brands %}
                                         <option>{{ brand.Nombre }}</option>
@@ -52,7 +58,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="medidaProducto">Unidad de Medida</label>
-                                <input type="text" name="medidaProducto" value="" class="form-control" id="medidaProducto" maxlength="100" list="listaMedidas">
+                                <input type="text" name="medidaProducto" value="{% if productSaved is same as(false) %}{{ input.medidaProducto }}{% endif %}" class="form-control" id="medidaProducto" maxlength="100" list="listaMedidas">
                                 <datalist id="listaMedidas">
                                     {% for unit in measurements %}
                                         <option>{{ unit.UnidadMedida }}</option>
@@ -63,7 +69,7 @@
                                 <label for="categoriaDetProducto">Categoría DET</label>
                                 <select class="form-control" name="categoriaDetProducto" id="categoriaDetProducto">
                                     {% for detcat in detcategories %}
-                                        <option value="{{ detcat.CodigoBienDet }}">{{ detcat.Descripcion }}</option>
+                                        <option value="{{ detcat.CodigoBienDet }}" {% if input.categoriaDetProducto == detcat.CodigoBienDet and productSaved is same as(false) %}selected{% endif %}>{{ detcat.Descripcion }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -71,13 +77,13 @@
                                 <label for="referenciaLibroDetProducto">Referencia Libro DET</label>
                                 <select class="form-control" name="referenciaLibroDetProducto" id="referenciaLibroDetProducto">
                                     {% for reference in detreferences %}
-                                        <option value="{{ reference.CodigoLibroDet }}">{{ reference.Descripcion }}</option>
+                                        <option value="{{ reference.CodigoLibroDet }}" {% if input.referenciaLibroDetProducto == reference.CodigoLibroDet and productSaved is same as(false) %}selected{% endif %}>{{ reference.Descripcion }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="excentoIvaProducto" value=""> Excento IVA?
+                                    <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto and productSaved is same as(false) %}checked{% endif %}> Excento IVA?
                                 </label>
                             </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Producto</button>
