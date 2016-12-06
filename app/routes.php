@@ -8,6 +8,9 @@ $app->post('/productos', '\Sigmalibre\Products\ProductsController:createNew');
 $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
+$app->post('/categorias', '\Sigmalibre\Categories\CategoriesController:createNew');
+
+$app->get('/categorias/createform', '\Sigmalibre\Categories\CategoriesController:indexNewCategory')->setName('categories/createform');
 
 $app->get('/proveedores', '\Sigmalibre\Providers\ProvidersController:indexProviders')->setName('providers');
 

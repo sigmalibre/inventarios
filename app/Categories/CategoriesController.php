@@ -24,10 +24,28 @@ class CategoriesController
         $categories = new Categories($this->container);
         $categoryResults = $categories->readCategoryList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'categories.html', [
+        return $this->container->view->render($response, 'categories/categories.html', [
             'categories' => $categoryResults['itemList'],
             'pagination' => $categoryResults['pagination'],
             'input' => $categoryResults['userInput'],
         ]);
+    }
+
+    public function indexNewCategory($request, $response, $arguments, $categorySaved = null, $failedInputs = null)
+    {
+        return $this->container->view->render($response, 'categories/newcategory.html', [
+            'categorySaved' => $categorySaved,
+            'failedInputs' => $failedInputs,
+            'input' => $request->getParsedBody(),
+        ]);
+    }
+
+    public function createNew($request, $response)
+    {
+        $categories = new Categories($this->container);
+
+        $isCategorySaved = $categories->save($request->getParsedBody());
+
+        $this->indexNewCategory($request, $response, null, $isCategorySaved, $categories->getInvalidInputs());
     }
 }

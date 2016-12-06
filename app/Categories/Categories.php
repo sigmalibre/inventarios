@@ -8,10 +8,12 @@ namespace Sigmalibre\Categories;
 class Categories
 {
     private $container;
+    private $validator;
 
     public function __construct($container)
     {
         $this->container = $container;
+        $this->validator = new CategoryValidator($container);
     }
 
     /**
@@ -39,5 +41,41 @@ class Categories
         $categoryList = new DataSource\MySQL\SearchAllCategories($this->container);
 
         return $categoryList->read([]);
+    }
+
+    /**
+     * Guarda una categoría nueva en la fuente de datos.
+     *
+     * @param array $userInput Lista con los inputs del usuario
+     *
+     * @return bool True si se ha guardado la categoría; False si no aprueba la validación, o si ocurrió un error
+     */
+    public function save($userInput)
+    {
+        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
+        $userInput = array_map('trim', $userInput);
+
+        // Validar el input del usuario.
+        if ($this->validator->validateNewCategory($userInput) === false) {
+            return false;
+        }
+
+        // Cambiar el código de la categoría a mayúsculas
+        $userInput['codigoCategoria'] = strtoupper($userInput['codigoCategoria']);
+
+        // Guardar la categoría.
+        $categoryWriter = new DataSource\MySQL\SaveNewCategory($this->container);
+
+        return $categoryWriter->write($userInput);
+    }
+
+    /**
+     * Método wrapper para obtener los inputs inválidos desde el validador.
+     *
+     * @return array La lista con los inputs inválidos
+     */
+    public function getInvalidInputs()
+    {
+        return $this->validator->getInvalidInputs();
     }
 }

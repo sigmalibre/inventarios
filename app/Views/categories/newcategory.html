@@ -1,0 +1,34 @@
+{% extends 'templates/base.html' %}
+
+{% block title  %}Nueva Categoría{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            {% if categorySaved is same as(true) %}
+            <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> La categoría ha sido creada exitosamente!</div>
+            {% endif %}
+            {% if categorySaved is same as(false) %}
+            <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo crear la categoría nueva.</div>
+            {% endif %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">Introduce una nueva categoría</div>
+                <div class="panel-body">
+                    <form action="{{ path_for('categories') }}" method="post">
+                        <div class="form-group">
+                            <label for="codigoCategoria">Código</label>
+                            <input type="text" name="codigoCategoria" value="{% if categorySaved is same as(false) %}{{ input.codigoCategoria }}{% endif %}" class="form-control" id="codigoCategoria" maxlength="2">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombreCategoria">Nombre</label>
+                            <input type="text" name="nombreCategoria" value="{% if categorySaved is same as(false) %}{{ input.nombreCategoria }}{% endif %}" class="form-control" id="nombreCategoria" maxlength="30">
+                        </div>
+                        <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Categoría</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
