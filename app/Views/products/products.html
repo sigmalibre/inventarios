@@ -70,7 +70,6 @@
                                 <th>Marca</th>
                                 <th>Nombre</th>
                                 <th>Cantidad</th>
-                                <th>Precio</th>
                             </tr>
                             {% for product in products %}
                             <tr>
@@ -79,7 +78,6 @@
                                 <td>{{ product.NombreMarca }}</td>
                                 <td>{{ product.Descripcion }}</td>
                                 <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
-                                <td>${{ product.PrecioVenta|number_format(2) }}</td>
                             </tr>
                             {% else %}
                             <caption class="bottom-captions text-center">No se encontraron resultados</caption>

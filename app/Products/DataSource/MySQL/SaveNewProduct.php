@@ -25,6 +25,6 @@ class SaveNewProduct
      */
     public function write($newDataList)
     {
-        return $this->connection->execute('INSERT INTO Productos (Codigo, Descripcion, ExcentoIVA, StockMin, PrecioVenta, CodigoLibroDet, CodigoBienDet, MarcaID, MedidaID, CategoriaProductoID) VALUES (:codigoProducto, :descripcionProducto, :excentoIvaProducto, :stockMinProducto, :precioVentaProducto, :referenciaLibroDetProducto, :categoriaDetProducto, :marcaProducto, :medidaProducto, :categoriaProducto)', $newDataList);
+        return $this->connection->execute('INSERT INTO Productos (Codigo, Descripcion, ExcentoIVA, StockMin, CodigoLibroDet, CodigoBienDet, MarcaID, MedidaID, CategoriaProductoID) VALUES (:codigoProducto, :descripcionProducto, :excentoIvaProducto, :stockMinProducto, :referenciaLibroDetProducto, :categoriaDetProducto, :marcaProducto, :medidaProducto, :categoriaProducto)', $newDataList);
     }
 }

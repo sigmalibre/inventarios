@@ -80,13 +80,6 @@ class ProductValidator
             return false;
         }
 
-        // El precio de venta del producto debe ser un número positivo, incluyendo el cero.
-        if ($validator::numeric()->min(0, true)->validate($userInput['precioVentaProducto']) === false) {
-            $this->invalidUserInputs['precioVentaProducto'] = true;
-
-            return false;
-        }
-
         // El código de la referencia del libro DET, debe ser un string de 2 caracteres.
         if ($validator::stringType()->noWhitespace()->length(2, 2)->validate($userInput['referenciaLibroDetProducto']) === false) {
             $this->invalidUserInputs['referenciaLibroDetProducto'] = true;
