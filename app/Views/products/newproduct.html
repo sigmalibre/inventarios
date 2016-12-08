@@ -27,16 +27,18 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback has-clear">
                                         <label for="codigoProducto">Código</label>
                                         <div class="input-group">
                                             <span class="input-group-addon new-product-cat-preview">--</span>
                                             <input type="text" name="codigoProducto" value="{% if productSaved is same as(false) %}{{ input.codigoProducto }}{% endif %}" class="form-control" id="codigoProducto" maxlength="50">
+                                            <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoProducto %}hidden{% endif %}"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback has-clear">
                                         <label for="descripcionProducto">Descripción</label>
                                         <input type="text" name="descripcionProducto" value="{% if productSaved is same as(false) %}{{ input.descripcionProducto }}{% endif %}" class="form-control" id="descripcionProducto" maxlength="255">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.descripcionProducto %}hidden{% endif %}"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="stockMinProducto">Stock Mínimo</label>
@@ -44,18 +46,20 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback has-clear">
                                         <label for="marcaProducto">Marca</label>
                                         <input type="text" name="marcaProducto" value="{% if productSaved is same as(false) %}{{ input.marcaProducto }}{% endif %}" class="form-control" id="marcaProducto" maxlength="100" list="listaMarcas">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.marcaProducto %}hidden{% endif %}"></span>
                                         <datalist id="listaMarcas">
                                             {% for brand in brands %}
                                             <option>{{ brand.Nombre }}</option>
                                             {% endfor %}
                                         </datalist>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group has-feedback has-clear">
                                         <label for="medidaProducto">Unidad de Medida</label>
                                         <input type="text" name="medidaProducto" value="{% if productSaved is same as(false) %}{{ input.medidaProducto }}{% endif %}" class="form-control" id="medidaProducto" maxlength="100" list="listaMedidas">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.medidaProducto %}hidden{% endif %}"></span>
                                         <datalist id="listaMedidas">
                                             {% for unit in measurements %}
                                             <option>{{ unit.UnidadMedida }}</option>
