@@ -21,17 +21,16 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- jQuery (necesario para los plugins JavaScript de Bootstrap) -->
+    <script src="/js/jquery-3.1.0.min.js" defer></script>
+    <script src="/js/bootstrap.min.js" defer></script>
 </head>
 <body>
     {% include 'templates/navbar.html' %}
     {% block content %}{% endblock %}
-
-    <!-- jQuery (necesario para los plugins JavaScript de Bootstrap) -->
-    <script src="/js/jquery-3.1.0.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/bootstrap-clearinput.js"></script>
-
-    <script src="/js/link-submit-form.js"></script>
-    <script src="/js/new-product-set-cat-code.js"></script>
+    
+    <script src="/js/form-clearinput.js" defer></script>
+    <script src="/js/link-submit-form.js" defer></script>
 </body>
 </html>
