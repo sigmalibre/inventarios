@@ -78,6 +78,6 @@ class ProductsController
 
         $isProductSaved = $this->products->save($request->getParsedBody(), $brands, $unitsOfMeasurement);
 
-        $this->indexNewProduct($request, $response, null, $isProductSaved, $this->products->getInvalidInputs());
+        return $this->indexNewProduct($request, $response, null, $isProductSaved, $this->products->getInvalidInputs());
     }
 }
