@@ -13,3 +13,7 @@
 .bottom-captions {
     caption-side: bottom;
 }
+
+.anchorize {
+    cursor: pointer;
+}

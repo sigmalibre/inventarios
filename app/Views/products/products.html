@@ -63,23 +63,28 @@
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Código</th>
-                                <th>Categoría</th>
-                                <th>Marca</th>
-                                <th>Nombre</th>
-                                <th>Cantidad</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Categoría</th>
+                                    <th>Marca</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
                             {% for product in products %}
-                            <tr>
-                                <td>{{ product.CategoriaProductoID }}{{ product.CodigoProducto }}</td>
-                                <td>{{ product.NombreCategoria }}</td>
-                                <td>{{ product.NombreMarca }}</td>
-                                <td>{{ product.Descripcion }}</td>
-                                <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
-                            </tr>
+                                <tr class="anchorize" data-href="{{ path_for('products') }}/id/{{ product.ProductoID }}">
+                                    <td>{{ product.CategoriaProductoID }}{{ product.CodigoProducto }}</td>
+                                    <td>{{ product.NombreCategoria }}</td>
+                                    <td>{{ product.NombreMarca }}</td>
+                                    <td>{{ product.Descripcion }}</td>
+                                    <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
+                                </tr>
                             {% else %}
+                            </tbody>
                             <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>
