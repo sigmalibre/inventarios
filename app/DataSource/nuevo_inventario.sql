@@ -1,8 +1,8 @@
--- MySQL dump 10.15  Distrib 10.0.27-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.15  Distrib 10.0.28-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: inventario
+-- Host: localhost    Database: localhost
 -- ------------------------------------------------------
--- Server version	10.0.27-MariaDB-0ubuntu0.16.04.1
+-- Server version	10.0.28-MariaDB-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -50,6 +50,7 @@ DROP TABLE IF EXISTS `CategoriaProductos`;
 CREATE TABLE `CategoriaProductos` (
   `CategoriaProductoID` varchar(2) NOT NULL,
   `Nombre` varchar(30) NOT NULL,
+  `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`CategoriaProductoID`),
   UNIQUE KEY `Nombre_UNIQUE` (`Nombre`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -61,7 +62,7 @@ CREATE TABLE `CategoriaProductos` (
 
 LOCK TABLES `CategoriaProductos` WRITE;
 /*!40000 ALTER TABLE `CategoriaProductos` DISABLE KEYS */;
-INSERT INTO `CategoriaProductos` VALUES ('EC','Electricidad'),('EK','Electrónica'),('HM','Herramientas Manuales'),('PT','Pinturas');
+INSERT INTO `CategoriaProductos` VALUES ('EC','Electricidad',1),('EK','Electrónica',1),('FE','Ferretería',1),('HM','Herramientas Manuales',1),('JD','Jardinería',1),('MD','Madera',1),('PT','Pinturas',1);
 /*!40000 ALTER TABLE `CategoriaProductos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,6 +121,33 @@ INSERT INTO `ClientesPersonas` VALUES (1,'Javier','Portillo','5641681','65168468
 UNLOCK TABLES;
 
 --
+-- Table structure for table `Descuentos`
+--
+
+DROP TABLE IF EXISTS `Descuentos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Descuentos` (
+  `DescuentoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `RazonDescuento` varchar(45) NOT NULL,
+  `CantidadDescontada` decimal(19,4) NOT NULL,
+  `ProductoID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`DescuentoID`),
+  KEY `fk_Descuentos_Productos1_idx` (`ProductoID`),
+  CONSTRAINT `fk_Descuentos_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Descuentos`
+--
+
+LOCK TABLES `Descuentos` WRITE;
+/*!40000 ALTER TABLE `Descuentos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Descuentos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `DetalleAlmacenes`
 --
 
@@ -167,7 +195,7 @@ CREATE TABLE `DetalleFactura` (
   KEY `fk_DetalleMovimientos_Facturas1_idx` (`FacturaID`),
   CONSTRAINT `fk_DetalleMovimientos_Facturas1` FOREIGN KEY (`FacturaID`) REFERENCES `Facturas` (`FacturaID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleMovimientos_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,7 +204,6 @@ CREATE TABLE `DetalleFactura` (
 
 LOCK TABLES `DetalleFactura` WRITE;
 /*!40000 ALTER TABLE `DetalleFactura` DISABLE KEYS */;
-INSERT INTO `DetalleFactura` VALUES (1,25,10.0000,1,1),(2,30,0.0000,1,1),(3,10,15.0000,1,1),(4,5,45.2500,2,3);
 /*!40000 ALTER TABLE `DetalleFactura` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,6 +218,7 @@ CREATE TABLE `DetalleIngresos` (
   `DetalleIngresosID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Cantidad` int(11) NOT NULL,
   `PrecioUnitario` decimal(19,4) NOT NULL,
+  `CostoActual` decimal(19,4) NOT NULL,
   `FechaIngreso` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ProductoID` int(10) unsigned NOT NULL,
   `EmpresaID` int(10) unsigned DEFAULT NULL,
@@ -199,7 +227,7 @@ CREATE TABLE `DetalleIngresos` (
   KEY `fk_DetalleIngresos_Empresas1_idx` (`EmpresaID`),
   CONSTRAINT `fk_DetalleIngresos_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleIngresos_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +236,6 @@ CREATE TABLE `DetalleIngresos` (
 
 LOCK TABLES `DetalleIngresos` WRITE;
 /*!40000 ALTER TABLE `DetalleIngresos` DISABLE KEYS */;
-INSERT INTO `DetalleIngresos` VALUES (1,100,15.0000,'2016-11-23 07:47:06',1,1),(2,100,15.3500,'2016-11-26 05:46:37',1,1),(3,35,15.6700,'2016-11-26 05:47:15',1,2),(4,20,3.5700,'2016-12-06 08:30:57',2,2);
 /*!40000 ALTER TABLE `DetalleIngresos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,6 +326,7 @@ CREATE TABLE `Empleados` (
   `ISSS` varchar(15) DEFAULT NULL,
   `FechaNacimiento` date DEFAULT NULL,
   `Codigo` varchar(5) NOT NULL,
+  `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`EmpleadoID`),
   UNIQUE KEY `Codigo_UNIQUE` (`Codigo`),
   UNIQUE KEY `NUP_UNIQUE` (`NUP`),
@@ -314,7 +342,7 @@ CREATE TABLE `Empleados` (
 
 LOCK TABLES `Empleados` WRITE;
 /*!40000 ALTER TABLE `Empleados` DISABLE KEYS */;
-INSERT INTO `Empleados` VALUES (1,'José','Sánchez','65489','186186','2016-11-29 06:45:20','2016-11-29 06:45:20','181681','18681681','1995-07-29','00001');
+INSERT INTO `Empleados` VALUES (1,'José','Sánchez','65489','186186','2016-11-29 06:45:20','2016-11-29 06:45:20','181681','18681681','1995-07-29','00001',1);
 /*!40000 ALTER TABLE `Empleados` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -399,9 +427,10 @@ DROP TABLE IF EXISTS `Marcas`;
 CREATE TABLE `Marcas` (
   `MarcaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(100) NOT NULL,
+  `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`MarcaID`),
   UNIQUE KEY `Nombre_UNIQUE` (`Nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -410,7 +439,7 @@ CREATE TABLE `Marcas` (
 
 LOCK TABLES `Marcas` WRITE;
 /*!40000 ALTER TABLE `Marcas` DISABLE KEYS */;
-INSERT INTO `Marcas` VALUES (4,'3M'),(14,'ACCENT'),(9,'ALLEN'),(7,'BLACK & DECKER'),(6,'BOSCH'),(30,'Corona'),(10,'CRAFTSMAN'),(31,'Dell'),(2,'DeWALT'),(8,'DREMEL'),(32,'Fluke'),(28,'Honda'),(12,'IRWIN'),(11,'KARCHER'),(26,'KIA'),(5,'Makita'),(29,'Mazda'),(13,'Nike'),(16,'Nissan'),(3,'SKIL'),(1,'STANLEY'),(20,'Toyota');
+INSERT INTO `Marcas` VALUES (1,'STANLEY',1),(2,'DeWALT',1),(3,'SKIL',1),(4,'3M',1),(5,'Makita',1),(6,'BOSCH',1),(7,'BLACK & DECKER',1),(8,'DREMEL',1),(9,'ALLEN',1),(10,'CRAFTSMAN',1),(11,'KARCHER',1),(12,'IRWIN',1),(13,'Nike',1),(14,'ACCENT',1),(16,'Nissan',1),(20,'Toyota',1),(26,'KIA',1),(28,'Honda',1),(29,'Mazda',1),(30,'Corona',1),(31,'Dell',1),(32,'Fluke',1),(33,'Original',1),(34,'Duralita',1),(35,'Sin Marca',1);
 /*!40000 ALTER TABLE `Marcas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -424,9 +453,10 @@ DROP TABLE IF EXISTS `Medidas`;
 CREATE TABLE `Medidas` (
   `MedidaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `UnidadMedida` varchar(100) NOT NULL,
+  `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`MedidaID`),
   UNIQUE KEY `UnidadMedida_UNIQUE` (`UnidadMedida`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -435,7 +465,7 @@ CREATE TABLE `Medidas` (
 
 LOCK TABLES `Medidas` WRITE;
 /*!40000 ALTER TABLE `Medidas` DISABLE KEYS */;
-INSERT INTO `Medidas` VALUES (1,'cm'),(4,'Galones'),(7,'Km'),(3,'litro'),(6,'mm'),(2,'pul'),(5,'Unidades');
+INSERT INTO `Medidas` VALUES (1,'cm',1),(2,'pul',1),(3,'litro',1),(4,'Galones',1),(5,'Unidades',1),(6,'mm',1),(7,'Km',1),(8,'Metros',1),(9,'Libras',1),(10,'Paquetes',1);
 /*!40000 ALTER TABLE `Medidas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -451,8 +481,8 @@ CREATE TABLE `Productos` (
   `Codigo` varchar(20) NOT NULL,
   `Descripcion` varchar(30) NOT NULL,
   `ExcentoIVA` tinyint(1) NOT NULL DEFAULT '0',
-  `StockMin` int(10) unsigned NOT NULL DEFAULT '0',
-  `PrecioVenta` decimal(19,4) unsigned NOT NULL,
+  `StockMin` int(10) unsigned NOT NULL DEFAULT '1',
+  `Utilidad` decimal(19,4) unsigned NOT NULL DEFAULT '0.0000',
   `FechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `FechaModificacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `Activo` tinyint(1) NOT NULL DEFAULT '1',
@@ -474,7 +504,7 @@ CREATE TABLE `Productos` (
   CONSTRAINT `fk_Productos_Marcas1` FOREIGN KEY (`MarcaID`) REFERENCES `Marcas` (`MarcaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Productos_Medidas1` FOREIGN KEY (`MedidaID`) REFERENCES `Medidas` (`MedidaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Productos_ReferenciaLibroDet1` FOREIGN KEY (`CodigoLibroDet`) REFERENCES `ReferenciaLibroDet` (`CodigoLibroDet`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -483,7 +513,7 @@ CREATE TABLE `Productos` (
 
 LOCK TABLES `Productos` WRITE;
 /*!40000 ALTER TABLE `Productos` DISABLE KEYS */;
-INSERT INTO `Productos` VALUES (1,'0001','Tornillos',0,5,10.5000,'2016-11-22 08:59:00','2016-11-30 21:35:22',1,'01','01',1,1,'HM'),(2,'0002','Martillos',0,5,0.6500,'2016-11-23 08:30:22','2016-11-30 21:35:33',1,'01','02',5,1,'PT'),(3,'132456','Producto de Pruebas',0,0,0.5000,'2016-12-04 17:59:16','2016-12-04 17:59:16',1,'01','01',4,1,'HM'),(16,'789','Creado desde Postman',1,0,0.0100,'2016-12-04 21:53:12','2016-12-04 21:53:12',1,'01','01',29,3,'HM'),(18,'788','Creado desde Postman',1,0,0.0100,'2016-12-04 21:53:54','2016-12-04 21:53:54',1,'01','01',29,3,'HM'),(19,'74185293','Gris Mate',0,5,25.0000,'2016-12-04 22:11:48','2016-12-04 22:11:48',1,'03','01',30,4,'PT'),(20,'789654123','Blanco Huezo',0,5,25.0000,'2016-12-04 22:12:41','2016-12-04 22:12:41',1,'03','01',30,4,'PT'),(21,'123456987','Turqueza',0,5,25.0000,'2016-12-04 22:15:19','2016-12-04 22:15:19',1,'03','01',30,4,'PT'),(22,'159263487','Desarmador Plano Pequeño',0,0,2.3500,'2016-12-04 22:50:11','2016-12-04 22:50:11',1,'03','01',1,5,'HM'),(25,'486151','Desarmador Philips Grande',0,0,3.5100,'2016-12-04 22:57:41','2016-12-04 22:57:41',1,'03','01',1,5,'HM'),(26,'6546846','Alicates',0,0,2.7500,'2016-12-06 05:37:25','2016-12-06 05:37:25',1,'03','01',1,5,'HM'),(27,'05156','adfadfs',0,0,0.0000,'2016-12-06 06:42:57','2016-12-06 06:42:57',1,'03','01',16,4,'PT'),(33,'132456a','qweqweqwe',0,0,151.0000,'2016-12-06 06:46:41','2016-12-06 06:46:41',1,'03','01',29,2,'PT'),(34,'awghhh','aehj5ja4j',0,0,52.0000,'2016-12-06 06:47:23','2016-12-06 06:47:23',1,'03','01',29,2,'HM'),(38,'0003','651651',1,18,951.0000,'2016-12-06 06:53:06','2016-12-06 06:53:06',1,'01','03',31,7,'HM'),(39,'168168165','Sierra Eléctrica',0,3,80.0000,'2016-12-06 08:19:44','2016-12-06 08:19:44',1,'03','01',3,5,'EC'),(40,'abcd','Multímetro Digital',0,0,10.0000,'2016-12-06 08:27:11','2016-12-06 08:27:11',1,'03','01',32,5,'EK');
+INSERT INTO `Productos` VALUES (1,'00001','Tornillo',1,6,10.5100,'2016-11-22 08:59:00','2016-12-14 06:11:29',1,'02','02',7,2,'EC'),(2,'0002','Martillos',0,5,0.6500,'2016-11-23 08:30:22','2016-11-30 21:35:33',1,'01','02',5,1,'PT'),(3,'132456','Producto de Pruebas',0,0,0.5000,'2016-12-04 17:59:16','2016-12-04 17:59:16',1,'01','01',4,1,'HM'),(16,'789','Creado desde Postman',1,0,0.0100,'2016-12-04 21:53:12','2016-12-04 21:53:12',1,'01','01',29,3,'HM'),(18,'788','Creado desde Postman',1,0,0.0100,'2016-12-04 21:53:54','2016-12-04 21:53:54',1,'01','01',29,3,'HM'),(19,'74185293','Gris Mate',0,5,25.0000,'2016-12-04 22:11:48','2016-12-04 22:11:48',1,'03','01',30,4,'PT'),(20,'789654123','Blanco Huezo',0,5,25.0000,'2016-12-04 22:12:41','2016-12-04 22:12:41',1,'03','01',30,4,'PT'),(21,'123456987','Turqueza',0,5,25.0000,'2016-12-04 22:15:19','2016-12-04 22:15:19',1,'03','01',30,4,'PT'),(22,'159263487','Desarmador Plano Pequeño',0,0,2.3500,'2016-12-04 22:50:11','2016-12-04 22:50:11',1,'03','01',1,5,'HM'),(25,'486151','Desarmador Philips Grande',0,0,3.5100,'2016-12-04 22:57:41','2016-12-04 22:57:41',1,'03','01',1,5,'HM'),(26,'6546846','Alicates',0,0,2.7500,'2016-12-06 05:37:25','2016-12-06 05:37:25',1,'03','01',1,5,'HM'),(27,'05156','adfadfs',0,0,0.0000,'2016-12-06 06:42:57','2016-12-06 06:42:57',1,'03','01',16,4,'PT'),(33,'132456a','qweqweqwe',0,0,151.0000,'2016-12-06 06:46:41','2016-12-06 06:46:41',1,'03','01',29,2,'PT'),(34,'awghhh','aehj5ja4j',0,0,52.0000,'2016-12-06 06:47:23','2016-12-06 06:47:23',1,'03','01',29,2,'HM'),(38,'0003','651651',0,18,951.0000,'2016-12-06 06:53:06','2016-12-14 06:00:37',1,'01','03',31,7,'HM'),(39,'168168165','Sierra Eléctrica',0,3,80.0000,'2016-12-06 08:19:44','2016-12-06 08:19:44',1,'03','01',3,5,'EC'),(40,'abcd','Multímetro Digital',0,0,10.0000,'2016-12-06 08:27:11','2016-12-06 08:27:11',1,'03','01',32,5,'EK'),(41,'65168618','Sillón Del Monte Rojo',0,0,300.0000,'2016-12-06 08:38:49','2016-12-06 08:38:49',1,'03','01',33,5,'MD'),(42,'0133315','Duralita Roja',0,0,6.0000,'2016-12-06 14:09:05','2016-12-06 14:09:05',1,'03','01',34,8,'FE'),(43,'51866501','Cautín Tipo Lápiz',0,0,10.0000,'2016-12-06 15:32:06','2016-12-06 15:32:06',1,'03','01',1,5,'EK'),(44,'1896141','Clavos Para Madera',0,1,0.0000,'2016-12-07 23:25:23','2016-12-07 23:25:23',1,'03','01',35,9,'FE'),(45,'09283409','Cable Cat5',0,1,0.0000,'2016-12-08 02:19:58','2016-12-08 02:19:58',1,'03','01',35,8,'EC'),(46,'09250929','Rastrillo 22 Cerdas',0,1,0.0000,'2016-12-08 02:28:29','2016-12-08 02:28:29',1,'03','01',35,5,'JD'),(47,'65196/843518','Multímetro Análogo',0,1,0.0000,'2016-12-13 18:06:12','2016-12-13 18:06:12',1,'03','01',35,5,'EK'),(48,'0001','Foco Incandescente 90W',1,1,0.0000,'2016-12-14 00:37:37','2016-12-14 05:58:39',1,'03','01',35,5,'EC');
 /*!40000 ALTER TABLE `Productos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,4 +663,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-06  2:34:32
+-- Dump completed on 2016-12-14  0:16:12
