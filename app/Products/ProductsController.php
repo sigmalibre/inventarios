@@ -70,6 +70,47 @@ class ProductsController
         ]);
     }
 
+    public function indexProduct($request, $response, $arguments, $productSaved = null, $failedInputs = null)
+    {
+        $product = new Product($arguments['id'], $this->container);
+
+        if ($product->isset() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        $categories = new \Sigmalibre\Categories\Categories($this->container);
+
+        $brands = new \Sigmalibre\Brands\Brands($this->container);
+
+        $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
+
+        $detCategories = new \Sigmalibre\DETCategories\DETCategories($this->container);
+
+        $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
+
+        return $this->container->view->render($response, 'products/modifyproduct.html', [
+            'productID' => $arguments['id'],
+            'categories' => $categories->readAllCategories(),
+            'brands' => $brands->readAllBrands(),
+            'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
+            'detcategories' => $detCategories->readAllDETCategories(),
+            'detreferences' => $detReferences->readAllDETReferences(),
+            'productSaved' => $productSaved,
+            'failedInputs' => $failedInputs,
+            'input' => [
+                'categoriaProducto' => $product->CategoriaProductoID,
+                'codigoProducto' => $product->CodigoProducto,
+                'descripcionProducto' => $product->Descripcion,
+                'stockMinProducto' => $product->StockMin,
+                'marcaProducto' => $product->NombreMarca,
+                'medidaProducto' => $product->UnidadMedida,
+                'categoriaDetProducto' => $product->CodigoBienDet,
+                'referenciaLibroDetProducto' => $product->CodigoLibroDet,
+                'excentoIvaProducto' => $product->ExcentoIVA,
+            ],
+        ]);
+    }
+
     public function createNew($request, $response)
     {
         $brands = new \Sigmalibre\Brands\Brands($this->container);

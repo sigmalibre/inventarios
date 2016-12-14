@@ -5,6 +5,8 @@ $app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
 $app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')->setName('products');
 $app->post('/productos', '\Sigmalibre\Products\ProductsController:createNew');
 
+$app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct');
+
 $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
