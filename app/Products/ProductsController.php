@@ -121,4 +121,21 @@ class ProductsController
 
         return $this->indexNewProduct($request, $response, null, $isProductSaved, $this->products->getInvalidInputs());
     }
+
+    public function update($request, $response, $arguments)
+    {
+        $brands = new \Sigmalibre\Brands\Brands($this->container);
+
+        $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
+
+        $product = new Product($arguments['id'], $this->container);
+
+        if ($product->isset() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        $isProductUpdated = $product->update($request->getParsedBody(), $brands, $unitsOfMeasurement);
+
+        return $this->indexProduct($request, $response, $arguments, $isProductUpdated, $product->getInvalidInputs());
+    }
 }

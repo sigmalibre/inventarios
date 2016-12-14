@@ -6,6 +6,7 @@ $app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')
 $app->post('/productos', '\Sigmalibre\Products\ProductsController:createNew');
 
 $app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct');
+$app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update');
 
 $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 
