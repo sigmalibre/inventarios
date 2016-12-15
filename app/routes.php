@@ -39,5 +39,8 @@ $app->get('/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexComp
 // MARCAS
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
 
+$app->get('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:indexBrand');
+$app->post('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:update');
+
 // UNIDADES DE MEDIDA
 $app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexMeasurements')->setName('measurements');
