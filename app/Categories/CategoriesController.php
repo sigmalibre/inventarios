@@ -120,7 +120,9 @@ class CategoriesController
 
         $isCategoryUpdated = $category->update($userInput);
 
-        $arguments['id'] = $userInput['codigoCategoria'];
+        if ($isCategoryUpdated === true) {
+            $arguments['id'] = $userInput['codigoCategoria'];
+        }
 
         return $this->indexCategory($request, $response, $arguments, $isCategoryUpdated, $category->getInvalidInputs());
     }
