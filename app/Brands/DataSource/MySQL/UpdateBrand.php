@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Brands\DataSource\MySQL;
 
+/**
+ * Actualiza marcas de producto en la BD
+ */
 class UpdateBrand
 {
     private $connection;
