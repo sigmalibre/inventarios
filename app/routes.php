@@ -44,3 +44,6 @@ $app->post('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:update');
 
 // UNIDADES DE MEDIDA
 $app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexMeasurements')->setName('measurements');
+
+$app->get('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexUnit');
+$app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:update');

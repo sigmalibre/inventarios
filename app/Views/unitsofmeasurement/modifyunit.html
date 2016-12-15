@@ -1,0 +1,31 @@
+{% extends 'templates/base.html' %}
+
+{% block title  %}Modificar Medida{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            {% if unitSaved is same as(true) %}
+            <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> La unidad de medida ha sido modificada exitosamente!</div>
+            {% endif %}
+            {% if unitSaved is same as(false) %}
+            <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar la unidad de medida.</div>
+            {% endif %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">Modifica esta unidad de medida</div>
+                <div class="panel-body">
+                    <form action="{{ path_for('measurements') }}/id/{{ idMedida }}" method="post">
+                        <div class="form-group has-feedback has-clear">
+                            <label for="unidadMedida">Nombre de la Magnitud</label>
+                            <input type="text" name="unidadMedida" value="{{ input.unidadMedida }}" class="form-control" id="unidadMedida" maxlength="100">
+                            <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.unidadMedida %}hidden{% endif %}"></span>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Medida</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

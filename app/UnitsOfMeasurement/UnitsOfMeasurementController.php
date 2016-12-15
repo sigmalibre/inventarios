@@ -33,4 +33,57 @@ class UnitsOfMeasurementController
             'input' => $measurementList['userInput'],
         ]);
     }
+
+    /**
+     * Renderiza la vista del formulario para modificar una medida.
+     *
+     * @param object $request      HTTP Request
+     * @param object $response     HTTP Response
+     * @param array  $arguments    Contiene la ID de la medida que fue modificada
+     * @param bool   $isSaved      Su función es dar feedback al usuario sobre la modificación de la medida
+     * @param array  $failedInputs Si la modificación falla, contiene los inputs que no pasaron la validación
+     *
+     * @return object La vista renderizada del formulario de modificar una unidad de medida
+     */
+    public function indexUnit($request, $response, $arguments, $isSaved = null, $failedInputs = null)
+    {
+        $unit = new Unit($arguments['id'], $this->container);
+
+        // Si la medida especificada en la URL no existe, devolver un 404.
+        if ($unit->isset() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        return $this->container->view->render($response, 'unitsofmeasurement/modifyunit.html', [
+            'idMedida' => $arguments['id'],
+            'unitSaved' => $isSaved,
+            'failedInputs' => $failedInputs,
+            'input' => [
+                'unidadMedida' => $unit->UnidadMedida,
+            ],
+        ]);
+    }
+
+    /**
+     * Actualiza una unidadd de medida según el input que se recibe del usuario.
+     *
+     * @param object $request   HTTP Request
+     * @param object $response  HTTP Respose
+     * @param array  $arguments Contiene la ID de la unidad que será actualizada
+     *
+     * @return object HTTP Response con la vista del formulario modificar unidad de medida
+     */
+    public function update($request, $response, $arguments)
+    {
+        $unit = new Unit($arguments['id'], $this->container);
+
+        // Si la medida especificada en la URL no existe, devolver un 404.
+        if ($unit->isset() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        $isUnitUpdated = $unit->update($request->getParsedBody());
+
+        return $this->indexUnit($request, $response, $arguments, $isUnitUpdated, $unit->getInvalidInputs());
+    }
 }
