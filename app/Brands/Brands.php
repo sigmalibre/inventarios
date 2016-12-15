@@ -8,10 +8,12 @@ namespace Sigmalibre\Brands;
 class Brands
 {
     private $container;
+    private $validator;
 
     public function __construct($container)
     {
         $this->container = $container;
+        $this->validator = new BrandValidator($container);
     }
 
     /**
@@ -61,8 +63,8 @@ class Brands
     {
         $validator = $this->container->validator;
 
-        // La marca del producto debe ser un string de 100 caracteres o menos
-        if ($validator::stringType()->length(1, 100)->validate($userInput['nombreMarca']) === false) {
+        // Validar el input del usuario.
+        if ($this->validator->validateBrand($userInput) === false) {
             return false;
         }
 
