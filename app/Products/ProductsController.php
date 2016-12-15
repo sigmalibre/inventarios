@@ -46,6 +46,15 @@ class ProductsController
         ]);
     }
 
+    /**
+     * Renderiza la vista del formulario para crear un nuevo producto.
+     * @param  object $request      HTTP Request
+     * @param  object $response     HTTP Response
+     * @param  array $arguments    Argumentos en la URL obtenidos desde Slim
+     * @param  bool $productSaved Sirve para dar feedback al usario sobre la creación de un producto nuevo.
+     * @param  array $failedInputs Lista con los inputs que no pasaron la validación para crear un nuevo producto, y así dar mejor feedback al usuario.
+     * @return object HTTP Response con la vista renderizada
+     */
     public function indexNewProduct($request, $response, $arguments, $productSaved = null, $failedInputs = null)
     {
         $categories = new \Sigmalibre\Categories\Categories($this->container);
@@ -70,6 +79,12 @@ class ProductsController
         ]);
     }
 
+    /**
+     * Realiza la misma función que ProductsController::indexNewProduct,
+     * pero en lugar de mostrar el formulario vacío, muestra la información
+     * de un producto especificado por la ID en la URL.
+     * @see ProductsController:indexNewProduct() Para ver la documentacion sobre este método
+     */
     public function indexProduct($request, $response, $arguments, $productSaved = null, $failedInputs = null)
     {
         $product = new Product($arguments['id'], $this->container);
@@ -111,6 +126,12 @@ class ProductsController
         ]);
     }
 
+    /**
+     * Recibe el input del usuario con la información necesaria para crear un nuevo producto.
+     * @param  object $request  HTTP Request
+     * @param  object $response HTTP Response
+     * @return object HTTP Response con la vista renderizada del formulario de nuevo producto.
+     */
     public function createNew($request, $response)
     {
         $brands = new \Sigmalibre\Brands\Brands($this->container);
@@ -122,6 +143,13 @@ class ProductsController
         return $this->indexNewProduct($request, $response, null, $isProductSaved, $this->products->getInvalidInputs());
     }
 
+    /**
+     * Actualiza un producto según el input con la información necesaria para realizar dicha operación.
+     * @param  object $request   HTTP Request
+     * @param  object $response  HTTP Response
+     * @param  array $arguments Contiene la ID especificada en la URL.
+     * @return object HTTP Response con la vista renderizada del formulario de modificar un producto.
+     */
     public function update($request, $response, $arguments)
     {
         $brands = new \Sigmalibre\Brands\Brands($this->container);
@@ -130,6 +158,7 @@ class ProductsController
 
         $product = new Product($arguments['id'], $this->container);
 
+        // Si el producto especificado en la URL no exsiste, devolver un 404.
         if ($product->isset() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }

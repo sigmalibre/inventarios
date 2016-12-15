@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Invoices;
 
+/**
+ * Controlador para las operaciones sobre las facturas.
+ */
 class InvoicesController
 {
     private $container;
@@ -11,6 +14,14 @@ class InvoicesController
         $this->container = $container;
     }
 
+    /**
+     * Renderiza la vista con la lista de las facturas de consumidor final.
+     *
+     * @param object $request  HTTP Request
+     * @param object $response HTTP Response
+     *
+     * @return object HTTP Response con la vista de las facturas
+     */
     public function indexInvoices($request, $response)
     {
         $invoices = new Invoices($this->container);
@@ -23,6 +34,14 @@ class InvoicesController
         ]);
     }
 
+    /**
+     * Renderiza la vista con la lista de las facturas de crédito fical.
+     *
+     * @param object $request  HTTP Request
+     * @param object $response HTTP Response
+     *
+     * @return object HTTP Response con la vista de las facturas
+     */
     public function indexCreditoFiscal($request, $response)
     {
         $invoices = new Invoices($this->container);

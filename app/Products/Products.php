@@ -17,7 +17,7 @@ class Products
     }
 
     /**
-     * Lee la lista de todos los productos, sin filtrar resultados, con capacidad de paginación.
+     * Lee la lista de todos los productos, con filtros según terminos de búsqueda, con capacidad de paginación.
      *
      * @return array Lista de los productos
      */

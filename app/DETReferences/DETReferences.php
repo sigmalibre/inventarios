@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\DETReferences;
 
+/**
+ * Modelo para las operaciones sobre las referencias del libro DET.
+ */
 class DETReferences
 {
     private $container;
@@ -11,6 +14,11 @@ class DETReferences
         $this->container = $container;
     }
 
+    /**
+     * Obtiene una lista con todas las referencias del libro DET desde la fuente de datos.
+     *
+     * @return array
+     */
     public function readAllDETReferences()
     {
         $detCategoryList = new DataSource\MySQL\SearchAllDETReferences($this->container);

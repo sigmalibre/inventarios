@@ -31,11 +31,17 @@ class Categories
         );
 
         $categoryList = $listReader->read();
+        // Se regresa el input al usuario para ponerlo de nuevo en el formulario.
         $categoryList['userInput'] = $userInput;
 
         return $categoryList;
     }
 
+    /**
+     * Obtiene todas las categorías de productos sin filtros ni limitaciones.
+     *
+     * @return array
+     */
     public function readAllCategories()
     {
         $categoryList = new DataSource\MySQL\SearchAllCategories($this->container);

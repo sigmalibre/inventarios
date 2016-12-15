@@ -14,6 +14,12 @@ class WarehousesController
         $this->container = $container;
     }
 
+    /**
+     * Renderiza la vista que muestra la lista de las bodegas existentes
+     * @param  object $request  HTTP Request
+     * @param  object $response HTTP Response
+     * @return object HTTP Response con la vista renderizada
+     */
     public function indexWarehouses($request, $response)
     {
         $parameters = $request->getQueryParams();

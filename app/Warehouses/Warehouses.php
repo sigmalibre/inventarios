@@ -23,6 +23,11 @@ class Warehouses
         );
     }
 
+    /**
+     * Obtiene la lista con las bodegas existentes según los términos de búsqueda
+     * que aplique el usuario y con paginación.
+     * @return array
+     */
     public function readWarehouseList()
     {
         $warehouseList = $this->listReader->read();

@@ -2,6 +2,10 @@
 
 namespace Sigmalibre\Invoices\DataSource\MySQL;
 
+/**
+ * Obtiene la lista con todas las facturas de tipo consumidor final desde la BD
+ * filtradas por términos de búsqueda y con limitación según la paginación.
+ */
 class FilterFacturas extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
     protected $baseQuery = 'SELECT FacturaID, FechaFacturacion, CodigoTiraje, Correlativo, ClientesPersonas.Nombres AS NombreCliente, ClientesPersonas.Apellidos AS ApellidoCliente, Empleados.Codigo AS CodigoEmpleado, COALESCE(SUM(PrecioUnitario * Cantidad), 0) AS VentaTotal FROM Facturas INNER JOIN TiposFactura USING (TipoFacturaID) INNER JOIN TirajeFacturas USING (TirajeFacturaID) LEFT JOIN DetalleFactura USING (FacturaID) LEFT JOIN ClientesPersonas USING (ClientesPersonasID) LEFT JOIN Empleados USING (EmpleadoID) WHERE TipoFacturaID = 1';

@@ -2,12 +2,25 @@
 
 namespace Sigmalibre\Products;
 
+/**
+ * Modelo para operaciones sobre los productos individuales.
+ */
 class Product
 {
     private $container;
     private $validator;
     private $attributes;
 
+    /**
+     * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
+     *
+     * Este método se separó del constructor ya que se necesita inicializar el producto denuevo
+     * cuando se realiza una actualización y hay que refrescar los datos denuevo desde la fuente
+     * de datos.
+     *
+     * @param string $id        La ID del producto que se va a iniciar
+     * @param object $container El contenedor de dependencias
+     */
     private function init($id, $container)
     {
         $this->container = $container;
@@ -27,11 +40,24 @@ class Product
         $this->init($id, $container);
     }
 
+    /**
+     * Comprueba si el objeto existe en la fuente de datos.
+     *
+     * @return bool True si se pudo obtener la información; False de lo contrario
+     */
     public function isset()
     {
         return isset($this->attributes[0]);
     }
 
+    /**
+     * Se utiliza el método mágico __get para obtener de forma flexible los atributos
+     * desde la fuente de datos sin ponerlos escritos directamente dentro de éste código.
+     *
+     * @param array $property La propiedad que se desea obtener
+     *
+     * @return string El atributo si existe
+     */
     public function __get($property)
     {
         if (isset($this->attributes[0][$property])) {
@@ -39,6 +65,15 @@ class Product
         }
     }
 
+    /**
+     * Actualiza el objeto actual según los cambios realizados por el usuario.
+     *
+     * @param array  $userInput    Datos nuevos para actualizar
+     * @param object $brands       Lista con todas las marcas, para crear una nueva si no existe
+     * @param object $measurements Unidades de medida, para crear una nueva si no existe
+     *
+     * @return bool True si se logró actualizar; False de lo contrario
+     */
     public function update($userInput, $brands, $measurements)
     {
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
@@ -105,6 +140,12 @@ class Product
         return $isProductUpdated;
     }
 
+    /**
+     * Obtiene la lista con los inputs inválidos al actualizar el producto.
+     * Se utiliza para dar mejor feedback al usuario.
+     *
+     * @return array Lista con todos los inputs que no pasaron la validación
+     */
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();

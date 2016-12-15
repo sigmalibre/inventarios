@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Invoices;
 
+/**
+ * Modelo para operaciones sobre las facturas.
+ */
 class Invoices
 {
     private $container;
@@ -11,6 +14,14 @@ class Invoices
         $this->container = $container;
     }
 
+    /**
+     * Obtiene una lista con las facturas de consumidor final
+     * filtradas según los campos de búsqueda y limitada por la paginación.
+     *
+     * @param array $userInput Input del usuario con los términos de búsqueda
+     *
+     * @return array
+     */
     public function readInvoiceList($userInput)
     {
         $listReader = new \Sigmalibre\ItemList\ItemListReader(
@@ -26,6 +37,14 @@ class Invoices
         return $invoiceList;
     }
 
+    /**
+     * Obtiene una lista con las facturas de tipo crédito fiscal
+     * filtradas según los campos de búsqueda y limitada por la paginación.
+     *
+     * @param array $userInput Input del usuario con los términos de búsqueda
+     *
+     * @return array
+     */
     public function readCreditoFiscalList($userInput)
     {
         $listReader = new \Sigmalibre\ItemList\ItemListReader(

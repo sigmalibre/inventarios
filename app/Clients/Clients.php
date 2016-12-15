@@ -14,6 +14,14 @@ class Clients
         $this->container = $container;
     }
 
+    /**
+     * Obtiene la lista con todas las personas clientes de la empresa
+     * según los términos de búsqueda y la pagínación.
+     *
+     * @param array $userInput Input del usuario con los filtros para la búsqueda
+     *
+     * @return array Lista con los clientes encontrados
+     */
     public function readPeopleList($userInput)
     {
         $listReader = new \Sigmalibre\ItemList\ItemListReader(
@@ -29,6 +37,14 @@ class Clients
         return $clientList;
     }
 
+    /**
+     * Obtiene la lista con todas las empresas contribuyentes
+     * según los términos de búsqueda y la pagínación.
+     *
+     * @param array $userInput Input del usuario con los filtros para la búsqueda
+     *
+     * @return array Lista con los clientes encontrados
+     */
     public function readCompanyList($userInput)
     {
         $listReader = new \Sigmalibre\ItemList\ItemListReader(

@@ -19,7 +19,7 @@ class HomeController
 
     /**
      * Renderiza la vista del homepage.
-     * @return Response Retorna una respuesta conteniendo la vista de la homepage.
+     * @return object Retorna una respuesta conteniendo la vista de la homepage.
      */
     public function home($request, $response)
     {

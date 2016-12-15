@@ -82,21 +82,26 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
      */
     public function read($options)
     {
-        $input = isset($options['input'])? $options['input'] : [];
+        // Si no se pasa el input del usuario en $options, utilizar un array vacío por defecto.
+        $input = isset($options['input']) ? $options['input'] : [];
 
         $statement = $this->baseQuery;
 
+        // Aplicar los filtros según los términos de búsqueda que el usuario nos pase como input.
         $this->setFilters($input);
 
+        // Para cada filtro, concatenarlo en el query utilizando un AND como separador.
         if (empty($this->filters) === false) {
             $statement .= ' AND ';
             $statement .= implode(' AND ', $this->filters);
         }
 
+        // Concatenar algo más al query al final de la instrucción WHERE.
         if (empty($this->endQuery) === false) {
-            $statement .= ' ' . $this->endQuery;
+            $statement .= ' '.$this->endQuery;
         }
 
+        // Concatenar la instrucción LIMIT al final del query.
         if ($this->setLimit === true) {
             $statement .= ' LIMIT :offset, :items';
 

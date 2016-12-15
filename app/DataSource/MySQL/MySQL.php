@@ -1,4 +1,5 @@
 <?php
+
 namespace Sigmalibre\DataSource\MySQL;
 
 /**
@@ -10,13 +11,14 @@ class MySQL
 
     /**
      * Crea la conexión con MySQL utilizando PDO.
-     * @param \Slim\Container $container Contenedor de dependencias. Las configuración de la base de datos está dentro del contenedor.
+     *
+     * @param \Slim\Container $container Contenedor de dependencias. Las configuración de la base de datos está dentro del contenedor
      */
     public function __construct($container)
     {
         $settings = $container['settings']['db'];
 
-        $dsn = $settings['driver'] . ':dbname=' . $settings['database'] . ';host=' . $settings['host'] . ';charset=' . $settings['charset'];
+        $dsn = $settings['driver'].':dbname='.$settings['database'].';host='.$settings['host'].';charset='.$settings['charset'];
 
         $this->connection = new \PDO($dsn, $settings['username'], $settings['password']);
         $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
@@ -28,9 +30,10 @@ class MySQL
      * Realiza una consulta a la base de datos y retorna las filas obtenidas.
      * Este método se utiliza para operaciones de tipo SELECT.
      *
-     * @param  string $preparedStatement La consulta en SQL a ejecutar.
-     * @param  array $inputParameters Lista con los parametros a insertar en la consulta SQL.
-     * @return array Lista con los registros obtenidos de la base de datos.
+     * @param string $preparedStatement La consulta en SQL a ejecutar
+     * @param array  $inputParameters   Lista con los parametros a insertar en la consulta SQL
+     *
+     * @return array Lista con los registros obtenidos de la base de datos
      */
     public function query($preparedStatement, $inputParameters)
     {
@@ -44,13 +47,15 @@ class MySQL
      * Ejecuta una consulta a la base de datos sin retornar datos obtenidos.
      * Este método se utiliza para operaciones de tipo INSERT, UPDATE, DELETE.
      *
-     * @param  string $preparedStatement La consulta en SQL a ejecutar.
-     * @param  array $inputParameters Lista con los parametros a insertar en la consulta SQL.
-     * @return boolean True si la consuta se ejecutó con exito, false de lo contrario.
+     * @param string $preparedStatement La consulta en SQL a ejecutar
+     * @param array  $inputParameters   Lista con los parametros a insertar en la consulta SQL
+     *
+     * @return bool True si la consuta se ejecutó con exito, false de lo contrario
      */
     public function execute($preparedStatement, $inputParameters)
     {
         $query = $this->connection->prepare($preparedStatement);
+
         return $query->execute($inputParameters);
     }
 

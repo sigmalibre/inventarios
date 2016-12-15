@@ -1,4 +1,7 @@
 <?php
+/**
+ * Contiene la lista con las configuraciones que estarán disponibles dentro del contenedor de Slim.
+ */
 
 return [
     'settings' => [

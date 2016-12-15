@@ -14,6 +14,13 @@ class Brands
         $this->container = $container;
     }
 
+    /**
+     * Obtiene una lista con todas las marcas según los términos de búsqueda y la paginación.
+     *
+     * @param array $userInput Input del usuario con los filtros a aplicar
+     *
+     * @return array La lista con las marcas
+     */
     public function readBrandList($userInput)
     {
         $listReader = new \Sigmalibre\ItemList\ItemListReader(
@@ -24,11 +31,18 @@ class Brands
         );
 
         $brandList = $listReader->read();
+
+        // Se agrega el input para enviarlo de vuelta al usuario y ponerlo de nuevo en el formulario.
         $brandList['userInput'] = $userInput;
 
         return $brandList;
     }
 
+    /**
+     * Obtiene todas las marcas existentes en la fuente de datos.
+     *
+     * @return array La lista con todas las marcas
+     */
     public function readAllBrands()
     {
         $brandList = new DataSource\MySQL\SearchAllBrands($this->container);
@@ -36,6 +50,13 @@ class Brands
         return $brandList->read([]);
     }
 
+    /**
+     * Guarda una nueva marca.
+     *
+     * @param array $userInput Los datos que el usuario proporciona para crear la nueva marca
+     *
+     * @return bool True si se creó la marca; False de lo contrario
+     */
     public function save($userInput)
     {
         $validator = $this->container->validator;
