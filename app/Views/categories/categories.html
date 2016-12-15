@@ -45,17 +45,21 @@
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
-                            </tr>
-                            {% for category in categories %}
-                            <tr>
-                                <td>{{ category.CategoriaProductoID }}</td>
-                                <td>{{ category.Nombre }}</td>
-                            </tr>
-                            {% else %}
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories %}
+                                <tr class="anchorize" data-href="{{ path_for('categories') }}/id/{{ category.CategoriaProductoID }}">
+                                    <td>{{ category.CategoriaProductoID }}</td>
+                                    <td>{{ category.Nombre }}</td>
+                                </tr>
+                                {% else %}
+                            </tbody>
                             <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>

@@ -16,6 +16,9 @@ $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:inde
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
 $app->post('/categorias', '\Sigmalibre\Categories\CategoriesController:createNew');
 
+$app->get('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:indexCategory');
+$app->post('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:update');
+
 $app->get('/categorias/createform', '\Sigmalibre\Categories\CategoriesController:indexNewCategory')->setName('categories/createform');
 
 // PROVEEDORES
