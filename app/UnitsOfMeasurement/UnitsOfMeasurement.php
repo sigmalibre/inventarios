@@ -8,10 +8,12 @@ namespace Sigmalibre\UnitsOfMeasurement;
 class UnitsOfMeasurement
 {
     private $container;
+    private $validator;
 
     public function __construct($container)
     {
         $this->container = $container;
+        $this->validator = new UnitValidator($container);
     }
 
     /**
@@ -58,10 +60,8 @@ class UnitsOfMeasurement
      */
     public function save($userInput)
     {
-        $validator = $this->container->validator;
-
-        // La unidad de medida del producto debe ser un string de 100 caracteres o menos
-        if ($validator::stringType()->length(1, 100)->validate($userInput['unidadMedida']) === false) {
+        // Validar el input del usuario
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
