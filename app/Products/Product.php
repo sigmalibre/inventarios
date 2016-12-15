@@ -10,6 +10,7 @@ class Product
     private $container;
     private $validator;
     private $attributes;
+    private $dataSource;
 
     /**
      * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
@@ -18,17 +19,11 @@ class Product
      * cuando se realiza una actualización y hay que refrescar los datos denuevo desde la fuente
      * de datos.
      *
-     * @param string $id        La ID del producto que se va a iniciar
-     * @param object $container El contenedor de dependencias
+     * @param string $id La ID del producto que se va a iniciar
      */
-    private function init($id, $container)
+    private function init($id)
     {
-        $this->container = $container;
-        $this->validator = new ProductValidator($container);
-
-        $getProductFromID = new DataSource\MySQL\GetProductFromID($container);
-
-        $this->attributes = $getProductFromID->read([
+        $this->attributes = $this->dataSource->read([
             'input' => [
                 'idProducto' => $id,
             ],
@@ -37,7 +32,11 @@ class Product
 
     public function __construct($id, $container)
     {
-        $this->init($id, $container);
+        $this->container = $container;
+        $this->validator = new ProductValidator($container);
+        $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
+
+        $this->init($id);
     }
 
     /**
@@ -134,7 +133,8 @@ class Product
         $isProductUpdated = $productsWriter->write($userInput);
 
         if ($isProductUpdated === true) {
-            $this->init($this->ProductoID, $this->container);
+            $this->attributes = null;
+            $this->init($this->ProductoID);
         }
 
         return $isProductUpdated;
