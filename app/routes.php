@@ -47,3 +47,6 @@ $app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementControll
 
 $app->get('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexUnit');
 $app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:update');
+
+// TIRAJE FACTURAS
+$app->get('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:indexListaTirajes')->setName('tirajes');

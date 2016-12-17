@@ -10,7 +10,7 @@
     </div>
     <div id="main-navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-            {% set facturacion_urls = [path_for('invoices'), path_for('creditofiscal')] %}
+            {% set facturacion_urls = [path_for('invoices'), path_for('creditofiscal'), path_for('tirajes')] %}
             <li class="dropdown {% if uri_path in facturacion_urls %}active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-list-alt"></span>
@@ -28,6 +28,12 @@
                         <a href="{{ path_for('creditofiscal') }}">
                             <span class="glyphicon glyphicon-home"></span>
                             Ver Crédito Fiscal
+                        </a>
+                    </li>
+                    <li class="{% if uri_path == path_for('tirajes') %}active{% endif %}">
+                        <a href="{{ path_for('tirajes') }}">
+                            <span class="glyphicon glyphicon-th-list"></span>
+                            Ver Tirajes de Factura
                         </a>
                     </li>
                 </ul>
