@@ -50,3 +50,6 @@ $app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasuremen
 
 // TIRAJE FACTURAS
 $app->get('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:indexListaTirajes')->setName('tirajes');
+$app->post('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:createNew');
+
+$app->get('/tirajes/createform', '\Sigmalibre\TirajeFactura\TirajesController:indexNew')->setName('tirajes/createform');
