@@ -52,4 +52,7 @@ $app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasuremen
 $app->get('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:indexListaTirajes')->setName('tirajes');
 $app->post('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:createNew');
 
+$app->get('/tirajes/id/{id}', '\Sigmalibre\TirajeFactura\TirajesController:indexTiraje');
+$app->post('/tirajes/id/{id}', '\Sigmalibre\TirajeFactura\TirajesController:update');
+
 $app->get('/tirajes/createform', '\Sigmalibre\TirajeFactura\TirajesController:indexNew')->setName('tirajes/createform');

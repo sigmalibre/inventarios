@@ -1,0 +1,39 @@
+{% extends 'templates/base.html' %}
+
+{% block title  %}Modificar Tiraje{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            {% if saved is same as(true) %}
+            <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El tiraje ha sido modificado exitosamente!</div>
+            {% endif %}
+            {% if saved is same as(false) %}
+            <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el tiraje.</div>
+            {% endif %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">Modifica este tiraje</div>
+                <div class="panel-body">
+                    <form action="{{ path_for('tirajes') }}/id/{{ idTiraje }}" method="post">
+                        <div class="form-group has-feedback has-clear">
+                            <label for="codigoTiraje">Código</label>
+                            <input type="text" name="codigoTiraje" value="{{ input.codigoTiraje }}" class="form-control" id="codigoTiraje" maxlength="50">
+                            <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoTiraje %}hidden{% endif %}"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="tirajeDesde">Correlativo Inicial</label>
+                            <input type="number" name="tirajeDesde" value="{{ input.tirajeDesde }}" class="form-control" id="tirajeDesde" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="tirajeHasta">Correlativo Final</label>
+                            <input type="number" name="tirajeHasta" value="{{ input.tirajeHasta }}" class="form-control" id="tirajeHasta" step="1">
+                        </div>
+                        <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Tiraje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
