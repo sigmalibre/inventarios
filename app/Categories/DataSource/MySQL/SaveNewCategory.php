@@ -25,6 +25,12 @@ class SaveNewCategory
      */
     public function write($newDataList)
     {
-        return $this->connection->execute('INSERT INTO CategoriaProductos (CategoriaProductoID, Nombre) VALUES (:codigoCategoria, :nombreCategoria)', $newDataList);
+        $isSaved = $this->connection->execute('INSERT INTO CategoriaProductos (CategoriaProductoID, Nombre) VALUES (:codigoCategoria, :nombreCategoria)', $newDataList);
+
+        if ($isSaved === false) {
+            return false;
+        }
+
+        return $newDataList['codigoCategoria'];
     }
 }
