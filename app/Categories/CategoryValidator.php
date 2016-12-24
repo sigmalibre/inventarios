@@ -26,7 +26,7 @@ class CategoryValidator extends \Sigmalibre\Validation\Validator
         }
 
         // El nombre de la categoría debe ser un string de 1 a 30 caracteres.
-        if ($validator::stringType()->length(1, 30)->validate($userInput['nombreCategoria']) === false) {
+        if ($validator::stringType()->length(1, 50)->validate($userInput['nombreCategoria']) === false) {
             $this->invalidUserInputs['nombreCategoria'] = true;
 
             return false;
