@@ -26,7 +26,7 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
         }
 
         // La descripción del producto debe ser un string de 1 a 30 caracteres.
-        if ($validator::stringType()->length(1, 30)->validate($userInput['descripcionProducto']) === false) {
+        if ($validator::stringType()->length(1, 50)->validate($userInput['descripcionProducto']) === false) {
             $this->invalidUserInputs['descripcionProducto'] = true;
 
             return false;
