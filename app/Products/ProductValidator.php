@@ -18,8 +18,8 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
     {
         $validator = $this->container->validator;
 
-        // El código del producto debe ser un string sin espacios de 1 a 20 caracteres de largo.
-        if ($validator::stringType()->noWhitespace()->length(1, 20)->validate($userInput['codigoProducto']) === false) {
+        // El código del producto debe ser un string de 1 a 20 caracteres de largo.
+        if ($validator::stringType()->length(1, 20)->validate($userInput['codigoProducto']) === false) {
             $this->invalidUserInputs['codigoProducto'] = true;
 
             return false;
