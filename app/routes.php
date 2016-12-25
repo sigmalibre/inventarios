@@ -12,6 +12,8 @@ $app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update
 
 $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 
+$app->get('/productos/importar', '\Sigmalibre\Products\ImportarController:importar')->setName('importar');
+
 // CATEGORIAS DE PRODUCTO
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
 $app->post('/categorias', '\Sigmalibre\Categories\CategoriesController:createNew');
