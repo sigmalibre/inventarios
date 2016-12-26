@@ -50,3 +50,11 @@ $container['negotiator'] = function ($container) {
 $container['validator'] = function ($container) {
     return new \Respect\Validation\Validator();
 };
+
+// Conexión a MySQL
+// Instancia única de la clase MySQL para imitar el patrón Singleton.
+$mysqlSingletonInstance = new \Sigmalibre\DataSource\MySQL\MySQLTransactions($container);
+
+$container['mysql'] = function ($container) use ($mysqlSingletonInstance) {
+    return $mysqlSingletonInstance;
+};
