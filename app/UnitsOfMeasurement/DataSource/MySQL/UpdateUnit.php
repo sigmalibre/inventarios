@@ -11,7 +11,7 @@ class UpdateUnit
 
     public function __construct($container)
     {
-        $this->connection = new \Sigmalibre\DataSource\MySQL\MySQL($container);
+        $this->connection = $container->mysql;
     }
 
     /**
