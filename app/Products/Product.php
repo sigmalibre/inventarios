@@ -12,6 +12,7 @@ class Product
     private $attributes;
     private $dataSource;
     private $dataFromCode;
+    private $singleAttributeUpdater;
 
     /**
      * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
@@ -29,24 +30,30 @@ class Product
                 'idProducto' => $id,
             ],
         ]);
-
-        if ($this->isset() === false) {
-            $this->attributes = $this->dataFromCode->read([
-                'input' => [
-                    'codigoProducto' => $id,
-                ],
-            ]);
-        }
     }
 
-    public function __construct($id, $container)
+    private function initFromCode($code)
+    {
+        $this->attributes = $this->dataFromCode->read([
+            'input' => [
+                'codigoProducto' => $code,
+            ],
+        ]);
+    }
+
+    public function __construct($id, $container, $initFromID = true)
     {
         $this->container = $container;
         $this->validator = new ProductValidator($container);
         $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
         $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
+        $this->singleAttributeUpdater = new DataSource\MySQL\UpdateSingleAttributeProduct($container);
 
-        $this->init($id);
+        if ($initFromID === true) {
+            $this->init($id);
+        } else {
+            $this->initFromCode($id);
+        }
     }
 
     /**
@@ -148,6 +155,39 @@ class Product
         }
 
         return $isProductUpdated;
+    }
+
+    /**
+     * Actualiza la información sobre la utilidad de un producto.
+     *
+     * @param string $value El valor monetario de la utilidad
+     *
+     * @return bool
+     */
+    public function updateUtilidad($value)
+    {
+        // Limpiar los espacios en blanco al inicio y final del input.
+        $value = trim($value);
+
+        // Validar los inputs del usuario.
+        if ($this->validator->validarUtilidad($value) === false) {
+            return false;
+        }
+
+        $dataToUpdate = [
+            'attribute' => 'Utilidad',
+            'value' => $value,
+            'id' => $this->ProductoID,
+        ];
+
+        $isUpdated = $this->singleAttributeUpdater->write($dataToUpdate);
+
+        if ($isUpdated === true) {
+            $this->attributes = null;
+            $this->initFromCode($this->Codigo);
+        }
+
+        return $isUpdated;
     }
 
     /**

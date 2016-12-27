@@ -140,7 +140,7 @@ class ImportarProductos
             }
 
             // Revisar si el producto ya existe.
-            $productoExistente = new Product($producto['Codigo'], $this->container);
+            $productoExistente = new Product($producto['Codigo'], $this->container, false);
 
             // Si el producto no existe.
             if ($productoExistente->isset() === false) {
@@ -154,6 +154,19 @@ class ImportarProductos
                     'medidaProducto' => $producto['Medida'],
                     'categoriaProducto' => $categoriaCreada,
                 ], $marcas, $medidas);
+
+                // Ajustar la Utilidad del producto.
+                $productoCreado = new Product($producto['Codigo'], $this->container, false);
+
+                $isUpdated = $productoCreado->updateUtilidad($producto['Utilidad']);
+
+                // Si no se actualizó.
+                if ($isUpdated === false) {
+                    $this->container->mysql->rollBack();
+
+                    // Detener la importación.
+                    throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado. No se pudo fijar la Utilidad.');
+                }
             } else {
                 $seCreoProducto = true;
             }
