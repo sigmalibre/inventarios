@@ -8,11 +8,13 @@ namespace Sigmalibre\Validation;
 abstract class Validator
 {
     protected $container;
+    protected $v; // validator
     protected $invalidUserInputs = [];
 
     public function __construct($container)
     {
         $this->container = $container;
+        $this->v = $container->validator;
     }
 
     /**

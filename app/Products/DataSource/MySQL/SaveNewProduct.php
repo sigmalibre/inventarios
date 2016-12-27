@@ -25,7 +25,7 @@ class SaveNewProduct
      */
     public function write($newDataList)
     {
-        $isSaved = $this->connection->execute('INSERT INTO Productos (Codigo, Descripcion, ExcentoIVA, StockMin, CodigoLibroDet, CodigoBienDet, MarcaID, MedidaID, CategoriaProductoID) VALUES (:codigoProducto, :descripcionProducto, :excentoIvaProducto, :stockMinProducto, :referenciaLibroDetProducto, :categoriaDetProducto, :marcaProducto, :medidaProducto, :categoriaProducto)', $newDataList);
+        $isSaved = $this->connection->execute('INSERT INTO Productos (Codigo, Descripcion, ExcentoIVA, StockMin, Utilidad, CodigoLibroDet, CodigoBienDet, MarcaID, MedidaID, CategoriaProductoID) VALUES (:codigoProducto, :descripcionProducto, :excentoIvaProducto, :stockMinProducto, :utilidadProducto, :referenciaLibroDetProducto, :categoriaDetProducto, :marcaProducto, :medidaProducto, :categoriaProducto)', $newDataList);
 
         if ($isSaved === false) {
             return false;

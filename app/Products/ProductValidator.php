@@ -48,6 +48,10 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
             return false;
         }
 
+        if ($this->validarUtilidad($userInput['utilidadProducto']) === false) {
+            return false;
+        }
+
         // El código de la referencia del libro DET, debe ser un string de 2 caracteres.
         if ($validator::stringType()->noWhitespace()->length(2, 2)->validate($userInput['referenciaLibroDetProducto']) === false) {
             $this->invalidUserInputs['referenciaLibroDetProducto'] = true;
@@ -89,16 +93,15 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
     /**
      * Validador para revisar la Utilidad de un producto.
      *
+     * La utilidad debe ser un valor numérico positvio.Este valor es opcional, y por defecto es 0.
+     *
      * @param string $input
      *
      * @return bool
      */
     public function validarUtilidad($input)
     {
-        $validator = $this->container->validator;
-
-        // La utilidad debe ser un valor numérico con formato de dinero.
-        if ($validator::numeric()->min(0, true)->validate($input) === false) {
+        if ($this->v::optional($this->v::numeric()->min(0, true))->validate($input) === false) {
             $this->setInvalidInput('utilidadProducto');
 
             return false;

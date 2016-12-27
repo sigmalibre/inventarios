@@ -62,6 +62,11 @@ class Products
             $userInput['excentoIvaProducto'] = 0;
         }
 
+        // El campo de utilidadProducto es opcional, por defecto será 0.
+        if (empty($userInput['utilidadProducto']) === true) {
+            $userInput['utilidadProducto'] = 0;
+        }
+
         // Validar los inputs del usuario.
         if ($this->validator->validateNewProduct($userInput) === false) {
             return false;
