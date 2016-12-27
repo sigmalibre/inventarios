@@ -148,6 +148,7 @@ class ImportarProductos
                     'codigoProducto' => $producto['Codigo'],
                     'descripcionProducto' => $producto['Descripcion'],
                     'stockMinProducto' => 1,
+                    'utilidadProducto' => $producto['Utilidad'],
                     'referenciaLibroDetProducto' => $producto['ReferenciaLibroDet'],
                     'categoriaDetProducto' => $producto['CodiboBienDet'],
                     'marcaProducto' => $producto['Marca'],
@@ -155,28 +156,13 @@ class ImportarProductos
                     'categoriaProducto' => $categoriaCreada,
                 ], $marcas, $medidas);
 
-                // Ajustar la Utilidad del producto.
-                $productoCreado = new Product($producto['Codigo'], $this->container, false);
-
-                $isUpdated = $productoCreado->updateUtilidad($producto['Utilidad']);
-
-                // Si no se actualizó.
-                if ($isUpdated === false) {
+                // Revisar si el producto no fue creado.
+                if ($seCreoProducto === false) {
                     $this->container->mysql->rollBack();
 
                     // Detener la importación.
-                    throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado. No se pudo fijar la Utilidad.');
+                    throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado.');
                 }
-            } else {
-                $seCreoProducto = true;
-            }
-
-            // Revisar si el producto no fue creado.
-            if ($seCreoProducto === false) {
-                $this->container->mysql->rollBack();
-
-                // Detener la importación.
-                throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado.');
             }
         }
 
