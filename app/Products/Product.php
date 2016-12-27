@@ -11,6 +11,7 @@ class Product
     private $validator;
     private $attributes;
     private $dataSource;
+    private $dataFromCode;
 
     /**
      * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
@@ -28,6 +29,14 @@ class Product
                 'idProducto' => $id,
             ],
         ]);
+
+        if ($this->isset() === false) {
+            $this->attributes = $this->dataFromCode->read([
+                'input' => [
+                    'codigoProducto' => $id,
+                ],
+            ]);
+        }
     }
 
     public function __construct($id, $container)
@@ -35,6 +44,7 @@ class Product
         $this->container = $container;
         $this->validator = new ProductValidator($container);
         $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
+        $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
 
         $this->init($id);
     }
