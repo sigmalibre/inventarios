@@ -114,7 +114,7 @@ class ImportarProductos
      * con los datos de los productos que desean ser creados por lotes y los
      * ingresa en la BD del sistema.
      *
-     * @throws RuntimeException Si la categoría no pudo ser creada.
+     * @throws RuntimeException Si la categoría no pudo ser creada
      *
      * @return bool True si se pudo realizar la importación, false de lo contrario
      */
@@ -123,39 +123,54 @@ class ImportarProductos
         $productosPorCrear = $this->prepararDatosAImportar();
 
         $creadorProductos = new \Sigmalibre\Products\Products($this->container);
-
         $marcas = new \Sigmalibre\Brands\Brands($this->container);
-
         $medidas = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
+
+        $this->container->mysql->beginTransaction();
 
         foreach ($productosPorCrear as $index => $producto) {
             $categoriaCreada = $this->crearCategoria($producto['Categoria']);
+
+            // Revisar si la categoría no pudo ser creada
             if ($categoriaCreada === false) {
+                $this->container->mysql->rollBack();
+
+                // Detener la importación.
                 throw new \RuntimeException('La categoría "'.$producto['Categoria'].'" no pudo ser creada.');
             }
 
-            $seCreoProducto = $creadorProductos->save([
-                'codigoProducto' => $producto['Codigo'],
-                'descripcionProducto' => $producto['Descripcion'],
-                'stockMinProducto' => 1,
-                'referenciaLibroDetProducto' => $producto['ReferenciaLibroDet'],
-                'categoriaDetProducto' => $producto['CodiboBienDet'],
-                'marcaProducto' => $producto['Marca'],
-                'medidaProducto' => $producto['Medida'],
-                'categoriaProducto' => $categoriaCreada,
-            ], $marcas, $medidas);
+            // Revisar si el producto ya existe.
+            $productoExistente = new Product($producto['Codigo'], $this->container);
 
+            // Si el producto no existe.
+            if ($productoExistente->isset() === false) {
+                $seCreoProducto = $creadorProductos->save([
+                    'codigoProducto' => $producto['Codigo'],
+                    'descripcionProducto' => $producto['Descripcion'],
+                    'stockMinProducto' => 1,
+                    'referenciaLibroDetProducto' => $producto['ReferenciaLibroDet'],
+                    'categoriaDetProducto' => $producto['CodiboBienDet'],
+                    'marcaProducto' => $producto['Marca'],
+                    'medidaProducto' => $producto['Medida'],
+                    'categoriaProducto' => $categoriaCreada,
+                ], $marcas, $medidas);
+            } else {
+                $seCreoProducto = true;
+            }
+
+            // Revisar si el producto no fue creado.
             if ($seCreoProducto === false) {
-                $producto['Categoria'] = $categoriaCreada;
-                $this->productosNoCreados[] = $producto;
+                $this->container->mysql->rollBack();
+
+                // Detener la importación.
+                throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado.');
             }
         }
 
-        return true;
-    }
+        // LLegados a este punto, significa que no hubo ningún error en la
+        // importación de los productos, es seguro realizar un commit.
+        $this->container->mysql->commit();
 
-    public function obtenerProductosNoCreados()
-    {
-        return $this->productosNoCreados;
+        return true;
     }
 }

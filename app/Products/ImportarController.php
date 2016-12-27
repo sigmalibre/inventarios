@@ -23,6 +23,6 @@ class ImportarController
 
         $seTraslado = $traslador->importar();
 
-        var_dump($traslador->obtenerProductosNoCreados());
+        return 'Todos los productos fueron importados con éxito.';
     }
 }
