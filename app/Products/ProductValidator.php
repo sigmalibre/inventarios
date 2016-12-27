@@ -85,4 +85,25 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
 
         return true;
     }
+
+    /**
+     * Validador para revisar la Utilidad de un producto.
+     *
+     * @param string $input
+     *
+     * @return bool
+     */
+    public function validarUtilidad($input)
+    {
+        $validator = $this->container->validator;
+
+        // La utilidad debe ser un valor numérico con formato de dinero.
+        if ($validator::numeric()->min(0, true)->validate($input) === false) {
+            $this->setInvalidInput('utilidadProducto');
+
+            return false;
+        }
+
+        return true;
+    }
 }
