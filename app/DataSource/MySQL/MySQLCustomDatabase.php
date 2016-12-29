@@ -7,6 +7,11 @@ namespace Sigmalibre\DataSource\MySQL;
  */
 class MySQLCustomDatabase extends MySQL
 {
+    /**
+     * MySQLCustomDatabase constructor.
+     *
+     * @param string $database
+     */
     public function __construct($database)
     {
         $dsn = 'mysql:dbname='.$database.';host=localhost;charset=utf8mb4';

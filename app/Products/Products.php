@@ -21,6 +21,8 @@ class Products
     /**
      * Lee la lista de todos los productos, con filtros según terminos de búsqueda, con capacidad de paginación.
      *
+     * @param $userInput
+     *
      * @return array Lista de los productos
      */
     public function readProductList($userInput)

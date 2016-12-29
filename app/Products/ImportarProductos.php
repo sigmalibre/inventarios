@@ -114,9 +114,9 @@ class ImportarProductos
      * con los datos de los productos que desean ser creados por lotes y los
      * ingresa en la BD del sistema.
      *
-     * @throws RuntimeException Si la categoría no pudo ser creada
-     *
      * @return bool True si se pudo realizar la importación, false de lo contrario
+     *
+     * @throws \RuntimeException Si la categoría no pudo ser creada
      */
     public function importar()
     {
