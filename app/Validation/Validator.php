@@ -40,4 +40,13 @@ abstract class Validator
     {
         $this->invalidUserInputs[$inputName] = true;
     }
+
+    /**
+     * Realiza las validaciones necesarias para cada caso en específico.
+     * Los campos que no pasen la validación deberan ser todos guardados en
+     * $invalidUserInputs.
+     *
+     * @return bool True si todos los validadores pasaron la prueba; False sino
+     */
+    abstract public function validate($input);
 }

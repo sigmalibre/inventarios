@@ -9,11 +9,13 @@ class Products
 {
     private $container;
     private $validator;
+    private $categoryValidator;
 
     public function __construct($container)
     {
         $this->container = $container;
         $this->validator = new ProductValidator($container);
+        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator($container);
     }
 
     /**
@@ -68,8 +70,11 @@ class Products
         }
 
         // Validar los inputs del usuario.
-        if ($this->validator->validateNewProduct($userInput) === false) {
-            return false;
+        $this->validator->validate($userInput);
+
+        // Validar código de la categoríá.
+        if ($this->categoryValidator->validarCodigo(['codigoCategoria' => $userInput['categoriaProducto']]) === false) {
+            $this->validator->setInvalidInput('codigoCategoria');
         }
 
         // Si la marca ingresada ya existe, utilizar esa.
@@ -80,11 +85,9 @@ class Products
             $brandId = $brands->save(['nombreMarca' => $userInput['marcaProducto']]);
         }
 
-        // Si no se pudo obtener una marca, retorna false.
+        // Si no se pudo obtener una marca
         if ($brandId === false) {
             $this->validator->setInvalidInput('marcaProducto');
-
-            return false;
         }
 
         // Si la unidad de medida ya existe, utilizar esa.
@@ -95,10 +98,13 @@ class Products
             $unitId = $measurements->save(['unidadMedida' => $userInput['medidaProducto']]);
         }
 
-        // Si no se pudo obtener una unidad de medida, retorna false.
+        // Si no se pudo obtener una unidad de medida
         if ($unitId === false) {
             $this->validator->setInvalidInput('medidaProducto');
+        }
 
+        // Si los validadores no aprovaron.
+        if (empty($this->validator->getInvalidInputs()) === false) {
             return false;
         }
 

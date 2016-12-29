@@ -9,6 +9,7 @@ class Product
 {
     private $container;
     private $validator;
+    private $categoryValidator;
     private $attributes;
     private $dataSource;
     private $dataFromCode;
@@ -45,6 +46,7 @@ class Product
     {
         $this->container = $container;
         $this->validator = new ProductValidator($container);
+        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator($container);
         $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
         $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
         $this->singleAttributeUpdater = new DataSource\MySQL\UpdateSingleAttributeProduct($container);
@@ -100,9 +102,17 @@ class Product
             $userInput['excentoIvaProducto'] = 0;
         }
 
+        // El campo de utilidadProducto es opcional, por defecto será 0.
+        if (empty($userInput['utilidadProducto']) === true) {
+            $userInput['utilidadProducto'] = 0;
+        }
+
         // Validar los inputs del usuario.
-        if ($this->validator->validateNewProduct($userInput) === false) {
-            return false;
+        $this->validator->validate($userInput);
+
+        // Validar código de la categoríá.
+        if ($this->categoryValidator->validarCodigo(['codigoCategoria' => $userInput['categoriaProducto']]) === false) {
+            $this->validator->setInvalidInput('codigoCategoria');
         }
 
         // Si la marca ingresada ya existe, utilizar esa.
@@ -113,11 +123,9 @@ class Product
             $brandId = $brands->save(['nombreMarca' => $userInput['marcaProducto']]);
         }
 
-        // Si no se pudo obtener una marca, retorna false.
+        // Si no se pudo obtener una marca.
         if ($brandId === false) {
             $this->validator->setInvalidInput('marcaProducto');
-
-            return false;
         }
 
         // Si la unidad de medida ya existe, utilizar esa.
@@ -128,10 +136,13 @@ class Product
             $unitId = $measurements->save(['unidadMedida' => $userInput['medidaProducto']]);
         }
 
-        // Si no se pudo obtener una unidad de medida, retorna false.
+        // Si no se pudo obtener una unidad de medida.
         if ($unitId === false) {
             $this->validator->setInvalidInput('medidaProducto');
+        }
 
+        // Si los validadores no aprovaron.
+        if (empty($this->validator->getInvalidInputs()) === false) {
             return false;
         }
 

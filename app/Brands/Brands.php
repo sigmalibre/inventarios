@@ -62,7 +62,7 @@ class Brands
     public function save($userInput)
     {
         // Validar el input del usuario.
-        if ($this->validator->validateBrand($userInput) === false) {
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
@@ -90,5 +90,16 @@ class Brands
         }
 
         return false;
+    }
+
+    /**
+     * Obtiene la lista con los inputs inválidos al crear la marca.
+     * Se utiliza para dar mejor feedback al usuario.
+     *
+     * @return array Lista con todos los inputs que no pasaron la validación
+     */
+    public function getInvalidInputs()
+    {
+        return $this->validator->getInvalidInputs();
     }
 }
