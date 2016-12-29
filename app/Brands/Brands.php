@@ -62,7 +62,7 @@ class Brands
     public function save($userInput)
     {
         // Validar el input del usuario.
-        if ($this->validator->validateBrand($userInput) === false) {
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
