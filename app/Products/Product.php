@@ -101,7 +101,7 @@ class Product
         }
 
         // Validar los inputs del usuario.
-        if ($this->validator->validateNewProduct($userInput) === false) {
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
