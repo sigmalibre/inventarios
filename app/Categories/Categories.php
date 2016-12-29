@@ -62,7 +62,7 @@ class Categories
         $userInput = array_map('trim', $userInput);
 
         // Validar el input del usuario.
-        if ($this->validator->validateNewCategory($userInput) === false) {
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
