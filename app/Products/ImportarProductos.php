@@ -13,7 +13,6 @@ class ImportarProductos
 {
     private $container;
     private $categoriasCreadas = 0;
-    private $productosNoCreados = [];
 
     public function __construct($container)
     {
