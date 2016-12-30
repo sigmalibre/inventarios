@@ -67,7 +67,7 @@ class CategoriesController
         $category = new Category($arguments['id'], $this->container);
 
         // Si la categoría especificada en la URL no existe, devolver un 404.
-        if ($category->isset() === false) {
+        if ($category->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
@@ -112,7 +112,7 @@ class CategoriesController
         $category = new Category($arguments['id'], $this->container);
 
         // Si la categoría especificada en la URL no existe, devolver un 404.
-        if ($category->isset() === false) {
+        if ($category->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 

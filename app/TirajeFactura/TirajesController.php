@@ -70,7 +70,7 @@ class TirajesController
         $tiraje = new TirajeFactura($arguments['id'], $this->container);
 
         // Si la id especificada en la URL no existe, devolver un 404.
-        if ($tiraje->isset() === false) {
+        if ($tiraje->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
@@ -118,7 +118,7 @@ class TirajesController
         $tiraje = new TirajeFactura($arguments['id'], $this->container);
 
         // Si la id especificada en la URL no existe, devolver un 404.
-        if ($tiraje->isset() === false) {
+        if ($tiraje->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 

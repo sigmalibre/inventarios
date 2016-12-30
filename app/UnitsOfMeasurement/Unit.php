@@ -43,7 +43,7 @@ class Unit
      *
      * @return bool True si se pudo obtener la información; False de lo contrario
      */
-    public function isset()
+    public function is_set()
     {
         return isset($this->attributes[0]);
     }

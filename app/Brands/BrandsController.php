@@ -50,7 +50,7 @@ class BrandsController
         $brand = new Brand($arguments['id'], $this->container);
 
         // Si la marca especificada en la URL no existe, devolver un 404.
-        if ($brand->isset() === false) {
+        if ($brand->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
@@ -78,7 +78,7 @@ class BrandsController
         $brand = new Brand($arguments['id'], $this->container);
 
         // Si la marca especificada en la URL no existe, devolver un 404.
-        if ($brand->isset() === false) {
+        if ($brand->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
