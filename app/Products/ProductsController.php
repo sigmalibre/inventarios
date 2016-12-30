@@ -89,7 +89,7 @@ class ProductsController
     {
         $product = new Product($arguments['id'], $this->container);
 
-        if ($product->isset() === false) {
+        if ($product->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
@@ -159,7 +159,7 @@ class ProductsController
         $product = new Product($arguments['id'], $this->container);
 
         // Si el producto especificado en la URL no exsiste, devolver un 404.
-        if ($product->isset() === false) {
+        if ($product->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 

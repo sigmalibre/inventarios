@@ -143,7 +143,7 @@ class ImportarProductos
             $productoExistente = new Product($producto['Codigo'], $this->container, false);
 
             // Si el producto no existe.
-            if ($productoExistente->isset() === false) {
+            if ($productoExistente->is_set() === false) {
                 $seCreoProducto = $creadorProductos->save([
                     'codigoProducto' => $producto['Codigo'],
                     'descripcionProducto' => $producto['Descripcion'],
