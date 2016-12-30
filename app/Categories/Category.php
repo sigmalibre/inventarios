@@ -32,7 +32,7 @@ class Category
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new CategoryValidator($container);
+        $this->validator = new CategoryValidator();
         $this->dataSource = new DataSource\MySQL\GetCategoryFromID($container);
 
         $this->init($id);

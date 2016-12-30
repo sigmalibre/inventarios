@@ -13,7 +13,7 @@ class Categories
     public function __construct($container)
     {
         $this->container = $container;
-        $this->validator = new CategoryValidator($container);
+        $this->validator = new CategoryValidator();
     }
 
     /**

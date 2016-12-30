@@ -45,8 +45,8 @@ class Product
     public function __construct($id, $container, $initFromID = true)
     {
         $this->container = $container;
-        $this->validator = new ProductValidator($container);
-        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator($container);
+        $this->validator = new ProductValidator();
+        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator();
         $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
         $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
         $this->singleAttributeUpdater = new DataSource\MySQL\UpdateSingleAttributeProduct($container);

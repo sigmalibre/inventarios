@@ -29,7 +29,7 @@ class TirajeFactura
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new TirajeValidator($container);
+        $this->validator = new TirajeValidator();
         $this->dataSource = new DataSource\MySQL\TirajeDesdeID($container);
 
         $this->init($id);

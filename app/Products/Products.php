@@ -20,8 +20,8 @@ class Products
     public function __construct($container)
     {
         $this->container = $container;
-        $this->validator = new ProductValidator($container);
-        $this->categoryValidator = new CategoryValidator($container);
+        $this->validator = new ProductValidator();
+        $this->categoryValidator = new CategoryValidator();
     }
 
     /**

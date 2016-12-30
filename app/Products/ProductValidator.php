@@ -2,10 +2,21 @@
 
 namespace Sigmalibre\Products;
 
+use Respect\Validation\Rules\AllOf;
+use Respect\Validation\Rules\BoolVal;
+use Respect\Validation\Rules\IntVal;
+use Respect\Validation\Rules\Length;
+use Respect\Validation\Rules\Min;
+use Respect\Validation\Rules\NoWhitespace;
+use Respect\Validation\Rules\Numeric;
+use Respect\Validation\Rules\Optional;
+use Respect\Validation\Rules\StringType;
+use Sigmalibre\Validation\Validator;
+
 /**
  * Maneja la validación de datos para las distintas acciones sobre productos.
  */
-class ProductValidator extends \Sigmalibre\Validation\Validator
+class ProductValidator extends Validator
 {
     /**
      * Realiza las validaciones específicas para crear un nuevo producto.
@@ -28,7 +39,7 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * El código del producto debe ser un string de 1 a 20 caracteres de largo.
+     * El código del producto debe ser un string de 1 a 20 carácteres de largo.
      *
      * @param mixed $input
      *
@@ -36,7 +47,12 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarCodigo($input)
     {
-        if ($this->v::stringType()->length(1, 20)->validate($input['codigoProducto']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 20)
+        );
+
+        if ($v->validate($input['codigoProducto']) === false) {
             $this->setInvalidInput('codigoProducto');
 
             return false;
@@ -46,7 +62,7 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * La descripción del producto debe ser un string de 1 a 50 caracteres.
+     * La descripción del producto debe ser un string de 1 a 50 carácteres.
      *
      * @param mixed $input
      *
@@ -54,7 +70,12 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarDescripcion($input)
     {
-        if ($this->v::stringType()->length(1, 50)->validate($input['descripcionProducto']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 50)
+        );
+
+        if ($v->validate($input['descripcionProducto']) === false) {
             $this->setInvalidInput('descripcionProducto');
 
             return false;
@@ -75,7 +96,11 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarExcentoIva($input)
     {
-        if ($this->v::optional($this->v::boolVal())->validate($input['excentoIvaProducto']) === false) {
+        $v = new AllOf(
+            new Optional(new BoolVal())
+        );
+
+        if ($v->validate($input['excentoIvaProducto']) === false) {
             $this->setInvalidInput('excentoIvaProducto');
 
             return false;
@@ -96,7 +121,13 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarStockMin($input)
     {
-        if ($this->v::numeric()->intVal()->min(0, true)->validate($input['stockMinProducto']) === false) {
+        $v = new AllOf(
+            new Numeric(),
+            new IntVal(),
+            new Min(0, true)
+        );
+
+        if ($v->validate($input['stockMinProducto']) === false) {
             $this->setInvalidInput('stockMinProducto');
 
             return false;
@@ -106,7 +137,7 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * La utilidad debe ser un valor numérico positvio.Este valor es opcional, y por defecto es 0.
+     * La utilidad debe ser un valor numérico positivo.Este valor es opcional, y por defecto es 0.
      *
      * @param mixed $input
      *
@@ -114,7 +145,14 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarUtilidad($input)
     {
-        if ($this->v::optional($this->v::numeric()->min(0, true))->validate($input['utilidadProducto']) === false) {
+        $v = new Optional(
+            new AllOf(
+                new Numeric(),
+                new Min(0, true)
+            )
+        );
+
+        if ($v->validate($input['utilidadProducto']) === false) {
             $this->setInvalidInput('utilidadProducto');
 
             return false;
@@ -124,7 +162,7 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * El código de la referencia del libro DET, debe ser un string de 2 caracteres.
+     * El código de la referencia del libro DET, debe ser un string de 2 carácteres.
      *
      * @param string $input
      *
@@ -132,7 +170,13 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarReferenciaLibroDet($input)
     {
-        if ($this->v::stringType()->noWhitespace()->length(2, 2)->validate($input['referenciaLibroDetProducto']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new NoWhitespace(),
+            new Length(2, 2)
+        );
+
+        if ($v->validate($input['referenciaLibroDetProducto']) === false) {
             $this->setInvalidInput('referenciaLibroDetProducto');
 
             return false;
@@ -150,7 +194,13 @@ class ProductValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarCategoriaDet($input)
     {
-        if ($this->v::stringType()->noWhitespace()->length(2, 2)->validate($input['categoriaDetProducto']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new NoWhitespace(),
+            new Length(2, 2)
+        );
+
+        if ($v->validate($input['categoriaDetProducto']) === false) {
             $this->setInvalidInput('categoriaDetProducto');
 
             return false;

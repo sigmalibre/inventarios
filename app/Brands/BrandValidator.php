@@ -2,14 +2,19 @@
 
 namespace Sigmalibre\Brands;
 
-class BrandValidator extends \Sigmalibre\Validation\Validator
+use Respect\Validation\Rules\AllOf;
+use Respect\Validation\Rules\Length;
+use Respect\Validation\Rules\StringType;
+use Sigmalibre\Validation\Validator;
+
+class BrandValidator extends Validator
 {
     /**
      * Realiza validaciones específicas para crear y modificar una marca de producto.
      *
      * @param array $input Input del usuario a validar
      *
-     * @return bool True si ha aprovado las validaciones; False de lo contrario
+     * @return bool True si ha aprobado las validaciones; False de lo contrario
      */
     public function validate($input)
     {
@@ -19,7 +24,7 @@ class BrandValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * La marca del producto debe ser un string de 100 caracteres o menos.
+     * La marca del producto debe ser un string de 100 carácteres o menos.
      *
      * @param mixed $input
      *
@@ -27,7 +32,12 @@ class BrandValidator extends \Sigmalibre\Validation\Validator
      */
     public function validateNombre($input)
     {
-        if ($this->v::stringType()->length(1, 100)->validate($input['nombreMarca']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 100)
+        );
+
+        if ($v->validate($input['nombreMarca']) === false) {
             $this->setInvalidInput('nombreMarca');
 
             return false;
