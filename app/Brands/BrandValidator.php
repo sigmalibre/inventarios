@@ -7,17 +7,32 @@ class BrandValidator extends \Sigmalibre\Validation\Validator
     /**
      * Realiza validaciones específicas para crear y modificar una marca de producto.
      *
-     * @param array $userInput Input del usuario a validar
+     * @param array $input Input del usuario a validar
      *
      * @return bool True si ha aprovado las validaciones; False de lo contrario
      */
-    public function validateBrand($userInput)
+    public function validate($input)
     {
-        $validator = $this->container->validator;
+        $this->validateNombre($input);
 
-        // La marca del producto debe ser un string de 100 caracteres o menos
-        if ($validator::stringType()->length(1, 100)->validate($userInput['nombreMarca']) === false) {
+        return empty($this->invalidUserInputs);
+    }
+
+    /**
+     * La marca del producto debe ser un string de 100 caracteres o menos.
+     *
+     * @param mixed $input
+     *
+     * @return bool
+     */
+    public function validateNombre($input)
+    {
+        if ($this->v::stringType()->length(1, 100)->validate($input['nombreMarca']) === false) {
+            $this->setInvalidInput('nombreMarca');
+
             return false;
         }
+
+        return true;
     }
 }

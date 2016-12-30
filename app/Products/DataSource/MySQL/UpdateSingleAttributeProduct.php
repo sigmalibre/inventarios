@@ -5,9 +5,10 @@ namespace Sigmalibre\Products\DataSource\MySQL;
 /**
  * Realiza un update de un producto específico según su ID.
  */
-class UpdateProduct
+class UpdateSingleAttributeProduct
 {
     private $connection;
+    private $columnWhiteList = ['Utilidad'];
 
     public function __construct($container)
     {
@@ -25,6 +26,14 @@ class UpdateProduct
      */
     public function write($dataList)
     {
-        return $this->connection->execute('UPDATE Productos SET Codigo = :codigoProducto, Descripcion = :descripcionProducto, ExcentoIVA = :excentoIvaProducto, StockMin = :stockMinProducto, Utilidad = :utilidadProducto, CodigoLibroDet = :referenciaLibroDetProducto, CodigoBienDet = :categoriaDetProducto, MarcaID = :marcaProducto, MedidaID = :medidaProducto, CategoriaProductoID = :categoriaProducto WHERE Productos.ProductoID = :id', $dataList);
+        // Revisar que el attributo que ingresó el usuario esté en la WhiteList.
+        if (in_array($dataList['attribute'], $this->columnWhiteList) === false) {
+            return false;
+        }
+
+        return $this->connection->execute('UPDATE Productos SET '.$dataList['attribute'].' = :value WHERE Productos.ProductoID = :id', [
+            'value' => $dataList['value'],
+            'id' => $dataList['id'],
+        ]);
     }
 }

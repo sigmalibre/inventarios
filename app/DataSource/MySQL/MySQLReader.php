@@ -39,7 +39,7 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInter
 
     public function __construct($container)
     {
-        $this->connection = new MySQL($container);
+        $this->connection = $container->mysql;
     }
 
     /**

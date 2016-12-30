@@ -62,7 +62,7 @@ class Categories
         $userInput = array_map('trim', $userInput);
 
         // Validar el input del usuario.
-        if ($this->validator->validateNewCategory($userInput) === false) {
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
@@ -83,5 +83,26 @@ class Categories
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
+    }
+
+    /**
+     * Obtiene la ID de una categoría a partir de su nombre.
+     *
+     * @param string $name Nombre de la categoría, sin distinción entre mayúsculas y minúsculas
+     *
+     * @return string La Id si fue encontrada, false de lo contrario
+     */
+    public function idFromName($name)
+    {
+        $itemList = $this->readAllCategories();
+
+        // Revisar si ya existe la categoría, y obtener su ID.
+        foreach ($itemList as $item) {
+            if (strtolower($item['Nombre']) === strtolower($name)) {
+                return $item['CategoriaProductoID'];
+            }
+        }
+
+        return false;
     }
 }

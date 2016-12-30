@@ -11,7 +11,7 @@ class SaveNewProduct
 
     public function __construct($container)
     {
-        $this->connection = new \Sigmalibre\DataSource\MySQL\MySQL($container);
+        $this->connection = $container->mysql;
     }
 
     /**
@@ -21,10 +21,16 @@ class SaveNewProduct
      *
      * @param array $newDataList Lista con los datos para crear un producto nuevo
      *
-     * @return bool True si se pudo crear el producto; False de lo contrario
+     * @return bool|string Retorna la ID del nuevo producto si se pudo crear; False de lo contrario
      */
     public function write($newDataList)
     {
-        return $this->connection->execute('INSERT INTO Productos (Codigo, Descripcion, ExcentoIVA, StockMin, CodigoLibroDet, CodigoBienDet, MarcaID, MedidaID, CategoriaProductoID) VALUES (:codigoProducto, :descripcionProducto, :excentoIvaProducto, :stockMinProducto, :referenciaLibroDetProducto, :categoriaDetProducto, :marcaProducto, :medidaProducto, :categoriaProducto)', $newDataList);
+        $isSaved = $this->connection->execute('INSERT INTO Productos (Codigo, Descripcion, ExcentoIVA, StockMin, Utilidad, CodigoLibroDet, CodigoBienDet, MarcaID, MedidaID, CategoriaProductoID) VALUES (:codigoProducto, :descripcionProducto, :excentoIvaProducto, :stockMinProducto, :utilidadProducto, :referenciaLibroDetProducto, :categoriaDetProducto, :marcaProducto, :medidaProducto, :categoriaProducto)', $newDataList);
+
+        if ($isSaved === false) {
+            return false;
+        }
+
+        return $this->connection->lastId();
     }
 }

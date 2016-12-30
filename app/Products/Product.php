@@ -9,8 +9,11 @@ class Product
 {
     private $container;
     private $validator;
+    private $categoryValidator;
     private $attributes;
     private $dataSource;
+    private $dataFromCode;
+    private $singleAttributeUpdater;
 
     /**
      * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
@@ -30,13 +33,29 @@ class Product
         ]);
     }
 
-    public function __construct($id, $container)
+    private function initFromCode($code)
+    {
+        $this->attributes = $this->dataFromCode->read([
+            'input' => [
+                'codigoProducto' => $code,
+            ],
+        ]);
+    }
+
+    public function __construct($id, $container, $initFromID = true)
     {
         $this->container = $container;
         $this->validator = new ProductValidator($container);
+        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator($container);
         $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
+        $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
+        $this->singleAttributeUpdater = new DataSource\MySQL\UpdateSingleAttributeProduct($container);
 
-        $this->init($id);
+        if ($initFromID === true) {
+            $this->init($id);
+        } else {
+            $this->initFromCode($id);
+        }
     }
 
     /**
@@ -83,9 +102,17 @@ class Product
             $userInput['excentoIvaProducto'] = 0;
         }
 
+        // El campo de utilidadProducto es opcional, por defecto será 0.
+        if (empty($userInput['utilidadProducto']) === true) {
+            $userInput['utilidadProducto'] = 0;
+        }
+
         // Validar los inputs del usuario.
-        if ($this->validator->validateNewProduct($userInput) === false) {
-            return false;
+        $this->validator->validate($userInput);
+
+        // Validar código de la categoríá.
+        if ($this->categoryValidator->validarCodigo(['codigoCategoria' => $userInput['categoriaProducto']]) === false) {
+            $this->validator->setInvalidInput('codigoCategoria');
         }
 
         // Si la marca ingresada ya existe, utilizar esa.
@@ -96,11 +123,9 @@ class Product
             $brandId = $brands->save(['nombreMarca' => $userInput['marcaProducto']]);
         }
 
-        // Si no se pudo obtener una marca, retorna false.
+        // Si no se pudo obtener una marca.
         if ($brandId === false) {
             $this->validator->setInvalidInput('marcaProducto');
-
-            return false;
         }
 
         // Si la unidad de medida ya existe, utilizar esa.
@@ -111,10 +136,13 @@ class Product
             $unitId = $measurements->save(['unidadMedida' => $userInput['medidaProducto']]);
         }
 
-        // Si no se pudo obtener una unidad de medida, retorna false.
+        // Si no se pudo obtener una unidad de medida.
         if ($unitId === false) {
             $this->validator->setInvalidInput('medidaProducto');
+        }
 
+        // Si los validadores no aprovaron.
+        if (empty($this->validator->getInvalidInputs()) === false) {
             return false;
         }
 
@@ -138,6 +166,39 @@ class Product
         }
 
         return $isProductUpdated;
+    }
+
+    /**
+     * Actualiza la información sobre la utilidad de un producto.
+     *
+     * @param string $value El valor monetario de la utilidad
+     *
+     * @return bool
+     */
+    public function updateUtilidad($value)
+    {
+        // Limpiar los espacios en blanco al inicio y final del input.
+        $value = trim($value);
+
+        // Validar los inputs del usuario.
+        if ($this->validator->validarUtilidad($value) === false) {
+            return false;
+        }
+
+        $dataToUpdate = [
+            'attribute' => 'Utilidad',
+            'value' => $value,
+            'id' => $this->ProductoID,
+        ];
+
+        $isUpdated = $this->singleAttributeUpdater->write($dataToUpdate);
+
+        if ($isUpdated === true) {
+            $this->attributes = null;
+            $this->initFromCode($this->Codigo);
+        }
+
+        return $isUpdated;
     }
 
     /**

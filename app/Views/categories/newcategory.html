@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3">
-            {% if categorySaved is same as(true) %}
+            {% if categorySaved %}
             <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> La categoría ha sido creada exitosamente!</div>
             {% endif %}
             {% if categorySaved is same as(false) %}

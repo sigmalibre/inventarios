@@ -2,6 +2,12 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Brands\Brands;
+use Sigmalibre\Categories\CategoryValidator;
+use Sigmalibre\ItemList\ItemListReader;
+use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement;
+
 /**
  * Realiza operaciones CRUD sobre los productos.
  */
@@ -9,15 +15,19 @@ class Products
 {
     private $container;
     private $validator;
+    private $categoryValidator;
 
     public function __construct($container)
     {
         $this->container = $container;
         $this->validator = new ProductValidator($container);
+        $this->categoryValidator = new CategoryValidator($container);
     }
 
     /**
      * Lee la lista de todos los productos, con filtros según terminos de búsqueda, con capacidad de paginación.
+     *
+     * @param $userInput
      *
      * @return array Lista de los productos
      */
@@ -30,10 +40,10 @@ class Products
             $userInput['codigoCategoria'] = (string) substr($codigoProducto, 0, 2);
         }
 
-        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+        $listReader = new ItemListReader(
             new DataSource\MySQL\CountAllFilteredProducts($this->container),
             new DataSource\MySQL\FilterAllProducts($this->container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
+            new Paginator($userInput),
             $userInput
         );
 
@@ -46,13 +56,13 @@ class Products
     /**
      * Guarda un producto nuevo en la fuente de datos.
      *
-     * @param array $userInput    Lista con los inputs del usuario
-     * @param array $brands       Lista de las marcas de productos, para buscar si existe la que ingresó el usuario y crearla sino
-     * @param array $measurements Lista de unidades de medidad, para buscar si existe la que ingresó el usuario y crearla sino
+     * @param array                                             $userInput    Lista con los inputs del usuario
+     * @param \Sigmalibre\Brands\Brands                         $brands       Lista de las marcas de productos, para buscar si existe la que ingresó el usuario y crearla sino
+     * @param \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement $measurements Lista de unidades de medidad, para buscar si existe la que ingresó el usuario y crearla sino
      *
      * @return bool True si se ha guardado el producto; False si no aprueba la validación o si ha ocurrido un error
      */
-    public function save($userInput, $brands, $measurements)
+    public function save($userInput, Brands $brands, UnitsOfMeasurement $measurements)
     {
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
         $userInput = array_map('trim', $userInput);
@@ -62,9 +72,17 @@ class Products
             $userInput['excentoIvaProducto'] = 0;
         }
 
+        // El campo de utilidadProducto es opcional, por defecto será 0.
+        if (empty($userInput['utilidadProducto']) === true) {
+            $userInput['utilidadProducto'] = 0;
+        }
+
         // Validar los inputs del usuario.
-        if ($this->validator->validateNewProduct($userInput) === false) {
-            return false;
+        $this->validator->validate($userInput);
+
+        // Validar código de la categoríá.
+        if ($this->categoryValidator->validarCodigo(['codigoCategoria' => $userInput['categoriaProducto']]) === false) {
+            $this->validator->setInvalidInput('codigoCategoria');
         }
 
         // Si la marca ingresada ya existe, utilizar esa.
@@ -75,11 +93,9 @@ class Products
             $brandId = $brands->save(['nombreMarca' => $userInput['marcaProducto']]);
         }
 
-        // Si no se pudo obtener una marca, retorna false.
+        // Si no se pudo obtener una marca
         if ($brandId === false) {
             $this->validator->setInvalidInput('marcaProducto');
-
-            return false;
         }
 
         // Si la unidad de medida ya existe, utilizar esa.
@@ -90,10 +106,13 @@ class Products
             $unitId = $measurements->save(['unidadMedida' => $userInput['medidaProducto']]);
         }
 
-        // Si no se pudo obtener una unidad de medida, retorna false.
+        // Si no se pudo obtener una unidad de medida
         if ($unitId === false) {
             $this->validator->setInvalidInput('medidaProducto');
+        }
 
+        // Si los validadores no aprovaron.
+        if (empty($this->validator->getInvalidInputs()) === false) {
             return false;
         }
 

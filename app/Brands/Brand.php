@@ -73,7 +73,7 @@ class Brand
         $userInput = array_map('trim', $userInput);
 
         // Validar el input del usuario.
-        if ($this->validator->validateBrand($userInput) === false) {
+        if ($this->validator->validate($userInput) === false) {
             return false;
         }
 
