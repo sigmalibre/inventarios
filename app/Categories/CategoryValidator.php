@@ -2,10 +2,16 @@
 
 namespace Sigmalibre\Categories;
 
+use Respect\Validation\Rules\AllOf;
+use Respect\Validation\Rules\Length;
+use Respect\Validation\Rules\NoWhitespace;
+use Respect\Validation\Rules\StringType;
+use Sigmalibre\Validation\Validator;
+
 /**
  * Validación de los datos para las operaciones de categorías de producto.
  */
-class CategoryValidator extends \Sigmalibre\Validation\Validator
+class CategoryValidator extends Validator
 {
     /**
      * Realiza validaciones específicas para crear una nueva categoria de producto.
@@ -31,7 +37,13 @@ class CategoryValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarCodigo($input)
     {
-        if ($this->v::stringType()->noWhitespace()->length(2, 2)->validate($input['codigoCategoria']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new NoWhitespace(),
+            new Length(2, 2)
+        );
+
+        if ($v->validate($input['codigoCategoria']) === false) {
             $this->setInvalidInput('codigoCategoria');
 
             return false;
@@ -41,7 +53,7 @@ class CategoryValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * El nombre de la categoría debe ser un string de 1 a 50 caracteres.
+     * El nombre de la categoría debe ser un string de 1 a 50 carácteres.
      *
      * @param mixed $input
      *
@@ -49,7 +61,12 @@ class CategoryValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarNombre($input)
     {
-        if ($this->v::stringType()->length(1, 50)->validate($input['nombreCategoria']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 50)
+        );
+
+        if ($v->validate($input['nombreCategoria']) === false) {
             $this->setInvalidInput('nombreCategoria');
 
             return false;
