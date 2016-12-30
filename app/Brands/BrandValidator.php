@@ -9,7 +9,7 @@ class BrandValidator extends \Sigmalibre\Validation\Validator
      *
      * @param array $input Input del usuario a validar
      *
-     * @return bool True si ha aprovado las validaciones; False de lo contrario
+     * @return bool True si ha aprobado las validaciones; False de lo contrario
      */
     public function validate($input)
     {
@@ -19,7 +19,7 @@ class BrandValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * La marca del producto debe ser un string de 100 caracteres o menos.
+     * La marca del producto debe ser un string de 100 carácteres o menos.
      *
      * @param mixed $input
      *
