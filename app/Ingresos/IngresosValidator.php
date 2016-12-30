@@ -20,6 +20,8 @@ class IngresosValidator extends Validator
      * Los campos que no pasen la validación deberán ser todos guardados en
      * $invalidUserInputs.
      *
+     * @param array $input
+     *
      * @return bool True si todos los validadores pasaron la prueba; False sino
      */
     public function validate($input)
@@ -132,10 +134,12 @@ class IngresosValidator extends Validator
      */
     public function validarIDEmpresa($input)
     {
-        $v = new AllOf(
-            new Optional(new Numeric()),
-            new Optional(new Positive()),
-            new Optional(new IntVal())
+        $v = new Optional(
+            new AllOf(
+                new Numeric(),
+                new Positive(),
+                new IntVal()
+            )
         );
 
         if ($v->validate($input['empresaID']) === false) {
