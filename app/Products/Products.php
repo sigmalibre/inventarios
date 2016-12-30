@@ -2,6 +2,12 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Brands\Brands;
+use Sigmalibre\Categories\CategoryValidator;
+use Sigmalibre\ItemList\ItemListReader;
+use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement;
+
 /**
  * Realiza operaciones CRUD sobre los productos.
  */
@@ -15,7 +21,7 @@ class Products
     {
         $this->container = $container;
         $this->validator = new ProductValidator($container);
-        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator($container);
+        $this->categoryValidator = new CategoryValidator($container);
     }
 
     /**
@@ -34,10 +40,10 @@ class Products
             $userInput['codigoCategoria'] = (string) substr($codigoProducto, 0, 2);
         }
 
-        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+        $listReader = new ItemListReader(
             new DataSource\MySQL\CountAllFilteredProducts($this->container),
             new DataSource\MySQL\FilterAllProducts($this->container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
+            new Paginator($userInput),
             $userInput
         );
 
@@ -56,7 +62,7 @@ class Products
      *
      * @return bool True si se ha guardado el producto; False si no aprueba la validación o si ha ocurrido un error
      */
-    public function save($userInput, $brands, $measurements)
+    public function save($userInput, Brands $brands, UnitsOfMeasurement $measurements)
     {
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
         $userInput = array_map('trim', $userInput);
