@@ -50,9 +50,9 @@ class Products
     /**
      * Guarda un producto nuevo en la fuente de datos.
      *
-     * @param array $userInput    Lista con los inputs del usuario
-     * @param array $brands       Lista de las marcas de productos, para buscar si existe la que ingresó el usuario y crearla sino
-     * @param array $measurements Lista de unidades de medidad, para buscar si existe la que ingresó el usuario y crearla sino
+     * @param array                                             $userInput    Lista con los inputs del usuario
+     * @param \Sigmalibre\Brands\Brands                         $brands       Lista de las marcas de productos, para buscar si existe la que ingresó el usuario y crearla sino
+     * @param \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement $measurements Lista de unidades de medidad, para buscar si existe la que ingresó el usuario y crearla sino
      *
      * @return bool True si se ha guardado el producto; False si no aprueba la validación o si ha ocurrido un error
      */
