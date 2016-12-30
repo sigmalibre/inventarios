@@ -7,16 +7,7 @@ namespace Sigmalibre\Validation;
  */
 abstract class Validator
 {
-    /** @var \Respect\Validation\Validator $v*/
-    protected $v;
-    protected $container;
     protected $invalidUserInputs = [];
-
-    public function __construct($container)
-    {
-        $this->container = $container;
-        $this->v = $container->validator;
-    }
 
     /**
      * Si uno de los métodos de guardado de datos retorna falso, y es culpa de un input
