@@ -13,7 +13,7 @@ class CreadorTirajes
     public function __construct($container)
     {
         $this->container = $container;
-        $this->validator = new TirajeValidator($container);
+        $this->validator = new TirajeValidator();
     }
 
     /**

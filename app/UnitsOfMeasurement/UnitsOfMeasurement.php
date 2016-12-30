@@ -13,7 +13,7 @@ class UnitsOfMeasurement
     public function __construct($container)
     {
         $this->container = $container;
-        $this->validator = new UnitValidator($container);
+        $this->validator = new UnitValidator();
     }
 
     /**

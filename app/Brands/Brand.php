@@ -29,7 +29,7 @@ class Brand
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new BrandValidator($container);
+        $this->validator = new BrandValidator();
         $this->dataSource = new DataSource\MySQL\GetBrandFromID($container);
 
         $this->init($id);

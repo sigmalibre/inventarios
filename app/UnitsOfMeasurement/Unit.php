@@ -32,7 +32,7 @@ class Unit
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new UnitValidator($container);
+        $this->validator = new UnitValidator();
         $this->dataSource = new DataSource\MySQL\GetUnitFromID($container);
 
         $this->init($id);
