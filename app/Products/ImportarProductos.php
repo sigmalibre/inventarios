@@ -125,6 +125,7 @@ class ImportarProductos
         $creadorProductos = new \Sigmalibre\Products\Products($this->container);
         $marcas = new \Sigmalibre\Brands\Brands($this->container);
         $medidas = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
+        $ingresos = new \Sigmalibre\Ingresos\Ingresos($this->container);
 
         $this->container->mysql->beginTransaction();
 
@@ -162,6 +163,23 @@ class ImportarProductos
 
                     // Detener la importación.
                     throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado.');
+                }
+
+                // El producto se creó.
+                // Guardar costoInicial.
+                $isIngresoSaved = $ingresos->save([
+                    'cantidadIngreso' => $producto['Unidades'],
+                    'valorPrecioUnitario' => $producto['Costo'],
+                    'valorCostoActualTotal' => $producto['Costo'], // El costo inicial es igual al unitario.
+                    'productoID' => $seCreoProducto,
+                    'empresaID' => null,
+                ]);
+
+                if ($isIngresoSaved === false) {
+                    $this->container->mysql->rollBack();
+
+                    // Detener la importación.
+                    throw new \RuntimeException('No se pudo establecer el costo inicial del producto ['.$producto['Codigo'].']');
                 }
             }
         }
