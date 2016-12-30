@@ -44,8 +44,10 @@ abstract class Validator
 
     /**
      * Realiza las validaciones necesarias para cada caso en específico.
-     * Los campos que no pasen la validación deberan ser todos guardados en
+     * Los campos que no pasen la validación deberán ser todos guardados en
      * $invalidUserInputs.
+     *
+     * @param array $input
      *
      * @return bool True si todos los validadores pasaron la prueba; False sino
      */
