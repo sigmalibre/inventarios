@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sigmalibre\IVA\IVA;
 use Slim\Container;
+use Slim\Http\Response;
 
 /**
  * Controlador para mostrar la página de ajustes del sistema.
@@ -24,16 +25,17 @@ class UserConfigController
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface      $response
-     * @param bool                                     $ivaSaved
      *
-     * @return mixed
+     * @return Response
      */
-    public function index(ServerRequestInterface $request, ResponseInterface $response, $ivaSaved = false)
+    public function index(ServerRequestInterface $request, ResponseInterface $response)
     {
         $iva = new IVA();
 
+        $params = $request->getQueryParams();
+
         return $this->container->view->render($response, 'userconfig/userconfig.twig', [
-            'ivaSaved' => $ivaSaved,
+            'ivaSaved' => $params['ivaSaved'] ?? null,
             'porcentajeIVA' => $iva->getPorcentajeIVA(),
         ]);
     }

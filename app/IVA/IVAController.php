@@ -2,9 +2,9 @@
 
 namespace Sigmalibre\IVA;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Sigmalibre\UserConfig\UserConfigController;
+use Slim\Container;
+use Slim\Http\Response;
 
 /**
  * Controlador para las operaciones sobre el IVA.
@@ -14,7 +14,7 @@ class IVAController
     private $container;
     private $iva;
 
-    public function __construct($container)
+    public function __construct(Container $container)
     {
         $this->container = $container;
         $this->iva = new IVA();
@@ -30,12 +30,16 @@ class IVAController
         return var_export($this->iva->getPorcentajeIVA(), true);
     }
 
-    public function update(ServerRequestInterface $request, ResponseInterface $response)
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Slim\Http\Response                      $response
+     *
+     * @return \Slim\Http\Response
+     */
+    public function update(ServerRequestInterface $request, Response $response)
     {
-        $ajustes = new UserConfigController($this->container);
-
         $isSaved = $this->iva->setPorcentajeIVA($request->getParsedBody());
 
-        return $ajustes->index($request, $response, $isSaved);
+        return $response->withRedirect($this->container->router->pathFor('ajustes', [], ['ivaSaved' => (int)$isSaved]));
     }
 }
