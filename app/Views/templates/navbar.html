@@ -124,6 +124,12 @@
                     </li>
                 </ul>
             </li>
+            <li class="{% if uri_path == path_for('ajustes') %}active{% endif %}">
+                <a href="{{ path_for('ajustes') }}">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    Configuraciones
+                </a>
+            </li>
         </ul>
     </div>
 </nav>
