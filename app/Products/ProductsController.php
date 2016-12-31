@@ -2,6 +2,8 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\IVA\IVA;
+
 /**
  * Controlador para las operaciones sobre productos.
  */
@@ -37,12 +39,15 @@ class ProductsController
 
         $brands = new \Sigmalibre\Brands\Brands($this->container);
 
+        $iva = new IVA();
+
         return $this->container->view->render($response, 'products/products.html', [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
+            'porcentajeIVA' => $iva->getPorcentajeIVA() ?? 0,
         ]);
     }
 
