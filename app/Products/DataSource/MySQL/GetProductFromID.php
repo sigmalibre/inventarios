@@ -11,7 +11,7 @@ class GetProductFromID extends FilterAllProducts
     protected $filterFields = [
         [
             'filterName' => 'idProducto',
-            'tableName' => 'Productos',
+            'tableName' => 'VistaProductosCompletos',
             'columnName' => 'ProductoID',
             'searchType' => '=',
         ],
