@@ -71,6 +71,7 @@
                                     <th>Marca</th>
                                     <th>Nombre</th>
                                     <th>Cantidad</th>
+                                    <th>Precio de Venta*</th>
                                 </tr>
                             </thead>
 
@@ -82,12 +83,16 @@
                                     <td>{{ product.NombreMarca }}</td>
                                     <td>{{ product.Descripcion }}</td>
                                     <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
+                                    <td>$ {{ ((product.CostoActual + product.Utilidad) * 1.13)|number_format(2) }}</td>
                                 </tr>
                             {% else %}
                             </tbody>
                             <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>
+                    </div>
+                    <div class="panel-footer">
+                        <small class="text-muted">*Precios con IVA incluido</small>
                     </div>
                 </div>
                 {% include 'templates/listpagination.html' %}
