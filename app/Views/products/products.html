@@ -83,7 +83,7 @@
                                     <td>{{ product.NombreMarca }}</td>
                                     <td>{{ product.Descripcion }}</td>
                                     <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
-                                    <td>$ {{ ((product.CostoActual + product.Utilidad) * 1.13)|number_format(2) }}</td>
+                                    <td>$ {{ ((product.CostoActual + product.Utilidad) * (1 + porcentajeIVA / 100))|number_format(2) }}</td>
                                 </tr>
                             {% else %}
                             </tbody>
