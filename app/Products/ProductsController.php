@@ -72,7 +72,7 @@ class ProductsController
 
         $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
 
-        return $this->container->view->render($response, 'products/newproduct.html', [
+        return $this->container->view->render($response, 'products/newproduct.twig', [
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
             'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
