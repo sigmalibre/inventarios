@@ -58,3 +58,10 @@ $app->get('/tirajes/id/{id}', '\Sigmalibre\TirajeFactura\TirajesController:index
 $app->post('/tirajes/id/{id}', '\Sigmalibre\TirajeFactura\TirajesController:update');
 
 $app->get('/tirajes/createform', '\Sigmalibre\TirajeFactura\TirajesController:indexNew')->setName('tirajes/createform');
+
+// AJUSTES DE USUARIO
+$app->get('/ajustes', '\Sigmalibre\UserConfig\UserConfigController:index')->setName('ajustes');
+
+// IVA
+$app->get('/iva', '\Sigmalibre\IVA\IVAController:index')->setName('iva');
+$app->post('/iva', '\Sigmalibre\IVA\IVAController:update');

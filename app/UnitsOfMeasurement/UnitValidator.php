@@ -2,7 +2,12 @@
 
 namespace Sigmalibre\UnitsOfMeasurement;
 
-class UnitValidator extends \Sigmalibre\Validation\Validator
+use Respect\Validation\Rules\AllOf;
+use Respect\Validation\Rules\Length;
+use Respect\Validation\Rules\StringType;
+use Sigmalibre\Validation\Validator;
+
+class UnitValidator extends Validator
 {
     /**
      * Realiza validaciones específicas para crear y modificar una unidad de medida.
@@ -19,7 +24,7 @@ class UnitValidator extends \Sigmalibre\Validation\Validator
     }
 
     /**
-     * La unidad de medida del producto debe ser un string de 100 caracteres o menos.
+     * La unidad de medida del producto debe ser un string de 100 carácteres o menos.
      *
      * @param mixed $input
      *
@@ -27,7 +32,12 @@ class UnitValidator extends \Sigmalibre\Validation\Validator
      */
     public function validarNombre($input)
     {
-        if ($this->v::stringType()->length(1, 100)->validate($input['unidadMedida']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 100)
+        );
+
+        if ($v->validate($input['unidadMedida']) === false) {
             $this->setInvalidInput('unidadMedida');
 
             return false;

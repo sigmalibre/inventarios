@@ -29,7 +29,7 @@ class Brand
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new BrandValidator($container);
+        $this->validator = new BrandValidator();
         $this->dataSource = new DataSource\MySQL\GetBrandFromID($container);
 
         $this->init($id);
@@ -40,7 +40,7 @@ class Brand
      *
      * @return bool True si se pudo obtener la información; False de lo contrario
      */
-    public function isset()
+    public function is_set()
     {
         return isset($this->attributes[0]);
     }

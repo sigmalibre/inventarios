@@ -32,7 +32,7 @@ class Unit
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new UnitValidator($container);
+        $this->validator = new UnitValidator();
         $this->dataSource = new DataSource\MySQL\GetUnitFromID($container);
 
         $this->init($id);
@@ -43,7 +43,7 @@ class Unit
      *
      * @return bool True si se pudo obtener la información; False de lo contrario
      */
-    public function isset()
+    public function is_set()
     {
         return isset($this->attributes[0]);
     }

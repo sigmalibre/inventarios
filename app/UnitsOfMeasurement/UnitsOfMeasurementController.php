@@ -50,7 +50,7 @@ class UnitsOfMeasurementController
         $unit = new Unit($arguments['id'], $this->container);
 
         // Si la medida especificada en la URL no existe, devolver un 404.
-        if ($unit->isset() === false) {
+        if ($unit->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
@@ -78,7 +78,7 @@ class UnitsOfMeasurementController
         $unit = new Unit($arguments['id'], $this->container);
 
         // Si la medida especificada en la URL no existe, devolver un 404.
-        if ($unit->isset() === false) {
+        if ($unit->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 

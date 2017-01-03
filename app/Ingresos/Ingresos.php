@@ -20,7 +20,7 @@ class Ingresos
     public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->validator = new IngresosValidator($container);
+        $this->validator = new IngresosValidator();
     }
 
     /**

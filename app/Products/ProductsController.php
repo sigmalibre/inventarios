@@ -2,6 +2,8 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\IVA\IVA;
+
 /**
  * Controlador para las operaciones sobre productos.
  */
@@ -37,12 +39,15 @@ class ProductsController
 
         $brands = new \Sigmalibre\Brands\Brands($this->container);
 
+        $iva = new IVA();
+
         return $this->container->view->render($response, 'products/products.html', [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
+            'porcentajeIVA' => $iva->getPorcentajeIVA() ?? 0,
         ]);
     }
 
@@ -67,7 +72,7 @@ class ProductsController
 
         $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
 
-        return $this->container->view->render($response, 'products/newproduct.html', [
+        return $this->container->view->render($response, 'products/newproduct.twig', [
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
             'measurements' => $unitsOfMeasurement->readAllUnitsOfMeasurement(),
@@ -89,7 +94,7 @@ class ProductsController
     {
         $product = new Product($arguments['id'], $this->container);
 
-        if ($product->isset() === false) {
+        if ($product->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 
@@ -103,7 +108,9 @@ class ProductsController
 
         $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
 
-        return $this->container->view->render($response, 'products/modifyproduct.html', [
+        $iva = new IVA();
+
+        return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
@@ -112,11 +119,14 @@ class ProductsController
             'detreferences' => $detReferences->readAllDETReferences(),
             'productSaved' => $productSaved,
             'failedInputs' => $failedInputs,
+            'porcentajeIVA' => $iva->getPorcentajeIVA(),
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
                 'descripcionProducto' => $product->Descripcion,
                 'stockMinProducto' => $product->StockMin,
+                'utilidadProducto' => $product->Utilidad,
+                'valorCostoActualTotal' => $product->CostoActual,
                 'marcaProducto' => $product->NombreMarca,
                 'medidaProducto' => $product->UnidadMedida,
                 'categoriaDetProducto' => $product->CodigoBienDet,
@@ -159,7 +169,7 @@ class ProductsController
         $product = new Product($arguments['id'], $this->container);
 
         // Si el producto especificado en la URL no exsiste, devolver un 404.
-        if ($product->isset() === false) {
+        if ($product->is_set() === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
 

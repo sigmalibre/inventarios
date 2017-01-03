@@ -13,7 +13,7 @@ class Brands
     public function __construct($container)
     {
         $this->container = $container;
-        $this->validator = new BrandValidator($container);
+        $this->validator = new BrandValidator();
     }
 
     /**

@@ -7,5 +7,5 @@ namespace Sigmalibre\DataSource;
  */
 interface WriteInterface
 {
-    public function write();
+    public function write($identifier, $contents);
 }

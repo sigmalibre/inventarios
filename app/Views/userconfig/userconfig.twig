@@ -1,0 +1,29 @@
+{% extends 'templates/base.html' %}
+
+{% block title  %}Ajustes{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Ajustar Porcentaje del IVA</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('iva') }}" method="post">
+                            <div class="form-group">
+                                <label for="porcentajeIVA">Porcentaje del IVA</label>
+                                <div class="input-group">
+                                    <input type="number" id="porcentajeIVA" class="form-control" name="porcentajeIVA" value="{{ porcentajeIVA }}" min="0" step="any">
+                                    <span class="input-group-addon">%</span>
+                                </div>
+                            </div>
+                            <button class="btn btn-block btn-info" type="submit"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

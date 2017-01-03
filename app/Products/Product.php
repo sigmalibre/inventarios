@@ -45,8 +45,8 @@ class Product
     public function __construct($id, $container, $initFromID = true)
     {
         $this->container = $container;
-        $this->validator = new ProductValidator($container);
-        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator($container);
+        $this->validator = new ProductValidator();
+        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator();
         $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
         $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
         $this->singleAttributeUpdater = new DataSource\MySQL\UpdateSingleAttributeProduct($container);
@@ -63,7 +63,7 @@ class Product
      *
      * @return bool True si se pudo obtener la información; False de lo contrario
      */
-    public function isset()
+    public function is_set()
     {
         return isset($this->attributes[0]);
     }

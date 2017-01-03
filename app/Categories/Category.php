@@ -32,7 +32,7 @@ class Category
     public function __construct($id, $container)
     {
         $this->container = $container;
-        $this->validator = new CategoryValidator($container);
+        $this->validator = new CategoryValidator();
         $this->dataSource = new DataSource\MySQL\GetCategoryFromID($container);
 
         $this->init($id);
@@ -43,7 +43,7 @@ class Category
      *
      * @return bool True si se pudo obtener la información; False de lo contrario
      */
-    public function isset()
+    public function is_set()
     {
         return isset($this->attributes[0]);
     }

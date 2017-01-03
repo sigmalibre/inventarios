@@ -11,8 +11,8 @@ class GetProductFromCode extends FilterAllProducts
     protected $filterFields = [
         [
             'filterName' => 'codigoProducto',
-            'tableName' => 'Productos',
-            'columnName' => 'Codigo',
+            'tableName' => 'VistaProductosCompletos',
+            'columnName' => 'CodigoProducto',
             'searchType' => '=',
         ],
     ];
