@@ -108,6 +108,8 @@ class ProductsController
 
         $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
 
+        $iva = new IVA();
+
         return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
@@ -117,11 +119,14 @@ class ProductsController
             'detreferences' => $detReferences->readAllDETReferences(),
             'productSaved' => $productSaved,
             'failedInputs' => $failedInputs,
+            'porcentajeIVA' => $iva->getPorcentajeIVA(),
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
                 'descripcionProducto' => $product->Descripcion,
                 'stockMinProducto' => $product->StockMin,
+                'utilidadProducto' => $product->Utilidad,
+                'valorCostoActualTotal' => $product->CostoActual,
                 'marcaProducto' => $product->NombreMarca,
                 'medidaProducto' => $product->UnidadMedida,
                 'categoriaDetProducto' => $product->CodigoBienDet,
