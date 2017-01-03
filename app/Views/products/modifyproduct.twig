@@ -44,6 +44,11 @@
                                         <label for="stockMinProducto">Stock Mínimo</label>
                                         <input type="number" name="stockMinProducto" value="{{ input.stockMinProducto ?? 1 }}" class="form-control" id="stockMinProducto" min="0">
                                     </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto  %}checked{% endif %}> Excento IVA?
+                                        </label>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group has-feedback has-clear">
@@ -84,10 +89,40 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto  %}checked{% endif %}> Excento IVA?
-                                </label>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="valorCostoActualTotal">Costo Actual del Producto</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" value="{{ input.valorCostoActualTotal }}" class="form-control" id="valorCostoActualTotal" step="any" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="utilidadProducto">Utilidad del Producto</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" name="utilidadProducto" value="{{ input.utilidadProducto ?? 0 }}" class="form-control" id="utilidadProducto" min="0" step="any">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="precioVentaProducto">Precio de Venta</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" value="{{ (input.utilidadProducto ?? 0 + input.valorCostoActualTotal ?? 0)|number_format(4) }}" class="form-control" id="precioVentaProducto" step="any">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="precioVentaIVAProducto">Precio de Venta + IVA</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" value="{{ ((input.utilidadProducto ?? 0 + input.valorCostoActualTotal ?? 0) * (1 + porcentajeIVA / 100))|number_format(4) }}" class="form-control" id="precioVentaIVAProducto" step="any">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Producto</button>
                         </form>
