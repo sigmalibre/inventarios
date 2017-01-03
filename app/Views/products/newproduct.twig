@@ -44,6 +44,13 @@
                                         <label for="stockMinProducto">Stock Mínimo</label>
                                         <input type="number" name="stockMinProducto" value="{% if productSaved is same as(false) %}{{ input.stockMinProducto ?? 1 }}{% else %}1{% endif %}" class="form-control" id="stockMinProducto" min="0">
                                     </div>
+                                    <div class="form-group">
+                                        <label for="utilidadProducto">Utilidad Inicial del Producto</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" name="utilidadProducto" value="{% if productSaved is same as(false) %}{{ input.utilidadProducto ?? 0 }}{% else %}0{% endif %}" class="form-control" id="utilidadProducto" min="0" step="any">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group has-feedback has-clear">
@@ -82,12 +89,12 @@
                                             {% endfor %}
                                         </select>
                                     </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto and productSaved is same as(false) %}checked{% endif %}> Excento IVA?
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto and productSaved is same as(false) %}checked{% endif %}> Excento IVA?
-                                </label>
                             </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Producto</button>
                         </form>
