@@ -108,7 +108,7 @@ class ProductsController
 
         $detReferences = new \Sigmalibre\DETReferences\DETReferences($this->container);
 
-        return $this->container->view->render($response, 'products/modifyproduct.html', [
+        return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
