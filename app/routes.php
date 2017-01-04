@@ -36,6 +36,7 @@ $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWareh
 $app->post('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:createNew');
 
 $app->get('/warehouses/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouse')->setName('warehouses/update');
+$app->post('/warehouses/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:update');
 
 $app->get('/warehouses/createform', '\Sigmalibre\Warehouses\WarehousesController:indexCreateWarehouse')->setName('warehouses/createform');
 

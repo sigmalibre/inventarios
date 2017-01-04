@@ -103,4 +103,26 @@ class WarehousesController
             ],
         ]);
     }
+
+    /**
+     * Actualiza la información sobre un almacén.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function update(Request $request, ResponseInterface $response, $arguments)
+    {
+        $warehouse = new Warehouse($arguments['id'], $this->container);
+
+        if ($warehouse->is_set() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        $isSaved = $warehouse->update($request->getParsedBody());
+
+        return $this->indexWarehouse($request, $response, $arguments, $isSaved, $warehouse->getInvalidInputs());
+    }
 }

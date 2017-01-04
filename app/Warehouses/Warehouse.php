@@ -93,4 +93,14 @@ class Warehouse
 
         return true;
     }
+
+    /**
+     * Obtiene la lista de los inputs que no pasaron la validación al actualizar el almacén.
+     *
+     * @return array
+     */
+    public function getInvalidInputs()
+    {
+        return $this->validator->getInvalidInputs();
+    }
 }
