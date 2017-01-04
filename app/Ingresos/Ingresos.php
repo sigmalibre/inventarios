@@ -28,22 +28,20 @@ class Ingresos
      * Guarda un ingreso de producto nuevo en la fuente de datos.
      *
      * @param array $userInput
+     * @param       $id
      *
      * @return bool
      */
-    public function save($userInput)
+    public function save($userInput, $id)
     {
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
         $userInput = array_map('trim', $userInput);
 
+        $userInput['productoID'] = $id;
+
         // Ya que el campo de EmpresaID en la fuente de datos solo acepta INT y NULL, si se pasa un
         // string vacío, se convierte a NULL en su lugar.
         $userInput['empresaID'] = empty($userInput['empresaID']) ? null : $userInput['empresaID'];
-
-        // Validar el input del usuario.
-        if ($this->validator->validate($userInput) === false) {
-            return false;
-        }
 
         // Si el nuevo costo total del producto no viene establecido en el input, calcularlo a partir
         // del método del promedio ponderado.
@@ -51,6 +49,11 @@ class Ingresos
             $producto = new Product($userInput['productoID'], $this->container);
             $promediador = new PromedioPonderado($producto, $userInput);
             $userInput['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
+        }
+
+        // Validar el input del usuario.
+        if ($this->validator->validate($userInput) === false) {
+            return false;
         }
 
         $writer = new DataSource\MySQL\SaveNewIngreso($this->container);
