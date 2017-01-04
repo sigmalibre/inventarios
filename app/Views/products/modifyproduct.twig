@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                {% if productSaved is same as(true) %}
+                {% if productSaved == true %}
                 <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El producto ha sido modificado exitosamente!</div>
                 {% endif %}
                 {% if productSaved is same as(false) %}
