@@ -1,6 +1,9 @@
 <?php
 
 namespace Sigmalibre\Warehouses;
+use Sigmalibre\ItemList\ItemListReader;
+use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\Warehouses\DataSource\MySQL\SaveNewWarehouse;
 
 /**
  * Modelo para las operaciones CRUD sobre las bodegas.
@@ -8,31 +11,67 @@ namespace Sigmalibre\Warehouses;
 class Warehouses
 {
     private $container;
-    private $userInput;
-    private $listReader;
+    private $validator;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredWarehouses($container),
-            new DataSource\MySQL\FilterAllWarehouses($container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
-            $userInput
-        );
+        $this->validator = new WarehousesValidator();
     }
 
     /**
      * Obtiene la lista con las bodegas existentes según los términos de búsqueda
      * que aplique el usuario y con paginación.
+     *
+     * @param $userInput
+     *
      * @return array
      */
-    public function readWarehouseList()
+    public function readWarehouseList($userInput)
     {
-        $warehouseList = $this->listReader->read();
-        $warehouseList['userInput'] = $this->userInput;
+        $listReader = new ItemListReader(
+            new DataSource\MySQL\CountAllFilteredWarehouses($this->container),
+            new DataSource\MySQL\FilterAllWarehouses($this->container),
+            new Paginator($userInput),
+            $userInput
+        );
+
+        $warehouseList = $listReader->read();
+        $warehouseList['userInput'] = $userInput;
 
         return $warehouseList;
+    }
+
+    /**
+     * Guarda un nuevo almacén en la fuente de datos.
+     *
+     * @param array $userInput
+     *
+     * @return bool|string
+     */
+    public function save(array $userInput)
+    {
+        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
+        $userInput = array_map('trim', $userInput);
+
+        // Validar el input del usuario.
+        if ($this->validator->validate($userInput) === false) {
+            return false;
+        }
+
+        // Guardar el almacén.
+        $writer = new SaveNewWarehouse($this->container);
+
+        return $writer->write($userInput);
+    }
+
+    /**
+     * Obtiene la lista con los inputs que no pasaron la validación.
+     *
+     * @return array
+     */
+    public function getInvalidInputs()
+    {
+        return $this->validator->getInvalidInputs();
     }
 }
