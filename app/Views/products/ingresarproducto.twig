@@ -1,0 +1,19 @@
+<div class="panel panel-primary">
+    <div class="panel-heading clearfix">Entrada de Producto <span class="pull-right">Cantidad Actual: {{ cantidadActual }}</span></div>
+    <div class="panel-body">
+        <form action="{{ path_for('products/ingresos', {'id': productID}) }}" method="post">
+            <div class="form-group">
+                <label for="cantidadIngreso">Cantidad a Ingresar</label>
+                <input type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso">
+            </div>
+            <div class="form-group">
+                <label for="valorPrecioUnitario">Costo Unitario</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="number" name="valorPrecioUnitario" value="{{ input.valorPrecioUnitario ?? input.valorCostoActualTotal ?? 0 }}" class="form-control" id="valorPrecioUnitario" min="0" step="any">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span> Ingresar el Producto</button>
+        </form>
+    </div>
+</div>

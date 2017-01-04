@@ -43,7 +43,8 @@ class IngresosValidator extends Validator
     public function validarCantidadUnidades($input)
     {
         $v = new AllOf(
-            new Numeric()
+            new Numeric(),
+            new IntVal()
         );
 
         if ($v->validate($input['cantidadIngreso']) === false) {

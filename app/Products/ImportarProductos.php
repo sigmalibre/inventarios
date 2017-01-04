@@ -170,9 +170,8 @@ class ImportarProductos
                     'cantidadIngreso' => $producto['Unidades'],
                     'valorPrecioUnitario' => $producto['Costo'],
                     'valorCostoActualTotal' => $producto['Costo'], // El costo inicial es igual al unitario.
-                    'productoID' => $seCreoProducto,
                     'empresaID' => null,
-                ]);
+                ], $seCreoProducto);
 
                 if ($isIngresoSaved === false) {
                     $this->container->mysql->rollBack();
