@@ -57,4 +57,21 @@ class WarehousesController
             'input' => $request->getParsedBody(),
         ]);
     }
+
+    /**
+     * Recibe el input del usuario para crear un nuevo almacén.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \Slim\Http\Response
+     */
+    public function createNew(Request $request, ResponseInterface $response)
+    {
+        $warehouses = new Warehouses($this->container);
+
+        $isSaved = $warehouses->save($request->getParsedBody());
+
+        return $this->indexCreateWarehouse($request, $response, null, $isSaved, $warehouses->getInvalidInputs());
+    }
 }

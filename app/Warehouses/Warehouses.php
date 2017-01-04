@@ -3,6 +3,7 @@
 namespace Sigmalibre\Warehouses;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\Warehouses\DataSource\MySQL\SaveNewWarehouse;
 
 /**
  * Modelo para las operaciones CRUD sobre las bodegas.
@@ -36,8 +37,41 @@ class Warehouses
         );
 
         $warehouseList = $listReader->read();
-        $warehouseList['userInput'] = $this->userInput;
+        $warehouseList['userInput'] = $userInput;
 
         return $warehouseList;
+    }
+
+    /**
+     * Guarda un nuevo almacén en la fuente de datos.
+     *
+     * @param array $userInput
+     *
+     * @return bool|string
+     */
+    public function save(array $userInput)
+    {
+        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
+        $userInput = array_map('trim', $userInput);
+
+        // Validar el input del usuario.
+        if ($this->validator->validate($userInput) === false) {
+            return false;
+        }
+
+        // Guardar el almacén.
+        $writer = new SaveNewWarehouse($this->container);
+
+        return $writer->write($userInput);
+    }
+
+    /**
+     * Obtiene la lista con los inputs que no pasaron la validación.
+     *
+     * @return array
+     */
+    public function getInvalidInputs()
+    {
+        return $this->validator->getInvalidInputs();
     }
 }
