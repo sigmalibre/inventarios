@@ -41,7 +41,7 @@ class ProductsController
 
         $iva = new IVA();
 
-        return $this->container->view->render($response, 'products/products.html', [
+        return $this->container->view->render($response, 'products/products.twig', [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
