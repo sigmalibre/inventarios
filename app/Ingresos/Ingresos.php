@@ -2,6 +2,7 @@
 
 namespace Sigmalibre\Ingresos;
 
+use Sigmalibre\Products\Product;
 use Slim\Container;
 
 /**
@@ -42,6 +43,14 @@ class Ingresos
         // Validar el input del usuario.
         if ($this->validator->validate($userInput) === false) {
             return false;
+        }
+
+        // Si el nuevo costo total del producto no viene establecido en el input, calcularlo a partir
+        // del método del promedio ponderado.
+        if (empty($userInput['valorCostoActualTotal']) === true) {
+            $producto = new Product($userInput['productoID'], $this->container);
+            $promediador = new PromedioPonderado($producto, $userInput);
+            $userInput['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
         }
 
         $writer = new DataSource\MySQL\SaveNewIngreso($this->container);
