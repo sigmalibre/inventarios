@@ -14,7 +14,9 @@ $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:inde
 
 $app->get('/productos/importar', '\Sigmalibre\Products\ImportarController:importar')->setName('importar');
 
-$app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('ingresos');
+$app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
+
+$app->get('/productos/ingresos', '\Sigmalibre\Ingresos\IngresosController:indexAll')->setName('ingresos');
 
 // CATEGORIAS DE PRODUCTO
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
