@@ -4,6 +4,19 @@ namespace Sigmalibre\Products;
 
 /**
  * Modelo para operaciones sobre los productos individuales.
+ *
+ * @property string Cantidad
+ * @property string CostoActual
+ * @property string CategoriaProductoID
+ * @property string CodigoProducto
+ * @property string Descripcion
+ * @property string StockMin
+ * @property string Utilidad
+ * @property string NombreMarca
+ * @property string UnidadMedida
+ * @property string CodigoBienDet
+ * @property string CodigoLibroDet
+ * @property string ExcentoIVA
  */
 class Product
 {
