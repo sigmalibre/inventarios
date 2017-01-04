@@ -120,6 +120,7 @@ class ProductsController
             'productSaved' => $productSaved,
             'failedInputs' => $failedInputs,
             'porcentajeIVA' => $iva->getPorcentajeIVA(),
+            'cantidadActual' => $product->Cantidad,
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
