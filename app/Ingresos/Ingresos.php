@@ -2,7 +2,12 @@
 
 namespace Sigmalibre\Ingresos;
 
+use Sigmalibre\Ingresos\DataSource\MySQL\CountFilteredIngresos;
+use Sigmalibre\Ingresos\DataSource\MySQL\FilterIngresos;
+use Sigmalibre\ItemList\ItemListReader;
+use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Products\Product;
+use Sigmalibre\Products\Products;
 use Slim\Container;
 
 /**
@@ -12,6 +17,7 @@ class Ingresos
 {
     private $container;
     private $validator;
+    private $products;
 
     /**
      * Ingresos constructor.
@@ -22,6 +28,31 @@ class Ingresos
     {
         $this->container = $container;
         $this->validator = new IngresosValidator();
+        $this->products = new Products($container);
+    }
+
+    /**
+     * Realiza una lectura de las entradas de producto existentes.
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    public function readList(array $input)
+    {
+        $input = $this->products->parseCodigoConCategoria($input);
+
+        $listReader = new ItemListReader(
+            new CountFilteredIngresos($this->container),
+            new FilterIngresos($this->container),
+            new Paginator($input),
+            $input
+        );
+
+        $itemList = $listReader->read();
+        $itemList['userInput'] = $input;
+
+        return $itemList;
     }
 
     /**

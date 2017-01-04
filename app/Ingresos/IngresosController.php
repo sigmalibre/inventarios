@@ -19,6 +19,26 @@ class IngresosController
     }
 
     /**
+     * Renderiza la vista con la lista de los detalles entrada de producto
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return Response
+     */
+    public function indexAll(Request $request, ResponseInterface $response)
+    {
+        $ingresos = new Ingresos($this->container);
+        $result = $ingresos->readList($request->getQueryParams());
+
+        return $this->container->view->render($response, 'ingresos/ingresos.twig', [
+            'ingresos' => $result['itemList'],
+            'pagination' => $result['pagination'],
+            'input' => $result['userInput'],
+        ]);
+    }
+
+    /**
      * Registra una nueva entrada de productos.
      *
      * @param \Slim\Http\Request                  $request
