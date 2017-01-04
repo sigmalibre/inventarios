@@ -44,15 +44,15 @@ class WarehousesController
      * @param \Slim\Http\Request                  $request
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param                                     $arguments
-     * @param null                                $categorySaved
+     * @param null                                $isSaved
      * @param null                                $failedInputs
      *
      * @return Response
      */
-    public function indexCreateWarehouse(Request $request, ResponseInterface $response, $arguments, $categorySaved = null, $failedInputs = null)
+    public function indexCreateWarehouse(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         return $this->container->view->render($response, 'warehouses/newwarehouse.twig', [
-            'isSaved' => $categorySaved,
+            'isSaved' => $isSaved,
             'failedInputs' => $failedInputs,
             'input' => $request->getParsedBody(),
         ]);
@@ -73,5 +73,34 @@ class WarehousesController
         $isSaved = $warehouses->save($request->getParsedBody());
 
         return $this->indexCreateWarehouse($request, $response, null, $isSaved, $warehouses->getInvalidInputs());
+    }
+
+    /**
+     * Renderiza la vista mostrando los detalles de un almacén.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     * @param null                                $isSaved
+     * @param null                                $failedInputs
+     *
+     * @return Response
+     */
+    public function indexWarehouse(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
+    {
+        $warehouse = new Warehouse($arguments['id'], $this->container);
+
+        if ($warehouse->is_set() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        return $this->container->view->render($response, 'warehouses/updatewarehouse.twig', [
+            'almacenID' => $arguments['id'],
+            'isSaved' => $isSaved,
+            'failedInputs' => $failedInputs,
+            'input' => [
+                'nombreAlmacen' => $warehouse->getNombre(),
+            ],
+        ]);
     }
 }

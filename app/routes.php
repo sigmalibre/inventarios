@@ -35,6 +35,8 @@ $app->get('/creditofiscal', '\Sigmalibre\Invoices\InvoicesController:indexCredit
 $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
 $app->post('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:createNew');
 
+$app->get('/warehouses/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouse')->setName('warehouses/update');
+
 $app->get('/warehouses/createform', '\Sigmalibre\Warehouses\WarehousesController:indexCreateWarehouse')->setName('warehouses/createform');
 
 // CLIENTES
