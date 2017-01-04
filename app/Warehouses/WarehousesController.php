@@ -28,8 +28,8 @@ class WarehousesController
     {
         $parameters = $request->getQueryParams();
 
-        $warehouses = new Warehouses($this->container, $parameters);
-        $warehouseResults = $warehouses->readWarehouseList();
+        $warehouses = new Warehouses($this->container);
+        $warehouseResults = $warehouses->readWarehouseList($parameters);
 
         return $this->container->view->render($response, 'warehouses/warehouses.html', [
             'warehouses' => $warehouseResults['itemList'],

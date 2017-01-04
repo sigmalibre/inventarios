@@ -1,6 +1,8 @@
 <?php
 
 namespace Sigmalibre\Warehouses;
+use Sigmalibre\ItemList\ItemListReader;
+use Sigmalibre\Pagination\Paginator;
 
 /**
  * Modelo para las operaciones CRUD sobre las bodegas.
@@ -8,29 +10,32 @@ namespace Sigmalibre\Warehouses;
 class Warehouses
 {
     private $container;
-    private $userInput;
-    private $listReader;
+    private $validator;
 
-    public function __construct($container, $userInput)
+    public function __construct($container)
     {
         $this->container = $container;
-        $this->userInput = $userInput;
-        $this->listReader = new \Sigmalibre\ItemList\ItemListReader(
-            new DataSource\MySQL\CountAllFilteredWarehouses($container),
-            new DataSource\MySQL\FilterAllWarehouses($container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
-            $userInput
-        );
+        $this->validator = new WarehousesValidator();
     }
 
     /**
      * Obtiene la lista con las bodegas existentes según los términos de búsqueda
      * que aplique el usuario y con paginación.
+     *
+     * @param $userInput
+     *
      * @return array
      */
-    public function readWarehouseList()
+    public function readWarehouseList($userInput)
     {
-        $warehouseList = $this->listReader->read();
+        $listReader = new ItemListReader(
+            new DataSource\MySQL\CountAllFilteredWarehouses($this->container),
+            new DataSource\MySQL\FilterAllWarehouses($this->container),
+            new Paginator($userInput),
+            $userInput
+        );
+
+        $warehouseList = $listReader->read();
         $warehouseList['userInput'] = $this->userInput;
 
         return $warehouseList;
