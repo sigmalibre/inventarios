@@ -1,0 +1,31 @@
+{% extends 'templates/base.html' %}
+
+{% block title  %}Modificar Almacén{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                {% if isSaved %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El almacén ha sido modificado exitosamente!</div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el almacén.</div>
+                {% endif %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Modifica este almacén</div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('warehouses/update', {'id': almacenID}) }}" method="post">
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nombreAlmacen">Nombre del Almacen</label>
+                                <input type="text" name="nombreAlmacen" value="{{ input.nombreAlmacen }}" class="form-control" id="nombreAlmacen">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreAlmacen %}hidden{% endif %}"></span>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Almacen</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
