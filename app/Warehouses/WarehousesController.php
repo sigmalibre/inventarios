@@ -2,6 +2,10 @@
 
 namespace Sigmalibre\Warehouses;
 
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 /**
  * Controlador para las operaciones sobre las bodegas.
  */
@@ -31,6 +35,26 @@ class WarehousesController
             'warehouses' => $warehouseResults['itemList'],
             'pagination' => $warehouseResults['pagination'],
             'input' => $warehouseResults['userInput'],
+        ]);
+    }
+
+    /**
+     * Renderiza la vista del formulario de creación de un nuevo almacén.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     * @param null                                $categorySaved
+     * @param null                                $failedInputs
+     *
+     * @return Response
+     */
+    public function indexCreateWarehouse(Request $request, ResponseInterface $response, $arguments, $categorySaved = null, $failedInputs = null)
+    {
+        return $this->container->view->render($response, 'warehouses/newwarehouse.twig', [
+            'isSaved' => $categorySaved,
+            'failedInputs' => $failedInputs,
+            'input' => $request->getParsedBody(),
         ]);
     }
 }

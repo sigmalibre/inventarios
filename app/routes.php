@@ -33,6 +33,7 @@ $app->get('/creditofiscal', '\Sigmalibre\Invoices\InvoicesController:indexCredit
 
 // ALMACENES
 $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
+$app->get('/warehouses/createform', '\Sigmalibre\Warehouses\WarehousesController:indexCreateWarehouse')->setName('warehouses/createform');
 
 // CLIENTES
 $app->get('/clientes/personas', '\Sigmalibre\Clients\ClientsController:indexPeople')->setName('clientes/personas');
