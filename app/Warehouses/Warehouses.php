@@ -1,9 +1,11 @@
 <?php
 
 namespace Sigmalibre\Warehouses;
+
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Warehouses\DataSource\MySQL\SaveNewWarehouse;
+use Sigmalibre\Warehouses\DataSource\MySQL\SearchAllWarehouses;
 
 /**
  * Modelo para las operaciones CRUD sobre las bodegas.
@@ -40,6 +42,18 @@ class Warehouses
         $warehouseList['userInput'] = $userInput;
 
         return $warehouseList;
+    }
+
+    /**
+     * Obtiene todos los almacenes en existencia.
+     *
+     * @return array
+     */
+    public function readAll()
+    {
+        $reader = new SearchAllWarehouses($this->container);
+
+        return $reader->read([]);
     }
 
     /**
