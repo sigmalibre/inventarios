@@ -65,6 +65,13 @@ class Ingresos
      */
     public function save($userInput, $id)
     {
+        // Revisar si el producto al que se desea hacer el ingreso existe.
+        $producto = new Product($id, $this->container);
+
+        if ($producto->is_set() === false) {
+            return false;
+        }
+
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
         $userInput = array_map('trim', $userInput);
 
@@ -77,13 +84,19 @@ class Ingresos
         // Si el nuevo costo total del producto no viene establecido en el input, calcularlo a partir
         // del método del promedio ponderado.
         if (empty($userInput['valorCostoActualTotal']) === true) {
-            $producto = new Product($userInput['productoID'], $this->container);
             $promediador = new PromedioPonderado($producto, $userInput);
             $userInput['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
         }
 
         // Validar el input del usuario.
         if ($this->validator->validate($userInput) === false) {
+            return false;
+        }
+
+        // Las devoluciones sobre compras se hacen simplemente ingresando un número negatívo como ingreso de producto
+        // Y dejando el costo al mismo con el que se compró.
+        // El sistema debe limitar que no se hagan ingresos negativos que pongan la cantidad de producto por debajo de 0
+        if ((int)$producto->Cantidad + (int)$userInput['cantidadIngreso'] < 0) {
             return false;
         }
 
