@@ -2,8 +2,14 @@
 
 namespace Sigmalibre\Warehouses;
 
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
+use Sigmalibre\DatosGenerales\Direccion;
+use Sigmalibre\DatosGenerales\Telefono;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\Validation\ValidadorDireccion;
+use Sigmalibre\Validation\ValidadorTelefono;
 use Sigmalibre\Warehouses\DataSource\MySQL\SaveNewWarehouse;
 use Sigmalibre\Warehouses\DataSource\MySQL\SearchAllWarehouses;
 
@@ -14,11 +20,15 @@ class Warehouses
 {
     private $container;
     private $validator;
+    private $validadorDirecciones;
+    private $validadorTelefonos;
 
     public function __construct($container)
     {
         $this->container = $container;
         $this->validator = new WarehousesValidator();
+        $this->validadorDirecciones = new ValidadorDireccion();
+        $this->validadorTelefonos = new ValidadorTelefono();
     }
 
     /**
@@ -61,7 +71,7 @@ class Warehouses
      *
      * @param array $input
      *
-     * @return bool|string
+     * @return bool
      */
     public function save(array $input)
     {
@@ -69,14 +79,33 @@ class Warehouses
         $input = array_map('trim', $input);
 
         // Validar el input del usuario.
-        if ($this->validator->validate($input) === false) {
+        $isInputValid = $this->runValidators($input);
+        if ($isInputValid === false) {
             return false;
         }
 
-        // Guardar el almacén.
-        $writer = new SaveNewWarehouse($this->container);
+        $this->container->mysql->beginTransaction();
 
-        return $writer->write($input);
+        $newWarehouseID = $this->saveWarehouse($input['nombreAlmacen']);
+
+        if ($newWarehouseID === false) {
+            $this->container->mysql->rollBack();
+
+            return false;
+        }
+
+        $newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['almacenID' => $newWarehouseID]);
+        $newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['almacenID' => $newWarehouseID]);
+
+        if ($newDireccionID === false || $newTelefonoID === false) {
+            $this->container->mysql->rollBack();
+
+            return false;
+        }
+
+        $this->container->mysql->commit();
+
+        return true;
     }
 
     /**
@@ -86,6 +115,42 @@ class Warehouses
      */
     public function getInvalidInputs()
     {
-        return $this->validator->getInvalidInputs();
+        return array_merge(
+            $this->validator->getInvalidInputs(),
+            $this->validadorDirecciones->getInvalidInputs(),
+            $this->validadorTelefonos->getInvalidInputs()
+        );
+    }
+
+    /**
+     * @param array $input
+     *
+     * @return bool
+     */
+    private function runValidators(array $input)
+    {
+        $this->validator->validate($input);
+        $this->validadorDirecciones->validate($input);
+        $this->validadorTelefonos->validate($input);
+
+        if (empty($this->getInvalidInputs()) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $name
+     *
+     * @return bool|string
+     */
+    private function saveWarehouse($name)
+    {
+        $warehouseWriter = new SaveNewWarehouse($this->container);
+
+        return $warehouseWriter->write([
+            'nombreAlmacen' => $name,
+        ]);
     }
 }
