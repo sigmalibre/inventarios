@@ -2,14 +2,15 @@
 
 namespace Sigmalibre\Warehouses\DataSource\MySQL;
 
-use Sigmalibre\DataSource\MySQL\MySQL;
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\DataSource\WriteInterface;
 
 /**
  * Guarda almacenes nuevos en la BD.
  */
-class SaveNewWarehouse
+class SaveNewWarehouse implements WriteInterface
 {
-    /** @var  MySQL $connection */
+    /** @var MySQLTransactions $connection */
     private $connection;
 
     public function __construct($container)
@@ -26,7 +27,7 @@ class SaveNewWarehouse
      *
      * @return bool|string Retorna la ID de el almacén recién creado; False si no se pudo crear
      */
-    public function write(array $data)
+    public function write($data)
     {
         $isSaved = $this->connection->execute('INSERT INTO Almacenes (NombreAlmacen) VALUES (:nombreAlmacen)', $data);
 

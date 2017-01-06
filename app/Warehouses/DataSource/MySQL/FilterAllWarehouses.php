@@ -7,7 +7,8 @@ namespace Sigmalibre\Warehouses\DataSource\MySQL;
  */
 class FilterAllWarehouses extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT AlmacenID, NombreAlmacen, COALESCE((SELECT SUM(Cantidad) FROM DetalleAlmacenes WHERE DetalleAlmacenes.AlmacenID = Almacenes.AlmacenID), 0) AS Cantidad FROM Almacenes WHERE 1';
+    protected $baseQuery = 'SELECT AlmacenID, NombreAlmacen, Direccion, Telefono, COALESCE(SUM(Cantidad), 0) AS Cantidad FROM Almacenes LEFT JOIN DetalleAlmacenes USING (AlmacenID) LEFT JOIN Direcciones USING (AlmacenID) LEFT JOIN Telefonos USING (AlmacenID) WHERE 1';
+    protected $endQuery = 'GROUP BY AlmacenID';
     protected $setLimit = true;
     protected $filterFields = [
         [
@@ -15,6 +16,12 @@ class FilterAllWarehouses extends \Sigmalibre\DataSource\MySQL\MySQLReader
             'tableName' => 'Almacenes',
             'columnName' => 'NombreAlmacen',
             'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'productoID',
+            'tableName' => 'DetalleAlmacenes',
+            'columnName' => 'ProductoID',
+            'searchType' => '=',
         ],
     ];
 }

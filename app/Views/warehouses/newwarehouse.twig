@@ -7,19 +7,29 @@
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
                 {% if isSaved %}
-                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El almacen ha sido creado exitosamente!</div>
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El almacén ha sido creado exitosamente!</div>
                 {% endif %}
                 {% if isSaved is same as(false) %}
-                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo crear el almacen nueva.</div>
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo crear el almacén nuevo.</div>
                 {% endif %}
                 <div class="panel panel-primary">
                     <div class="panel-heading">Introduce un nuevo almacen</div>
                     <div class="panel-body">
                         <form action="{{ path_for('warehouses') }}" method="post">
                             <div class="form-group has-feedback has-clear">
-                                <label for="nombreAlmacen">Nombre del Almacen</label>
+                                <label for="nombreAlmacen">Nombre del Almacén</label>
                                 <input type="text" name="nombreAlmacen" value="{% if isSaved is same as(false) %}{{ input.nombreAlmacen }}{% endif %}" class="form-control" id="nombreAlmacen">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreAlmacen %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="direccion">Dirección</label>
+                                <input type="text" name="direccion" value="{% if isSaved is same as (false) %}{{ input.direccion }}{% endif %}" class="form-control" id="direccion">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="telefono">Teléfono</label>
+                                <input type="text" name="telefono" value="{% if isSaved is same as (false) %}{{ input.telefono }}{% endif %}" class="form-control" id="telefono">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
                             </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Almacen</button>
                         </form>
