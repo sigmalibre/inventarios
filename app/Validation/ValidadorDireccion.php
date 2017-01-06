@@ -6,7 +6,7 @@ use Respect\Validation\Rules\AllOf;
 use Respect\Validation\Rules\Length;
 use Respect\Validation\Rules\StringType;
 
-class ValidadorDireccion extends ValidadorDatosGenerales
+class ValidadorDireccion extends Validator
 {
     /**
      * Realiza validaciones específicas para los campos de una dirección.
@@ -18,10 +18,6 @@ class ValidadorDireccion extends ValidadorDatosGenerales
     public function validate($input)
     {
         $this->validarDireccion($input);
-        $this->validarIDEmpresa($input);
-        $this->validarIDEmpleado($input);
-        $this->validarIDClientePersona($input);
-        $this->validarIDAlmacen($input);
 
         return empty($this->invalidUserInputs);
     }

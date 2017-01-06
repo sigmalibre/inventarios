@@ -4,20 +4,17 @@ namespace Sigmalibre\Validation;
 
 use Respect\Validation\Rules\AllOf;
 use Respect\Validation\Rules\IntVal;
-use Respect\Validation\Rules\Optional;
 use Respect\Validation\Rules\Positive;
 
 class ValidadorDatosGenerales extends Validator
 {
-    private $optionalIntValidator;
+    private $intValidator;
 
     public function __construct()
     {
-        $this->optionalIntValidator = new Optional(
-            new AllOf(
-                new IntVal(),
-                new Positive()
-            )
+        $this->intValidator = new AllOf(
+            new IntVal(),
+            new Positive()
         );
     }
 
@@ -49,7 +46,7 @@ class ValidadorDatosGenerales extends Validator
      */
     public function validarIDEmpresa($input)
     {
-        if ($this->optionalIntValidator->validate($input['empresaID']) === false) {
+        if ($this->intValidator->validate($input['empresaID']) === false) {
             $this->setInvalidInput('empresaID');
 
             return false;
@@ -67,7 +64,7 @@ class ValidadorDatosGenerales extends Validator
      */
     public function validarIDEmpleado($input)
     {
-        if ($this->optionalIntValidator->validate($input['empleadoID']) === false) {
+        if ($this->intValidator->validate($input['empleadoID']) === false) {
             $this->setInvalidInput('empleadoID');
 
             return false;
@@ -85,7 +82,7 @@ class ValidadorDatosGenerales extends Validator
      */
     public function validarIDClientePersona($input)
     {
-        if ($this->optionalIntValidator->validate($input['clientePersonaID']) === false) {
+        if ($this->intValidator->validate($input['clientePersonaID']) === false) {
             $this->setInvalidInput('clientePersonaID');
 
             return false;
@@ -103,7 +100,7 @@ class ValidadorDatosGenerales extends Validator
      */
     public function validarIDAlmacen($input)
     {
-        if ($this->optionalIntValidator->validate($input['almacenID']) === false) {
+        if ($this->intValidator->validate($input['almacenID']) === false) {
             $this->setInvalidInput('almacenID');
 
             return false;

@@ -6,7 +6,7 @@ use Respect\Validation\Rules\AllOf;
 use Respect\Validation\Rules\Length;
 use Respect\Validation\Rules\StringType;
 
-class ValidadorTelefono extends ValidadorDatosGenerales
+class ValidadorTelefono extends Validator
 {
     /**
      * Realiza validaciones específicas para los campos de un teléfono.
@@ -18,10 +18,6 @@ class ValidadorTelefono extends ValidadorDatosGenerales
     public function validate($input)
     {
         $this->validarTelefono($input);
-        $this->validarIDEmpresa($input);
-        $this->validarIDEmpleado($input);
-        $this->validarIDClientePersona($input);
-        $this->validarIDAlmacen($input);
 
         return empty($this->invalidUserInputs);
     }
