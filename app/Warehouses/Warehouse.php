@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Warehouses;
 
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateDireccionAlmacen;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateTelefonoAlmacen;
 use Sigmalibre\DatosGenerales\Direccion;
@@ -20,6 +23,8 @@ class Warehouse
     private $validator;
     private $validadorDirecciones;
     private $validadorTelefonos;
+    /** @var MySQLTransactions $transaction */
+    private $transaction;
 
     private $id;
     private $nombre;
@@ -70,6 +75,7 @@ class Warehouse
     public function __construct($id, $container)
     {
         $this->container = $container;
+        $this->transaction = $container->mysql;
         $this->validator = new WarehousesValidator();
         $this->validadorDirecciones = new ValidadorDireccion();
         $this->validadorTelefonos = new ValidadorTelefono();
@@ -135,26 +141,26 @@ class Warehouse
             return false;
         }
 
-        $this->container->mysql->beginTransaction();
+        $this->transaction->beginTransaction();
 
         $isWarehouseUpdated = $this->updateWarehouse($input['nombreAlmacen']);
 
         if ($isWarehouseUpdated === false) {
-            $this->container->mysql->rollBack();
+            $this->transaction->rollBack();
 
             return false;
         }
 
-        $isDirectionUpdated = (new Direccion())->save(new UpdateDireccionAlmacen($this->container), $input['direccion'], ['almacenID' => $this->id]);
-        $isTelefonoUpdated = (new Telefono())->save(new UpdateTelefonoAlmacen($this->container), $input['telefono'], ['almacenID' => $this->id]);
+        $isDirectionUpdated = $this->updateDireccion($input['direccion']);
+        $isTelefonoUpdated = $this->updateTelefono($input['telefono']);
 
         if ($isDirectionUpdated === false || $isTelefonoUpdated === false) {
-            $this->container->mysql->rollBack();
+            $this->transaction->rollBack();
 
             return false;
         }
 
-        $this->container->mysql->commit();
+        $this->transaction->commit();
 
         $this->init($this->id);
 
@@ -192,5 +198,69 @@ class Warehouse
             $this->validadorDirecciones->getInvalidInputs(),
             $this->validadorTelefonos->getInvalidInputs()
         );
+    }
+
+    /**
+     * Actualiza la dirección de este almacén y la crea si no existe.
+     *
+     * @param $direccion
+     *
+     * @return bool
+     */
+    private function updateDireccion($direccion)
+    {
+        if (isset($this->direccion) === false) {
+            $is_saved = (new Direccion())->save(new SaveNewDireccion($this->container), $direccion, ['almacenID' => $this->id]);
+
+            if ($is_saved === false) {
+                return false;
+            }
+
+            $this->direccion = $direccion;
+
+            return true;
+        }
+
+        $is_updated = (new Direccion())->save(new UpdateDireccionAlmacen($this->container), $direccion, ['almacenID' => $this->id]);
+
+        if ($is_updated === false) {
+            return false;
+        }
+
+        $this->direccion = $direccion;
+
+        return true;
+    }
+
+    /**
+     * Actualiza el teléfono de este almacén y lo crea si no existe.
+     *
+     * @param $telefono
+     *
+     * @return bool
+     */
+    private function updateTelefono($telefono)
+    {
+        if (isset($this->telefono) === false) {
+            $is_saved = (new Telefono())->save(new SaveNewTelefono($this->container), $telefono, ['almacenID' => $this->id]);
+
+            if ($is_saved === false) {
+                return false;
+            }
+
+            $this->telefono = $telefono;
+
+            return true;
+        }
+
+        $is_updated = (new Telefono())->save(new UpdateTelefonoAlmacen($this->container), $telefono, ['almacenID' => $this->id]);
+
+        if ($is_updated === false) {
+            return false;
+        }
+
+        $this->telefono = $telefono;
+
+        return true;
     }
 }
