@@ -8,18 +8,6 @@ use Respect\Validation\Rules\StringType;
 
 class ValidadorDireccion extends ValidadorDatosGenerales
 {
-    private $len45validator;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->len45validator = new AllOf(
-            new StringType(),
-            new Length(1, 45, true)
-        );
-    }
-
     /**
      * Realiza validaciones específicas para los campos de una dirección.
      *
@@ -29,9 +17,6 @@ class ValidadorDireccion extends ValidadorDatosGenerales
      */
     public function validate($input)
     {
-        $this->validarPais($input);
-        $this->validarDepartamento($input);
-        $this->validarMunicipio($input);
         $this->validarDireccion($input);
         $this->validarIDEmpresa($input);
         $this->validarIDEmpleado($input);
@@ -42,66 +27,7 @@ class ValidadorDireccion extends ValidadorDatosGenerales
     }
 
     /**
-     * País debe ser un string de 1 a 150 carácteres.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarPais($input)
-    {
-        $v = new AllOf(
-            new StringType(),
-            new Length(1, 150, true)
-        );
-
-        if ($v->validate($input['pais']) === false) {
-            $this->setInvalidInput('pais');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * El departamento debe ser un string de 1 a 45 carácteres de largo.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarDepartamento($input)
-    {
-        if ($this->len45validator->validate($input['departamento']) === false) {
-            $this->setInvalidInput('departamento');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * El municipio debe ser uns string de 1 a 45 carácteres de largo.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarMunicipio($input)
-    {
-        if ($this->len45validator->validate($input['municipio']) === false) {
-            $this->setInvalidInput('municipio');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * La dirección debe ser uns string de 1 a 45 carácteres de largo.
+     * La dirección debe ser uns string de 1 a 255 carácteres de largo.
      *
      * @param $input
      *
@@ -109,7 +35,12 @@ class ValidadorDireccion extends ValidadorDatosGenerales
      */
     public function validarDireccion($input)
     {
-        if ($this->len45validator->validate($input['direccion']) === false) {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 255, true)
+        );
+
+        if ($v->validate($input['direccion']) === false) {
             $this->setInvalidInput('direccion');
 
             return false;
