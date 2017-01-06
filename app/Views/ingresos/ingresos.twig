@@ -49,6 +49,7 @@
                             <thead>
                             <tr>
                                 <th>Producto</th>
+                                <th>Proveedor</th>
                                 <th>Cantidad</th>
                                 <th>Precio Unitario</th>
                                 <th>Fecha Ingreso</th>
@@ -59,6 +60,7 @@
                             {% for ingreso in ingresos %}
                             <tr class="anchorize" data-href="{{ path_for('ingresos') }}/id/{{ ingreso.DetalleIngresosID }}">
                                 <td>{{ ingreso.CategoriaProductoID }}{{ ingreso.CodigoProducto }}</td>
+                                <td>{{ ingreso.Proveedor }}</td>
                                 <td>{{ ingreso.Cantidad }}</td>
                                 <td>{{ ingreso.PrecioUnitario }}</td>
                                 <td>{{ ingreso.FechaIngreso }}</td>
