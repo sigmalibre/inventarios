@@ -59,24 +59,24 @@ class Warehouses
     /**
      * Guarda un nuevo almacén en la fuente de datos.
      *
-     * @param array $userInput
+     * @param array $input
      *
      * @return bool|string
      */
-    public function save(array $userInput)
+    public function save(array $input)
     {
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
-        $userInput = array_map('trim', $userInput);
+        $input = array_map('trim', $input);
 
         // Validar el input del usuario.
-        if ($this->validator->validate($userInput) === false) {
+        if ($this->validator->validate($input) === false) {
             return false;
         }
 
         // Guardar el almacén.
         $writer = new SaveNewWarehouse($this->container);
 
-        return $writer->write($userInput);
+        return $writer->write($input);
     }
 
     /**
