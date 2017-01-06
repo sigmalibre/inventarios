@@ -25,6 +25,7 @@ class MySQLTransactions extends MySQL
      * con transacciones si no nos encontramos ya adentro de una.
      *
      * @return bool
+     * @throws \RuntimeException
      */
     public function beginTransaction()
     {
@@ -69,6 +70,7 @@ class MySQLTransactions extends MySQL
      * Hace commit a una transacción.
      *
      * @return bool
+     * @throws \RuntimeException
      */
     public function commit()
     {
@@ -115,6 +117,7 @@ class MySQLTransactions extends MySQL
      * Cancela una transacción y revierte sus cambios.
      *
      * @return bool
+     * @throws \RuntimeException
      */
     public function rollBack()
     {
