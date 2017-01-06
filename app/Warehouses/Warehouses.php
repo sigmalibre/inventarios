@@ -133,11 +133,7 @@ class Warehouses
         $this->validadorDirecciones->validate($input);
         $this->validadorTelefonos->validate($input);
 
-        if (empty($this->getInvalidInputs()) === false) {
-            return false;
-        }
-
-        return true;
+        return empty($this->getInvalidInputs());
     }
 
     /**
