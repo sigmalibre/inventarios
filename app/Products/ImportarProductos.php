@@ -140,7 +140,7 @@ class ImportarProductos
             }
 
             // Revisar si el producto ya existe.
-            $productoExistente = new Product($producto['Codigo'], $this->container, false);
+            $productoExistente = new ProductFromCode($producto['Codigo'], $this->container);
 
             // Si el producto no existe.
             if ($productoExistente->is_set() === false) {
