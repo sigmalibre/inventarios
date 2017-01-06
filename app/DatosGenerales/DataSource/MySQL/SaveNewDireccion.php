@@ -3,11 +3,12 @@
 namespace Sigmalibre\DatosGenerales\DataSource\MySQL;
 
 use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\DataSource\WriteInterface;
 
 /**
  * Guarda una nueva dirección en la BD.
  */
-class SaveNewDireccion
+class SaveNewDireccion implements WriteInterface
 {
     /** @var MySQLTransactions $connection */
     private $connection;
