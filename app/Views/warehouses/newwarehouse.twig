@@ -21,6 +21,16 @@
                                 <input type="text" name="nombreAlmacen" value="{% if isSaved is same as(false) %}{{ input.nombreAlmacen }}{% endif %}" class="form-control" id="nombreAlmacen">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreAlmacen %}hidden{% endif %}"></span>
                             </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="direccion">Dirección</label>
+                                <input type="text" name="direccion" value="{% if isSaved is same as (false) %}{{ input.direccion }}{% endif %}" class="form-control" id="direccion">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="telefono">Teléfono</label>
+                                <input type="text" name="telefono" value="{% if isSaved is same as (false) %}{{ input.telefono }}{% endif %}" class="form-control" id="telefono">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
+                            </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Almacen</button>
                         </form>
                     </div>
