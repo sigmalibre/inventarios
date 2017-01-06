@@ -100,6 +100,8 @@ class WarehousesController
             'failedInputs' => $failedInputs,
             'input' => [
                 'nombreAlmacen' => $warehouse->getNombre(),
+                'direccion' => $warehouse->getDireccion(),
+                'telefono' => $warehouse->getTelefono(),
             ],
         ]);
     }
