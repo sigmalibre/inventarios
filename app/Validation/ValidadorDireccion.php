@@ -3,29 +3,20 @@
 namespace Sigmalibre\Validation;
 
 use Respect\Validation\Rules\AllOf;
-use Respect\Validation\Rules\IntVal;
 use Respect\Validation\Rules\Length;
-use Respect\Validation\Rules\Optional;
-use Respect\Validation\Rules\Positive;
 use Respect\Validation\Rules\StringType;
 
-class ValidadorDireccion extends Validator
+class ValidadorDireccion extends ValidadorDatosGenerales
 {
     private $len45validator;
-    private $optionalIntValidator;
 
     public function __construct()
     {
+        parent::__construct();
+
         $this->len45validator = new AllOf(
             new StringType(),
             new Length(1, 45, true)
-        );
-
-        $this->optionalIntValidator = new Optional(
-            new AllOf(
-                new IntVal(),
-                new Positive()
-            )
         );
     }
 
@@ -120,78 +111,6 @@ class ValidadorDireccion extends Validator
     {
         if ($this->len45validator->validate($input['direccion']) === false) {
             $this->setInvalidInput('direccion');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * El EmpresaID debe ser un número entero positivo. Valor opcional.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarIDEmpresa($input)
-    {
-        if ($this->optionalIntValidator->validate($input['empresaID']) === false) {
-            $this->setInvalidInput('empresaID');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * El EmpleadoID debe ser un número entero positivo. Valor opcional.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarIDEmpleado($input)
-    {
-        if ($this->optionalIntValidator->validate($input['empleadoID']) === false) {
-            $this->setInvalidInput('empleadoID');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * El ClientePersonaID debe ser un número entero positivo. Valor opcional.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarIDClientePersona($input)
-    {
-        if ($this->optionalIntValidator->validate($input['clientePersonaID']) === false) {
-            $this->setInvalidInput('clientePersonaID');
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * El AlmacenID debe ser un número entero positivo. Valor opcional.
-     *
-     * @param $input
-     *
-     * @return bool
-     */
-    public function validarIDAlmacen($input)
-    {
-        if ($this->optionalIntValidator->validate($input['almacenID']) === false) {
-            $this->setInvalidInput('almacenID');
 
             return false;
         }
