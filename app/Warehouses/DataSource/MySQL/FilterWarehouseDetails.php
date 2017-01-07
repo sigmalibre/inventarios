@@ -9,7 +9,7 @@ use Sigmalibre\DataSource\MySQL\MySQLReader;
  */
 class FilterWarehouseDetails extends MySQLReader
 {
-    protected $baseQuery = 'SELECT DetalleAlmacenesID, Cantidad, AlmacenID, NombreAlmacen, ProductoID FROM DetalleAlmacenes INNER JOIN Almacenes USING (AlmacenID)';
+    protected $baseQuery = 'SELECT DetalleAlmacenesID, Cantidad, AlmacenID, NombreAlmacen, ProductoID FROM DetalleAlmacenes INNER JOIN Almacenes USING (AlmacenID) WHERE 1';
     protected $setLimit = true;
     protected $filterFields = [
         [

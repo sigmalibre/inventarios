@@ -15,7 +15,7 @@ class UpdateWarehouseDetail
 
     public function __construct($container)
     {
-        $this->connection = $container;
+        $this->connection = $container->mysql;
     }
 
     /**

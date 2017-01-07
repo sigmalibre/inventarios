@@ -7,6 +7,6 @@ namespace Sigmalibre\Warehouses\DataSource\MySQL;
  */
 class CountFilteredWarehouseDetails extends FilterWarehouseDetails
 {
-    protected $baseQuery = 'SELECT COUNT(*) AS cuenta FROM DetalleAlmacenes';
+    protected $baseQuery = 'SELECT COUNT(*) AS cuenta FROM DetalleAlmacenes WHERE 1';
     protected $setLimit = false;
 }
