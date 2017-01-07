@@ -22,7 +22,7 @@ class SaveNewIngreso
      *
      * @param array $data
      *
-     * @return bool True si se creó; False de lo contrario
+     * @return bool|string
      */
     public function write($data)
     {
