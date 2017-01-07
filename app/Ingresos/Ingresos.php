@@ -58,12 +58,12 @@ class Ingresos
     /**
      * Guarda un ingreso de producto nuevo en la fuente de datos.
      *
-     * @param array $userInput
+     * @param array $input
      * @param       $id
      *
      * @return bool
      */
-    public function save($userInput, $id)
+    public function save($input, $id)
     {
         // Revisar si el producto al que se desea hacer el ingreso existe.
         $producto = new Product($id, $this->container);
@@ -73,36 +73,36 @@ class Ingresos
         }
 
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
-        $userInput = array_map('trim', $userInput);
+        $input = array_map('trim', $input);
 
-        $userInput['productoID'] = $id;
+        $input['productoID'] = $id;
 
         // Ya que el campo de EmpresaID en la fuente de datos solo acepta INT y NULL, si se pasa un
         // string vacío, se convierte a NULL en su lugar.
-        $userInput['empresaID'] = empty($userInput['empresaID']) ? null : $userInput['empresaID'];
+        $input['empresaID'] = empty($input['empresaID']) ? null : $input['empresaID'];
 
         // Si el nuevo costo total del producto no viene establecido en el input, calcularlo a partir
         // del método del promedio ponderado.
-        if (empty($userInput['valorCostoActualTotal']) === true) {
-            $promediador = new PromedioPonderado($producto, $userInput);
-            $userInput['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
+        if (empty($input['valorCostoActualTotal']) === true) {
+            $promediador = new PromedioPonderado($producto, $input);
+            $input['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
         }
 
         // Validar el input del usuario.
-        if ($this->validator->validate($userInput) === false) {
+        if ($this->validator->validate($input) === false) {
             return false;
         }
 
         // Las devoluciones sobre compras se hacen simplemente ingresando un número negatívo como ingreso de producto
         // Y dejando el costo al mismo con el que se compró.
         // El sistema debe limitar que no se hagan ingresos negativos que pongan la cantidad de producto por debajo de 0
-        if ((int)$producto->Cantidad + (int)$userInput['cantidadIngreso'] < 0) {
+        if ((int)$producto->Cantidad + (int)$input['cantidadIngreso'] < 0) {
             return false;
         }
 
         $writer = new DataSource\MySQL\SaveNewIngreso($this->container);
 
-        return $writer->write($userInput);
+        return $writer->write($input);
     }
 
     /**
