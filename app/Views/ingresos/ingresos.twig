@@ -52,6 +52,7 @@
                                 <th>Proveedor</th>
                                 <th>Cantidad</th>
                                 <th>Precio Unitario</th>
+                                <th>Almacén</th>
                                 <th>Fecha Ingreso</th>
                             </tr>
                             </thead>
@@ -63,6 +64,7 @@
                                 <td>{{ ingreso.Proveedor }}</td>
                                 <td>{{ ingreso.Cantidad }}</td>
                                 <td>{{ ingreso.PrecioUnitario }}</td>
+                                <td>{{ ingreso.NombreAlmacen }}</td>
                                 <td>{{ ingreso.FechaIngreso }}</td>
                             </tr>
                             {% else %}
