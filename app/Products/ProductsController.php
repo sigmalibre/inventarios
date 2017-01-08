@@ -3,6 +3,7 @@
 namespace Sigmalibre\Products;
 
 use Sigmalibre\IVA\IVA;
+use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
 
 /**
@@ -112,6 +113,7 @@ class ProductsController
         $iva = new IVA();
 
         $warehouses = new Warehouses($this->container);
+        $warehouseDetails = new WarehouseDetail($this->container);
 
         return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],
@@ -125,6 +127,7 @@ class ProductsController
             'porcentajeIVA' => $iva->getPorcentajeIVA(),
             'cantidadActual' => $product->Cantidad,
             'almacenes' => $warehouses->readAll(),
+            'existencia' => $warehouseDetails->readList(['productoID' => $arguments['id']])['itemList'],
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
