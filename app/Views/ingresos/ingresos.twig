@@ -23,6 +23,15 @@
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.numregProveedor %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group">
+                                <label for="almacenID">Almacén</label>
+                                <select name="almacenID" id="almacenID" class="form-control">
+                                    <option value="">Todos</option>
+                                    {% for almacen in almacenes %}
+                                        <option value="{{ almacen.AlmacenID }}" {% if input.almacenID == almacen.AlmacenID %}selected{% endif %}>{{ almacen.NombreAlmacen }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="itemsPerPage">Cantidad por página</label>
                                 <select id="itemsPerPage" class="form-control" name="itemsPerPage">
                                     {% set perPageOpts = [10, 25, 50] %}

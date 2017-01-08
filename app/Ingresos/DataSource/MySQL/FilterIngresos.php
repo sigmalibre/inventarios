@@ -31,5 +31,11 @@ class FilterIngresos extends MySQLReader
             'columnName' => 'Registro',
             'searchType' => 'LIKE',
         ],
+        [
+            'filterName' => 'almacenID',
+            'tableName' => 'DetalleIngresos',
+            'columnName' => 'AlmacenID',
+            'searchType' => '=',
+        ],
     ];
 }
