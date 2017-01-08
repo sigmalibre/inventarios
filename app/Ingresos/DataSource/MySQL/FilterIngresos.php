@@ -9,7 +9,8 @@ use Sigmalibre\DataSource\MySQL\MySQLReader;
  */
 class FilterIngresos extends MySQLReader
 {
-    protected $baseQuery = 'SELECT DetalleIngresosID, Cantidad, PrecioUnitario, CostoActual, FechaIngreso, ProductoID, Productos.Codigo AS CodigoProducto, CategoriaProductoID, EmpresaID, Registro AS RegistroProveedor FROM DetalleIngresos LEFT JOIN Productos USING (ProductoID) LEFT JOIN Empresas USING (EmpresaID) WHERE 1';
+    protected $baseQuery = 'SELECT DetalleIngresosID, Cantidad, PrecioUnitario, CostoActual, FechaIngreso, ProductoID, Productos.Codigo AS CodigoProducto, CategoriaProductoID, EmpresaID, NombreComercial AS Proveedor, Registro AS RegistroProveedor, AlmacenID, NombreAlmacen FROM DetalleIngresos LEFT JOIN Productos USING (ProductoID) LEFT JOIN Empresas USING (EmpresaID) LEFT JOIN Almacenes USING (AlmacenID) WHERE 1';
+    protected $endQuery = 'ORDER BY DetalleIngresosID DESC';
     protected $setLimit = true;
     protected $filterFields = [
         [
@@ -29,6 +30,12 @@ class FilterIngresos extends MySQLReader
             'tableName' => 'Empresas',
             'columnName' => 'Registro',
             'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'almacenID',
+            'tableName' => 'DetalleIngresos',
+            'columnName' => 'AlmacenID',
+            'searchType' => '=',
         ],
     ];
 }

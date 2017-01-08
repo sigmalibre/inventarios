@@ -2,31 +2,34 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Categories\CategoryValidator;
+use Sigmalibre\Products\DataSource\MySQL\GetProductFromID;
+use Sigmalibre\Products\DataSource\MySQL\UpdateSingleAttributeProduct;
+
 /**
  * Modelo para operaciones sobre los productos individuales.
  *
- * @property string Cantidad
- * @property string CostoActual
- * @property string CategoriaProductoID
- * @property string CodigoProducto
- * @property string Descripcion
- * @property string StockMin
- * @property string Utilidad
- * @property string NombreMarca
- * @property string UnidadMedida
- * @property string CodigoBienDet
- * @property string CodigoLibroDet
- * @property string ExcentoIVA
+ * @property null|string Cantidad
+ * @property null|string CostoActual
+ * @property null|string CategoriaProductoID
+ * @property null|string CodigoProducto
+ * @property null|string Descripcion
+ * @property null|string StockMin
+ * @property null|string Utilidad
+ * @property null|string NombreMarca
+ * @property null|string UnidadMedida
+ * @property null|string CodigoBienDet
+ * @property null|string CodigoLibroDet
+ * @property null|string ExcentoIVA
+ * @property null|string ProductoID
+ * @property null|string Codigo
  */
 class Product
 {
-    private $container;
-    private $validator;
-    private $categoryValidator;
-    private $attributes;
-    private $dataSource;
-    private $dataFromCode;
-    private $singleAttributeUpdater;
+    protected $container;
+    protected $validator;
+    protected $categoryValidator;
+    protected $attributes;
 
     /**
      * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
@@ -37,38 +40,23 @@ class Product
      *
      * @param string $id La ID del producto que se va a iniciar
      */
-    private function init($id)
+    protected function init($id)
     {
-        $this->attributes = $this->dataSource->read([
+        $data_source = new GetProductFromID($this->container);
+        $this->attributes = $data_source->read([
             'input' => [
                 'idProducto' => $id,
             ],
         ]);
     }
 
-    private function initFromCode($code)
-    {
-        $this->attributes = $this->dataFromCode->read([
-            'input' => [
-                'codigoProducto' => $code,
-            ],
-        ]);
-    }
-
-    public function __construct($id, $container, $initFromID = true)
+    public function __construct($id, $container)
     {
         $this->container = $container;
         $this->validator = new ProductValidator();
-        $this->categoryValidator = new \Sigmalibre\Categories\CategoryValidator();
-        $this->dataSource = new DataSource\MySQL\GetProductFromID($container);
-        $this->dataFromCode = new DataSource\MySQL\GetProductFromCode($container);
-        $this->singleAttributeUpdater = new DataSource\MySQL\UpdateSingleAttributeProduct($container);
+        $this->categoryValidator = new CategoryValidator();
 
-        if ($initFromID === true) {
-            $this->init($id);
-        } else {
-            $this->initFromCode($id);
-        }
+        $this->init($id);
     }
 
     /**
@@ -87,13 +75,15 @@ class Product
      *
      * @param array $property La propiedad que se desea obtener
      *
-     * @return string El atributo si existe
+     * @return null|string
      */
     public function __get($property)
     {
         if (isset($this->attributes[0][$property])) {
-            return $this->attributes[0][$property];
+            return (string) $this->attributes[0][$property];
         }
+
+        return null;
     }
 
     /**
@@ -204,11 +194,12 @@ class Product
             'id' => $this->ProductoID,
         ];
 
-        $isUpdated = $this->singleAttributeUpdater->write($dataToUpdate);
+
+        $isUpdated = (new UpdateSingleAttributeProduct($this->container))->write($dataToUpdate);
 
         if ($isUpdated === true) {
             $this->attributes = null;
-            $this->initFromCode($this->Codigo);
+            $this->init($this->ProductoID);
         }
 
         return $isUpdated;

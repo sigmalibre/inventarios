@@ -43,8 +43,8 @@ class WarehouseDetailValidator extends Validator
             new IntVal()
         );
 
-        if ($v->validate($input['cantidadDetalleAlmacen']) === false) {
-            $this->setInvalidInput('cantidadDetalleAlmacen');
+        if ($v->validate($input['cantidadIngreso']) === false) {
+            $this->setInvalidInput('cantidadIngreso');
 
             return false;
         }
