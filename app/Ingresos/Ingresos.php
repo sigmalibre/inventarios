@@ -8,7 +8,8 @@ use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Products\Product;
 use Sigmalibre\Products\Products;
-use Slim\Container;
+use Sigmalibre\Warehouses\Warehouse;
+use Sigmalibre\Warehouses\WarehouseDetail;
 
 /**
  * Modelo para operaciones sobre ingreso de productos.
@@ -24,7 +25,7 @@ class Ingresos
      *
      * @param $container
      */
-    public function __construct(Container $container)
+    public function __construct($container)
     {
         $this->container = $container;
         $this->validator = new IngresosValidator();
@@ -69,12 +70,24 @@ class Ingresos
         $producto = new Product($id, $this->container);
 
         if ($producto->is_set() === false) {
+            $this->validator->setInvalidInput('productoID');
+
+            return false;
+        }
+
+        // Revisar si el almacen al que se desea ingresar existe.
+        $almacen = new Warehouse($input['almacenID'], $this->container);
+
+        if ($almacen->is_set() === false) {
+            $this->validator->setInvalidInput('almacenID');
+
             return false;
         }
 
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
         $input = array_map('trim', $input);
 
+        // Se agrega la id del producto al input porque las fuentes de datos lo necesitan.
         $input['productoID'] = $id;
 
         // Ya que el campo de EmpresaID en la fuente de datos solo acepta INT y NULL, si se pasa un
@@ -93,16 +106,56 @@ class Ingresos
             return false;
         }
 
+        $warehouseDetail = new WarehouseDetail($this->container);
+
+        // Se necesita obtener la cantidad de productos en el almacén porque es necesario comprobar que
+        // la cantidad introducida por el cliente más la cantidad existente en almacén no sea menor que cero.
+        $datosDetalleAlmacen = $warehouseDetail->getDetailFromParentsID([
+            'almacenID' => $input['almacenID'],
+            'productoID' => $input['productoID'],
+        ]);
+
+        // Si no se encuentra la información el valor por defecto es cero (no existen productos en ese almacén).
+        $cantidadDetalleAlmacen = $datosDetalleAlmacen ? (int)$datosDetalleAlmacen['Cantidad'] : 0;
+
         // Las devoluciones sobre compras se hacen simplemente ingresando un número negatívo como ingreso de producto
         // Y dejando el costo al mismo con el que se compró.
         // El sistema debe limitar que no se hagan ingresos negativos que pongan la cantidad de producto por debajo de 0
-        if ((int)$producto->Cantidad + (int)$input['cantidadIngreso'] < 0) {
+        $cantidad_total = $cantidadDetalleAlmacen + (int)$input['cantidadIngreso'];
+        if ($cantidad_total < 0) {
+            $this->validator->setInvalidInput('ingresoMenorCero');
+
+            return false;
+        }
+
+        // Iniciar transacción
+        $this->container->mysql->beginTransaction();
+
+        $isWarehouseDetailSaved = $warehouseDetail->update([
+            'cantidadIngreso' => $cantidad_total,
+            'almacenID' => $input['almacenID'],
+            'productoID' => $input['productoID'],
+        ]);
+
+        if ($isWarehouseDetailSaved === false) {
+            $this->container->mysql->rollBack();
+
             return false;
         }
 
         $writer = new DataSource\MySQL\SaveNewIngreso($this->container);
 
-        return $writer->write($input);
+        $isIngresoSaved = $writer->write($input);
+
+        if ($isIngresoSaved === false) {
+            $this->container->mysql->rollBack();
+
+            return false;
+        }
+
+        $this->container->mysql->commit();
+
+        return true;
     }
 
     /**

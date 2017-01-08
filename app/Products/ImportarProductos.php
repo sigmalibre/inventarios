@@ -171,6 +171,7 @@ class ImportarProductos
                     'valorPrecioUnitario' => $producto['Costo'],
                     'valorCostoActualTotal' => $producto['Costo'], // El costo inicial es igual al unitario.
                     'empresaID' => null,
+                    'almacenID' => 1, // Por defecto se elige el primer almacén que exista, si no existe la importación falla.
                 ], $seCreoProducto);
 
                 if ($isIngresoSaved === false) {
