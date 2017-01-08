@@ -22,12 +22,16 @@ class SaveNewIngreso
      *
      * @param array $data
      *
-     * @return bool True si se creó; False de lo contrario
+     * @return bool|string
      */
     public function write($data)
     {
-        $isSaved = $this->connection->execute('INSERT INTO DetalleIngresos (Cantidad, PrecioUnitario, CostoActual, ProductoID, EmpresaID) VALUES (:cantidadIngreso, :valorPrecioUnitario, :valorCostoActualTotal, :productoID, :empresaID)', $data);
-        
-        return $isSaved;
+        $isSaved = $this->connection->execute('INSERT INTO DetalleIngresos (Cantidad, PrecioUnitario, CostoActual, ProductoID, EmpresaID, AlmacenID) VALUES (:cantidadIngreso, :valorPrecioUnitario, :valorCostoActualTotal, :productoID, :empresaID, :almacenID)', $data);
+
+        if ($isSaved === false) {
+            return false;
+        }
+
+        return $this->connection->lastId();
     }
 }

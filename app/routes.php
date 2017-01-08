@@ -14,6 +14,10 @@ $app->get('/productos/createform', '\Sigmalibre\Products\ProductsController:inde
 
 $app->get('/productos/importar', '\Sigmalibre\Products\ImportarController:importar')->setName('importar');
 
+$app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
+
+$app->get('/productos/ingresos', '\Sigmalibre\Ingresos\IngresosController:indexAll')->setName('ingresos');
+
 // CATEGORIAS DE PRODUCTO
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
 $app->post('/categorias', '\Sigmalibre\Categories\CategoriesController:createNew');
@@ -33,6 +37,12 @@ $app->get('/creditofiscal', '\Sigmalibre\Invoices\InvoicesController:indexCredit
 
 // ALMACENES
 $app->get('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
+$app->post('/warehouses', '\Sigmalibre\Warehouses\WarehousesController:createNew');
+
+$app->get('/warehouses/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouse')->setName('warehouses/update');
+$app->post('/warehouses/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:update');
+
+$app->get('/warehouses/createform', '\Sigmalibre\Warehouses\WarehousesController:indexCreateWarehouse')->setName('warehouses/createform');
 
 // CLIENTES
 $app->get('/clientes/personas', '\Sigmalibre\Clients\ClientsController:indexPeople')->setName('clientes/personas');

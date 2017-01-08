@@ -9,6 +9,8 @@ use Sigmalibre\DataSource\JSON\JSONFileWriter;
  */
 class GuardarValorIVA extends JSONFileWriter
 {
+    protected $path = APP_ROOT . '/app/config/iva.json';
+
     /**
      * Guarda el porcentaje del IVA en app/config/iva.json
      *
@@ -20,6 +22,6 @@ class GuardarValorIVA extends JSONFileWriter
      */
     public function save(float $porcentajeIVA)
     {
-        return $this->write(APP_ROOT . '/app/config/iva.json', $porcentajeIVA);
+        return $this->write($porcentajeIVA);
     }
 }

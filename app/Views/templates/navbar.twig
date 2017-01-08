@@ -44,7 +44,7 @@
                     </li>
                 </ul>
             </li>
-            {% set productos_urls = [path_for('products/createform'), path_for('categories/createform'), path_for('products'), path_for('categories'), path_for('brands'), path_for('measurements')] %}
+            {% set productos_urls = [path_for('products/createform'), path_for('categories/createform'), path_for('products'), path_for('categories'), path_for('brands'), path_for('measurements'), path_for('ingresos')] %}
             <li class="dropdown {% if uri_path in productos_urls %}active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-gift"></span>
@@ -88,6 +88,12 @@
                             Ver Medidas
                         </a>
                     </li>
+                    <li class="{% if uri_path == path_for('ingresos') %}active{% endif %}">
+                        <a href="{{ path_for('ingresos') }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Ver Detalles de Entradas
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="{% if uri_path == path_for('providers') %}active{% endif %}">
@@ -96,11 +102,27 @@
                     Proveedores
                 </a>
             </li>
-            <li class="{% if uri_path == path_for('warehouses') %}active{% endif %}">
-                <a href="{{ path_for('warehouses') }}">
+            {% set warehouses_urls = [path_for('warehouses'), path_for('warehouses/createform')] %}
+            <li class="dropdown {% if uri_path in warehouses_urls %}active{% endif %}">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-home"></span>
                     Bodegas
+                    <span class="caret"></span>
                 </a>
+                <ul class="dropdown-menu">
+                    <li class="{% if uri_path == path_for('warehouses/createform') %}active{% endif %}">
+                        <a href="{{ path_for('warehouses/createform') }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Nueva Bodega
+                        </a>
+                    </li>
+                    <li class="{% if uri_path == path_for('warehouses') %}active{% endif %}">
+                        <a href="{{ path_for('warehouses') }}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Ver Bodegas
+                        </a>
+                    </li>
+                </ul>
             </li>
             {% set clientes_urls = [path_for('clientes/personas'), path_for('clientes/empresas')] %}
             <li class="dropdown {% if uri_path in clientes_urls %}active{% endif %}">

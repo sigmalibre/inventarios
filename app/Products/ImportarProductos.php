@@ -140,7 +140,7 @@ class ImportarProductos
             }
 
             // Revisar si el producto ya existe.
-            $productoExistente = new Product($producto['Codigo'], $this->container, false);
+            $productoExistente = new ProductFromCode($producto['Codigo'], $this->container);
 
             // Si el producto no existe.
             if ($productoExistente->is_set() === false) {
@@ -170,9 +170,9 @@ class ImportarProductos
                     'cantidadIngreso' => $producto['Unidades'],
                     'valorPrecioUnitario' => $producto['Costo'],
                     'valorCostoActualTotal' => $producto['Costo'], // El costo inicial es igual al unitario.
-                    'productoID' => $seCreoProducto,
                     'empresaID' => null,
-                ]);
+                    'almacenID' => 1, // Por defecto se elige el primer almacén que exista, si no existe la importación falla.
+                ], $seCreoProducto);
 
                 if ($isIngresoSaved === false) {
                     $this->container->mysql->rollBack();

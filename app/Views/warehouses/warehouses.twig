@@ -40,19 +40,28 @@
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Cantidad de Productos</th>
-                            </tr>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Cantidad de Productos</th>
+                                    <th>Teléfono</th>
+                                    <th>Dirección</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
                             {% for warehouse in warehouses %}
-                            <tr>
-                                <td>{{ warehouse.AlmacenID }}</td>
-                                <td>{{ warehouse.NombreAlmacen }}</td>
-                                <td>{{ warehouse.Cantidad }}</td>
-                            </tr>
+                                <tr class="anchorize" data-href="{{ path_for('warehouses/update', {'id': warehouse.AlmacenID}) }}">
+                                    <td>{{ warehouse.AlmacenID }}</td>
+                                    <td>{{ warehouse.NombreAlmacen }}</td>
+                                    <td>{{ warehouse.Cantidad }}</td>
+                                    <td>{{ warehouse.Telefono }}</td>
+                                    <td>{{ warehouse.Direccion }}</td>
+                                </tr>
                             {% else %}
+                            </tbody>
                             <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>
