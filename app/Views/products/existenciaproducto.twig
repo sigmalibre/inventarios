@@ -1,0 +1,26 @@
+<div class="panel {% if existencia %}panel-primary{% else %}panel-default{% endif %}">
+    <div class="panel-heading">
+        <h2 class="panel-title">Existencias del Produto En Almacén</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-stripped">
+            {% if not existencia %}
+                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+            {% endif %}
+            <thead>
+            <tr>
+                <th>Almacén</th>
+                <th>Cantidad</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for almacen in existencia %}
+                <tr>
+                    <td>{{ almacen.NombreAlmacen }}</td>
+                    <td>{{ almacen.Cantidad }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
