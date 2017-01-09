@@ -82,15 +82,19 @@ class IngresosValidator extends Validator
     /**
      * El costo total debe ser un número positivo.
      *
+     * Valor opcional.
+     *
      * @param array $input
      *
      * @return bool
      */
     public function validarCostoActualTotal($input)
     {
-        $v = new AllOf(
-            new Numeric(),
-            new Min(0, true)
+        $v = new Optional(
+            new AllOf(
+                new Numeric(),
+                new Min(0, true)
+            )
         );
 
         if ($v->validate($input['valorCostoActualTotal']) === false) {

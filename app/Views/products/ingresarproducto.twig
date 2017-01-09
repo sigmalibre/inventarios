@@ -3,7 +3,16 @@
     <div class="panel-body">
         <form action="{{ path_for('products/ingresos', {'id': productID}) }}" method="post">
             <div class="form-group">
-                <label for="almacenID">Elige el almacén a ingresar</label>
+                <label for="empresaID">Elige la Empresa Proveedora</label>
+                <select name="empresaID" id="empresaID" class="form-control">
+                    <option value="">Elige un Proveedor</option>
+                    {% for empresa in empresas %}
+                        <option value="{{ empresa.EmpresaID }}">{{ empresa.NombreComercial }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="almacenID">Elige el Almacén a Ingresar</label>
                 <select name="almacenID" id="almacenID" class="form-control">
                     <option value="">Elige un Almacén</option>
                     {% for almacen in almacenes %}
