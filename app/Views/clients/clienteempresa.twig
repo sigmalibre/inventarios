@@ -51,22 +51,29 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
+                            {% if not clients %}
+                                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                            {% endif %}
+                            <thead>
                             <tr>
                                 <th>Nombre</th>
                                 <th>Registro</th>
                                 <th>NIT</th>
                                 <th>Giro</th>
+                                <th>Teléfono</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             {% for client in clients %}
-                            <tr>
-                                <td>{{ client.NombreComercial }}</td>
-                                <td>{{ client.Registro }}</td>
-                                <td>{{ client.NIT }}</td>
-                                <td>{{ client.Giro }}</td>
-                            </tr>
-                            {% else %}
-                            <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                                <tr>
+                                    <td>{{ client.NombreComercial }}</td>
+                                    <td>{{ client.Registro }}</td>
+                                    <td>{{ client.NIT }}</td>
+                                    <td>{{ client.Giro }}</td>
+                                    <td>{{ client.Telefono }}</td>
+                                </tr>
                             {% endfor %}
+                            </tbody>
                         </table>
                     </div>
                 </div>
