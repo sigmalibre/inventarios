@@ -6,7 +6,7 @@ use Sigmalibre\DataSource\MySQL\MySQLTransactions;
 use Sigmalibre\DataSource\WriteInterface;
 
 /**
- * Actualiza una dirección.
+ * Actualiza una dirección de un almacén.
  */
 class UpdateDireccionAlmacen implements WriteInterface
 {
