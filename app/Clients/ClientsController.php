@@ -27,7 +27,7 @@ class ClientsController
         $clients = new Clients($this->container);
         $clientList = $clients->readPeopleList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'clients/clientepersona.html', [
+        return $this->container->view->render($response, 'clients/clientepersona.twig', [
             'clients' => $clientList['itemList'],
             'pagination' => $clientList['pagination'],
             'input' => $clientList['userInput'],
@@ -47,7 +47,7 @@ class ClientsController
         $clients = new Clients($this->container);
         $clientList = $clients->readCompanyList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'clients/clienteempresa.html', [
+        return $this->container->view->render($response, 'clients/clienteempresa.twig', [
             'clients' => $clientList['itemList'],
             'pagination' => $clientList['pagination'],
             'input' => $clientList['userInput'],

@@ -27,7 +27,7 @@ class TirajesController
         $listaTirajes = new ColeccionTirajes($this->container);
         $resultadoBusqueda = $listaTirajes->leerFiltrados($request->getQueryParams());
 
-        return $this->container->view->render($response, 'tirajes/listatirajes.html', [
+        return $this->container->view->render($response, 'tirajes/listatirajes.twig', [
             'tirajes' => $resultadoBusqueda['itemList'],
             'pagination' => $resultadoBusqueda['pagination'],
             'input' => $resultadoBusqueda['userInput'],
@@ -47,7 +47,7 @@ class TirajesController
      */
     public function indexNew($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
-        return $this->container->view->render($response, 'tirajes/nuevotiraje.html', [
+        return $this->container->view->render($response, 'tirajes/nuevotiraje.twig', [
             'saved' => $isSaved,
             'failedInputs' => $failedInputs,
             'input' => $request->getParsedBody(),
@@ -74,7 +74,7 @@ class TirajesController
             return $this->container['notFoundHandler']($request, $response);
         }
 
-        return $this->container->view->render($response, 'tirajes/modificartiraje.html', [
+        return $this->container->view->render($response, 'tirajes/modificartiraje.twig', [
             'idTiraje' => $tiraje->TirajeFacturaID,
             'saved' => $isSaved,
             'failedInputs' => $failedInputs,

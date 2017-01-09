@@ -27,7 +27,7 @@ class InvoicesController
         $invoices = new Invoices($this->container);
         $invoiceList = $invoices->readInvoiceList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'invoices/facturas.html', [
+        return $this->container->view->render($response, 'invoices/facturas.twig', [
             'invoices' => $invoiceList['itemList'],
             'pagination' => $invoiceList['pagination'],
             'input' => $invoiceList['userInput'],
@@ -47,7 +47,7 @@ class InvoicesController
         $invoices = new Invoices($this->container);
         $invoiceList = $invoices->readCreditoFiscalList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'invoices/creditofiscal.html', [
+        return $this->container->view->render($response, 'invoices/creditofiscal.twig', [
             'invoices' => $invoiceList['itemList'],
             'pagination' => $invoiceList['pagination'],
             'input' => $invoiceList['userInput'],

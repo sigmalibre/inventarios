@@ -24,7 +24,7 @@ class ProvidersController
         $providers = new Providers($this->container, $parameters);
         $providerResult = $providers->readProviderList();
 
-        return $this->container->view->render($response, 'providers/providers.html', [
+        return $this->container->view->render($response, 'providers/providers.twig', [
             'providers' => $providerResult['itemList'],
             'pagination' => $providerResult['pagination'],
             'input' => $providerResult['userInput'],
