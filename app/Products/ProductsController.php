@@ -2,6 +2,7 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
@@ -115,6 +116,8 @@ class ProductsController
         $warehouses = new Warehouses($this->container);
         $warehouseDetails = new WarehouseDetail($this->container);
 
+        $empresas = new Empresas($this->container);
+
         return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
@@ -128,6 +131,7 @@ class ProductsController
             'cantidadActual' => $product->Cantidad,
             'almacenes' => $warehouses->readAll(),
             'existencia' => $warehouseDetails->readList(['productoID' => $arguments['id']])['itemList'],
+            'empresas' => $empresas->getAll(),
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
