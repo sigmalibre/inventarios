@@ -8,7 +8,7 @@ namespace Sigmalibre\Clients\DataSource\MySQL;
  */
 class FilterClienteEmpresa extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT EmpresaID, NombreComercial, RazonSocial, Giro, Registro, NIT FROM Empresas WHERE EmpresaID IN (SELECT DISTINCT EmpresaID FROM Facturas)';
+    protected $baseQuery = 'SELECT EmpresaID, NombreComercial, RazonSocial, Giro, Registro, NIT, DireccionID, Direccion, TelefonoID, Telefono, EmailID, Email FROM Empresas LEFT JOIN Direcciones USING (EmpresaID) LEFT JOIN Telefonos USING (EmpresaID) LEFT JOIN Emails USING (EmpresaID) WHERE EmpresaID IN (SELECT DISTINCT EmpresaID FROM Facturas)';
     protected $setLimit = true;
     protected $filterFields = [
         [

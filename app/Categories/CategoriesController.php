@@ -24,7 +24,7 @@ class CategoriesController
         $categories = new Categories($this->container);
         $categoryResults = $categories->readCategoryList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'categories/categories.html', [
+        return $this->container->view->render($response, 'categories/categories.twig', [
             'categories' => $categoryResults['itemList'],
             'pagination' => $categoryResults['pagination'],
             'input' => $categoryResults['userInput'],
@@ -44,7 +44,7 @@ class CategoriesController
      */
     public function indexNewCategory($request, $response, $arguments, $categorySaved = null, $failedInputs = null)
     {
-        return $this->container->view->render($response, 'categories/newcategory.html', [
+        return $this->container->view->render($response, 'categories/newcategory.twig', [
             'categorySaved' => $categorySaved,
             'failedInputs' => $failedInputs,
             'input' => $request->getParsedBody(),
@@ -71,7 +71,7 @@ class CategoriesController
             return $this->container['notFoundHandler']($request, $response);
         }
 
-        return $this->container->view->render($response, 'categories/modifycategory.html', [
+        return $this->container->view->render($response, 'categories/modifycategory.twig', [
             'categorySaved' => $categorySaved,
             'failedInputs' => $failedInputs,
             'input' => [

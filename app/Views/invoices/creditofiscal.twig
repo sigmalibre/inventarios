@@ -1,4 +1,4 @@
-{% extends 'templates/base.html' %}
+{% extends 'templates/base.twig' %}
 
 {% block title  %}Facturas{% endblock %}
 
@@ -82,7 +82,7 @@
                         <small class="text-muted">*Precios sin IVA</small>
                     </div>
                 </div>
-                {% include 'templates/listpagination.html' %}
+                {% include 'templates/listpagination.twig' %}
             </div>
         </div>
     </div>

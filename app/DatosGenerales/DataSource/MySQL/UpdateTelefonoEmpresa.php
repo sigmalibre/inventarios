@@ -6,9 +6,9 @@ use Sigmalibre\DataSource\MySQL\MySQLTransactions;
 use Sigmalibre\DataSource\WriteInterface;
 
 /**
- * Actualiza una dirección de un almacén.
+ * Actualiza un teléfono de una empresa.
  */
-class UpdateDireccionAlmacen implements WriteInterface
+class UpdateTelefonoEmpresa implements WriteInterface
 {
     /** @var MySQLTransactions */
     private $connection;
@@ -19,7 +19,7 @@ class UpdateDireccionAlmacen implements WriteInterface
     }
 
     /**
-     * Realiza la actualización de una dirección
+     * Realiza la actualización de un teléfono.
      *
      * @param array $data
      *
@@ -27,9 +27,9 @@ class UpdateDireccionAlmacen implements WriteInterface
      */
     public function write($data)
     {
-        return $this->connection->execute('UPDATE Direcciones SET Direccion = :direccion WHERE AlmacenID = :almacenID', [
-            'direccion' => $data['direccion'],
-            'almacenID' => $data['almacenID'],
+        return $this->connection->execute('UPDATE Telefonos SET Telefono = :telefono WHERE EmpresaID = :empresaID', [
+            'telefono' => $data['telefono'],
+            'empresaID' => $data['empresaID'],
         ]);
     }
 }

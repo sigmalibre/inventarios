@@ -1,4 +1,4 @@
-{% extends 'templates/base.html' %}
+{% extends 'templates/base.twig' %}
 
 {% block title %}Clientes{% endblock %}
 
@@ -11,20 +11,25 @@
                         <h2 class="panel-title">Búsqueda de Clientes</h2>
                     </div>
                     <div class="panel-body">
-                        <form id="clientsForm" action="{{ path_for('clientes/empresas') }}" method="get" role="form">
+                        <form id="clientsForm" action="{{ path_for('clientes/personas') }}" method="get" role="form">
                             <div class="form-group has-feedback has-clear">
-                                <label for="nombreCliente">Nombre</label>
-                                <input id="nombreCliente" class="form-control" type="text" name="nombreCliente" placeholder="Nombre de el cliente" value="{{ input.nombreCliente }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreCliente %}hidden{% endif %}"></span>
+                                <label for="nombresCliente">Nombres</label>
+                                <input id="nombresCliente" class="form-control" type="text" name="nombresCliente" placeholder="Nombres del cliente" value="{{ input.nombresCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombresCliente %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group has-feedback has-clear">
-                                <label for="registroCliente">Número de Registro</label>
-                                <input id="registroCliente" class="form-control" type="text" name="registroCliente" placeholder="Número de registro de el cliente" value="{{ input.registroCliente }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.registroCliente %}hidden{% endif %}"></span>
+                                <label for="apellidosCliente">Apellidos</label>
+                                <input id="apellidosCliente" class="form-control" type="text" name="apellidosCliente" placeholder="Apellidos del cliente" value="{{ input.apellidosCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.apellidosCliente %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="duiCliente">DUI</label>
+                                <input id="duiCliente" class="form-control" type="text" name="duiCliente" placeholder="DUI del cliente" value="{{ input.duiCliente }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.duiCliente %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group has-feedback has-clear">
                                 <label for="nitCliente">NIT</label>
-                                <input id="nitCliente" class="form-control" type="text" name="nitCliente" placeholder="NIT de el cliente" value="{{ input.nitCliente }}">
+                                <input id="nitCliente" class="form-control" type="text" name="nitCliente" placeholder="NIT del cliente" value="{{ input.nitCliente }}">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nitCliente %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group">
@@ -51,26 +56,31 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
+                            {% if not clients %}
+                                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                            {% endif %}
+                            <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Registro</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>DUI</th>
                                 <th>NIT</th>
-                                <th>Giro</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             {% for client in clients %}
-                            <tr>
-                                <td>{{ client.NombreComercial }}</td>
-                                <td>{{ client.Registro }}</td>
-                                <td>{{ client.NIT }}</td>
-                                <td>{{ client.Giro }}</td>
-                            </tr>
-                            {% else %}
-                            <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                                <tr>
+                                    <td>{{ client.Nombres }}</td>
+                                    <td>{{ client.Apellidos }}</td>
+                                    <td>{{ client.DUI }}</td>
+                                    <td>{{ client.NIT }}</td>
+                                </tr>
                             {% endfor %}
+                            </tbody>
                         </table>
                     </div>
                 </div>
-                {% include 'templates/listpagination.html' %}
+                {% include 'templates/listpagination.twig' %}
             </div>
         </div>
     </div>

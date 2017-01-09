@@ -75,3 +75,10 @@ $app->get('/ajustes', '\Sigmalibre\UserConfig\UserConfigController:index')->setN
 // IVA
 $app->get('/iva', '\Sigmalibre\IVA\IVAController:index')->setName('iva');
 $app->post('/iva', '\Sigmalibre\IVA\IVAController:update');
+
+// CONTACTOS
+$app->get('/contactos/empresas', '\Sigmalibre\Empresas\EmpresasController:indexEmpresas')->setName('empresas');
+$app->post('/contactos/empresas', '\Sigmalibre\Empresas\EmpresasController:createNew');
+$app->get('/contactos/nuevaempresa', '\Sigmalibre\Empresas\EmpresasController:indexNew')->setName('empresas/createform');
+$app->get('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:indexEmpresa')->setName('empresa');
+$app->post('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:update');

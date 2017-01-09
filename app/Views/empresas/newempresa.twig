@@ -1,0 +1,72 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Nuevo Contacto Empresa{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                {% if isSaved %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> La empresa ha sido creada exitosamente!</div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo crear la empresa nueva.</div>
+                {% endif %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Introduce los datos de contacto de una empresa</div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('empresas') }}" method="post">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="nombreComercial">Nombre Comercial</label>
+                                        <input type="text" name="nombreComercial" value="{% if isSaved is same as(false) %}{{ input.nombreComercial }}{% endif %}" class="form-control" id="nombreComercial">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreComercial %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="razonSocial">Razón Social</label>
+                                        <input type="text" name="razonSocial" value="{% if isSaved is same as(false) %}{{ input.razonSocial }}{% endif %}" class="form-control" id="razonSocial">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonSocial %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="giro">Giro</label>
+                                        <input type="text" name="giro" value="{% if isSaved is same as(false) %}{{ input.giro }}{% endif %}" class="form-control" id="giro">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.giro %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="registro">Número de Registro de Contribuyente</label>
+                                        <input type="text" name="registro" value="{% if isSaved is same as(false) %}{{ input.registro }}{% endif %}" class="form-control" id="registro">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.registro %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="nit">Número NIT</label>
+                                        <input type="text" name="nit" value="{% if isSaved is same as(false) %}{{ input.nit }}{% endif %}" class="form-control" id="nit">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nit %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="direccion">Dirección</label>
+                                        <input type="text" name="direccion" value="{% if isSaved is same as (false) %}{{ input.direccion }}{% endif %}" class="form-control" id="direccion">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" name="telefono" value="{% if isSaved is same as (false) %}{{ input.telefono }}{% endif %}" class="form-control" id="telefono">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="email">Correo Electrónico</label>
+                                        <input type="text" name="email" value="{% if isSaved is same as(false) %}{{ input.email }}{% endif %}" class="form-control" id="email">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.email %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Contacto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

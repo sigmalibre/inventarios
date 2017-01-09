@@ -27,7 +27,7 @@ class BrandsController
         $brands = new Brands($this->container);
         $brandResult = $brands->readBrandList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'brands/brands.html', [
+        return $this->container->view->render($response, 'brands/brands.twig', [
             'brands' => $brandResult['itemList'],
             'pagination' => $brandResult['pagination'],
             'input' => $brandResult['userInput'],
@@ -54,7 +54,7 @@ class BrandsController
             return $this->container['notFoundHandler']($request, $response);
         }
 
-        return $this->container->view->render($response, 'brands/modifybrand.html', [
+        return $this->container->view->render($response, 'brands/modifybrand.twig', [
             'idMarca' => $arguments['id'],
             'brandSaved' => $isSaved,
             'failedInputs' => $failedInputs,
