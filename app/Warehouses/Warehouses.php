@@ -6,10 +6,10 @@ use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
 use Sigmalibre\DatosGenerales\Direccion;
 use Sigmalibre\DatosGenerales\Telefono;
+use Sigmalibre\DatosGenerales\ValidadorDireccion;
+use Sigmalibre\DatosGenerales\ValidadorTelefono;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
-use Sigmalibre\Validation\ValidadorDireccion;
-use Sigmalibre\Validation\ValidadorTelefono;
 use Sigmalibre\Warehouses\DataSource\MySQL\SaveNewWarehouse;
 use Sigmalibre\Warehouses\DataSource\MySQL\SearchAllWarehouses;
 

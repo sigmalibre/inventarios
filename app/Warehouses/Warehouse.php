@@ -9,8 +9,8 @@ use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateDireccionAlmacen;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateTelefonoAlmacen;
 use Sigmalibre\DatosGenerales\Direccion;
 use Sigmalibre\DatosGenerales\Telefono;
-use Sigmalibre\Validation\ValidadorDireccion;
-use Sigmalibre\Validation\ValidadorTelefono;
+use Sigmalibre\DatosGenerales\ValidadorDireccion;
+use Sigmalibre\DatosGenerales\ValidadorTelefono;
 use Sigmalibre\Warehouses\DataSource\MySQL\GetWarehouseFromID;
 use Sigmalibre\Warehouses\DataSource\MySQL\UpdateWarehouse;
 
