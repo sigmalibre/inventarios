@@ -296,6 +296,8 @@ CREATE TABLE `Emails` (
   `EmpresaID` int(10) unsigned DEFAULT NULL,
   `EmpleadoID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`EmailID`),
+  UNIQUE KEY `EmpresaID_UNIQUE` (`EmpresaID`),
+  UNIQUE KEY `EmpleadoID_UNIQUE` (`EmpleadoID`),
   KEY `fk_Emails_Empresas1_idx` (`EmpresaID`),
   KEY `fk_Emails_Empleados1_idx` (`EmpleadoID`),
   CONSTRAINT `fk_Emails_Empleados1` FOREIGN KEY (`EmpleadoID`) REFERENCES `Empleados` (`EmpleadoID`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -559,6 +561,10 @@ CREATE TABLE `Telefonos` (
   `ClientesPersonasID` int(10) unsigned DEFAULT NULL,
   `AlmacenID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`TelefonoID`),
+  UNIQUE KEY `EmpresaID_UNIQUE` (`EmpresaID`),
+  UNIQUE KEY `EmpleadoID_UNIQUE` (`EmpleadoID`),
+  UNIQUE KEY `ClientesPersonasID_UNIQUE` (`ClientesPersonasID`),
+  UNIQUE KEY `AlmacenID_UNIQUE` (`AlmacenID`),
   KEY `fk_Telefonos_Empresas1_idx` (`EmpresaID`),
   KEY `fk_Telefonos_Empleados1_idx` (`EmpleadoID`),
   KEY `fk_Telefonos_ClientesPersonas1_idx` (`ClientesPersonasID`),
@@ -576,7 +582,7 @@ CREATE TABLE `Telefonos` (
 
 LOCK TABLES `Telefonos` WRITE;
 /*!40000 ALTER TABLE `Telefonos` DISABLE KEYS */;
-INSERT INTO `Telefonos` VALUES (1,'23056679',NULL,NULL,NULL,1),(2,'70000000',NULL,NULL,NULL,2);
+INSERT INTO `Telefonos` VALUES (1,'23056679',NULL,NULL,NULL,1),(2,'70000001',NULL,NULL,NULL,2);
 /*!40000 ALTER TABLE `Telefonos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -716,4 +722,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-01-08 16:22:13
+-- Dump completed on 2017-01-08 18:18:42
