@@ -2,10 +2,13 @@
 
 namespace Sigmalibre\Products;
 
+use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Controlador para las operaciones sobre productos.
@@ -188,5 +191,33 @@ class ProductsController
         $isProductUpdated = $product->update($request->getParsedBody(), $brands, $unitsOfMeasurement);
 
         return $this->indexProduct($request, $response, $arguments, $isProductUpdated, $product->getInvalidInputs());
+    }
+
+    /**
+     * Realiza traslado de cantidad de productos entre almacenes.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     *
+     * @return Response
+     */
+    public function traslado(Request $request, ResponseInterface $response, $arguments)
+    {
+        $warehouses = new Warehouses($this->container);
+
+        $product = new Product($arguments['id'], $this->container);
+
+        // Si el producto especificado en la URL no exsiste, devolver un 404.
+        if ($product->is_set() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
+        $input = $request->getParsedBody();
+        $input['productoID'] = $arguments['id'];
+
+        $isTrasladoDone = $warehouses->traslado($input);
+
+        return $this->indexProduct($request, $response, $arguments, $isTrasladoDone, $warehouses->getInvalidInputs());
     }
 }
