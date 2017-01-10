@@ -3,8 +3,10 @@
 namespace Sigmalibre\Ingresos;
 
 use Respect\Validation\Rules\AllOf;
+use Respect\Validation\Rules\Equals;
 use Respect\Validation\Rules\IntVal;
 use Respect\Validation\Rules\Min;
+use Respect\Validation\Rules\Not;
 use Respect\Validation\Rules\Numeric;
 use Respect\Validation\Rules\Optional;
 use Respect\Validation\Rules\Positive;
@@ -34,7 +36,7 @@ class IngresosValidator extends Validator
     }
 
     /**
-     * La cantidad de be ser un valor numérico.
+     * La cantidad de be ser un valor numérico que no sea igual a cero.
      *
      * @param array $input
      *
@@ -44,7 +46,8 @@ class IngresosValidator extends Validator
     {
         $v = new AllOf(
             new Numeric(),
-            new IntVal()
+            new IntVal(),
+            new Not(new Equals(0))
         );
 
         if ($v->validate($input['cantidadIngreso']) === false) {
@@ -67,7 +70,7 @@ class IngresosValidator extends Validator
     {
         $v = new AllOf(
             new Numeric(),
-            new Min(0, true)
+            new Min(0.0001, true)
         );
 
         if ($v->validate($input['valorPrecioUnitario']) === false) {
