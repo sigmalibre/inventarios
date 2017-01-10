@@ -96,12 +96,6 @@
                     </li>
                 </ul>
             </li>
-            <li class="{% if uri_path == path_for('providers') %}active{% endif %}">
-                <a href="{{ path_for('providers') }}">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                    Proveedores
-                </a>
-            </li>
             {% set warehouses_urls = [path_for('warehouses'), path_for('warehouses/createform')] %}
             <li class="dropdown {% if uri_path in warehouses_urls %}active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -124,24 +118,42 @@
                     </li>
                 </ul>
             </li>
-            {% set clientes_urls = [path_for('clientes/personas'), path_for('clientes/empresas')] %}
-            <li class="dropdown {% if uri_path in clientes_urls %}active{% endif %}">
+            {% set contactos_urls = [path_for('empresas/createform'), path_for('providers'), path_for('clientes/personas'), path_for('clientes/empresas')] %}
+            <li class="dropdown {% if uri_path in contactos_urls %}active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                    <span class="glyphicon glyphicon-heart"></span>
-                    Clientes
+                    <span class="glyphicon glyphicon-earphone"></span>
+                    Contactos
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    <li class="{% if uri_path == path_for('empresas/createform') %}active{% endif %}">
+                        <a href="{{ path_for('empresas/createform') }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Nuevo Contacto Empresa
+                        </a>
+                    </li>
+                    <li class="{% if uri_path == path_for('empresas') %}active{% endif %}">
+                        <a href="{{ path_for('empresas') }}">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Ver Contactos Empresas
+                        </a>
+                    </li>
+                    <li class="{% if uri_path == path_for('providers') %}active{% endif %}">
+                        <a href="{{ path_for('providers') }}">
+                            <span class="glyphicon glyphicon-download-alt"></span>
+                            Proveedores
+                        </a>
+                    </li>
                     <li class="{% if uri_path == path_for('clientes/personas') %}active{% endif %}">
                         <a href="{{ path_for('clientes/personas') }}">
-                            <span class="glyphicon glyphicon-user"></span>
-                            Ver Personas
+                            <span class="glyphicon glyphicon-heart"></span>
+                            Ver Clientes
                         </a>
                     </li>
                     <li class="{% if uri_path == path_for('clientes/empresas') %}active{% endif %}">
                         <a href="{{ path_for('clientes/empresas') }}">
-                            <span class="glyphicon glyphicon-home"></span>
-                            Ver Empresas Contribuyentes
+                            <span class="glyphicon glyphicon-briefcase"></span>
+                            Ver Contribuyentes
                         </a>
                     </li>
                 </ul>

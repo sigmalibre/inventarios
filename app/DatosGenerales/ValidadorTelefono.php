@@ -1,10 +1,11 @@
 <?php
 
-namespace Sigmalibre\Validation;
+namespace Sigmalibre\DatosGenerales;
 
 use Respect\Validation\Rules\AllOf;
 use Respect\Validation\Rules\Length;
 use Respect\Validation\Rules\StringType;
+use Sigmalibre\Validation\Validator;
 
 class ValidadorTelefono extends Validator
 {

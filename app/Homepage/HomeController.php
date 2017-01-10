@@ -23,6 +23,6 @@ class HomeController
      */
     public function home($request, $response)
     {
-        return $this->container->view->render($response, 'homepage.html');
+        return $this->container->view->render($response, 'homepage.twig');
     }
 }

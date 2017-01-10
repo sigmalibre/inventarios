@@ -26,9 +26,9 @@ class FilterIngresos extends MySQLReader
             'searchType' => '=',
         ],
         [
-            'filterName' => 'numregProveedor',
+            'filterName' => 'nombreProveedor',
             'tableName' => 'Empresas',
-            'columnName' => 'Registro',
+            'columnName' => 'NombreComercial',
             'searchType' => 'LIKE',
         ],
         [

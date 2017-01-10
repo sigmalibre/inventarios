@@ -18,6 +18,8 @@ $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosControll
 
 $app->get('/productos/ingresos', '\Sigmalibre\Ingresos\IngresosController:indexAll')->setName('ingresos');
 
+$app->post('/productos/id/{id}/traslados', '\Sigmalibre\Products\ProductsController:traslado')->setName('products/traslado');
+
 // CATEGORIAS DE PRODUCTO
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
 $app->post('/categorias', '\Sigmalibre\Categories\CategoriesController:createNew');
@@ -75,3 +77,10 @@ $app->get('/ajustes', '\Sigmalibre\UserConfig\UserConfigController:index')->setN
 // IVA
 $app->get('/iva', '\Sigmalibre\IVA\IVAController:index')->setName('iva');
 $app->post('/iva', '\Sigmalibre\IVA\IVAController:update');
+
+// CONTACTOS
+$app->get('/contactos/empresas', '\Sigmalibre\Empresas\EmpresasController:indexEmpresas')->setName('empresas');
+$app->post('/contactos/empresas', '\Sigmalibre\Empresas\EmpresasController:createNew');
+$app->get('/contactos/nuevaempresa', '\Sigmalibre\Empresas\EmpresasController:indexNew')->setName('empresas/createform');
+$app->get('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:indexEmpresa')->setName('empresa');
+$app->post('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:update');

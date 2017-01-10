@@ -2,14 +2,17 @@
 
 namespace Sigmalibre\Ingresos;
 
+use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Ingresos\DataSource\MySQL\CountFilteredIngresos;
 use Sigmalibre\Ingresos\DataSource\MySQL\FilterIngresos;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Products\Product;
 use Sigmalibre\Products\Products;
+use Sigmalibre\Validation\Validator;
 use Sigmalibre\Warehouses\Warehouse;
 use Sigmalibre\Warehouses\WarehouseDetail;
+use Sigmalibre\Warehouses\Warehouses;
 
 /**
  * Modelo para operaciones sobre ingreso de productos.
@@ -23,12 +26,13 @@ class Ingresos
     /**
      * Ingresos constructor.
      *
-     * @param $container
+     * @param                                  $container
+     * @param \Sigmalibre\Validation\Validator $validator
      */
-    public function __construct($container)
+    public function __construct($container, Validator $validator = null)
     {
         $this->container = $container;
-        $this->validator = new IngresosValidator();
+        $this->validator = $validator ?? new IngresosValidator();
         $this->products = new Products($container);
     }
 
@@ -66,6 +70,16 @@ class Ingresos
      */
     public function save($input, $id)
     {
+        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
+        $input = array_map('trim', $input);
+
+        $input['valorCostoActualTotal'] = $input['valorCostoActualTotal'] ?? '';
+
+        // Validar el input del usuario.
+        if ($this->validator->validate($input) === false) {
+            return false;
+        }
+
         // Revisar si el producto al que se desea hacer el ingreso existe.
         $producto = new Product($id, $this->container);
 
@@ -84,15 +98,21 @@ class Ingresos
             return false;
         }
 
-        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
-        $input = array_map('trim', $input);
-
         // Se agrega la id del producto al input porque las fuentes de datos lo necesitan.
         $input['productoID'] = $id;
 
         // Ya que el campo de EmpresaID en la fuente de datos solo acepta INT y NULL, si se pasa un
         // string vacío, se convierte a NULL en su lugar.
         $input['empresaID'] = empty($input['empresaID']) ? null : $input['empresaID'];
+        if ($input['empresaID'] !== null) {
+            $empresa = new Empresa($input['empresaID'], $this->container);
+
+            if ($empresa->is_set() === false) {
+                $this->validator->setInvalidInput('empresaID');
+
+                return false;
+            }
+        }
 
         // Si el nuevo costo total del producto no viene establecido en el input, calcularlo a partir
         // del método del promedio ponderado.
@@ -101,22 +121,10 @@ class Ingresos
             $input['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
         }
 
-        // Validar el input del usuario.
-        if ($this->validator->validate($input) === false) {
-            return false;
-        }
-
+        $warehouses = new Warehouses($this->container);
         $warehouseDetail = new WarehouseDetail($this->container);
 
-        // Se necesita obtener la cantidad de productos en el almacén porque es necesario comprobar que
-        // la cantidad introducida por el cliente más la cantidad existente en almacén no sea menor que cero.
-        $datosDetalleAlmacen = $warehouseDetail->getDetailFromParentsID([
-            'almacenID' => $input['almacenID'],
-            'productoID' => $input['productoID'],
-        ]);
-
-        // Si no se encuentra la información el valor por defecto es cero (no existen productos en ese almacén).
-        $cantidadDetalleAlmacen = $datosDetalleAlmacen ? (int)$datosDetalleAlmacen['Cantidad'] : 0;
+        $cantidadDetalleAlmacen = $warehouses->getCantidadDetalleAlmacen($input, $warehouseDetail);
 
         // Las devoluciones sobre compras se hacen simplemente ingresando un número negatívo como ingreso de producto
         // Y dejando el costo al mismo con el que se compró.

@@ -6,10 +6,11 @@ use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
 use Sigmalibre\DatosGenerales\Direccion;
 use Sigmalibre\DatosGenerales\Telefono;
+use Sigmalibre\DatosGenerales\ValidadorDireccion;
+use Sigmalibre\DatosGenerales\ValidadorTelefono;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
-use Sigmalibre\Validation\ValidadorDireccion;
-use Sigmalibre\Validation\ValidadorTelefono;
+use Sigmalibre\Products\Product;
 use Sigmalibre\Warehouses\DataSource\MySQL\SaveNewWarehouse;
 use Sigmalibre\Warehouses\DataSource\MySQL\SearchAllWarehouses;
 
@@ -22,6 +23,7 @@ class Warehouses
     private $validator;
     private $validadorDirecciones;
     private $validadorTelefonos;
+    private $validadorDetalleAlmacen;
 
     public function __construct($container)
     {
@@ -29,6 +31,7 @@ class Warehouses
         $this->validator = new WarehousesValidator();
         $this->validadorDirecciones = new ValidadorDireccion();
         $this->validadorTelefonos = new ValidadorTelefono();
+        $this->validadorDetalleAlmacen = new WarehouseDetailValidator();
     }
 
     /**
@@ -109,6 +112,92 @@ class Warehouses
     }
 
     /**
+     * Traslada una cantidad de producto entre dos almacenes.
+     *
+     * @param $input
+     *
+     * @return bool
+     */
+    public function traslado($input)
+    {
+        // Limpiar los espacios en blanco al inicio y final de todos los inputs.
+        $input = array_map('trim', $input);
+
+        $producto = new Product($input['productoID'], $this->container);
+        $almacenDesde = new Warehouse($input['almacenDesdeID'], $this->container);
+        $almacenHasta = new Warehouse($input['almacenHastaID'], $this->container);
+
+        if ($producto->is_set() === false) {
+            $this->validator->setInvalidInput('productoID');
+        }
+
+        if ($almacenDesde->is_set() === false) {
+            $this->validator->setInvalidInput('almacenDesdeID');
+        }
+
+        if ($almacenHasta->is_set() === false) {
+            $this->validator->setInvalidInput('almacenHastaID');
+        }
+
+        $this->validadorDetalleAlmacen->validarCantidad($input);
+
+        if ($input['cantidadIngreso'] < 0) {
+            $this->validator->setInvalidInput('cantidadMenorCero');
+
+            return false;
+        }
+
+        if (empty($this->getInvalidInputs()) === false) {
+            return false;
+        }
+
+        $warehouseDetail = new WarehouseDetail($this->container);
+
+        $cantidad_desde = $this->getCantidadDetalleAlmacen([
+            'almacenID' => $input['almacenDesdeID'],
+            'productoID' => $input['productoID'],
+        ], $warehouseDetail);
+
+        $cantidad_hasta = $this->getCantidadDetalleAlmacen([
+            'almacenID' => $input['almacenHastaID'],
+            'productoID' => $input['productoID'],
+        ], $warehouseDetail);
+
+        $cantidad_desde_total = $cantidad_desde - (int)$input['cantidadIngreso'];
+        $cantidad_hasta_total = $cantidad_hasta + (int)$input['cantidadIngreso'];
+
+        if ($cantidad_desde_total < 0) {
+            $this->validator->setInvalidInput('cantidadAlmacenDesdeMenorCero');
+
+            return false;
+        }
+
+        $this->container->mysql->beginTransaction();
+
+        $isDetalleDesdeSaved = $warehouseDetail->update([
+            'cantidadIngreso' => $cantidad_desde_total,
+            'almacenID' => $input['almacenDesdeID'],
+            'productoID' => $input['productoID'],
+        ]);
+
+        $isDetalleHastaSaved = $warehouseDetail->update([
+            'cantidadIngreso' => $cantidad_hasta_total,
+            'almacenID' => $input['almacenHastaID'],
+            'productoID' => $input['productoID'],
+        ]);
+
+        if ($isDetalleDesdeSaved === false || $isDetalleHastaSaved === false) {
+            $this->container->mysql->rollBack();
+
+            return false;
+        }
+
+        $this->container->mysql->commit();
+
+        return true;
+    }
+
+    /**
      * Obtiene la lista con los inputs que no pasaron la validación.
      *
      * @return array
@@ -118,7 +207,8 @@ class Warehouses
         return array_merge(
             $this->validator->getInvalidInputs(),
             $this->validadorDirecciones->getInvalidInputs(),
-            $this->validadorTelefonos->getInvalidInputs()
+            $this->validadorTelefonos->getInvalidInputs(),
+            $this->validadorDetalleAlmacen->getInvalidInputs()
         );
     }
 
@@ -148,5 +238,28 @@ class Warehouses
         return $warehouseWriter->write([
             'nombreAlmacen' => $name,
         ]);
+    }
+
+    /**
+     * Obtiene la cantidad de producto en un detalle de almacén.
+     *
+     * @param                                        $input
+     * @param \Sigmalibre\Warehouses\WarehouseDetail $warehouseDetail
+     *
+     * @return int
+     */
+    public function getCantidadDetalleAlmacen($input, WarehouseDetail $warehouseDetail): int
+    {
+        // Se necesita obtener la cantidad de productos en el almacén porque es necesario comprobar que
+        // la cantidad introducida por el cliente más la cantidad existente en almacén no sea menor que cero.
+        $datosDetalleAlmacen = $warehouseDetail->getDetailFromParentsID([
+            'almacenID' => $input['almacenID'],
+            'productoID' => $input['productoID'],
+        ]);
+
+        // Si no se encuentra la información el valor por defecto es cero (no existen productos en ese almacén).
+        $cantidadDetalleAlmacen = $datosDetalleAlmacen ? (int)$datosDetalleAlmacen['Cantidad'] : 0;
+
+        return $cantidadDetalleAlmacen;
     }
 }

@@ -1,4 +1,4 @@
-{% extends 'templates/base.html' %}
+{% extends 'templates/base.twig' %}
 
 {% block title  %}Modificar Producto{% endblock %}
 
@@ -133,6 +133,18 @@
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 {% include 'products/ingresarproducto.twig' %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% include 'products/existenciaproducto.twig' %}
+                    </div>
+                    <div class="col-sm-6">
+                        {% include 'products/trasladoproducto.twig' %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -2,6 +2,8 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Ingresos\IngresosSoftValidator;
+
 /**
  * Realiza una importación de los datos provenientes desde la BD que utiliza
  * el programa PowerAcc, el cual utiliza la empresa para la cual fue diseñado
@@ -124,7 +126,7 @@ class ImportarProductos
         $creadorProductos = new \Sigmalibre\Products\Products($this->container);
         $marcas = new \Sigmalibre\Brands\Brands($this->container);
         $medidas = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
-        $ingresos = new \Sigmalibre\Ingresos\Ingresos($this->container);
+        $ingresos = new \Sigmalibre\Ingresos\Ingresos($this->container, new IngresosSoftValidator());
 
         $this->container->mysql->beginTransaction();
 

@@ -27,7 +27,7 @@ class UnitsOfMeasurementController
         $measurements = new UnitsOfMeasurement($this->container);
         $measurementList = $measurements->readMesurementList($request->getQueryParams());
 
-        return $this->container->view->render($response, 'unitsofmeasurement/measurements.html', [
+        return $this->container->view->render($response, 'unitsofmeasurement/measurements.twig', [
             'measurements' => $measurementList['itemList'],
             'pagination' => $measurementList['pagination'],
             'input' => $measurementList['userInput'],
@@ -54,7 +54,7 @@ class UnitsOfMeasurementController
             return $this->container['notFoundHandler']($request, $response);
         }
 
-        return $this->container->view->render($response, 'unitsofmeasurement/modifyunit.html', [
+        return $this->container->view->render($response, 'unitsofmeasurement/modifyunit.twig', [
             'idMedida' => $arguments['id'],
             'unitSaved' => $isSaved,
             'failedInputs' => $failedInputs,

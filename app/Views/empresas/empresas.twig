@@ -1,0 +1,84 @@
+{% extends 'templates/base.twig' %}
+
+{% block title %}Contactos Empresas{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-0 col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Búsqueda de Contactos</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('empresas') }}" method="get">
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nombreComercial">Nombre</label>
+                                <input id="nombreComercial" class="form-control" type="text" name="nombreComercial" placeholder="Nombre de la empresa" value="{{ input.nombreComercial }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreComercial %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="registro">Número de Registro</label>
+                                <input id="registro" class="form-control" type="text" name="registro" placeholder="Número de registro de la empresa" value="{{ input.registro }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.registro %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
+                                <label for="nit">NIT</label>
+                                <input id="nit" class="form-control" type="text" name="nit" placeholder="NIT de la empresa" value="{{ input.nit }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nit %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="itemsPerPage">Cantidad por página</label>
+                                <select id="itemsPerPage" class="form-control" name="itemsPerPage">
+                                    {% set perPageOpts = [10, 25, 50] %}
+                                    {% for opt in perPageOpts %}
+                                        <option value="{{ opt }}" {% if pagination.itemsPerPage == opt %}selected{% endif %}>{{ opt }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
+                            <button class="btn btn-block btn-info link-submit" type="submit" data-input="currentPage" data-value="1">
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-0 col-lg-9">
+                <div class="panel no-margin-bottom {% if empresas %}panel-primary{% else %}panel-default{% endif %}">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            {% if not empresas %}
+                                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                            {% endif %}
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Registro</th>
+                                <th>NIT</th>
+                                <th>Giro</th>
+                                <th>Teléfono</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for empresa in empresas %}
+                                <tr class="anchorize" data-href="{{ path_for('empresa', {id: empresa.EmpresaID}) }}">
+                                    <td>{{ empresa.NombreComercial }}</td>
+                                    <td>{{ empresa.Registro }}</td>
+                                    <td>{{ empresa.NIT }}</td>
+                                    <td>{{ empresa.Giro }}</td>
+                                    <td>{{ empresa.Telefono }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% include 'templates/listpagination.twig' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
