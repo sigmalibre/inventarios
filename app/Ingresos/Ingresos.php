@@ -11,6 +11,7 @@ use Sigmalibre\Products\Product;
 use Sigmalibre\Products\Products;
 use Sigmalibre\Warehouses\Warehouse;
 use Sigmalibre\Warehouses\WarehouseDetail;
+use Sigmalibre\Warehouses\Warehouses;
 
 /**
  * Modelo para operaciones sobre ingreso de productos.
@@ -118,17 +119,10 @@ class Ingresos
             $input['valorCostoActualTotal'] = $promediador->calcularNuevoCosto();
         }
 
+        $warehouses = new Warehouses($this->container);
         $warehouseDetail = new WarehouseDetail($this->container);
 
-        // Se necesita obtener la cantidad de productos en el almacén porque es necesario comprobar que
-        // la cantidad introducida por el cliente más la cantidad existente en almacén no sea menor que cero.
-        $datosDetalleAlmacen = $warehouseDetail->getDetailFromParentsID([
-            'almacenID' => $input['almacenID'],
-            'productoID' => $input['productoID'],
-        ]);
-
-        // Si no se encuentra la información el valor por defecto es cero (no existen productos en ese almacén).
-        $cantidadDetalleAlmacen = $datosDetalleAlmacen ? (int)$datosDetalleAlmacen['Cantidad'] : 0;
+        $cantidadDetalleAlmacen = $warehouses->getCantidadDetalleAlmacen($input, $warehouseDetail);
 
         // Las devoluciones sobre compras se hacen simplemente ingresando un número negatívo como ingreso de producto
         // Y dejando el costo al mismo con el que se compró.
