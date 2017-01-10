@@ -14,7 +14,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for almacen in existencia %}
+            {% for almacen in existencia if almacen.Cantidad > 0 %}
                 <tr>
                     <td>{{ almacen.NombreAlmacen }}</td>
                     <td>{{ almacen.Cantidad }}</td>
