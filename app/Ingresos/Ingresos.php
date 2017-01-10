@@ -9,6 +9,7 @@ use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Products\Product;
 use Sigmalibre\Products\Products;
+use Sigmalibre\Validation\Validator;
 use Sigmalibre\Warehouses\Warehouse;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
@@ -25,12 +26,13 @@ class Ingresos
     /**
      * Ingresos constructor.
      *
-     * @param $container
+     * @param                                  $container
+     * @param \Sigmalibre\Validation\Validator $validator
      */
-    public function __construct($container)
+    public function __construct($container, Validator $validator = null)
     {
         $this->container = $container;
-        $this->validator = new IngresosValidator();
+        $this->validator = $validator ?? new IngresosValidator();
         $this->products = new Products($container);
     }
 
