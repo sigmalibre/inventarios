@@ -50,6 +50,8 @@ $app->get('/warehouses/createform', '\Sigmalibre\Warehouses\WarehousesController
 $app->get('/clientes/personas', '\Sigmalibre\Clients\ClientsController:indexPeople')->setName('clientes/personas');
 $app->get('/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexCompanies')->setName('clientes/empresas');
 
+$app->get('/contactos/clientes/createform', '\Sigmalibre\Clients\ClientsController:indexNew')->setName('clientes/createform');
+
 // MARCAS
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
 

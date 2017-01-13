@@ -1,6 +1,8 @@
 <?php
 
 namespace Sigmalibre\Clients;
+use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
 
 /**
  * Controlador para las acciones sobre los clientes.
@@ -31,6 +33,15 @@ class ClientsController
             'clients' => $clientList['itemList'],
             'pagination' => $clientList['pagination'],
             'input' => $clientList['userInput'],
+        ]);
+    }
+
+    public function indexNew(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
+    {
+        return $this->container->view->render($response, 'clients/newcliente.twig', [
+            'isSaved' => $isSaved,
+            'failedInputs' => $failedInputs,
+            'input' => $request->getParsedBody(),
         ]);
     }
 
