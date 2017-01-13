@@ -71,7 +71,7 @@
                                     <th>Marca</th>
                                     <th>Nombre</th>
                                     <th>Cantidad</th>
-                                    <th>Precio de Venta*</th>
+                                    <th>Precio de Venta</th>
                                 </tr>
                             </thead>
 
@@ -83,7 +83,11 @@
                                     <td>{{ product.NombreMarca }}</td>
                                     <td>{{ product.Descripcion }}</td>
                                     <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
-                                    <td>$ {{ ((product.CostoActual + product.Utilidad) * (1 + porcentajeIVA / 100))|number_format(2) }}</td>
+                                    {% if product.ExcentoIVA == 1 %}
+                                        <td class="bg-info">$ {{ (product.CostoActual + product.Utilidad)|number_format(2) }}<b class="text-info">*</b></td>
+                                    {% else %}
+                                        <td>$ {{ ((product.CostoActual + product.Utilidad) * (1 + porcentajeIVA / 100))|number_format(2) }}</td>
+                                    {% endif %}
                                 </tr>
                             {% else %}
                             </tbody>
@@ -92,7 +96,7 @@
                         </table>
                     </div>
                     <div class="panel-footer">
-                        <small class="text-muted">*Precios con IVA incluido</small>
+                        <small class="text-muted bg-info"><b class="text-info">*</b> Precios excentos de IVA</small>
                     </div>
                 </div>
                 {% include 'templates/listpagination.twig' %}
