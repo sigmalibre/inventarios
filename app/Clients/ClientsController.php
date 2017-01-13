@@ -1,6 +1,7 @@
 <?php
 
 namespace Sigmalibre\Clients;
+
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 
@@ -36,6 +37,17 @@ class ClientsController
         ]);
     }
 
+    /**
+     * Renderiza la vista del formulario para crear un nuevo contacto de cliente.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     * @param null|array                          $isSaved
+     * @param null|array                          $failedInputs
+     *
+     * @return ResponseInterface
+     */
     public function indexNew(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         return $this->container->view->render($response, 'clients/newcliente.twig', [
@@ -43,6 +55,23 @@ class ClientsController
             'failedInputs' => $failedInputs,
             'input' => $request->getParsedBody(),
         ]);
+    }
+
+    /**
+     * Crea un nuevo contacto de cliente a partir del input del usuario.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function createNew(Request $request, ResponseInterface $response)
+    {
+        $clients = new Clients($this->container);
+
+        $isCategorySaved = $clients->save($request->getParsedBody());
+
+        return $this->indexNew($request, $response, null, $isCategorySaved, $clients->getInvalidInputs());
     }
 
     /**

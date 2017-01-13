@@ -51,6 +51,7 @@ $app->get('/clientes/personas', '\Sigmalibre\Clients\ClientsController:indexPeop
 $app->get('/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexCompanies')->setName('clientes/empresas');
 
 $app->get('/contactos/clientes/createform', '\Sigmalibre\Clients\ClientsController:indexNew')->setName('clientes/createform');
+$app->post('/contactos/clientes/createform', '\Sigmalibre\Clients\ClientsController:createNew');
 
 // MARCAS
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
