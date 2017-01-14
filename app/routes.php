@@ -53,6 +53,9 @@ $app->get('/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexComp
 $app->get('/contactos/clientes/createform', '\Sigmalibre\Clients\ClientsController:indexNew')->setName('clientes/createform');
 $app->post('/contactos/clientes/createform', '\Sigmalibre\Clients\ClientsController:createNew');
 
+$app->get('/contactos/clientes/id/{id}', '\Sigmalibre\Clients\ClientsController:indexCliente')->setName('clientes/update');
+$app->post('/contactos/clientes/id/{id}', '\Sigmalibre\Clients\ClientsController:update');
+
 // MARCAS
 $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
 
