@@ -5,7 +5,7 @@ namespace Sigmalibre\DataSource\MySQL;
 /**
  * Clase base para las lecturas de una base de datos MySQL.
  */
-abstract class MySQLReader implements \Sigmalibre\DataSource\ReadDataSourceInterface
+abstract class MySQLReader implements \Sigmalibre\DataSource\ReadInterface
 {
     protected $connection;
     protected $baseQuery = '';

@@ -5,7 +5,7 @@ namespace Sigmalibre\DataSource\JSON;
 /**
  * Realiza una lectura de un archivo en formato JSON.
  */
-class JSONFileReader implements \Sigmalibre\DataSource\ReadDataSourceInterface
+class JSONFileReader implements \Sigmalibre\DataSource\ReadInterface
 {
     /**
      * Obtiene un array desde un archivo con formato JSON.
