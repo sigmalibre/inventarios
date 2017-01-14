@@ -15,7 +15,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Modifica esta categoría</div>
                 <div class="panel-body">
-                    <form action="{{ path_for('categories') }}/id/{{ input.codigoCategoria }}" method="post">
+                    <form action="{{ path_for('categories/update', {id: input.codigoCategoria}) }}" method="post">
                         <div class="form-group has-feedback has-clear">
                             <label for="codigoCategoria">Código</label>
                             <input type="text" name="codigoCategoria" value="{{ input.codigoCategoria }}" class="form-control" id="codigoCategoria" maxlength="2">

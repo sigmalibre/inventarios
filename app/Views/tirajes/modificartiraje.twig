@@ -15,7 +15,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Modifica este tiraje</div>
                 <div class="panel-body">
-                    <form action="{{ path_for('tirajes') }}/id/{{ idTiraje }}" method="post">
+                    <form action="{{ path_for('tirajes/update', {id: idTiraje}) }}" method="post">
                         <div class="form-group has-feedback has-clear">
                             <label for="codigoTiraje">Código</label>
                             <input type="text" name="codigoTiraje" value="{{ input.codigoTiraje }}" class="form-control" id="codigoTiraje" maxlength="50">

@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                                 {% for unit in measurements %}
-                                <tr class="anchorize" data-href="{{ path_for('measurements') }}/id/{{ unit.MedidaID }}">
+                                <tr class="anchorize" data-href="{{ path_for('measurements/update', {id: unit.MedidaID}) }}">
                                     <td>{{ unit.MedidaID }}</td>
                                     <td>{{ unit.UnidadMedida }}</td>
                                 </tr>

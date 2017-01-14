@@ -15,7 +15,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Introduce una nueva categoría</div>
                 <div class="panel-body">
-                    <form action="{{ path_for('categories') }}" method="post">
+                    <form action="{{ path_for('categories/createform') }}" method="post">
                         <div class="form-group has-feedback has-clear">
                             <label for="codigoCategoria">Código</label>
                             <input type="text" name="codigoCategoria" value="{% if categorySaved is same as(false) %}{{ input.codigoCategoria }}{% endif %}" class="form-control" id="codigoCategoria" maxlength="2">

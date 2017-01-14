@@ -51,7 +51,7 @@
                             </thead>
                             <tbody>
                                 {% for tiraje in tirajes %}
-                                <tr class="anchorize" data-href="{{ path_for('tirajes') }}/id/{{ tiraje.TirajeFacturaID }}">
+                                <tr class="anchorize" data-href="{{ path_for('tirajes/update', {id: tiraje.TirajeFacturaID}) }}">
                                     <td>{{ tiraje.CodigoTiraje }}</td>
                                     <td>{{ tiraje.TirajeDesde }}</td>
                                     <td>{{ tiraje.TirajeHasta }}</td>
