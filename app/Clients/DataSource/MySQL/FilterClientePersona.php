@@ -8,7 +8,7 @@ namespace Sigmalibre\Clients\DataSource\MySQL;
  */
 class FilterClientePersona extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT ClientesPersonasID, Nombres, Apellidos, DUI, NIT FROM ClientesPersonas WHERE 1';
+    protected $baseQuery = 'SELECT ClientesPersonasID, Nombres, Apellidos, DUI, NIT, DireccionID, Direccion, TelefonoID, Telefono FROM ClientesPersonas LEFT JOIN Direcciones USING (ClientesPersonasID) LEFT JOIN Telefonos USING (ClientesPersonasID) WHERE 1';
     protected $setLimit = true;
     protected $filterFields = [
         [

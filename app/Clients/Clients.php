@@ -2,16 +2,32 @@
 
 namespace Sigmalibre\Clients;
 
+use Sigmalibre\Clients\DataSource\MySQL\SaveNewCliente;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
+use Sigmalibre\DatosGenerales\Direccion;
+use Sigmalibre\DatosGenerales\Telefono;
+use Sigmalibre\DatosGenerales\ValidadorDireccion;
+use Sigmalibre\DatosGenerales\ValidadorTelefono;
+use Sigmalibre\ItemList\ItemListReader;
+use Sigmalibre\Pagination\Paginator;
+
 /**
  * Modelo para las operaciones CRUD sobre los clientes.
  */
 class Clients
 {
     private $container;
+    private $validator;
+    private $validadorDirecciones;
+    private $validadorTelefonos;
 
     public function __construct($container)
     {
         $this->container = $container;
+        $this->validator = new ValidadorCliente();
+        $this->validadorDirecciones = new ValidadorDireccion();
+        $this->validadorTelefonos = new ValidadorTelefono();
     }
 
     /**
@@ -24,10 +40,10 @@ class Clients
      */
     public function readPeopleList($userInput)
     {
-        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+        $listReader = new ItemListReader(
             new DataSource\MySQL\CountFilteredClientePersona($this->container),
             new DataSource\MySQL\FilterClientePersona($this->container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
+            new Paginator($userInput),
             $userInput
         );
 
@@ -47,10 +63,10 @@ class Clients
      */
     public function readCompanyList($userInput)
     {
-        $listReader = new \Sigmalibre\ItemList\ItemListReader(
+        $listReader = new ItemListReader(
             new DataSource\MySQL\CountFilteredClienteEmpresa($this->container),
             new DataSource\MySQL\FilterClienteEmpresa($this->container),
-            new \Sigmalibre\Pagination\Paginator($userInput),
+            new Paginator($userInput),
             $userInput
         );
 
@@ -58,5 +74,79 @@ class Clients
         $clientList['userInput'] = $userInput;
 
         return $clientList;
+    }
+
+    /**
+     * Guarda la información de un cliente en la fuente de datos.
+     *
+     * @param array $input
+     *
+     * @return bool
+     */
+    public function save(array $input)
+    {
+        $input = array_map('trim', $input);
+
+        $isInputValid = $this->runValidators($input);
+        if ($isInputValid === false) {
+            return false;
+        }
+
+        $this->container->mysql->beginTransaction();
+
+        $newClientID = $this->saveClient($input);
+        if ($newClientID === false) {
+            $this->container->mysql->rollBack();
+
+            return false;
+        }
+
+        $newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['clientePersonaID' => $newClientID]);
+        $newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['clientePersonaID' => $newClientID]);
+
+        if ($newDireccionID === false || $newTelefonoID === false) {
+            $this->container->mysql->rollBack();
+
+            return false;
+        }
+
+        $this->container->mysql->commit();
+
+        return true;
+    }
+
+    private function runValidators($input)
+    {
+        $this->validator->validate($input);
+        $this->validadorDirecciones->validate($input);
+        $this->validadorTelefonos->validate($input);
+
+        return empty($this->getInvalidInputs());
+    }
+
+    /**
+     * Obtiene todos los inputs que no pasaron la validación al crear un cliente nuevo.
+     *
+     * @return array
+     */
+    public function getInvalidInputs()
+    {
+        return array_merge(
+            $this->validator->getInvalidInputs(),
+            $this->validadorDirecciones->getInvalidInputs(),
+            $this->validadorTelefonos->getInvalidInputs()
+        );
+    }
+
+    private function saveClient($input)
+    {
+        $writer = new SaveNewCliente($this->container);
+
+        return $writer->write([
+            'nombres' => $input['nombres'],
+            'apellidos' => $input['apellidos'],
+            'dui' => $input['dui'],
+            'nit' => $input['nit'],
+        ]);
     }
 }
