@@ -15,7 +15,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Modifica un producto</div>
                     <div class="panel-body">
-                        <form action="{{ path_for('products') }}/id/{{ productID }}" method="post">
+                        <form action="{{ path_for('products/update', {id: productID}) }}" method="post">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">

@@ -15,7 +15,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Modifica esta unidad de medida</div>
                 <div class="panel-body">
-                    <form action="{{ path_for('measurements') }}/id/{{ idMedida }}" method="post">
+                    <form action="{{ path_for('measurements/update', {id: idMedida}) }}" method="post">
                         <div class="form-group has-feedback has-clear">
                             <label for="unidadMedida">Nombre de la Magnitud</label>
                             <input type="text" name="unidadMedida" value="{{ input.unidadMedida }}" class="form-control" id="unidadMedida" maxlength="100">
