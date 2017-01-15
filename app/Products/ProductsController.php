@@ -5,6 +5,8 @@ namespace Sigmalibre\Products;
 use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
+use Sigmalibre\Products\DataSource\MySQL\FilterDescuentos;
+use Sigmalibre\Products\DataSource\MySQL\SaveNewDescuento;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
 use Slim\Http\Request;
@@ -121,6 +123,8 @@ class ProductsController
 
         $empresas = new Empresas($this->container);
 
+        $descuentos = new Descuentos($product, new SaveNewDescuento($this->container), new FilterDescuentos($this->container), new ValidadorDescuentos());
+
         return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
@@ -135,6 +139,7 @@ class ProductsController
             'almacenes' => $warehouses->readAll(),
             'existencia' => $warehouseDetails->readList(['productoID' => $arguments['id']])['itemList'],
             'empresas' => $empresas->getAll(),
+            'descuentos' => $descuentos->getDescuentos(),
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
