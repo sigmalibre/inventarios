@@ -1,0 +1,26 @@
+<div class="panel {% if descuentos %}panel-primary{% else %}panel-default{% endif %}">
+    <div class="panel-heading">
+        <h2 class="panel-title">Descuentos aplicables al producto</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-stripped">
+            {% if not descuentos %}
+                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+            {% endif %}
+            <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Cantidad</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for descuento in descuentos %}
+                <tr>
+                    <td>{{ descuento.RazonDescuento }}</td>
+                    <td>$ {{ descuento.CantidadDescontada }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
