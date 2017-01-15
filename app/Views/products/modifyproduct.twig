@@ -132,11 +132,13 @@
                         </form>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 {% include 'products/ingresarproducto.twig' %}
+                <hr>
             </div>
         </div>
         <div class="row">
@@ -149,9 +151,23 @@
                         {% include 'products/trasladoproducto.twig' %}
                     </div>
                 </div>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% include 'products/descuentos.twig' %}
+                    </div>
+                    <div class="col-sm-6">
+                        {% include 'products/newdescuento.twig' %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script src="/js/new-product-set-cat-code.js" defer></script>
     <script src="/js/sync-precio-venta.js" defer></script>
+    <script src="/js/limitar-input-numerico.js" defer></script>
 {% endblock %}
