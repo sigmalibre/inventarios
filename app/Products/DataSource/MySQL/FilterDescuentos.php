@@ -18,5 +18,11 @@ class FilterDescuentos extends MySQLReader
             'columnName' => 'ProductoID',
             'searchType' => '=',
         ],
+        [
+            'filterName' => 'descuentoID',
+            'tableName' => 'Descuentos',
+            'columnName' => 'DescuentoID',
+            'searchType' => '=',
+        ],
     ];
 }

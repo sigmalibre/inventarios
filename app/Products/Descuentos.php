@@ -79,4 +79,22 @@ class Descuentos
         ]);
 
     }
+
+    /**
+     * Obtiene la informaciónsobre un solo descuento de un producto.
+     *
+     * @param $productoID
+     * @param $descuentoID
+     *
+     * @return array
+     */
+    public function getSingle($productoID, $descuentoID)
+    {
+        return $this->persistenceReader->read([
+            'input' => [
+                'descuentoID' => $descuentoID,
+                'productoID' => $productoID,
+            ],
+        ]);
+    }
 }
