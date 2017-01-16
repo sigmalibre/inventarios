@@ -32,6 +32,11 @@ class DescuentosController
     public function createNew(Request $request, ResponseInterface $response, $arguments)
     {
         $producto = new Product($arguments['id'], $this->container);
+
+        if ($producto->is_set() === false) {
+            return $this->container['notFoundHandler']($request, $response);
+        }
+
         $validatorDescuentos = new ValidadorDescuentos();
         $descuentos = new Descuentos($producto, new SaveNewDescuento($this->container), new FilterDescuentos($this->container), $validatorDescuentos);
 
