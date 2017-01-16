@@ -4,9 +4,10 @@
     </div>
     <div class="panel-body">
         <form action="{{ path_for('products/descuentos', {'id': productID}) }}" method="post">
-            <div class="form-group">
+            <div class="form-group has-feedback has-clear">
                 <label for="razonDescuento">Descripción del descuento</label>
                 <input type="text" name="razonDescuento" value="" class="form-control" id="razonDescuento">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonDescuento %}hidden{% endif %}"></span>
             </div>
             <div class="form-group">
                 <label for="cantidadDescontada">Cantidad del descuento</label>
