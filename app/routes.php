@@ -13,6 +13,8 @@ $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosControll
 $app->post('/productos/id/{id}/traslados', '\Sigmalibre\Products\ProductsController:traslado')->setName('products/traslado');
 $app->post('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:createNew')->setName('products/descuentos');
 
+$app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:indexDescuento')->setName('products/descuentos/modify');
+
 $app->get('/productos/nuevo', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 $app->post('/productos/nuevo', '\Sigmalibre\Products\ProductsController:createNew');
 
