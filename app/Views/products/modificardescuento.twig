@@ -1,0 +1,41 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Modificar Descuento{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                {% if productSaved == true %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El producto ha sido modificado exitosamente!</div>
+                {% endif %}
+                {% if productSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el producto.</div>
+                {% endif %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Modifiar descuento</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('products/descuentos/modify', {'productoID': productoID, 'descuentoID': descuentoID}) }}" method="post">
+                            <div class="form-group has-feedback has-clear">
+                                <label for="razonDescuento">Descripción del descuento</label>
+                                <input type="text" name="razonDescuento" value="{{ input.razonDescuento }}" class="form-control" id="razonDescuento">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonDescuento %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidadDescontada">Cantidad del descuento</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" name="cantidadDescontada" value="{{ input.cantidadDescontada }}" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/limitar-input-numerico.js" defer></script>
+{% endblock %}
