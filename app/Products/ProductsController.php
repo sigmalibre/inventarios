@@ -123,7 +123,7 @@ class ProductsController
 
         $empresas = new Empresas($this->container);
 
-        $descuentos = new Descuentos($product, new SaveNewDescuento($this->container), new FilterDescuentos($this->container), new ValidadorDescuentos());
+        $descuentos = new Descuentos($product, new FilterDescuentos($this->container), new ValidadorDescuentos());
 
         return $this->container->view->render($response, 'products/modifyproduct.twig', [
             'productID' => $arguments['id'],

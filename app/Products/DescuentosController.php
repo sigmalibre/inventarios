@@ -38,9 +38,9 @@ class DescuentosController
         }
 
         $validatorDescuentos = new ValidadorDescuentos();
-        $descuentos = new Descuentos($producto, new SaveNewDescuento($this->container), new FilterDescuentos($this->container), $validatorDescuentos);
+        $descuentos = new Descuentos($producto, new FilterDescuentos($this->container), $validatorDescuentos);
 
-        $isSaved = $descuentos->crearDescuento($request->getParsedBody());
+        $isSaved = $descuentos->escribirDescuento($request->getParsedBody(), new SaveNewDescuento($this->container));
         return (new ProductsController($this->container))->indexProduct($request, $response, $arguments, $isSaved, $validatorDescuentos->getInvalidInputs());
     }
 
@@ -56,9 +56,9 @@ class DescuentosController
     public function indexDescuento(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         $validatorDescuentos = new ValidadorDescuentos();
-        $descuentos = new Descuentos(new Product(0, $this->container), new SaveNewDescuento($this->container), new FilterDescuentos($this->container), $validatorDescuentos);
+        $descuentos = new Descuentos(new Product($arguments['productoID'], $this->container), new FilterDescuentos($this->container), $validatorDescuentos);
 
-        $datosDescuento = $descuentos->getSingle($arguments['productoID'], $arguments['descuentoID']);
+        $datosDescuento = $descuentos->getSingle($arguments['descuentoID']);
         if (isset($datosDescuento[0]) === false) {
             return $this->container['notFoundHandler']($request, $response);
         }
