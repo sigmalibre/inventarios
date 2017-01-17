@@ -15,6 +15,7 @@ $app->post('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosCont
 
 $app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:indexDescuento')->setName('products/descuentos/modify');
 $app->post('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:update');
+$app->delete('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:delete');
 
 $app->get('/productos/nuevo', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 $app->post('/productos/nuevo', '\Sigmalibre\Products\ProductsController:createNew');

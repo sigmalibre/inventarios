@@ -3,6 +3,7 @@
 namespace Sigmalibre\Products;
 
 use Psr\Http\Message\ResponseInterface;
+use Sigmalibre\Products\DataSource\MySQL\DeleteDescuento;
 use Sigmalibre\Products\DataSource\MySQL\FilterDescuentos;
 use Sigmalibre\Products\DataSource\MySQL\SaveNewDescuento;
 use Sigmalibre\Products\DataSource\MySQL\UpdateDescuento;
@@ -42,6 +43,7 @@ class DescuentosController
         $descuentos = new Descuentos($producto, new FilterDescuentos($this->container), $validatorDescuentos);
 
         $isSaved = $descuentos->escribirDescuento($request->getParsedBody(), new SaveNewDescuento($this->container));
+
         return (new ProductsController($this->container))->indexProduct($request, $response, $arguments, $isSaved, $validatorDescuentos->getInvalidInputs());
     }
 
@@ -85,6 +87,15 @@ class DescuentosController
         ]);
     }
 
+    /**
+     * Actualiza los datos de un descuento de producto.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     *
+     * @return \Slim\Http\Response
+     */
     public function update(Request $request, ResponseInterface $response, $arguments)
     {
         $validatorDescuentos = new ValidadorDescuentos();
@@ -96,5 +107,25 @@ class DescuentosController
         $isUpdated = $descuentos->escribirDescuento($input, new UpdateDescuento($this->container));
 
         return $this->indexDescuento($request, $response, $arguments, $isUpdated, $validatorDescuentos->getInvalidInputs());
+    }
+
+    /**
+     * Elimina un registro de un descuento de producto.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function delete(Request $request, ResponseInterface $response, $arguments)
+    {
+        $descuentos = new Descuentos(new Product($arguments['productoID'], $this->container), new FilterDescuentos($this->container), new ValidadorDescuentos());
+
+        $isDeleted = $descuentos->eliminar($arguments['descuentoID'], new DeleteDescuento($this->container));
+
+        return (new Response())->withJson([
+            'status' => $isDeleted ? 'success' : 'error',
+        ], $isDeleted ? 200 : 500);
     }
 }
