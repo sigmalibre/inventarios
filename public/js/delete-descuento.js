@@ -9,7 +9,7 @@ $(function () {
     var alertsGoHere = $('#alert-group');
 
     var renderizarTemplate = function (context, icon, message) {
-        alertsGoHere.append(Mustache.to_html(alertTemplate, {
+        alertsGoHere.html(Mustache.to_html(alertTemplate, {
             context: context,
             icon: icon,
             message: message
