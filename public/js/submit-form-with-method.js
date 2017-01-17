@@ -43,7 +43,6 @@ $(function () {
                     error: error
                 }
             });
-            console.log('[AJAX] ' + status + ': ' + error);
         });
 
         event.preventDefault();
