@@ -12,20 +12,19 @@ use Sigmalibre\Validation\Validator;
 class Descuentos
 {
     protected $producto;
-    protected $persistenceWriter;
     protected $persistenceReader;
     protected $validator;
 
     /**
-     * @param \Sigmalibre\Products\Product          $producto
-     * @param \Sigmalibre\DataSource\WriteInterface $persistenceWriter
-     * @param \Sigmalibre\DataSource\ReadInterface  $persistenceReader
-     * @param \Sigmalibre\Validation\Validator      $validator
+     * @param \Sigmalibre\Products\Product         $producto
+     * @param \Sigmalibre\DataSource\ReadInterface $persistenceReader
+     * @param \Sigmalibre\Validation\Validator     $validator
+     *
+     * @internal param \Sigmalibre\DataSource\WriteInterface $persistenceWriter
      */
-    public function __construct(Product $producto, WriteInterface $persistenceWriter, ReadInterface $persistenceReader, Validator $validator)
+    public function __construct(Product $producto, ReadInterface $persistenceReader, Validator $validator)
     {
         $this->producto = $producto;
-        $this->persistenceWriter = $persistenceWriter;
         $this->persistenceReader = $persistenceReader;
         $this->validator = $validator;
     }
@@ -33,11 +32,12 @@ class Descuentos
     /**
      * Crea un nuevo descuento de producto en la fuente de datos.
      *
-     * @param array $input
+     * @param array                                 $input
+     * @param \Sigmalibre\DataSource\WriteInterface $writer
      *
      * @return bool
      */
-    public function crearDescuento(array $input)
+    public function escribirDescuento(array $input, WriteInterface $writer)
     {
         if ($this->producto->is_set() === false) {
             $this->validator->setInvalidInput('productoID');
@@ -58,7 +58,7 @@ class Descuentos
             return false;
         }
 
-        return $this->persistenceWriter->write(array_merge(['productoID' => $this->producto->ProductoID], $input));
+        return $writer->write(array_merge(['productoID' => $this->producto->ProductoID], $input));
     }
 
     /**
