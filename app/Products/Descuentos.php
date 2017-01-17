@@ -61,6 +61,20 @@ class Descuentos
         return $writer->write(array_merge(['productoID' => $this->producto->ProductoID], $input));
     }
 
+    public function eliminar($descuentoID, WriteInterface $writer)
+    {
+        if ($this->producto->is_set() === false) {
+            $this->validator->setInvalidInput('productoID');
+
+            return false;
+        }
+
+        return $writer->write([
+            'productoID' => $this->producto->ProductoID,
+            'descuentoID' => $descuentoID,
+        ]);
+    }
+
     /**
      * Obtiene todos los descuentos asociados desde la fuente de datos.
      *
