@@ -7,10 +7,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                {% if productSaved == true %}
+                {% if isSaved %}
                     <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El producto ha sido modificado exitosamente!</div>
                 {% endif %}
-                {% if productSaved is same as(false) %}
+                {% if isSaved is same as(false) %}
                     <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el producto.</div>
                 {% endif %}
                 <div id="alert-group"></div>
