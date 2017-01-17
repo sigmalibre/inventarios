@@ -9,6 +9,7 @@ namespace Sigmalibre\TirajeFactura;
  * @property mixed CodigoTiraje
  * @property mixed TirajeDesde
  * @property mixed TirajeHasta
+ * @property mixed MaxCorrelativo
  */
 class TirajeFactura
 {
