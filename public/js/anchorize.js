@@ -4,7 +4,9 @@ $(function () {
     'use strict';
 
     $('body').on('click', '.anchorize', function (event) {
-        var url = $(event.currentTarget).data('href');
-        window.location.href = url;
+        if (window.getSelection().toString().length === 0) {
+            window.location.href = $(event.currentTarget).data('href');
+        }
     });
+    
 });
