@@ -15,7 +15,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">Introduce un nuevo tiraje</div>
                 <div class="panel-body">
-                    <form action="{{ path_for('tirajes') }}" method="post">
+                    <form action="{{ path_for('tirajes/createform') }}" method="post">
                         <div class="form-group has-feedback has-clear">
                             <label for="codigoTiraje">Código</label>
                             <input type="text" name="codigoTiraje" value="{% if saved is same as(false) %}{{ input.codigoTiraje }}{% endif %}" class="form-control" id="codigoTiraje" maxlength="50">

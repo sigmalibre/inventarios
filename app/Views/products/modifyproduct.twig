@@ -15,7 +15,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Modifica un producto</div>
                     <div class="panel-body">
-                        <form action="{{ path_for('products') }}/id/{{ productID }}" method="post">
+                        <form action="{{ path_for('products/update', {id: productID}) }}" method="post">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
@@ -119,7 +119,11 @@
                                         <label for="precioVentaIVAProducto">Precio de Venta + IVA</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">$</span>
-                                            <input type="number" value="{{ ((input.utilidadProducto ?? 0 + input.valorCostoActualTotal ?? 0) * (1 + porcentajeIVA / 100))|number_format(4) }}" class="form-control" id="precioVentaIVAProducto" step="any" data-iva="{{ porcentajeIVA }}">
+                                            {% if input.excentoIvaProducto %}
+                                                <input disabled type="text" value="Producto excento de IVA" class="form-control" id="precioVentaIVAProducto" step="any" data-iva="{{ porcentajeIVA }}">
+                                            {% else %}
+                                                <input type="number" value="{{ ((input.utilidadProducto ?? 0 + input.valorCostoActualTotal ?? 0) * (1 + porcentajeIVA / 100))|number_format(4) }}" class="form-control" id="precioVentaIVAProducto" step="any" data-iva="{{ porcentajeIVA }}">
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -128,11 +132,13 @@
                         </form>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 {% include 'products/ingresarproducto.twig' %}
+                <hr>
             </div>
         </div>
         <div class="row">
@@ -145,9 +151,23 @@
                         {% include 'products/trasladoproducto.twig' %}
                     </div>
                 </div>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {% include 'products/descuentos.twig' %}
+                    </div>
+                    <div class="col-sm-6">
+                        {% include 'products/newdescuento.twig' %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <script src="/js/new-product-set-cat-code.js" defer></script>
     <script src="/js/sync-precio-venta.js" defer></script>
+    <script src="/js/limitar-input-numerico.js" defer></script>
 {% endblock %}

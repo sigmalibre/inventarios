@@ -54,7 +54,7 @@
                             </thead>
                             <tbody>
                                 {% for category in categories %}
-                                <tr class="anchorize" data-href="{{ path_for('categories') }}/id/{{ category.CategoriaProductoID }}">
+                                <tr class="anchorize" data-href="{{ path_for('categories/update', {id: category.CategoriaProductoID}) }}">
                                     <td>{{ category.CategoriaProductoID }}</td>
                                     <td>{{ category.Nombre }}</td>
                                 </tr>

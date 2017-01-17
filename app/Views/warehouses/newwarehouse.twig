@@ -15,7 +15,7 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Introduce un nuevo almacen</div>
                     <div class="panel-body">
-                        <form action="{{ path_for('warehouses') }}" method="post">
+                        <form action="{{ path_for('warehouses/createform') }}" method="post">
                             <div class="form-group has-feedback has-clear">
                                 <label for="nombreAlmacen">Nombre del Almacén</label>
                                 <input type="text" name="nombreAlmacen" value="{% if isSaved is same as(false) %}{{ input.nombreAlmacen }}{% endif %}" class="form-control" id="nombreAlmacen">

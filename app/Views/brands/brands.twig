@@ -49,7 +49,7 @@
                             </thead>
                             <tbody>
                                 {% for brand in brands %}
-                                <tr class="anchorize" data-href="{{ path_for('brands') }}/id/{{ brand.MarcaID }}">
+                                <tr class="anchorize" data-href="{{ path_for('brands/update', {id: brand.MarcaID}) }}">
                                     <td>{{ brand.MarcaID }}</td>
                                     <td>{{ brand.Nombre }}</td>
                                 </tr>

@@ -1,0 +1,62 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Modificar Cliente{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                {% if isSaved %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El cliente ha sido modificado exitosamente!</div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el cliente.</div>
+                {% endif %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Modifica los datos de contacto de este cliente</div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('clientes/update', {id: clienteID}) }}" method="post">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="nombres">Nombres del Cliente</label>
+                                        <input type="text" name="nombres" value="{{ input.nombres }}" class="form-control" id="nombres">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombres %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="apellidos">Apellidos del Cliente</label>
+                                        <input type="text" name="apellidos" value="{{ input.apellidos }}" class="form-control" id="apellidos">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.apellidos %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="dui">DUI del Cliente</label>
+                                        <input type="text" name="dui" value="{{ input.dui }}" class="form-control" id="dui">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.dui %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="nit">NIT del Cliente</label>
+                                        <input type="text" name="nit" value="{{ input.nit }}" class="form-control" id="nit">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nit %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="direccion">Dirección</label>
+                                        <input type="text" name="direccion" value="{{ input.direccion }}" class="form-control" id="direccion">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" name="telefono" value="{{ input.telefono }}" class="form-control" id="telefono">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Contacto</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

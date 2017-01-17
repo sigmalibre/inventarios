@@ -4,7 +4,7 @@ namespace Sigmalibre\DataSource;
 /**
  * Interfaz que debe implementar una clase que quiera leer de una fuente de datos.
  */
-interface ReadDataSourceInterface
+interface ReadInterface
 {
     /**
      * Leer de la fuente de datos, pide un parametro con identificadores para buscar un registro específico.
