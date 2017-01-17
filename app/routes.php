@@ -38,9 +38,9 @@ $app->post('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:cre
 $app->get('/contactos/proveedores', '\Sigmalibre\Providers\ProvidersController:indexProviders')->setName('providers');
 
 // FACTURACIÓN
-$app->get('/facturas', '\Sigmalibre\Invoices\InvoicesController:indexInvoices')->setName('invoices');
+$app->get('/facturas', '\Sigmalibre\Invoices\FacturasController:indexFacturas')->setName('invoices');
 
-$app->get('/creditofiscal', '\Sigmalibre\Invoices\InvoicesController:indexCreditoFiscal')->setName('creditofiscal');
+$app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexCreditos')->setName('creditofiscal');
 
 // ALMACENES
 $app->get('/almacenes', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
