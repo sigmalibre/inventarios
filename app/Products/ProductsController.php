@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
 use Sigmalibre\Products\DataSource\MySQL\FilterDescuentos;
-use Sigmalibre\Products\DataSource\MySQL\SaveNewDescuento;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
 use Slim\Http\Request;
@@ -49,14 +48,20 @@ class ProductsController
 
         $iva = new IVA();
 
-        return $this->container->view->render($response, 'products/products.twig', [
+        $responseData = [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
             'porcentajeIVA' => $iva->getPorcentajeIVA() ?? 0,
-        ]);
+        ];
+
+        if ($this->container->negotiator->getValue() === 'application/json') {
+            return (new Response())->withJson($responseData, 200);
+        }
+
+        return $this->container->view->render($response, 'products/products.twig', $responseData);
     }
 
     /**
