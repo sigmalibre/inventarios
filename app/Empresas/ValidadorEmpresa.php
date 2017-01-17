@@ -26,6 +26,7 @@ class ValidadorEmpresa extends Validator
         $this->validarNombre($input);
         $this->validarRazonSocial($input);
         $this->validarGiro($input);
+        $this->validarRegistro($input);
         $this->validarNit($input);
 
         return empty($this->invalidUserInputs);
@@ -98,6 +99,29 @@ class ValidadorEmpresa extends Validator
         }
 
         return false;
+    }
+
+    /**
+     * El número de registro comercial debe ser un string de 1 a 30 carácteres.
+     *
+     * @param $input
+     *
+     * @return bool
+     */
+    public function validarRegistro($input)
+    {
+        $v = new AllOf(
+            new StringType(),
+            new Length(1, 30, true)
+        );
+
+        if ($v->validate($input['registro']) === false) {
+            $this->setInvalidInput('registro');
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
