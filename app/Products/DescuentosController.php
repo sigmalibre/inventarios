@@ -5,6 +5,7 @@ namespace Sigmalibre\Products;
 use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Products\DataSource\MySQL\FilterDescuentos;
 use Sigmalibre\Products\DataSource\MySQL\SaveNewDescuento;
+use Sigmalibre\Products\DataSource\MySQL\UpdateDescuento;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -82,5 +83,18 @@ class DescuentosController
                 'utilidadProducto' => $producto->Utilidad,
             ],
         ]);
+    }
+
+    public function update(Request $request, ResponseInterface $response, $arguments)
+    {
+        $validatorDescuentos = new ValidadorDescuentos();
+        $descuentos = new Descuentos(new Product($arguments['productoID'], $this->container), new FilterDescuentos($this->container), $validatorDescuentos);
+
+        $input = $request->getParsedBody();
+        $input['descuentoID'] = $arguments['descuentoID'];
+
+        $isUpdated = $descuentos->escribirDescuento($input, new UpdateDescuento($this->container));
+
+        return $this->indexDescuento($request, $response, $arguments, $isUpdated, $validatorDescuentos->getInvalidInputs());
     }
 }
