@@ -3,6 +3,7 @@
 namespace Sigmalibre\Clients;
 
 use Sigmalibre\Clients\DataSource\MySQL\SaveNewCliente;
+use Sigmalibre\Clients\DataSource\MySQL\SearchAllClientes;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
 use Sigmalibre\DatosGenerales\Direccion;
@@ -51,6 +52,17 @@ class Clients
         $clientList['userInput'] = $userInput;
 
         return $clientList;
+    }
+
+    /**
+     * Obtiene una lista con todos los clientes sin filtrar.
+     *
+     * @return array
+     */
+    public function getAllClients()
+    {
+        $clients = new SearchAllClientes($this->container);
+        return $clients->read([]);
     }
 
     /**
