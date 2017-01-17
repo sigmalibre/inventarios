@@ -1,0 +1,22 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h2 class="panel-title">Agregar descuento</h2>
+    </div>
+    <div class="panel-body">
+        <form action="{{ path_for('products/descuentos', {'id': productID}) }}" method="post">
+            <div class="form-group has-feedback has-clear">
+                <label for="razonDescuento">Descripción del descuento</label>
+                <input type="text" name="razonDescuento" value="" class="form-control" id="razonDescuento">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonDescuento %}hidden{% endif %}"></span>
+            </div>
+            <div class="form-group">
+                <label for="cantidadDescontada">Cantidad del descuento</label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="number" name="cantidadDescontada" value="0" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Descuento</button>
+        </form>
+    </div>
+</div>

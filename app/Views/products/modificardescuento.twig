@@ -1,0 +1,85 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Modificar Descuento{% endblock %}
+
+{% block content %}
+    {% include 'templates/alert.twig' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                {% if isSaved %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El producto ha sido modificado exitosamente!</div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el producto.</div>
+                {% endif %}
+                <div id="alert-group"></div>
+                <div id="panelDescuentos" class="panel panel-primary">
+                    <div class="panel-heading clearfix">
+                        <h2 class="panel-title pull-left">Modifiar descuento</h2>
+                        <button type="button" class="pull-right btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-eliminar-recurso"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('products/descuentos/modify', {'productoID': productoID, 'descuentoID': descuentoID}) }}" method="post">
+                            <div class="form-group has-feedback has-clear">
+                                <label for="razonDescuento">Descripción del descuento</label>
+                                <input type="text" name="razonDescuento" value="{{ input.razonDescuento }}" class="form-control" id="razonDescuento">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonDescuento %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="cantidadDescontada">Cantidad del descuento</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">$</span>
+                                    <input type="number" name="cantidadDescontada" value="{{ input.cantidadDescontada }}" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-eliminar-recurso" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Opciones de Eliminación</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Es seguro eliminar el descuento sin efectos secundarios.</p>
+                        <p>Para continuar, elija una de las siguientes opciones:</p>
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab">
+                                    <h4 class="panel-title">
+                                        <a href="#collapse-eliminar-perma" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-perma">
+                                            Eliminar Permanentemente
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse-eliminar-perma" class="panel-collapse collapse" role="tabpanel">
+                                    <div class="panel-body">
+                                        <button class="btn btn-danger submit-form-with-method"
+                                                data-dismiss="modal"
+                                                data-action="{{ path_for('products/descuentos/modify', {'productoID': productoID, 'descuentoID': descuentoID}) }}"
+                                                data-method="delete"
+                                                data-triggerevent="descuento-eliminar-perma"
+                                                data-targetform="">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                            Eliminar Permanentemente
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/limitar-input-numerico.js" defer></script>
+    <script src="/js/delete-descuento.js" defer></script>
+{% endblock %}

@@ -13,8 +13,8 @@ class ItemListReader
     private $userInput;
 
     public function __construct(
-        \Sigmalibre\DataSource\ReadDataSourceInterface $counter,
-        \Sigmalibre\DataSource\ReadDataSourceInterface $searcher,
+        \Sigmalibre\DataSource\ReadInterface $counter,
+        \Sigmalibre\DataSource\ReadInterface $searcher,
         \Sigmalibre\Pagination\Paginator $paginator,
         array $userInput
     ) {

@@ -11,6 +11,11 @@ $app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update
 
 $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
 $app->post('/productos/id/{id}/traslados', '\Sigmalibre\Products\ProductsController:traslado')->setName('products/traslado');
+$app->post('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:createNew')->setName('products/descuentos');
+
+$app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:indexDescuento')->setName('products/descuentos/modify');
+$app->post('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:update');
+$app->delete('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:delete');
 
 $app->get('/productos/nuevo', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
 $app->post('/productos/nuevo', '\Sigmalibre\Products\ProductsController:createNew');
@@ -18,6 +23,7 @@ $app->post('/productos/nuevo', '\Sigmalibre\Products\ProductsController:createNe
 $app->get('/productos/importar', '\Sigmalibre\Products\ImportarController:importar')->setName('importar');
 
 $app->get('/productos/ingresos', '\Sigmalibre\Ingresos\IngresosController:indexAll')->setName('ingresos');
+
 
 // CATEGORIAS DE PRODUCTO
 $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
