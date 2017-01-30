@@ -25,6 +25,6 @@ class DetalleFactura
         $this->cantidad = $cantidad;
         $this->precioUnitario = $precioUnitario;
         $this->producto = $producto;
-        $this->$facturaID = $facturaID;
+        $this->facturaID = $facturaID;
     }
 }
