@@ -37,10 +37,22 @@ class FilterFacturas extends \Sigmalibre\DataSource\MySQL\MySQLReader
             'searchType' => 'LIKE',
         ],
         [
+            'filterName' => 'nombreEmpresa',
+            'tableName' => 'Empresas',
+            'columnName' => 'NombreComercial',
+            'searchType' => 'LIKE',
+        ],
+        [
             'filterName' => 'codigoEmpleado',
             'tableName' => 'Empleados',
             'columnName' => 'Codigo',
             'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'tipoFactura',
+            'tableName' => 'Facturas',
+            'columnName' => 'TipoFacturaID',
+            'searchType' => '=',
         ],
     ];
 }
