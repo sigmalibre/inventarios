@@ -44,3 +44,8 @@ class FacturasController
             'input' => $input,
         ]);
     }
+
+    public function indexNew(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
+    {
+    }
+}
