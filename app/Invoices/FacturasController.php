@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Invoices;
 
+use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
+use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
+
 /**
  * Controlador para operaciones sobre facturas de consumidor final
  */
@@ -24,13 +27,15 @@ class FacturasController
      */
     public function indexFacturas($request, $response)
     {
-        $invoices = new Facturas($this->container);
-        $invoiceList = $invoices->readList($request->getQueryParams());
+        $input = $request->getQueryParams();
+        $input['tipoFactura'] = (new TirajeActualReader())->getIDTiraje('factura');
+
+        $invoices = new Facturas(new MySQLFacturaRepository($this->container));
+        $invoiceList = $invoices->getFiltered($input);
 
         return $this->container->view->render($response, 'invoices/facturas.twig', [
             'invoices' => $invoiceList['itemList'],
             'pagination' => $invoiceList['pagination'],
-            'input' => $invoiceList['userInput'],
+            'input' => $input,
         ]);
     }
-}
