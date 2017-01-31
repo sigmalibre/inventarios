@@ -14,6 +14,7 @@ class FacturasController
 {
     protected $container;
     protected $tirajeID;
+    protected $listViewFileName = 'invoices/facturas.twig';
 
     public function __construct($container)
     {
@@ -37,7 +38,7 @@ class FacturasController
         $invoices = new Facturas(new MySQLFacturaRepository($this->container));
         $invoiceList = $invoices->getFiltered($input);
 
-        return $this->container->view->render($response, 'invoices/facturas.twig', [
+        return $this->container->view->render($response, $this->listViewFileName, [
             'invoices' => $invoiceList['itemList'],
             'pagination' => $invoiceList['pagination'],
             'input' => $input,

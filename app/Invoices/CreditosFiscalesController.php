@@ -9,6 +9,8 @@ use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
  */
 class CreditosFiscalesController extends FacturasController
 {
+    protected $listViewFileName = 'invoices/creditofiscal.twig';
+
     public function __construct($container)
     {
         parent::__construct($container);
