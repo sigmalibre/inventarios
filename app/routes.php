@@ -40,7 +40,7 @@ $app->get('/contactos/proveedores', '\Sigmalibre\Providers\ProvidersController:i
 // FACTURACIÓN
 $app->get('/facturas', '\Sigmalibre\Invoices\FacturasController:indexFacturas')->setName('invoices');
 
-$app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexCreditos')->setName('creditofiscal');
+$app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexFacturas')->setName('creditofiscal');
 
 // ALMACENES
 $app->get('/almacenes', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
