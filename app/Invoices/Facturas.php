@@ -2,43 +2,20 @@
 
 namespace Sigmalibre\Invoices;
 
-use Sigmalibre\Invoices\DataSource\MySQL\CountFilteredFacturas;
-use Sigmalibre\Invoices\DataSource\MySQL\FilterFacturas;
-use Sigmalibre\ItemList\ItemListReader;
-use Sigmalibre\Pagination\Paginator;
-
 /**
  * Modelo para operaciones sobre facturas de consumidor final.
  */
 class Facturas
 {
-    private $container;
+    private $repoFacturas;
 
-    public function __construct($container)
+    public function __construct(FacturaRepository $repoFacturas)
     {
-        $this->container = $container;
+        $this->repoFacturas = $repoFacturas;
     }
 
-    /**
-     * Obtiene una lista con las facturas de consumidor final
-     * filtradas según los campos de búsqueda y limitada por la paginación.
-     *
-     * @param array $input Input del usuario con los términos de búsqueda
-     *
-     * @return array
-     */
-    public function readList($input)
+    public function getFiltered($input)
     {
-        $reader = new ItemListReader(
-            new CountFilteredFacturas($this->container),
-            new FilterFacturas($this->container),
-            new Paginator($input),
-            $input
-        );
-
-        $itemList = $reader->read();
-        $itemList['userInput'] = $input;
-
-        return $itemList;
+        return $this->repoFacturas->getFiltered($input);
     }
 }
