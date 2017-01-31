@@ -61,30 +61,32 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
+                            {% if not invoices %}
+                                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                            {% endif %}
+                            <thead>
                             <tr>
                                 <th>Fecha</th>
                                 <th>Tiraje</th>
                                 <th>Código</th>
                                 <th>Cliente</th>
                                 <th>Facturado Por</th>
-                                <th>Venta Total*</th>
+                                <th>Venta Total</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             {% for invoice in invoices %}
                             <tr>
-                                <td>{{ invoice.FechaFacturacion }}</td>
-                                <td>{{ invoice.CodigoTiraje }}</td>
-                                <td>{{ invoice.Correlativo }}</td>
-                                <td>{{ invoice.NombreCliente }} {{ invoice.ApellidoCliente }}</td>
-                                <td>{{ invoice.CodigoEmpleado }}</td>
-                                <td>${{ invoice.VentaTotal|number_format(2) }}</td>
+                                <td>{{ invoice.fechaFacturacion }}</td>
+                                <td>{{ invoice.codigoTiraje }}</td>
+                                <td>{{ invoice.correlativo }}</td>
+                                <td>{{ invoice.nombreCliente }} {{ invoice.apellidoCliente }}</td>
+                                <td>{{ invoice.codigoEmpleado }}</td>
+                                <td>$ {{ invoice.ventaTotal|number_format(2) }}</td>
                             </tr>
-                            {% else %}
-                            <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
+                            </tbody>
                         </table>
-                    </div>
-                    <div class="panel-footer">
-                        <small class="text-muted">*Precios sin IVA</small>
                     </div>
                 </div>
                 {% include 'templates/listpagination.twig' %}
