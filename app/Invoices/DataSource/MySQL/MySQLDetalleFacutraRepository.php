@@ -2,8 +2,8 @@
 
 namespace Sigmalibre\Invoices\DataSource\MySQL;
 
-use Sigmalibre\Invoices\DetalleFactura;
-use Sigmalibre\Invoices\DetalleFacturaRepository;
+use Sigmalibre\Invoices\DetalleFactura\DetalleFactura;
+use Sigmalibre\Invoices\DetalleFactura\DetalleFacturaRepository;
 use Sigmalibre\Invoices\Factura;
 use Sigmalibre\Products\Product;
 
@@ -25,7 +25,7 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
     /**
      * Añade un detalle de factura al repositorio.
      *
-     * @param \Sigmalibre\Invoices\DetalleFactura $detalleFactura
+     * @param \Sigmalibre\Invoices\DetalleFactura\DetalleFactura $detalleFactura
      *
      * @return bool
      */
@@ -42,7 +42,7 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
     /**
      * Remueve una instancia de DetalleFactura del repositorio.
      *
-     * @param \Sigmalibre\Invoices\DetalleFactura $detalleFactura
+     * @param \Sigmalibre\Invoices\DetalleFactura\DetalleFactura $detalleFactura
      *
      * @return bool
      */
@@ -70,7 +70,7 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
      *
      * @param int $id
      *
-     * @return false|\Sigmalibre\Invoices\DetalleFactura
+     * @return false|\Sigmalibre\Invoices\DetalleFactura\DetalleFactura
      */
     public function findByID(int $id)
     {

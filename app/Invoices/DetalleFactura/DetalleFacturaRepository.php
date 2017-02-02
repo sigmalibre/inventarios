@@ -1,6 +1,8 @@
 <?php
 
-namespace Sigmalibre\Invoices;
+namespace Sigmalibre\Invoices\DetalleFactura;
+
+use Sigmalibre\Invoices\Factura;
 
 /**
  * Repositorio para detalles de factura
@@ -10,7 +12,7 @@ interface DetalleFacturaRepository
     /**
      * Añade un detalle de factura al repositorio.
      *
-     * @param \Sigmalibre\Invoices\DetalleFactura $detalleFactura
+     * @param \Sigmalibre\Invoices\DetalleFactura\DetalleFactura $detalleFactura
      *
      * @return bool
      */
@@ -19,7 +21,7 @@ interface DetalleFacturaRepository
     /**
      * Remueve una instancia de DetalleFactura del repositorio.
      *
-     * @param \Sigmalibre\Invoices\DetalleFactura $detalleFactura
+     * @param \Sigmalibre\Invoices\DetalleFactura\DetalleFactura $detalleFactura
      *
      * @return bool
      */
@@ -37,7 +39,7 @@ interface DetalleFacturaRepository
      *
      * @param int $id
      *
-     * @return false|\Sigmalibre\Invoices\DetalleFactura
+     * @return false|\Sigmalibre\Invoices\DetalleFactura\DetalleFactura
      */
     public function findByID(int $id);
 

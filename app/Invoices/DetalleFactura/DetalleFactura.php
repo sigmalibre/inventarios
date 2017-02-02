@@ -1,6 +1,6 @@
 <?php
 
-namespace Sigmalibre\Invoices;
+namespace Sigmalibre\Invoices\DetalleFactura;
 
 use Sigmalibre\Products\Product;
 
