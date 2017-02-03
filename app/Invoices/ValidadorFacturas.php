@@ -112,8 +112,8 @@ class ValidadorFacturas extends Validator
      */
     public function validarTiraje($input)
     {
-        if ($this->validadorPositivo->validate($input['tirajeFacuraID']) === false) {
-            $this->setInvalidInput('tirajeFacuraID');
+        if ($this->validadorPositivo->validate($input['tirajeFacturaID']) === false) {
+            $this->setInvalidInput('tirajeFacturaID');
 
             return false;
         }
