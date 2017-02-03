@@ -47,6 +47,7 @@ class MySQLFacturaRepository implements FacturaRepository
         }
 
         foreach ($factura->detalles as $detalle) {
+            $detalle->facturaID = $factura->id;
             if ($this->detallesRepo->add($detalle) === false) {
                 $this->connection->rollBack();
 
