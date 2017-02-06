@@ -230,4 +230,26 @@ class ProductsController
 
         return $this->indexProduct($request, $response, $arguments, $isTrasladoDone, $warehouses->getInvalidInputs());
     }
+
+    /**
+     * Obtiene una lista con las existencias de producto en cada almacén
+     *
+     * @param $request
+     * @param $response
+     * @param $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function getDetalleAlmacenes($request, $response, $arguments)
+    {
+        $warehouseDetails = new WarehouseDetail($this->container);
+
+        $existecia = $warehouseDetails->readList(['productoID' => $arguments['id']])['itemList'];
+
+        $existecia = array_filter($existecia, function ($detalle) {
+            return (int)$detalle['Cantidad'] > 0;
+        });
+
+        return (new Response())->withJson($existecia, 200);
+    }
 }
