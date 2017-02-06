@@ -23,12 +23,37 @@ class DetalleFacturaValidator extends Validator
     public function validate($input)
     {
         $this->validarID($input);
+        $this->validarAlmacenID($input);
         $this->validarCantidad($input);
         $this->validarPrecio($input);
         $this->validarProductoID($input);
         $this->validarFacturaID($input);
 
         return empty($this->invalidUserInputs);
+    }
+
+    /**
+     * La ID del almacen del que se sacarán los datos de la cantidad del producto para el detalle
+     * debe ser un entero positivo.
+     *
+     * @param $input
+     *
+     * @return bool
+     */
+    public function validarAlmacenID($input)
+    {
+        $v = new AllOf(
+            new IntVal(),
+            new Positive()
+        );
+
+        if ($v->validate($input['almacenID']) === false) {
+            $this->setInvalidInput('almacenID');
+
+            return false;
+        }
+
+        return true;
     }
 
     /**
