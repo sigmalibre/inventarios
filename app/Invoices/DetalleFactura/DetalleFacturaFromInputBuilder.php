@@ -3,6 +3,7 @@
 namespace Sigmalibre\Invoices\DetalleFactura;
 
 use Sigmalibre\Products\Product;
+use Sigmalibre\Warehouses\WarehouseDetail;
 
 /**
  * Construye detalles de factura desde el input que nos pase el usuario.
@@ -15,10 +16,11 @@ class DetalleFacturaFromInputBuilder implements DetalleFacturaBuilder
     private $container;
     private $input;
 
+    /** @var  Product $producto */
+    private $producto;
     private $id;
     private $cantidad;
     private $precioUnitario;
-    private $producto;
     private $facturaID;
 
     public function __construct($container, array $input)
@@ -54,6 +56,22 @@ class DetalleFacturaFromInputBuilder implements DetalleFacturaBuilder
 
     public function getDetalleFactura()
     {
+        $warehouseDetails = new WarehouseDetail($this->container);
+
+        $existencia = $warehouseDetails->readList(['productoID' => $this->input['productoID']])['itemList'];
+
+        if (count($existencia) === 0) {
+            return false;
+        }
+
+        $existencia = array_filter($existencia, function ($detalleAlmacen) {
+            return $detalleAlmacen['AlmacenID'] == $this->input['almacenID'];
+        })[0];
+
+        if ($this->cantidad > (int)$existencia['Cantidad']) {
+            return false;
+        }
+
         return new DetalleFactura($this->id, $this->cantidad, $this->precioUnitario, $this->producto, $this->facturaID);
     }
 }
