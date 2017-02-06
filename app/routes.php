@@ -9,6 +9,7 @@ $app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')
 $app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct')->setName('products/update');
 $app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update');
 
+$app->get('/productos/id/{id}/detalles', '\Sigmalibre\Products\ProductsController:getDetalleAlmacenes')->setName('products/detalles');
 $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
 $app->post('/productos/id/{id}/traslados', '\Sigmalibre\Products\ProductsController:traslado')->setName('products/traslado');
 $app->post('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:createNew')->setName('products/descuentos');
