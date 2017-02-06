@@ -128,4 +128,22 @@ class DescuentosController
             'status' => $isDeleted ? 'success' : 'error',
         ], $isDeleted ? 200 : 500);
     }
+
+    /**
+     * Obtiene la lista de los descuentos aplicables a un producto
+     *
+     * @param $request
+     * @param $response
+     * @param $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function getDescuentosProducto($request, $response, $arguments)
+    {
+        $producto = new Product($arguments['id'], $this->container);
+
+        $descuentos = new Descuentos($producto, new FilterDescuentos($this->container), new ValidadorDescuentos());
+
+        return (new Response())->withJson($descuentos->getDescuentos(), 200);
+    }
 }
