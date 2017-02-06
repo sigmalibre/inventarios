@@ -55,7 +55,16 @@ class Facturas
             }
 
             $builder = new DetalleFacturaBuildingDirector(new DetalleFacturaFromInputBuilder($this->container, $detalle));
-            $detalles[] = $builder->make();
+
+            $nuevoDetalle = $builder->make();
+
+            if ($nuevoDetalle === false) {
+                $this->validadorDetalle->setInvalidInput('cantdetallemayorqueproducto');
+
+                return false;
+            }
+
+            $detalles[] = $nuevoDetalle;
         }
 
         return $detalles;
@@ -77,6 +86,10 @@ class Facturas
         $factura = $this->buildFactura($input);
 
         $factura->detalles = $this->buildDetalles($input);
+
+        if (count($this->getInvalidInput()) > 0) {
+            return false;
+        }
 
         if ($factura->detalles === false) {
             return false;
