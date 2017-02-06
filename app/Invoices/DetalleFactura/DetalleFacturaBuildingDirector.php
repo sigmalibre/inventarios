@@ -14,7 +14,7 @@ class DetalleFacturaBuildingDirector
         $this->builder = $builder;
     }
 
-    public function make() : DetalleFactura
+    public function make()
     {
         $this->builder->buildID();
         $this->builder->buildCantidad();
