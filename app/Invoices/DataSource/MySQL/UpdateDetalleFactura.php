@@ -3,7 +3,7 @@
 namespace Sigmalibre\Invoices\DataSource\MySQL;
 
 use Sigmalibre\DataSource\MySQL\MySQLTransactions;
-use Sigmalibre\Invoices\DetalleFactura;
+use Sigmalibre\Invoices\DetalleFactura\DetalleFactura;
 
 class UpdateDetalleFactura
 {
