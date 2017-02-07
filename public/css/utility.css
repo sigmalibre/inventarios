@@ -17,3 +17,8 @@
 .anchorize, .trigger-event {
     cursor: pointer;
 }
+
+.center-center {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
