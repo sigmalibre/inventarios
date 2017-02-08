@@ -95,6 +95,12 @@ class Facturas
             return false;
         }
 
+        if (empty($factura->detalles) === true) {
+            $this->validador->setInvalidInput('sindetalles');
+
+            return false;
+        }
+
         return $this->repoFacturas->add($factura);
     }
 
