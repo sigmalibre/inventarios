@@ -56,19 +56,9 @@ class DetalleFacturaFromInputBuilder implements DetalleFacturaBuilder
 
     public function getDetalleFactura()
     {
-        $warehouseDetails = new WarehouseDetail($this->container);
+        $hayExistenciaDeProducto = new DetalleFacturaCalculardorDetalleAlamcen($this->container);
 
-        $existencia = $warehouseDetails->readList(['productoID' => $this->input['productoID']])['itemList'];
-
-        if (count($existencia) === 0) {
-            return false;
-        }
-
-        $existencia = array_filter($existencia, function ($detalleAlmacen) {
-            return $detalleAlmacen['AlmacenID'] == $this->input['almacenID'];
-        })[0];
-
-        if ($this->cantidad > (int)$existencia['Cantidad']) {
+        if ($hayExistenciaDeProducto->calcular($this->input['productoID'], $this->input['almacenID'], $this->cantidad) < 0) {
             return false;
         }
 
