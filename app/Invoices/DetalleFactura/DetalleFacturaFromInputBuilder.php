@@ -22,6 +22,7 @@ class DetalleFacturaFromInputBuilder implements DetalleFacturaBuilder
     private $cantidad;
     private $precioUnitario;
     private $facturaID;
+    private $almacenID;
 
     public function __construct($container, array $input)
     {
@@ -54,6 +55,11 @@ class DetalleFacturaFromInputBuilder implements DetalleFacturaBuilder
         $this->facturaID = $this->input['facturaID'];
     }
 
+    public function buildAlmacenID()
+    {
+        $this->almacenID = $this->input['almacenID'];
+    }
+
     public function getDetalleFactura()
     {
         $hayExistenciaDeProducto = new DetalleFacturaCalculardorDetalleAlamcen($this->container);
@@ -62,6 +68,6 @@ class DetalleFacturaFromInputBuilder implements DetalleFacturaBuilder
             return false;
         }
 
-        return new DetalleFactura($this->id, $this->cantidad, $this->precioUnitario, $this->producto, $this->facturaID);
+        return new DetalleFactura($this->id, $this->cantidad, $this->precioUnitario, $this->producto, $this->facturaID, $this->almacenID);
     }
 }

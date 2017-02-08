@@ -17,5 +17,7 @@ interface DetalleFacturaBuilder
 
     public function buildFacturaID();
 
+    public function buildAlmacenID();
+
     public function getDetalleFactura();
 }

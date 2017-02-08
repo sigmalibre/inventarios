@@ -21,6 +21,7 @@ class DetalleFacturaBuildingDirector
         $this->builder->buildPrecioUnitario();
         $this->builder->buildProducto();
         $this->builder->buildFacturaID();
+        $this->builder->buildAlmacenID();
 
         return $this->builder->getDetalleFactura();
     }

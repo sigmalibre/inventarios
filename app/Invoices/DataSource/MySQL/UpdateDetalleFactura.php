@@ -17,11 +17,12 @@ class UpdateDetalleFactura
 
     public function write(DetalleFactura $detalleFactura)
     {
-        return $this->connection->execute('UPDATE DetalleFactura SET Cantidad = :cantidad, PrecioUnitario = :precioUnitario, ProductoID = :productoID, FacturaID = :facturaID WHERE DetalleFacutaID = :id', [
+        return $this->connection->execute('UPDATE DetalleFactura SET Cantidad = :cantidad, PrecioUnitario = :precioUnitario, ProductoID = :productoID, FacturaID = :facturaID, AlmacenID = :almacenID WHERE DetalleFacutaID = :id', [
             'cantidad' =>  $detalleFactura->cantidad,
             'precioUnitario' => $detalleFactura->precioUnitario,
             'productoID' => $detalleFactura->producto->ProductoID,
             'facturaID' => $detalleFactura->facturaID,
+            'almacenID' => $detalleFactura->almacenID,
             'id' => $detalleFactura->id,
         ]);
     }

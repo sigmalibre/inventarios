@@ -18,6 +18,7 @@ class DetalleFacturaDefaultBuilder implements DetalleFacturaBuilder
     private $precioUnitario;
     private $producto;
     private $facturaID;
+    private $almacenID;
 
     public function __construct($container)
     {
@@ -49,8 +50,13 @@ class DetalleFacturaDefaultBuilder implements DetalleFacturaBuilder
         $this->facturaID = 0;
     }
 
+    public function buildAlmacenID()
+    {
+        $this->almacenID = 0;
+    }
+
     public function getDetalleFactura()
     {
-        return new DetalleFactura($this->id, $this->cantidad, $this->precioUnitario, $this->producto, $this->facturaID);
+        return new DetalleFactura($this->id, $this->cantidad, $this->precioUnitario, $this->producto, $this->facturaID, $this->almacenID);
     }
 }
