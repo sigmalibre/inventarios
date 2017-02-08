@@ -6,7 +6,7 @@ use Sigmalibre\DataSource\MySQL\MySQLReaderCustomConnection;
 
 class FilterDetalleFactura extends MySQLReaderCustomConnection
 {
-    protected $baseQuery = 'SELECT DetalleFacutaID, Cantidad, PrecioUnitario, ProductoID, FacturaID FROM DetalleFactura WHERE 1';
+    protected $baseQuery = 'SELECT DetalleFacutaID, Cantidad, PrecioUnitario, ProductoID, FacturaID, AlmacenID FROM DetalleFactura WHERE 1';
     protected $setLimit = false;
     protected $filterFields = [
         [
