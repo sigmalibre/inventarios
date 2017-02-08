@@ -3,9 +3,11 @@
 namespace Sigmalibre\Invoices\DataSource\MySQL;
 
 use Sigmalibre\Invoices\DetalleFactura\DetalleFactura;
+use Sigmalibre\Invoices\DetalleFactura\DetalleFacturaCalculardorDetalleAlamcen;
 use Sigmalibre\Invoices\DetalleFactura\DetalleFacturaRepository;
 use Sigmalibre\Invoices\Factura;
 use Sigmalibre\Products\Product;
+use Sigmalibre\Warehouses\WarehouseDetail;
 
 /**
  * Repositorio para detalles de factura implementado para MYSQL
@@ -31,9 +33,24 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
      */
     public function add(DetalleFactura $detalleFactura): bool
     {
-        $isAlreadyThere = $this->findByID($detalleFactura->id);
-        if ($isAlreadyThere !== false) {
-            return (new UpdateDetalleFactura($this->connection))->write($detalleFactura);
+        $hayExistenciaDeProducto = new DetalleFacturaCalculardorDetalleAlamcen($this->container);
+        $warehouseDetail = new WarehouseDetail($this->container);
+
+        $cantidadAActualizar = $hayExistenciaDeProducto
+            ->calcular(
+                $detalleFactura->producto->ProductoID,
+                $detalleFactura->almacenID,
+                $detalleFactura->cantidad
+            );
+
+        $isWarehouseDetailSaved = $warehouseDetail->update([
+            'cantidadIngreso' => $cantidadAActualizar,
+            'almacenID' => $detalleFactura->almacenID,
+            'productoID' => $detalleFactura->producto->ProductoID,
+        ]);
+
+        if ($isWarehouseDetailSaved === false) {
+            return false;
         }
 
         return (new SaveNewDetalleFactura($this->connection))->write($detalleFactura);
@@ -88,7 +105,7 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
 
         $producto = new Product($data['ProductoID'], $this->container);
 
-        return new DetalleFactura($id, $data['Cantidad'], $data['PrecioUnitario'], $producto, $data['FacturaID']);
+        return new DetalleFactura($id, $data['Cantidad'], $data['PrecioUnitario'], $producto, $data['FacturaID'], $data['AlmacenID']);
     }
 
     /**
@@ -116,9 +133,11 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
     {
         $collection = array_map(function ($detalle) {
 
+            error_log(var_export($detalle, true));
+
             $producto = new Product($detalle['ProductoID'], $this->container);
 
-            return new DetalleFactura($detalle['DetalleFacutaID'], $detalle['Cantidad'], $detalle['PrecioUnitario'], $producto, $detalle['FacturaID']);
+            return new DetalleFactura($detalle['DetalleFacutaID'], $detalle['Cantidad'], $detalle['PrecioUnitario'], $producto, $detalle['FacturaID'], $detalle['AlmacenID']);
 
         }, $results);
 
