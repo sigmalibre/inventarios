@@ -33,12 +33,8 @@ class MySQLFacturaRepository implements FacturaRepository
     {
         $this->connection->beginTransaction();
 
-        if ($this->findByID($factura->id) === false) {
-            $isSaved = (new SaveNewFactura($this->container))->write($factura);
-            $factura->id = $isSaved;
-        } else {
-            $isSaved = (new UpdateFactura($this->container))->write($factura);
-        }
+        $isSaved = (new SaveNewFactura($this->container))->write($factura);
+        $factura->id = $isSaved;
 
         if ($isSaved === false) {
             $this->connection->rollBack();
