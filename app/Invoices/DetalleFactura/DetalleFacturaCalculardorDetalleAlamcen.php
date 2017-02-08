@@ -35,7 +35,9 @@ class DetalleFacturaCalculardorDetalleAlamcen
 
         $existencia = array_filter($existencia, function ($detalleAlmacen) use ($almacenID) {
             return $detalleAlmacen['AlmacenID'] == $almacenID;
-        })[0];
+        });
+
+        $existencia = array_values($existencia)[0];
 
         return (int)$existencia['Cantidad'] - $cantidadADescontar;
     }
