@@ -53,7 +53,52 @@ class FacturasController
         ]);
     }
 
+    /**
+     * Obtiene el input del usuario y crea una factura nueva.
+     *
+     * @param \Slim\Http\Request $request
+     *
+     * @return \Slim\Http\Response
+     */
+    public function saveNew(Request $request)
     {
+        $correlativo = new SiguienteCorrelativo(new TirajeFactura($this->tirajeID, $this->container));
+
+        $input = $request->getParsedBody();
+        $input['tipoFacturaID'] = $this->tipoFacturaID;
+        $input['tirajeFacturaID'] = $this->tirajeID;
+        $input['correlativo'] = $input['correlativo'] ?? $correlativo->getNext();
+        $input['empleadoID'] = empty($input['empleadoID']) ? null : $input['empleadoID'];
+        $input['empresaID'] = empty($input['empresaID']) ? null : $input['empresaID'];
+        $input['clientePersonaID'] = empty($input['clienteID']) ? null : $input['clienteID'];
+
+        $input['detalles'] = array_map(function ($detalle) {
+            $d = [
+                'almacenID' => $detalle['almacenID'] ?? null,
+                'cantidad' => (int)$detalle['cantidad'] ?? null,
+                'precio' => (float)$detalle['precio'] ?? null,
+                'productoID' => $detalle['id'] ?? null,
+            ];
+
+            return $d;
+        }, $input['detalles'] ?? []);
+
+        $facturasManager = new Facturas(new MySQLFacturaRepository($this->container), $this->container);
+
+        $isSaved = $facturasManager->newFactura($input);
+        $failedInput = $facturasManager->getInvalidInput();
+
+        if ($isSaved === true) {
+            return (new Response())->withJson([
+                'status' => 'success',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'error',
+            'reason' => $failedInput,
+        ], 500);
+    }
 
     /**
      * Renderiza la vista del formulario de una factura nueva.
