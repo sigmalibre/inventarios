@@ -133,8 +133,6 @@ class MySQLDetalleFacutraRepository implements DetalleFacturaRepository
     {
         $collection = array_map(function ($detalle) {
 
-            error_log(var_export($detalle, true));
-
             $producto = new Product($detalle['ProductoID'], $this->container);
 
             return new DetalleFactura($detalle['DetalleFacutaID'], $detalle['Cantidad'], $detalle['PrecioUnitario'], $producto, $detalle['FacturaID'], $detalle['AlmacenID']);
