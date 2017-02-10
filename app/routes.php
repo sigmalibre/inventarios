@@ -42,6 +42,7 @@ $app->get('/contactos/proveedores', '\Sigmalibre\Providers\ProvidersController:i
 // FACTURACIÓN
 $app->get('/facturas', '\Sigmalibre\Invoices\FacturasController:indexFacturas')->setName('invoices');
 $app->get('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:indexNew')->setName('invoices/createform');
+$app->post('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:saveNew');
 
 $app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexFacturas')->setName('creditofiscal');
 
