@@ -84,9 +84,9 @@
             }
         }
 
-        outputAfectas.text('$ ' + sumaAfectas.toFixed(2));
-        outputExcentas.text('$ ' + sumaExentas.toFixed(2));
-        outputTotal.text('$ ' + (sumaAfectas + sumaExentas).toFixed(2));
+        outputAfectas.text(sumaAfectas.toFixed(2));
+        outputExcentas.text(sumaExentas.toFixed(2));
+        outputTotal.text((sumaAfectas + sumaExentas).toFixed(2));
     });
 
     eventos.on('updateFacturasProductosView', function (listaProductos) {
