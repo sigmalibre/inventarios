@@ -6,7 +6,8 @@
 
     // ACTUALIZAR LAS VISTAS
 
-    var serverData = $('#server-data');
+    var tipoFactura = $('#tipo-factura').data('tipofactura');
+    var porcentajeIVA = Number($('#porcetaje-iva').data('porcentajeiva'));
 
     var formularioFactura = $('#facturaForm');
 
@@ -32,6 +33,8 @@
     var btnCrearDetalle = $('#btnCrearDetalle');
 
     var outputAfectas = $('#sum-afectas');
+    var outputIVA = $('#sum-iva');
+    var outputSubTotal = $('#sum-sub-total');
     var outputExcentas = $('#sum-excentas');
     var outputTotal = $('#sum-total');
 
@@ -46,21 +49,14 @@
     var inputCorrelativo = $('#correlativo');
     var tirajeNumCorrelativo = $('#numFacturaCorrelativo');
 
-    var selectClientePersona = $('#selectClientePersona');
-    var selectClienteContribuyente = $('#selectClienteContribuyente');
-
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
-        var tipoFactura = serverData.find('#tipo-factura').data('tipofactura');
-
-        // MOSTRAR EL SELECT DEL CLIENTE SEGÚN EL TIPO DE FACTURA: CLIENTES PERSONAS PARA FACTURAS
-        // DE CONSUMIDOR FINAL Y EMPRESAS PARA CONPROBANTE CRÉDITO FISCAL.
         if (tipoFactura == 1) {
-            selectClientePersona.removeClass('hidden');
+            $('.factura-only').removeClass('hidden');
         }
 
         if (tipoFactura == 2) {
-            selectClienteContribuyente.removeClass('hidden');
+            $('.credito-only').removeClass('hidden');
         }
     }());
 
@@ -75,6 +71,9 @@
 
         var sumaAfectas = 0;
         var sumaExentas = 0;
+        var sumaIva;
+        var sumaSubTotal;
+        var sumaTotal;
 
         for (var key in listaDetalles) {
             if (listaDetalles.hasOwnProperty(key)) {
@@ -84,9 +83,19 @@
             }
         }
 
+        sumaIva = sumaAfectas * (porcentajeIVA / 100);
+        sumaSubTotal = sumaAfectas;
+        sumaTotal = sumaAfectas + sumaExentas;
+
+        if (tipoFactura == 2) {
+            sumaAfectas -= sumaIva;
+        }
+
         outputAfectas.text(sumaAfectas.toFixed(2));
+        outputIVA.text(sumaIva.toFixed(2));
+        outputSubTotal.text(sumaSubTotal.toFixed(2));
         outputExcentas.text(sumaExentas.toFixed(2));
-        outputTotal.text((sumaAfectas + sumaExentas).toFixed(2));
+        outputTotal.text(sumaTotal.toFixed(2));
     });
 
     eventos.on('updateFacturasProductosView', function (listaProductos) {
