@@ -42,6 +42,7 @@
     var precioParent = inputPrecioDetalle.parent().parent().removeClass('has-error');
 
     var clienteSelect = $('#clientePersonaID');
+    var contribuyenteSelect = $('#empresaID');
     var inputCorrelativo = $('#correlativo');
     var tirajeNumCorrelativo = $('#numFacturaCorrelativo');
 
@@ -219,7 +220,7 @@
         }
 
         var clientePersonaID = clienteSelect.val();
-        var clienteContribuyenteID = selectClienteContribuyente.val();
+        var clienteContribuyenteID = contribuyenteSelect.val();
         var correlativoSeleccionado = inputCorrelativo.val();
 
         var message = {
