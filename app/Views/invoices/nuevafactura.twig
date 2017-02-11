@@ -100,11 +100,19 @@
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <td rowspan="4" colspan="5"></td>
+                                                    <td rowspan="10" colspan="5"></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>SUMAS</b></td>
                                                     <td colspan="2">$ <span id="sum-afectas">0.00</span></td>
+                                                </tr>
+                                                <tr class="credito-only hidden">
+                                                    <td><b>{{ iva }}% IVA</b></td>
+                                                    <td colspan="2">$ <span id="sum-iva">0.00</span></td>
+                                                </tr>
+                                                <tr class="credito-only hidden">
+                                                    <td><b>SUB-TOTAL</b></td>
+                                                    <td colspan="2">$ <span id="sum-sub-total">0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>EXENTAS</b></td>
