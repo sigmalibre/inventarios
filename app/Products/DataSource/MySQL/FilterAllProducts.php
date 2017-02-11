@@ -39,7 +39,7 @@ class FilterAllProducts extends \Sigmalibre\DataSource\MySQL\MySQLReader
             'filterName' => 'nombreProducto',
             'tableName' => 'VistaProductosCompletos',
             'columnName' => 'Descripcion',
-            'searchType' => 'MATCH',
+            'searchType' => 'LIKE',
         ],
     ];
 }

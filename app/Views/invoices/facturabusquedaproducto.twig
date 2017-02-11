@@ -1,0 +1,49 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4 class="panel-title">Buscar Un Producto</h4>
+    </div>
+    <div class="panel-body">
+        <form action="#" id="buscarProductoForm">
+            <div class="form-group has-feedback has-clear">
+                <label for="codigoProducto">Código</label>
+                <input type="text" name="codigoProducto" id="codigoProducto" class="form-control">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+            </div>
+            <div class="form-group has-feedback has-clear">
+                <label for="nombreProducto">Nombre</label>
+                <input type="text" name="nombreProducto" id="nombreProducto" class="form-control">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+            </div>
+            <button type="button" class="btn btn-info btn-block submit-form-with-method"
+                    data-action="{{ path_for('products') }}"
+                    data-method="get"
+                    data-triggerevent="factura-busca-producto"
+                    data-targetform="#buscarProductoForm">
+                <span class="glyphicon glyphicon-search"></span>
+                Buscar
+            </button>
+        </form>
+    </div>
+</div>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4 class="panel-title">Resultados:</h4>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Categoría</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                </tr>
+                </thead>
+                <tbody id="listaProductosEncontrados">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,15 @@
 
 namespace Sigmalibre\TirajeFactura;
 
+/**
+ * Modelo para operar sobre un tiraje de factura.
+ *
+ * @property mixed TirajeFacturaID
+ * @property mixed CodigoTiraje
+ * @property mixed TirajeDesde
+ * @property mixed TirajeHasta
+ * @property mixed MaxCorrelativo
+ */
 class TirajeFactura
 {
     private $container;
@@ -51,13 +60,15 @@ class TirajeFactura
      *
      * @param array $property La propiedad que se desea obtener
      *
-     * @return string El atributo si existe
+     * @return mixed
      */
     public function __get($property)
     {
         if (isset($this->attributes[0][$property])) {
             return $this->attributes[0][$property];
         }
+
+        return null;
     }
 
     /**

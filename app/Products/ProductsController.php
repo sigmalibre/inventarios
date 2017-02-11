@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
 use Sigmalibre\Products\DataSource\MySQL\FilterDescuentos;
-use Sigmalibre\Products\DataSource\MySQL\SaveNewDescuento;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
 use Slim\Http\Request;
@@ -49,14 +48,20 @@ class ProductsController
 
         $iva = new IVA();
 
-        return $this->container->view->render($response, 'products/products.twig', [
+        $responseData = [
             'products' => $productList['itemList'],
             'pagination' => $productList['pagination'],
             'input' => $productList['userInput'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
             'porcentajeIVA' => $iva->getPorcentajeIVA() ?? 0,
-        ]);
+        ];
+
+        if ($this->container->negotiator->getValue() === 'application/json') {
+            return (new Response())->withJson($responseData, 200);
+        }
+
+        return $this->container->view->render($response, 'products/products.twig', $responseData);
     }
 
     /**
@@ -224,5 +229,27 @@ class ProductsController
         $isTrasladoDone = $warehouses->traslado($input);
 
         return $this->indexProduct($request, $response, $arguments, $isTrasladoDone, $warehouses->getInvalidInputs());
+    }
+
+    /**
+     * Obtiene una lista con las existencias de producto en cada almacén
+     *
+     * @param $request
+     * @param $response
+     * @param $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function getDetalleAlmacenes($request, $response, $arguments)
+    {
+        $warehouseDetails = new WarehouseDetail($this->container);
+
+        $existecia = $warehouseDetails->readList(['productoID' => $arguments['id']])['itemList'];
+
+        $existecia = array_filter($existecia, function ($detalle) {
+            return (int)$detalle['Cantidad'] > 0;
+        });
+
+        return (new Response())->withJson($existecia, 200);
     }
 }

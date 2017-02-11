@@ -5,7 +5,7 @@ namespace Sigmalibre\DataSource\MySQL;
 /**
  * Crea conexiones a una BD especificada.
  */
-class MySQLCustomDatabase extends MySQL
+class MySQLCustomDatabase extends MySQLTransactions
 {
     /**
      * MySQLCustomDatabase constructor.

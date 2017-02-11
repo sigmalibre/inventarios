@@ -9,9 +9,11 @@ $app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')
 $app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct')->setName('products/update');
 $app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update');
 
+$app->get('/productos/id/{id}/detalles', '\Sigmalibre\Products\ProductsController:getDetalleAlmacenes')->setName('products/detalles');
 $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
 $app->post('/productos/id/{id}/traslados', '\Sigmalibre\Products\ProductsController:traslado')->setName('products/traslado');
 $app->post('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:createNew')->setName('products/descuentos');
+$app->get('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:getDescuentosProducto');
 
 $app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:indexDescuento')->setName('products/descuentos/modify');
 $app->post('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:update');
@@ -38,9 +40,13 @@ $app->post('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:cre
 $app->get('/contactos/proveedores', '\Sigmalibre\Providers\ProvidersController:indexProviders')->setName('providers');
 
 // FACTURACIÓN
-$app->get('/facturas', '\Sigmalibre\Invoices\InvoicesController:indexInvoices')->setName('invoices');
+$app->get('/facturas', '\Sigmalibre\Invoices\FacturasController:indexFacturas')->setName('invoices');
+$app->get('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:indexNew')->setName('invoices/createform');
+$app->post('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:saveNew');
 
-$app->get('/creditofiscal', '\Sigmalibre\Invoices\InvoicesController:indexCreditoFiscal')->setName('creditofiscal');
+$app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexFacturas')->setName('creditofiscal');
+$app->get('/creditofiscal/nuevo', '\Sigmalibre\Invoices\CreditosFiscalesController:indexNew')->setName('creditofiscal/createform');
+$app->post('/creditofiscal/nuevo', '\Sigmalibre\Invoices\CreditosFiscalesController:saveNew');
 
 // ALMACENES
 $app->get('/almacenes', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');

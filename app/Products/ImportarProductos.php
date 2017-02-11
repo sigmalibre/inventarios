@@ -28,7 +28,7 @@ class ImportarProductos
      */
     private function obtenerProductosAImportar()
     {
-        $listaProductosAImportar = new DataSource\MySQL\ObtenerProductosAImportar($this->container, new \Sigmalibre\DataSource\MySQL\MySQLCustomDatabase('trasladoinventario'));
+        $listaProductosAImportar = new DataSource\MySQL\ObtenerProductosAImportar(new \Sigmalibre\DataSource\MySQL\MySQLCustomDatabase('trasladoinventario'));
 
         return $listaProductosAImportar->read([]);
     }
@@ -41,7 +41,7 @@ class ImportarProductos
      */
     private function obtenerDatosAdicionalesAImportar()
     {
-        $listaDatosAdicionales = new DataSource\MySQL\DatosAdicionalesProductosAImportar($this->container, new \Sigmalibre\DataSource\MySQL\MySQLCustomDatabase('inventarios'));
+        $listaDatosAdicionales = new DataSource\MySQL\DatosAdicionalesProductosAImportar(new \Sigmalibre\DataSource\MySQL\MySQLCustomDatabase('inventarios'));
 
         return $listaDatosAdicionales->read([]);
     }

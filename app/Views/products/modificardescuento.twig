@@ -3,7 +3,6 @@
 {% block title  %}Modificar Descuento{% endblock %}
 
 {% block content %}
-    {% include 'templates/alert.twig' %}
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
@@ -13,7 +12,6 @@
                 {% if isSaved is same as(false) %}
                     <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el producto.</div>
                 {% endif %}
-                <div id="alert-group"></div>
                 <div id="panelDescuentos" class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <h2 class="panel-title pull-left">Modifiar descuento</h2>
@@ -73,6 +71,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     </div>

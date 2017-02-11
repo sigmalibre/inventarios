@@ -7,9 +7,8 @@ namespace Sigmalibre\DataSource\MySQL;
  */
 class MySQLReaderCustomConnection extends MySQLReader
 {
-    public function __construct($container, $connection)
+    public function __construct($connection)
     {
-        $this->container = $container;
         $this->connection = $connection;
     }
 }
