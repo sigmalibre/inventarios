@@ -230,7 +230,7 @@
             detalles: detalles
         };
 
-        submitMethod.send('/facturas/nuevo', 'post', message, 'factura-new-saved');
+        submitMethod.send(window.location.pathname, 'post', message, 'factura-new-saved');
     });
 }());
 
