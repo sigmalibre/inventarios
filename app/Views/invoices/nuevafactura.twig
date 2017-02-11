@@ -6,6 +6,7 @@
 
     <div id="server-data" class="hidden">
         <div id="tipo-factura" data-tipofactura="{{ tipoFactura }}"></div>
+        <div id="porcetaje-iva" data-porcentajeiva="{{ iva }}"></div>
     </div>
 
     {# FACTURA Y DETALLES #}
@@ -49,7 +50,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <div id="selectClientePersona" class="form-group hidden">
+                                        <div id="selectClientePersona" class="form-group factura-only hidden">
                                             <label for="clientePersonaID">Cliente</label>
                                             <select name="clientePersonaID" class="form-control" id="clientePersonaID">
                                                 <option value="" selected>Elige a un cliente</option>
@@ -58,7 +59,7 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <div id="selectClienteContribuyente" class="form-group hidden">
+                                        <div id="selectClienteContribuyente" class="form-group credito-only hidden">
                                             <label for="empresaID">Cliente</label>
                                             <select name="empresaID" id="empresaID" class="form-control">
                                                 <option value="" selected>Elige a un cliente</option>
@@ -99,19 +100,27 @@
                                                 </thead>
                                                 <tfoot>
                                                 <tr>
-                                                    <td rowspan="4" colspan="5"></td>
+                                                    <td rowspan="10" colspan="5"></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>SUMAS</b></td>
-                                                    <td id="sum-afectas" colspan="2">$ 0.00</td>
+                                                    <td colspan="2">$ <span id="sum-afectas">0.00</span></td>
+                                                </tr>
+                                                <tr class="credito-only hidden">
+                                                    <td><b>{{ iva }}% IVA</b></td>
+                                                    <td colspan="2">$ <span id="sum-iva">0.00</span></td>
+                                                </tr>
+                                                <tr class="credito-only hidden">
+                                                    <td><b>SUB-TOTAL</b></td>
+                                                    <td colspan="2">$ <span id="sum-sub-total">0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>EXENTAS</b></td>
-                                                    <td id="sum-excentas" colspan="2">$ 0.00</td>
+                                                    <td colspan="2">$ <span id="sum-excentas">0.00</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>TOTAL</b></td>
-                                                    <td colspan="2"><b><span id="sum-total">$ 0.00</span></b></td>
+                                                    <td colspan="2"><b>$ <span id="sum-total">0.00</span></b></td>
                                                 </tr>
                                                 </tfoot>
                                                 <tbody id="listaProductos">

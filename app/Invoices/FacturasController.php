@@ -7,6 +7,7 @@ use Sigmalibre\Clients\Clients;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
+use Sigmalibre\IVA\IVA;
 use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
 use Sigmalibre\TirajeFactura\SiguienteCorrelativo;
 use Sigmalibre\TirajeFactura\TirajeFactura;
@@ -112,6 +113,7 @@ class FacturasController
         $clientes = new Clients($this->container);
         $empresas = new Empresas($this->container);
         $empresa = new Empresa((new TirajeActualReader())->getIDTiraje('empresa'), $this->container);
+        $iva = new IVA();
 
         return $this->container->view->render(new Response(), 'invoices/nuevafactura.twig', [
             'empresa' => [
@@ -130,6 +132,7 @@ class FacturasController
             'maxCorrelativo' => $tiraje->TirajeHasta,
             'clientes' => $clientes->getAllClients(),
             'contribuyentes' => $empresas->getAll(),
+            'iva' => $iva->getPorcentajeIVA(),
         ]);
     }
 }
