@@ -15,4 +15,14 @@ $(function () {
             input.val(valorMaximo);
         }
     });
+
+    $('.limit-to-min-value').on('input', function (event) {
+        var input = $(event.currentTarget);
+
+        var valorMinimo = Number(input.data('min'));
+
+        if (Number(input.val()) < valorMinimo) {
+            input.val(valorMinimo);
+        }
+    });
 });

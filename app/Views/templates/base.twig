@@ -10,7 +10,6 @@
 
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
 
     <link rel="stylesheet" href="/css/form-clearinput.css">
     <link rel="stylesheet" href="/css/utility.css">
@@ -26,15 +25,28 @@
     <script src="/js/jquery-3.1.0.min.js" defer></script>
     <script src="/js/bootstrap.min.js" defer></script>
     <script src="/js/mustache.min.js" defer></script>
-</head>
-<body>
-    {% include 'templates/navbar.twig' %}
-    {% block content %}{% endblock %}
 
     <script src="/js/form-clearinput.js" defer></script>
     <script src="/js/link-submit-form.js" defer></script>
     <script src="/js/anchorize.js" defer></script>
     <script src="/js/pubsub.js" defer></script>
     <script src="/js/submit-form-with-method.js" defer></script>
+    <script src="/js/click-trigger-event.js" defer></script>
+    <script src="/js/alerts.js" defer></script>
+</head>
+<body>
+    {% include 'templates/navbar.twig' %}
+    {% include 'templates/alert.twig' %}
+
+    {# ALERTS GO HERE #}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="alert-group"></div>
+            </div>
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
 </body>
 </html>

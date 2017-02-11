@@ -8,8 +8,8 @@ namespace Sigmalibre\Invoices\DataSource\MySQL;
  */
 class FilterFacturas extends \Sigmalibre\DataSource\MySQL\MySQLReader
 {
-    protected $baseQuery = 'SELECT FacturaID, FechaFacturacion, CodigoTiraje, Correlativo, ClientesPersonas.Nombres AS NombreCliente, ClientesPersonas.Apellidos AS ApellidoCliente, Empleados.Codigo AS CodigoEmpleado, COALESCE(SUM(PrecioUnitario * Cantidad), 0) AS VentaTotal FROM Facturas INNER JOIN TiposFactura USING (TipoFacturaID) INNER JOIN TirajeFacturas USING (TirajeFacturaID) LEFT JOIN DetalleFactura USING (FacturaID) LEFT JOIN ClientesPersonas USING (ClientesPersonasID) LEFT JOIN Empleados USING (EmpleadoID) WHERE TipoFacturaID = 1';
-    protected $endQuery = 'GROUP BY FacturaID';
+    protected $baseQuery = 'SELECT FacturaID, FechaFacturacion, Facturas.TipoFacturaID, Facturas.TirajeFacturaID, CodigoTiraje, Correlativo, ClientesPersonasID, ClientesPersonas.Nombres AS NombreCliente, ClientesPersonas.Apellidos AS ApellidoCliente, EmpleadoID, Empleados.Codigo AS CodigoEmpleado, Empresas.EmpresaID, Empresas.NombreComercial as NombreEmpresa, COALESCE(SUM(PrecioUnitario * Cantidad), 0) AS VentaTotal FROM Facturas INNER JOIN TirajeFacturas USING (TirajeFacturaID) INNER JOIN TiposFactura USING (TipoFacturaID) LEFT JOIN DetalleFactura USING (FacturaID) LEFT JOIN ClientesPersonas USING (ClientesPersonasID) LEFT JOIN Empleados USING (EmpleadoID) LEFT JOIN Empresas USING (EmpresaID) WHERE 1';
+    protected $endQuery = 'GROUP BY FacturaID ORDER BY FacturaID DESC';
     protected $setLimit = true;
     protected $filterFields = [
         [
@@ -37,10 +37,22 @@ class FilterFacturas extends \Sigmalibre\DataSource\MySQL\MySQLReader
             'searchType' => 'LIKE',
         ],
         [
+            'filterName' => 'nombreEmpresa',
+            'tableName' => 'Empresas',
+            'columnName' => 'NombreComercial',
+            'searchType' => 'LIKE',
+        ],
+        [
             'filterName' => 'codigoEmpleado',
             'tableName' => 'Empleados',
             'columnName' => 'Codigo',
             'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'tipoFactura',
+            'tableName' => 'Facturas',
+            'columnName' => 'TipoFacturaID',
+            'searchType' => '=',
         ],
     ];
 }

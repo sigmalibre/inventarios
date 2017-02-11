@@ -17,6 +17,31 @@
  * siempre se envía el request con el método establecido a la URL establecida, pero sin datos.
  */
 
+var submitMethod = (function () {
+    
+    var send = function (ulr, method, data, eventOnFinish) {
+        $.ajax({
+            url: ulr,
+            method: method.toUpperCase(),
+            data: data,
+            dataType: 'json'
+        }).done(function (data) {
+            eventos.emit(eventOnFinish, data);
+        }).fail(function (_, status, error) {
+            eventos.emit(eventOnFinish, {
+                error: {
+                    status: status,
+                    error: error
+                }
+            });
+        });
+    };
+
+    return {
+        send: send
+    }
+}());
+
 $(function () {
     'use strict';
 
@@ -29,21 +54,7 @@ $(function () {
             serializedForm = targetForm.serialize();
         }
 
-        $.ajax({
-            url: target.data('action'),
-            method: target.data('method').toUpperCase(),
-            data: serializedForm,
-            dataType: 'json'
-        }).done(function (data) {
-            eventos.emit(target.data('triggerevent'), data);
-        }).fail(function (_, status, error) {
-            eventos.emit(target.data('triggerevent'), {
-                error: {
-                    status: status,
-                    error: error
-                }
-            });
-        });
+        submitMethod.send(target.data('action'), target.data('method'), serializedForm, target.data('triggerevent'));
 
         event.preventDefault();
     });

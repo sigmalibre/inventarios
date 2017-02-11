@@ -23,9 +23,9 @@
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoFactura %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group has-feedback has-clear">
-                                <label for="nombresCliente">Nombre del Cliente</label>
-                                <input id="nombresCliente" class="form-control" type="text" name="nombresCliente" placeholder="Nombre del cliente" value="{{ input.nombresCliente }}">
-                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombresCliente %}hidden{% endif %}"></span>
+                                <label for="nombreEmpresa">Nombre del Cliente</label>
+                                <input id="nombreEmpresa" class="form-control" type="text" name="nombreEmpresa" placeholder="Nombre del cliente" value="{{ input.nombreEmpresa }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreEmpresa %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group has-feedback has-clear">
                                 <label for="codigoEmpleado">Código del Vendedor</label>
@@ -56,30 +56,32 @@
                     </div>
                     <div class="table-responsive">
                         <table class="table table-striped">
+                            {% if not invoices %}
+                                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                            {% endif %}
+                            <thead>
                             <tr>
                                 <th>Fecha</th>
                                 <th>Tiraje</th>
                                 <th>Código</th>
                                 <th>Cliente</th>
                                 <th>Facturado Por</th>
-                                <th>Venta Total*</th>
+                                <th>Venta Total</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             {% for invoice in invoices %}
                             <tr>
-                                <td>{{ invoice.FechaFacturacion }}</td>
-                                <td>{{ invoice.CodigoTiraje }}</td>
-                                <td>{{ invoice.Correlativo }}</td>
-                                <td>{{ invoice.NombreCliente }}</td>
-                                <td>{{ invoice.CodigoEmpleado }}</td>
-                                <td>${{ invoice.VentaTotal|number_format(2) }}</td>
+                                <td>{{ invoice.fechaFacturacion }}</td>
+                                <td>{{ invoice.codigoTiraje }}</td>
+                                <td>{{ invoice.correlativo }}</td>
+                                <td>{{ invoice.nombreEmpresa }}</td>
+                                <td>{{ invoice.codigoEmpleado }}</td>
+                                <td>$ {{ invoice.ventaTotal|number_format(2) }}</td>
                             </tr>
-                            {% else %}
-                            <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
+                            </tbody>
                         </table>
-                    </div>
-                    <div class="panel-footer">
-                        <small class="text-muted">*Precios sin IVA</small>
                     </div>
                 </div>
                 {% include 'templates/listpagination.twig' %}

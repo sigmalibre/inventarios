@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Empresas;
 
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewDireccion;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewEmail;
+use Sigmalibre\DatosGenerales\DataSource\MySQL\SaveNewTelefono;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateDireccionEmpresa;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateEmailEmpresa;
 use Sigmalibre\DatosGenerales\DataSource\MySQL\UpdateTelefonoEmpresa;
@@ -169,9 +172,9 @@ class Empresa
             return false;
         }
 
-        $isDireccionUpdated = (new Direccion())->save(new UpdateDireccionEmpresa($this->container), $input['direccion'], ['empresaID' => $this->id]);
-        $isTelefonoUpdated = (new Telefono())->save(new UpdateTelefonoEmpresa($this->container), $input['telefono'], ['empresaID' => $this->id]);
-        $isEmailUpdated = (new Email())->save(new UpdateEmailEmpresa($this->container), $input['email'], ['empresaID' => $this->id]);
+        $isDireccionUpdated = $this->updateDireccion($input['direccion']);
+        $isTelefonoUpdated = $this->updateTelefono($input['telefono']);
+        $isEmailUpdated = $this->updateEmail($input['email']);
 
         if ($isDireccionUpdated === false || $isTelefonoUpdated === false || $isEmailUpdated === false) {
             $this->container->mysql->rollBack();
@@ -228,5 +231,80 @@ class Empresa
             'nit' => $input['nit'],
             'id' => $this->id,
         ]);
+    }
+
+    private function updateDireccion($direccion)
+    {
+        if (isset($this->direccion) === false) {
+            $is_saved = (new Direccion())->save(new SaveNewDireccion($this->container), $direccion, ['empresaID' => $this->id]);
+
+            if ($is_saved === false) {
+                return false;
+            }
+
+            $this->direccion = $direccion;
+
+            return true;
+        }
+
+        $is_updated = (new Direccion())->save(new UpdateDireccionEmpresa($this->container), $direccion, ['empresaID' => $this->id]);
+
+        if ($is_updated === false) {
+            return false;
+        }
+
+        $this->direccion = $direccion;
+
+        return true;
+    }
+
+    private function updateTelefono($telefono)
+    {
+        if (isset($this->telefono) === false) {
+            $is_saved = (new Telefono())->save(new SaveNewTelefono($this->container), $telefono, ['empresaID' => $this->id]);
+
+            if ($is_saved === false) {
+                return false;
+            }
+
+            $this->telefono = $telefono;
+
+            return true;
+        }
+
+        $is_updated = (new Telefono())->save(new UpdateTelefonoEmpresa($this->container), $telefono, ['empresaID' => $this->id]);
+
+        if ($is_updated === false) {
+            return false;
+        }
+
+        $this->telefono = $telefono;
+
+        return true;
+    }
+
+    private function updateEmail($email)
+    {
+        if (isset($this->email) === false) {
+            $is_saved = (new Email())->save(new SaveNewEmail($this->container), $email, ['empresaID' => $this->id]);
+
+            if ($is_saved === false) {
+                return false;
+            }
+
+            $this->email = $email;
+
+            return true;
+        }
+
+        $is_updated = (new Email())->save(new UpdateEmailEmpresa($this->container), $email, ['empresaID' => $this->id]);
+
+        if ($is_updated === false) {
+            return false;
+        }
+
+        $this->email = $email;
+
+        return true;
     }
 }
