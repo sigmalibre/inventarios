@@ -97,7 +97,7 @@ class FacturasController
         return (new Response())->withJson([
             'status' => 'error',
             'reason' => $failedInput,
-        ], 500);
+        ], 200);
     }
 
     /**
