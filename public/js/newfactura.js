@@ -238,20 +238,21 @@
     var productoActual;
     var almacenesActuales;
 
+    var porcentajeIVA = Number($('#porcetaje-iva').data('porcentajeiva'));
+
     // MANEJAR RECEPCION DE DATOS DE PRODUCTOS ENCONTRADOS DESDE EL SERVIDOR
     eventos.on('factura-busca-producto', function (data) {
-
-        var iva = 1 + Number(data.porcentajeIVA) / 100;
-
         facturas.productos.clear();
 
         data.products.forEach(function (p) {
+
+            var iva = 1 + porcentajeIVA / 100;
 
             if (p.ExcentoIVA == 1) {
                 iva = 1;
             }
 
-            var precio = (Number(p.CostoActual) * iva) + Number(p.Utilidad);
+            var precio = (Number(p.CostoActual) + Number(p.Utilidad)) * iva;
 
             var producto = facturas.productos.crearProducto(
                 p.ProductoID, p.CategoriaProductoID, p.CodigoBienDet, p.CodigoLibroDet,
