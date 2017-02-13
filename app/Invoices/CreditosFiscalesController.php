@@ -2,7 +2,7 @@
 
 namespace Sigmalibre\Invoices;
 
-use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
+use Sigmalibre\DataSource\JSON\TirajeActualReader;
 
 /**
  * Controlador para operaciones sobre créditos fiscales

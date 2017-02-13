@@ -8,7 +8,7 @@ use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
 use Sigmalibre\IVA\IVA;
-use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
+use Sigmalibre\DataSource\JSON\TirajeActualReader;
 use Sigmalibre\TirajeFactura\SiguienteCorrelativo;
 use Sigmalibre\TirajeFactura\TirajeFactura;
 use Slim\Http\Request;

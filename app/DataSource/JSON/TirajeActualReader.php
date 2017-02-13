@@ -1,8 +1,6 @@
 <?php
 
-namespace Sigmalibre\TirajeFactura\DataSource\JSON;
-
-use Sigmalibre\DataSource\JSON\JSONFileReader;
+namespace Sigmalibre\DataSource\JSON;
 
 /**
  * Realiza una lectura de la ID del tiraje actual para factura y para crédito fiscal.
@@ -18,6 +16,6 @@ class TirajeActualReader extends JSONFileReader
      */
     public function getIDTiraje($tipo)
     {
-        return $this->read(APP_ROOT . '/app/config/tirajeactual.json')[$tipo];
+        return $this->read(APP_ROOT . '/app/config/config.json')[$tipo];
     }
 }
