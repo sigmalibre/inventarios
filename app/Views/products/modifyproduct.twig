@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto  %}checked{% endif %}> Excento IVA?
+                                            <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto  %}checked{% endif %}> Exento IVA?
                                         </label>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon">$</span>
                                             {% if input.excentoIvaProducto %}
-                                                <input disabled type="text" value="Producto excento de IVA" class="form-control" id="precioVentaIVAProducto" step="any" data-iva="{{ porcentajeIVA }}">
+                                                <input disabled type="text" value="Producto exento de IVA" class="form-control" id="precioVentaIVAProducto" step="any" data-iva="{{ porcentajeIVA }}">
                                             {% else %}
                                                 <input type="number" value="{{ ((input.utilidadProducto ?? 0 + input.valorCostoActualTotal ?? 0) * (1 + porcentajeIVA / 100))|number_format(4) }}" class="form-control" id="precioVentaIVAProducto" step="any" data-iva="{{ porcentajeIVA }}">
                                             {% endif %}
