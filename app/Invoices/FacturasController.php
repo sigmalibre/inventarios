@@ -8,7 +8,7 @@ use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
 use Sigmalibre\IVA\IVA;
-use Sigmalibre\DataSource\JSON\TirajeActualReader;
+use Sigmalibre\DataSource\JSON\ConfigReader;
 use Sigmalibre\TirajeFactura\SiguienteCorrelativo;
 use Sigmalibre\TirajeFactura\TirajeFactura;
 use Slim\Http\Request;
@@ -27,7 +27,7 @@ class FacturasController
     public function __construct($container)
     {
         $this->container = $container;
-        $this->tirajeID = (new TirajeActualReader())->read('factura');
+        $this->tirajeID = (new ConfigReader())->read('factura');
         $this->tipoFacturaID = 1;
     }
 
@@ -112,7 +112,7 @@ class FacturasController
         $correlativo = new SiguienteCorrelativo($tiraje);
         $clientes = new Clients($this->container);
         $empresas = new Empresas($this->container);
-        $empresa = new Empresa((new TirajeActualReader())->read('empresa'), $this->container);
+        $empresa = new Empresa((new ConfigReader())->read('empresa'), $this->container);
         $iva = new IVA();
 
         return $this->container->view->render(new Response(), 'invoices/nuevafactura.twig', [
