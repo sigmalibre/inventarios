@@ -5,6 +5,22 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
+            <div class="col-sm-12">
+                {% if isSaved %}
+                    <div class="alert alert-success">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Se guardaron los cambios.
+                    </div>
+                {% else %}
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                        No se guardaron los cambios.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            {# AJUSTAR IVA #}
             <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">

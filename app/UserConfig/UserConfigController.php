@@ -35,7 +35,7 @@ class UserConfigController
         $params = $request->getQueryParams();
 
         return $this->container->view->render($response, 'userconfig/userconfig.twig', [
-            'ivaSaved' => $params['ivaSaved'] ?? null,
+            'isSaved' => $params['saved'] ?? null,
             'porcentajeIVA' => $iva->getPorcentajeIVA(),
         ]);
     }
