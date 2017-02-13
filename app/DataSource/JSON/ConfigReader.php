@@ -5,8 +5,16 @@ namespace Sigmalibre\DataSource\JSON;
 /**
  * Realiza una lectura de la configuración del sistema.
  */
-class ConfigReader extends JSONFileReader
+class ConfigReader
 {
+    private $reader;
+
+    public function __construct()
+    {
+        $this->reader = new JSONFileReader();
+    }
+
+
     /**
      * Obtiene el valor del ajuste del sistema que se desea obtener.
      *
@@ -16,6 +24,6 @@ class ConfigReader extends JSONFileReader
      */
     public function read($key)
     {
-        return parent::read(APP_ROOT . '/app/config/config.json')[$key] ?? false;
+        return $this->reader->read(APP_ROOT . '/app/config/config.json')[$key] ?? false;
     }
 }
