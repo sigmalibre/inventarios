@@ -27,7 +27,9 @@
                             <div class="form-group">
                                 <label for="cantidadDescontada">Cantidad del descuento</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon">$</span>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-usd"></span>
+                                    </span>
                                     <input type="number" name="cantidadDescontada" value="{{ input.cantidadDescontada }}" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}">
                                 </div>
                             </div>
