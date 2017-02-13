@@ -2,7 +2,7 @@
 
 namespace Sigmalibre\Invoices;
 
-use Sigmalibre\DataSource\JSON\ConfigReader;
+use Sigmalibre\UserConfig\ConfigReader;
 
 /**
  * Controlador para operaciones sobre créditos fiscales

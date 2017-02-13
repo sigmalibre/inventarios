@@ -1,6 +1,8 @@
 <?php
 
-namespace Sigmalibre\DataSource\JSON;
+namespace Sigmalibre\UserConfig;
+
+use Sigmalibre\DataSource\JSON\JSONFileReader;
 
 /**
  * Realiza una lectura de la configuración del sistema.

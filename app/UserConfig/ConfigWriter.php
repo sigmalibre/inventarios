@@ -1,6 +1,9 @@
 <?php
 
-namespace Sigmalibre\DataSource\JSON;
+namespace Sigmalibre\UserConfig;
+
+use Sigmalibre\DataSource\JSON\JSONFileReader;
+use Sigmalibre\DataSource\JSON\JSONFileWriter;
 
 /**
  * Almacena la configuración del sistema en un archivo JSON.
