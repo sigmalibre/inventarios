@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
+use Sigmalibre\TirajeFactura\ColeccionTirajes;
 use Slim\Container;
 use Slim\Http\Request;
 
@@ -33,9 +34,16 @@ class UserConfigController
      */
     public function index(ServerRequestInterface $request, ResponseInterface $response, $isSaved = null)
     {
+        $configReader = new ConfigReader();
+
         $iva = new IVA();
+
         $empresas = new Empresas($this->container);
-        $empresaActual = (new ConfigReader())->read('empresa');
+        $empresaActual = $configReader->read('empresa');
+
+        $tirajes = new ColeccionTirajes($this->container);
+        $tirajeFacturaActual = $configReader->read('factura');
+        $tirajeCreditoActual = $configReader->read('credito');
 
         $params = $request->getQueryParams();
 
@@ -44,6 +52,9 @@ class UserConfigController
             'porcentajeIVA' => $iva->getPorcentajeIVA(),
             'empresas' => $empresas->getAll(),
             'empresaActual' => $empresaActual,
+            'tirajes' => $tirajes->getAll(),
+            'facturaActual' => $tirajeFacturaActual,
+            'creditoActual' => $tirajeCreditoActual,
         ]);
     }
 
