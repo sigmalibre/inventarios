@@ -11,7 +11,8 @@
                         <span class="glyphicon glyphicon-ok"></span>
                         Se guardaron los cambios.
                     </div>
-                {% else %}
+                {% endif %}
+                {% if isSaved is same as(false) %}
                     <div class="alert alert-danger">
                         <span class="glyphicon glyphicon-remove-sign"></span>
                         No se guardaron los cambios.
