@@ -14,8 +14,8 @@ class TirajeActualReader extends JSONFileReader
      *
      * @return mixed
      */
-    public function getIDTiraje($tipo)
+    public function read($tipo)
     {
-        return $this->read(APP_ROOT . '/app/config/config.json')[$tipo];
+        return parent::read(APP_ROOT . '/app/config/config.json')[$tipo] ?? false;
     }
 }

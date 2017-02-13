@@ -15,7 +15,7 @@ class CreditosFiscalesController extends FacturasController
     {
         parent::__construct($container);
 
-        $this->tirajeID = (new TirajeActualReader())->getIDTiraje('credito');
+        $this->tirajeID = (new TirajeActualReader())->read('credito');
         $this->tipoFacturaID = 2;
     }
 }

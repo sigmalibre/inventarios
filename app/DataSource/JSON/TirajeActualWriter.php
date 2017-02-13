@@ -19,7 +19,7 @@ class TirajeActualWriter extends JSONFileWriter
      */
     public function save($tipo, $id)
     {
-        $tirajesActuales = (new TirajeActualReader())->getIDTiraje($tipo);
+        $tirajesActuales = (new TirajeActualReader())->read($tipo);
         $tirajesActuales[$tipo] = $id;
 
         return $this->write($tirajesActuales);

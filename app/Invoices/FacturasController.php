@@ -27,7 +27,7 @@ class FacturasController
     public function __construct($container)
     {
         $this->container = $container;
-        $this->tirajeID = (new TirajeActualReader())->getIDTiraje('factura');
+        $this->tirajeID = (new TirajeActualReader())->read('factura');
         $this->tipoFacturaID = 1;
     }
 
@@ -112,7 +112,7 @@ class FacturasController
         $correlativo = new SiguienteCorrelativo($tiraje);
         $clientes = new Clients($this->container);
         $empresas = new Empresas($this->container);
-        $empresa = new Empresa((new TirajeActualReader())->getIDTiraje('empresa'), $this->container);
+        $empresa = new Empresa((new TirajeActualReader())->read('empresa'), $this->container);
         $iva = new IVA();
 
         return $this->container->view->render(new Response(), 'invoices/nuevafactura.twig', [
