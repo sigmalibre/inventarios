@@ -41,6 +41,31 @@
                     </div>
                 </div>
             </div>
+            {# AJUSTAR EMPRESA DUEÑA #}
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Ajustar Empresa Dueña</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('ajustes/empresa') }}" method="post">
+                            <div class="form-group">
+                                <label for="empresaID">Selecciona la empresa dueña de este sistema</label>
+                                <select name="empresaID" id="empresaID" class="form-control">
+                                    {% for empresa in empresas %}
+                                        {% set selected = '' %}
+                                        {% if empresa.EmpresaID == empresaActual %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ empresa.EmpresaID }}" {{ selected }}>{{ empresa.NombreComercial }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button class="btn btn-block btn-info" type="submit"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

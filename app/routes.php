@@ -91,6 +91,7 @@ $app->post('/tirajes/nuevo', '\Sigmalibre\TirajeFactura\TirajesController:create
 
 // AJUSTES DE USUARIO
 $app->get('/ajustes', '\Sigmalibre\UserConfig\UserConfigController:index')->setName('ajustes');
+$app->post('/ajustes/empresa', '\Sigmalibre\UserConfig\UserConfigController:setEmpresa')->setName('ajustes/empresa');
 
 // IVA
 $app->get('/iva', '\Sigmalibre\IVA\IVAController:index')->setName('iva');
