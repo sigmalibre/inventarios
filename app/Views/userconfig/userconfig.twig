@@ -4,6 +4,7 @@
 
 {% block content %}
     <div class="container-fluid">
+        {# ALERTAS #}
         <div class="row">
             <div class="col-sm-12">
                 {% if isSaved %}
@@ -58,6 +59,43 @@
                                             {% set selected = 'selected' %}
                                         {% endif %}
                                         <option value="{{ empresa.EmpresaID }}" {{ selected }}>{{ empresa.NombreComercial }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button class="btn btn-block btn-info" type="submit"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {# AJUSTAR TIRAJES POR DEFECTO #}
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Ajustar tirajes por defecto para facturas</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('ajustes/tirajes') }}" method="post">
+                            <div class="form-group">
+                                <label for="tirajeFacturaID">Selecciona tiraje para Factura Consumidor Final</label>
+                                <select name="tirajeFacturaID" id="tirajeFacturaID" class="form-control">
+                                    {% for tiraje in tirajes %}
+                                        {% set selected = '' %}
+                                        {% if tiraje.TirajeFacturaID == facturaActual %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ tiraje.TirajeFacturaID }}" {{ selected }}>{{ tiraje.CodigoTiraje }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tirajeCreditoID">Selecciona tiraje para Comprobante Crédito Fiscal</label>
+                                <select name="tirajeCreditoID" id="tirajeCreditoID" class="form-control">
+                                    {% for tiraje in tirajes %}
+                                        {% set selected = '' %}
+                                        {% if tiraje.TirajeFacturaID == creditoActual %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ tiraje.TirajeFacturaID }}" {{ selected }}>{{ tiraje.CodigoTiraje }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
