@@ -43,7 +43,7 @@ class FacturasController
     public function indexFacturas(Request $request, ResponseInterface $response)
     {
         $input = $request->getQueryParams();
-        $input['tipoFactura'] = $this->tirajeID;
+        $input['tipoFactura'] = $this->tipoFacturaID;
 
         $invoices = new Facturas(new MySQLFacturaRepository($this->container), $this->container);
         $invoiceList = $invoices->getFiltered($input);
