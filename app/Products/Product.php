@@ -8,21 +8,6 @@ use Sigmalibre\Products\DataSource\MySQL\UpdateSingleAttributeProduct;
 
 /**
  * Modelo para operaciones sobre los productos individuales.
- *
- * @property null|string Cantidad
- * @property null|string CostoActual
- * @property null|string CategoriaProductoID
- * @property null|string CodigoProducto
- * @property null|string Descripcion
- * @property null|string StockMin
- * @property null|string Utilidad
- * @property null|string NombreMarca
- * @property null|string UnidadMedida
- * @property null|string CodigoBienDet
- * @property null|string CodigoLibroDet
- * @property null|string ExcentoIVA
- * @property null|string ProductoID
- * @property null|string Codigo
  */
 class Product
 {
@@ -30,6 +15,21 @@ class Product
     protected $validator;
     protected $categoryValidator;
     protected $attributes;
+
+    public $Cantidad;
+    public $CostoActual;
+    public $CategoriaProductoID;
+    public $CodigoProducto;
+    public $Descripcion;
+    public $StockMin;
+    public $Utilidad;
+    public $NombreMarca;
+    public $UnidadMedida;
+    public $CodigoBienDet;
+    public $CodigoLibroDet;
+    public $ExcentoIVA;
+    public $ProductoID;
+    public $Codigo;
 
     /**
      * Inicializa el objeto obteniendo la información sobre si mismo desde la fuente de datos.
@@ -48,6 +48,21 @@ class Product
                 'idProducto' => $id,
             ],
         ]);
+
+        $this->Cantidad = $this->attributes[0]['Cantidad'] ?? null;
+        $this->CostoActual = $this->attributes[0]['CostoActual'] ?? null;
+        $this->CategoriaProductoID = $this->attributes[0]['CategoriaProductoID'] ?? null;
+        $this->CodigoProducto = $this->attributes[0]['CodigoProducto'] ?? null;
+        $this->Descripcion = $this->attributes[0]['Descripcion'] ?? null;
+        $this->StockMin = $this->attributes[0]['StockMin'] ?? null;
+        $this->Utilidad = $this->attributes[0]['Utilidad'] ?? null;
+        $this->NombreMarca = $this->attributes[0]['NombreMarca'] ?? null;
+        $this->UnidadMedida = $this->attributes[0]['UnidadMedida'] ?? null;
+        $this->CodigoBienDet = $this->attributes[0]['CodigoBienDet'] ?? null;
+        $this->CodigoLibroDet = $this->attributes[0]['CodigoLibroDet'] ?? null;
+        $this->ExcentoIVA = $this->attributes[0]['ExcentoIVA'] ?? null;
+        $this->ProductoID = $this->attributes[0]['ProductoID'] ?? null;
+        $this->Codigo = $this->attributes[0]['Codigo'] ?? null;
     }
 
     public function __construct($id, $container)
@@ -67,23 +82,6 @@ class Product
     public function is_set()
     {
         return isset($this->attributes[0]);
-    }
-
-    /**
-     * Se utiliza el método mágico __get para obtener de forma flexible los atributos
-     * desde la fuente de datos sin ponerlos escritos directamente dentro de éste código.
-     *
-     * @param array $property La propiedad que se desea obtener
-     *
-     * @return null|string
-     */
-    public function __get($property)
-    {
-        if (isset($this->attributes[0][$property])) {
-            return (string) $this->attributes[0][$property];
-        }
-
-        return null;
     }
 
     /**
