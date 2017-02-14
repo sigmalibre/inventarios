@@ -11,6 +11,7 @@ use Sigmalibre\IVA\IVA;
 use Sigmalibre\UserConfig\ConfigReader;
 use Sigmalibre\TirajeFactura\SiguienteCorrelativo;
 use Sigmalibre\TirajeFactura\TirajeFactura;
+use Sigmalibre\Warehouses\Warehouses;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -106,14 +107,23 @@ class FacturasController
      *
      * @return \Slim\Http\Response
      */
-    public function indexNew()
+    public function indexNew($request, $response, $arguments)
     {
+        if ($this->container->negotiator->getValue() === 'application/json') {
+            return $this->indexSingle($arguments['id']);
+        }
+
         $tiraje = new TirajeFactura($this->tirajeID, $this->container);
         $correlativo = new SiguienteCorrelativo($tiraje);
         $clientes = new Clients($this->container);
         $empresas = new Empresas($this->container);
         $empresa = new Empresa((new ConfigReader())->read('empresa'), $this->container);
         $iva = new IVA();
+        $readOnly = 0;
+
+        if (isset($arguments['id']) === true) {
+            $readOnly = 1;
+        }
 
         return $this->container->view->render(new Response(), 'invoices/nuevafactura.twig', [
             'empresa' => [
@@ -133,6 +143,27 @@ class FacturasController
             'clientes' => $clientes->getAllClients(),
             'contribuyentes' => $empresas->getAll(),
             'iva' => $iva->getPorcentajeIVA(),
+            'readOnly' => $readOnly,
         ]);
+    }
+
+    private function indexSingle($id)
+    {
+        $facturas = new MySQLFacturaRepository($this->container);
+        $almacenes = new Warehouses($this->container);
+
+        $factura = $facturas->findByID($id);
+
+        if ($factura !== false) {
+            return (new Response())->withJson([
+                'factura'=> $factura,
+                'almacenes' => $almacenes->readAll(),
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'error',
+            'reason' => 'not found',
+        ], 200);
     }
 }
