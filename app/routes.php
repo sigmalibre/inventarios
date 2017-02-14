@@ -44,9 +44,13 @@ $app->get('/facturas', '\Sigmalibre\Invoices\FacturasController:indexFacturas')-
 $app->get('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:indexNew')->setName('invoices/createform');
 $app->post('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:saveNew');
 
+$app->get('/facturas/id/{id}', '\Sigmalibre\Invoices\FacturasController:indexNew')->setName('invoices/id');
+
 $app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexFacturas')->setName('creditofiscal');
 $app->get('/creditofiscal/nuevo', '\Sigmalibre\Invoices\CreditosFiscalesController:indexNew')->setName('creditofiscal/createform');
 $app->post('/creditofiscal/nuevo', '\Sigmalibre\Invoices\CreditosFiscalesController:saveNew');
+
+$app->get('/creditofiscal/id/{id}', '\Sigmalibre\Invoices\CreditosFiscalesController:indexNew')->setName('creditofiscal/id');
 
 // ALMACENES
 $app->get('/almacenes', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');

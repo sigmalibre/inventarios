@@ -2,7 +2,7 @@
  * Manejo de Alertas para el usuario
  */
 
-$(function () {
+(function () {
     'use strict';
 
     var alertTemplate = $('#alert-template').html();
@@ -19,4 +19,4 @@ $(function () {
     eventos.on('alert-feedback', function (data) {
         renderAlerta(data.context, data.icon, data.message);
     });
-});
+}());
