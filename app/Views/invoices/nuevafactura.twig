@@ -7,6 +7,7 @@
     <div id="server-data" class="hidden">
         <div id="tipo-factura" data-tipofactura="{{ tipoFactura }}"></div>
         <div id="porcetaje-iva" data-porcentajeiva="{{ iva }}"></div>
+        <div id="read-only" data-readonly="{{ readOnly }}"></div>
     </div>
 
     {# FACTURA Y DETALLES #}
@@ -24,7 +25,7 @@
                 <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
-                            <h4 class="panel-title">Factura Nueva</h4>
+                            <h4 class="panel-title">Factura <span class="readonly-hidden">Nueva</span></h4>
                         </div>
                         <div class="panel-body">
                             <form id="facturaForm" action="#">
@@ -35,15 +36,15 @@
                                                 <li><b>Empresa:</b> {{ empresa.nombre }}</li>
                                                 <li><b>Giro:</b> {{ empresa.giro }}</li>
                                                 <li><b>Direccion:</b> {{ empresa.direccion }}</li>
-                                                <li><b>Teléfono:</b> {{ empresa.telefono }}</li>
                                             </ul>
                                         </div>
                                         <div class="col-sm-6">
                                             <ul>
-                                                <li><b>Tiraje:</b> {{ codigoTiraje }}</li>
+                                                <li><b>Tiraje:</b> <span id="txtCodigoTiraje">{{ codigoTiraje }}</span></li>
                                                 <li><b>No.</b> <span id="numFacturaCorrelativo">{{ nextCorrelativo }}</span></li>
                                                 <li><b>Registro:</b> {{ empresa.registro }}</li>
                                                 <li><b>NIT:</b> {{ empresa.nit }}</li>
+                                                <li><b>Teléfono:</b> {{ empresa.telefono }}</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -52,7 +53,7 @@
                                     <div class="col-sm-6">
                                         <div id="selectClientePersona" class="form-group factura-only hidden">
                                             <label for="clientePersonaID">Cliente</label>
-                                            <select name="clientePersonaID" class="form-control" id="clientePersonaID">
+                                            <select name="clientePersonaID" class="form-control readonly-disabled" id="clientePersonaID">
                                                 <option value="" selected>Elige a un cliente</option>
                                                 {% for cliente in clientes %}
                                                     <option value="{{ cliente.ClientesPersonasID }}">{{ cliente.Nombres }} {{ cliente.Apellidos }}</option>
@@ -61,7 +62,7 @@
                                         </div>
                                         <div id="selectClienteContribuyente" class="form-group credito-only hidden">
                                             <label for="empresaID">Cliente</label>
-                                            <select name="empresaID" id="empresaID" class="form-control">
+                                            <select name="empresaID" id="empresaID" class="form-control readonly-disabled">
                                                 <option value="" selected>Elige a un cliente</option>
                                                 {% for empresa in contribuyentes %}
                                                     <option value="{{ empresa.EmpresaID }}">{{ empresa.NombreComercial }}</option>
@@ -72,7 +73,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <label for="correlativo">Correlativo Manual</label>
-                                            <input type="number" id="correlativo" class="form-control limit-to-max-value limit-to-min-value" name="correlativo" value="{{ nextCorrelativo }}" data-min="{{ minCorrelativo }}" data-max="{{ maxCorrelativo }}" step="1">
+                                            <input type="number" id="correlativo" class="form-control limit-to-max-value limit-to-min-value readonly-disabled" name="correlativo" value="{{ nextCorrelativo }}" data-min="{{ minCorrelativo }}" data-max="{{ maxCorrelativo }}" step="1">
                                         </div>
                                     </div>
                                 </div>
@@ -89,7 +90,7 @@
                                                     <th class="center-center">Precio Unitario</th>
                                                     <th class="center-center">Ventas Exentas</th>
                                                     <th class="center-center">Ventas Afectas</th>
-                                                    <th class="center-center text-danger trigger-event"
+                                                    <th class="center-center text-danger trigger-event factura-eliminar-detalle"
                                                         data-event="factura-eliminar-detalle"
                                                         data-toggle="tooltip"
                                                         data-detalleid="todos"
@@ -127,7 +128,7 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <button type="button" id="btnGuardarFactura" class="btn btn-block btn-info">
+                                        <button type="button" id="btnGuardarFactura" class="btn btn-block btn-info readonly-hidden">
                                             <span class="glyphicon glyphicon-floppy-save"></span>
                                             Guardar Factura
                                         </button>
@@ -138,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row readonly-hidden">
                 <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                     {% include 'invoices/facturabusquedaproducto.twig' %}
                 </div>
