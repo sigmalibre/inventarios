@@ -55,7 +55,7 @@
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-hover">
                             {% if not invoices %}
                                 <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endif %}
@@ -71,7 +71,7 @@
                             </thead>
                             <tbody>
                             {% for invoice in invoices %}
-                            <tr>
+                            <tr class="anchorize" data-href="{{ path_for('creditofiscal/id', {id: invoice.id}) }}">
                                 <td>{{ invoice.fechaFacturacion }}</td>
                                 <td>{{ invoice.codigoTiraje }}</td>
                                 <td>{{ invoice.correlativo }}</td>
