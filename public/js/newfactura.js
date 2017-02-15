@@ -64,6 +64,7 @@
         if (isReadOnly == 1) {
             $('.readonly-hidden').addClass('hidden');
             $('.readonly-disabled').prop('disabled', true);
+            $('.readonly-show').removeClass('hidden');
 
             submitMethod.send(window.location.pathname, 'get', null, 'factura-get-existent');
         }
