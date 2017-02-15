@@ -4,8 +4,10 @@ namespace Sigmalibre\Invoices;
 
 use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Clients\Clients;
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
+use Sigmalibre\Ingresos\Ingresos;
 use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
 use Sigmalibre\IVA\IVA;
 use Sigmalibre\UserConfig\ConfigReader;
@@ -156,7 +158,7 @@ class FacturasController
 
         if ($factura !== false) {
             return (new Response())->withJson([
-                'factura'=> $factura,
+                'factura' => $factura,
                 'almacenes' => $almacenes->readAll(),
             ], 200);
         }
@@ -164,6 +166,66 @@ class FacturasController
         return (new Response())->withJson([
             'status' => 'error',
             'reason' => 'not found',
+        ], 200);
+    }
+
+    public function delete($request, $response, $arguments)
+    {
+        $id = $arguments['id'];
+
+        $facturas = new MySQLFacturaRepository($this->container);
+
+        $factura = $facturas->findByID($id);
+
+        if ($factura === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'not found',
+            ], 200);
+        }
+
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+
+        $transaction->beginTransaction();
+
+        foreach ($factura->detalles as $detalle) {
+
+            $ingresos = new Ingresos($this->container);
+
+            $isSaved = $ingresos->save([
+                'cantidadIngreso' => $detalle->cantidad,
+                'valorPrecioUnitario' => $detalle->producto->CostoActual,
+                'valorCostoActualTotal' => $detalle->producto->CostoActual,
+                'productoID' => $detalle->producto->ProductoID,
+                'empresaID' => null,
+                'almacenID' => $detalle->almacenID,
+            ], $detalle->producto->ProductoID);
+
+            if ($isSaved === false) {
+                $transaction->rollBack();
+
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'detail-not-deleted',
+                ], 200);
+            }
+        }
+
+        $isDeleted = $facturas->remove($factura);
+        if ($isDeleted === false) {
+            $transaction->rollBack();
+
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'factura-not-deleted',
+            ], 200);
+        }
+
+        $transaction->commit();
+
+        return (new Response())->withJson([
+            'status' => 'success',
         ], 200);
     }
 }

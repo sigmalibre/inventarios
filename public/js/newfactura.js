@@ -51,6 +51,9 @@
     var tirajeNumCorrelativo = $('#numFacturaCorrelativo');
     var codigoTiraje = $('#txtCodigoTiraje');
 
+    var btnEliminar = $('#btn-eliminar-factura-perma');
+    var btnActivarModalEliminar = $('#btnMostrarModalEliminar');
+
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
         if (tipoFactura == 1) {
@@ -64,6 +67,7 @@
         if (isReadOnly == 1) {
             $('.readonly-hidden').addClass('hidden');
             $('.readonly-disabled').prop('disabled', true);
+            $('.readonly-show').removeClass('hidden');
 
             submitMethod.send(window.location.pathname, 'get', null, 'factura-get-existent');
         }
@@ -174,6 +178,8 @@
         codigoTiraje.text('--');
         clienteSelect.val('');
         contribuyenteSelect.val('');
+
+        btnActivarModalEliminar.prop('disabled', true);
     });
 
     eventos.on('factura-existente-success', function (datos) {
@@ -190,6 +196,26 @@
             .removeClass('text-danger')
             .addClass('text-faint')
             .addClass('cursor-disabled');
+    });
+
+    eventos.on('factura-eliminada', function (datos) {
+        if (datos.status == "error") {
+            eventos.emit('alert-feedback', {
+                context: 'danger',
+                icon: 'remove-sign',
+                message: 'No se pudo eliminar la factura.'
+            });
+            return false;
+        }
+        if (datos.status == "success") {
+            eventos.emit('alert-feedback', {
+                context: 'success',
+                icon: 'ok',
+                message: 'Se eliminó la factura exitosamente!'
+            });
+            btnEliminar.prop('disabled', true);
+            btnActivarModalEliminar.prop('disabled', true);
+        }
     });
 
     formularioFactura.on('submit', function () {
@@ -279,6 +305,10 @@
         };
 
         submitMethod.send(window.location.pathname, 'post', message, 'factura-new-saved');
+    });
+
+    btnEliminar.on('click', function () {
+        submitMethod.send(window.location.pathname, 'delete', null, 'factura-eliminada');
     });
 }());
 
@@ -402,7 +432,7 @@
         eventos.emit('factura-saved-error', null);
 
         return false;
-    })
+    });
 
     // MOSTRAR DATOS DE FACTURA EXISTENTE
     eventos.on('factura-get-existent', function (datos) {
@@ -433,7 +463,7 @@
             // CREAR DETALLE A PARTIR DE LA INFORMACIÓN OBTENIDA
             var newDetalle = facturas.crearDetalle(
                 detalle.producto.ProductoID,
-                detalle.producto.CodigoProducto,
+                detalle.producto.CategoriaProductoID + detalle.producto.CodigoProducto,
                 detalle.cantidad,
                 detalle.producto.Descripcion,
                 detalle.precioUnitario.toFixed(2),

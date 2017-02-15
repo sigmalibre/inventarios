@@ -25,7 +25,11 @@
                 <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
-                            <h4 class="panel-title">Factura <span class="readonly-hidden">Nueva</span></h4>
+                            <h4 class="panel-title pull-left">Factura <span class="readonly-hidden">Nueva</span></h4>
+                            <button id="btnMostrarModalEliminar" class="btn btn-xs btn-danger pull-right hidden readonly-show" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                Eliminar
+                            </button>
                         </div>
                         <div class="panel-body">
                             <form id="facturaForm" action="#">
@@ -195,6 +199,9 @@
             </div>
         </div>
     </div>
+
+    {# MODAL ELIMINAR FACTURA #}
+    {% include 'invoices/eliminarfactura.twig' %}
 
     {# TEMPLATES MUSTACHE #}
     <script type="text/template" id="tr-producto-template">
