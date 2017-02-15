@@ -432,7 +432,7 @@
         eventos.emit('factura-saved-error', null);
 
         return false;
-    })
+    });
 
     // MOSTRAR DATOS DE FACTURA EXISTENTE
     eventos.on('factura-get-existent', function (datos) {
@@ -463,7 +463,7 @@
             // CREAR DETALLE A PARTIR DE LA INFORMACIÓN OBTENIDA
             var newDetalle = facturas.crearDetalle(
                 detalle.producto.ProductoID,
-                detalle.producto.CodigoProducto,
+                detalle.producto.CategoriaProductoID + detalle.producto.CodigoProducto,
                 detalle.cantidad,
                 detalle.producto.Descripcion,
                 detalle.precioUnitario.toFixed(2),
