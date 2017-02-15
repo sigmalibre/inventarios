@@ -1,6 +1,7 @@
 <?php
 
 namespace Sigmalibre\TirajeFactura;
+use Sigmalibre\TirajeFactura\DataSource\MySQL\SearchAllTirajes;
 
 /**
  * Modelo para manejo de colecciones de varios tirajes.
@@ -35,5 +36,15 @@ class ColeccionTirajes
         $itemList['userInput'] = $input;
 
         return $itemList;
+    }
+
+    /**
+     * Obtiene todos los tirajes sin filtrar
+     *
+     * @return array
+     */
+    public function getAll()
+    {
+        return (new SearchAllTirajes($this->container))->read([]);
     }
 }

@@ -4,13 +4,16 @@ namespace Sigmalibre\Invoices;
 
 use Psr\Http\Message\ResponseInterface;
 use Sigmalibre\Clients\Clients;
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
+use Sigmalibre\Ingresos\Ingresos;
 use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
 use Sigmalibre\IVA\IVA;
-use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
+use Sigmalibre\UserConfig\ConfigReader;
 use Sigmalibre\TirajeFactura\SiguienteCorrelativo;
 use Sigmalibre\TirajeFactura\TirajeFactura;
+use Sigmalibre\Warehouses\Warehouses;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -27,7 +30,7 @@ class FacturasController
     public function __construct($container)
     {
         $this->container = $container;
-        $this->tirajeID = (new TirajeActualReader())->getIDTiraje('factura');
+        $this->tirajeID = (new ConfigReader())->read('factura');
         $this->tipoFacturaID = 1;
     }
 
@@ -42,7 +45,7 @@ class FacturasController
     public function indexFacturas(Request $request, ResponseInterface $response)
     {
         $input = $request->getQueryParams();
-        $input['tipoFactura'] = $this->tirajeID;
+        $input['tipoFactura'] = $this->tipoFacturaID;
 
         $invoices = new Facturas(new MySQLFacturaRepository($this->container), $this->container);
         $invoiceList = $invoices->getFiltered($input);
@@ -106,14 +109,23 @@ class FacturasController
      *
      * @return \Slim\Http\Response
      */
-    public function indexNew()
+    public function indexNew($request, $response, $arguments)
     {
+        if ($this->container->negotiator->getValue() === 'application/json') {
+            return $this->indexSingle($arguments['id']);
+        }
+
         $tiraje = new TirajeFactura($this->tirajeID, $this->container);
         $correlativo = new SiguienteCorrelativo($tiraje);
         $clientes = new Clients($this->container);
         $empresas = new Empresas($this->container);
-        $empresa = new Empresa((new TirajeActualReader())->getIDTiraje('empresa'), $this->container);
+        $empresa = new Empresa((new ConfigReader())->read('empresa'), $this->container);
         $iva = new IVA();
+        $readOnly = 0;
+
+        if (isset($arguments['id']) === true) {
+            $readOnly = 1;
+        }
 
         return $this->container->view->render(new Response(), 'invoices/nuevafactura.twig', [
             'empresa' => [
@@ -133,6 +145,87 @@ class FacturasController
             'clientes' => $clientes->getAllClients(),
             'contribuyentes' => $empresas->getAll(),
             'iva' => $iva->getPorcentajeIVA(),
+            'readOnly' => $readOnly,
         ]);
+    }
+
+    private function indexSingle($id)
+    {
+        $facturas = new MySQLFacturaRepository($this->container);
+        $almacenes = new Warehouses($this->container);
+
+        $factura = $facturas->findByID($id);
+
+        if ($factura !== false) {
+            return (new Response())->withJson([
+                'factura' => $factura,
+                'almacenes' => $almacenes->readAll(),
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'error',
+            'reason' => 'not found',
+        ], 200);
+    }
+
+    public function delete($request, $response, $arguments)
+    {
+        $id = $arguments['id'];
+
+        $facturas = new MySQLFacturaRepository($this->container);
+
+        $factura = $facturas->findByID($id);
+
+        if ($factura === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'not found',
+            ], 200);
+        }
+
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+
+        $transaction->beginTransaction();
+
+        foreach ($factura->detalles as $detalle) {
+
+            $ingresos = new Ingresos($this->container);
+
+            $isSaved = $ingresos->save([
+                'cantidadIngreso' => $detalle->cantidad,
+                'valorPrecioUnitario' => $detalle->producto->CostoActual,
+                'valorCostoActualTotal' => $detalle->producto->CostoActual,
+                'productoID' => $detalle->producto->ProductoID,
+                'empresaID' => null,
+                'almacenID' => $detalle->almacenID,
+            ], $detalle->producto->ProductoID);
+
+            if ($isSaved === false) {
+                $transaction->rollBack();
+
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'detail-not-deleted',
+                ], 200);
+            }
+        }
+
+        $isDeleted = $facturas->remove($factura);
+        if ($isDeleted === false) {
+            $transaction->rollBack();
+
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'factura-not-deleted',
+            ], 200);
+        }
+
+        $transaction->commit();
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

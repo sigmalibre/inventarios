@@ -27,7 +27,9 @@
                             <div class="form-group">
                                 <label for="cantidadDescontada">Cantidad del descuento</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon">$</span>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-usd"></span>
+                                    </span>
                                     <input type="number" name="cantidadDescontada" value="{{ input.cantidadDescontada }}" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}">
                                 </div>
                             </div>
@@ -37,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="modal-eliminar-recurso" tabindex="-1" role="dialog">
+        <div class="modal modal-eliminar-recurso" id="modal-eliminar-recurso" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -46,7 +48,7 @@
                     </div>
                     <div class="modal-body">
                         <p>Es seguro eliminar el descuento sin efectos secundarios.</p>
-                        <p>Para continuar, elija una de las siguientes opciones:</p>
+                        <p>Si está seguro que desea continuar, elija la siguiente opción:</p>
                         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab">

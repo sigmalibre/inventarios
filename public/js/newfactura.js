@@ -8,6 +8,7 @@
 
     var tipoFactura = $('#tipo-factura').data('tipofactura');
     var porcentajeIVA = Number($('#porcetaje-iva').data('porcentajeiva'));
+    var isReadOnly = $('#read-only').data('readonly');
 
     var formularioFactura = $('#facturaForm');
 
@@ -48,6 +49,10 @@
     var contribuyenteSelect = $('#empresaID');
     var inputCorrelativo = $('#correlativo');
     var tirajeNumCorrelativo = $('#numFacturaCorrelativo');
+    var codigoTiraje = $('#txtCodigoTiraje');
+
+    var btnEliminar = $('#btn-eliminar-factura-perma');
+    var btnActivarModalEliminar = $('#btnMostrarModalEliminar');
 
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
@@ -57,6 +62,14 @@
 
         if (tipoFactura == 2) {
             $('.credito-only').removeClass('hidden');
+        }
+
+        if (isReadOnly == 1) {
+            $('.readonly-hidden').addClass('hidden');
+            $('.readonly-disabled').prop('disabled', true);
+            $('.readonly-show').removeClass('hidden');
+
+            submitMethod.send(window.location.pathname, 'get', null, 'factura-get-existent');
         }
     }());
 
@@ -153,6 +166,58 @@
         });
     });
 
+    eventos.on('factura-existente-failed', function () {
+        eventos.emit('alert-feedback', {
+            context: 'danger',
+            icon: 'remove-sign',
+            message: 'No se obtuvieron los datos para mostrar la factura.'
+        });
+
+        inputCorrelativo.val('');
+        tirajeNumCorrelativo.text('--');
+        codigoTiraje.text('--');
+        clienteSelect.val('');
+        contribuyenteSelect.val('');
+
+        btnActivarModalEliminar.prop('disabled', true);
+    });
+
+    eventos.on('factura-existente-success', function (datos) {
+        inputCorrelativo.val('');
+        tirajeNumCorrelativo.text(datos.correlativo);
+        codigoTiraje.text(datos.codigoTiraje);
+        clienteSelect.val(datos.clienteID);
+        contribuyenteSelect.val(datos.empresaID);
+    });
+
+    eventos.on('factura-existente-finished', function () {
+        $('.factura-eliminar-detalle')
+            .removeClass('trigger-event')
+            .removeClass('text-danger')
+            .addClass('text-faint')
+            .addClass('cursor-disabled');
+    });
+
+    eventos.on('factura-eliminada', function (datos) {
+        if (datos.status == "error") {
+            eventos.emit('alert-feedback', {
+                context: 'danger',
+                icon: 'remove-sign',
+                message: 'No se pudo eliminar la factura.'
+            });
+            return false;
+        }
+        if (datos.status == "success") {
+            eventos.emit('alert-feedback', {
+                context: 'success',
+                icon: 'ok',
+                message: 'Se eliminó la factura exitosamente!'
+            });
+            btnEliminar.prop('disabled', true);
+            btnActivarModalEliminar.prop('disabled', true);
+        }
+    });
+
     formularioFactura.on('submit', function () {
         return false;
     });
@@ -240,6 +305,10 @@
         };
 
         submitMethod.send(window.location.pathname, 'post', message, 'factura-new-saved');
+    });
+
+    btnEliminar.on('click', function () {
+        submitMethod.send(window.location.pathname, 'delete', null, 'factura-eliminada');
     });
 }());
 
@@ -363,6 +432,52 @@
         eventos.emit('factura-saved-error', null);
 
         return false;
+    });
+
+    // MOSTRAR DATOS DE FACTURA EXISTENTE
+    eventos.on('factura-get-existent', function (datos) {
+
+        // CAMBIAR LOS DATOS DE LA FACTURA
+        if (datos.status == "error") {
+            eventos.emit('factura-existente-failed', null);
+            eventos.emit('factura-existente-finished', null);
+            return false;
+        }
+
+        eventos.emit('factura-existente-success', datos.factura);
+
+        datos.factura.detalles.forEach(function (detalle) {
+            var exentas = 0;
+            var afectas = 0;
+
+            if (detalle.producto.ExcentoIVA == 1) {
+                exentas = detalle.precioUnitario * detalle.cantidad;
+            } else {
+                afectas = detalle.precioUnitario * detalle.cantidad;
+            }
+
+            var almacen = datos.almacenes.filter(function (almacen) {
+                return almacen.AlmacenID == detalle.almacenID;
+            })[0];
+
+            // CREAR DETALLE A PARTIR DE LA INFORMACIÓN OBTENIDA
+            var newDetalle = facturas.crearDetalle(
+                detalle.producto.ProductoID,
+                detalle.producto.CategoriaProductoID + detalle.producto.CodigoProducto,
+                detalle.cantidad,
+                detalle.producto.Descripcion,
+                detalle.precioUnitario.toFixed(2),
+                exentas.toFixed(2),
+                afectas.toFixed(2),
+                detalle.almacenID,
+                almacen.NombreAlmacen
+            );
+
+            // AGREGAR DETALLE A LA FACTURA
+            facturas.addDetalle(newDetalle);
+        });
+
+        eventos.emit('factura-existente-finished', null);
     })
 }());
 

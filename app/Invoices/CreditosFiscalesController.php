@@ -2,7 +2,7 @@
 
 namespace Sigmalibre\Invoices;
 
-use Sigmalibre\TirajeFactura\DataSource\JSON\TirajeActualReader;
+use Sigmalibre\UserConfig\ConfigReader;
 
 /**
  * Controlador para operaciones sobre créditos fiscales
@@ -15,7 +15,7 @@ class CreditosFiscalesController extends FacturasController
     {
         parent::__construct($container);
 
-        $this->tirajeID = (new TirajeActualReader())->getIDTiraje('credito');
+        $this->tirajeID = (new ConfigReader())->read('credito');
         $this->tipoFacturaID = 2;
     }
 }

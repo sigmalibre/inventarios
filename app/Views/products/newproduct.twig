@@ -47,7 +47,9 @@
                                     <div class="form-group">
                                         <label for="utilidadProducto">Utilidad Inicial del Producto</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon">$</span>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-usd"></span>
+                                            </span>
                                             <input type="number" name="utilidadProducto" value="{% if productSaved is same as(false) %}{{ input.utilidadProducto ?? 0 }}{% else %}0{% endif %}" class="form-control" id="utilidadProducto" min="0" step="any">
                                         </div>
                                     </div>
@@ -91,7 +93,7 @@
                                     </div>
                                     <div class="checkbox">
                                         <label>
-                                            <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto and productSaved is same as(false) %}checked{% endif %}> Excento IVA?
+                                            <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto and productSaved is same as(false) %}checked{% endif %}> Exento IVA?
                                         </label>
                                     </div>
                                 </div>

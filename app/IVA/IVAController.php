@@ -23,7 +23,7 @@ class IVAController
     /**
      * Obtiene el valor del porcentaje del IVA.
      *
-     * @return string
+     * @return mixed
      */
     public function index()
     {
@@ -40,6 +40,6 @@ class IVAController
     {
         $isSaved = $this->iva->setPorcentajeIVA($request->getParsedBody());
 
-        return $response->withRedirect($this->container->router->pathFor('ajustes', [], ['ivaSaved' => (int)$isSaved]));
+        return $response->withRedirect($this->container->router->pathFor('ajustes', [], ['saved' => (int)$isSaved]));
     }
 }

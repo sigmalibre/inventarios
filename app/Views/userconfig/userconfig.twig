@@ -4,7 +4,25 @@
 
 {% block content %}
     <div class="container-fluid">
+        {# ALERTAS #}
         <div class="row">
+            <div class="col-sm-12">
+                {% if isSaved %}
+                    <div class="alert alert-success">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        Se guardaron los cambios.
+                    </div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger">
+                        <span class="glyphicon glyphicon-remove-sign"></span>
+                        No se guardaron los cambios.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            {# AJUSTAR IVA #}
             <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -18,6 +36,68 @@
                                     <input type="number" id="porcentajeIVA" class="form-control" name="porcentajeIVA" value="{{ porcentajeIVA }}" min="0" step="any">
                                     <span class="input-group-addon">%</span>
                                 </div>
+                            </div>
+                            <button class="btn btn-block btn-info" type="submit"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {# AJUSTAR EMPRESA DUEÑA #}
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Ajustar Empresa Dueña</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('ajustes/empresa') }}" method="post">
+                            <div class="form-group">
+                                <label for="empresaID">Selecciona la empresa dueña de este sistema</label>
+                                <select name="empresaID" id="empresaID" class="form-control">
+                                    {% for empresa in empresas %}
+                                        {% set selected = '' %}
+                                        {% if empresa.EmpresaID == empresaActual %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ empresa.EmpresaID }}" {{ selected }}>{{ empresa.NombreComercial }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button class="btn btn-block btn-info" type="submit"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {# AJUSTAR TIRAJES POR DEFECTO #}
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Ajustar tirajes por defecto para facturas</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('ajustes/tirajes') }}" method="post">
+                            <div class="form-group">
+                                <label for="tirajeFacturaID">Selecciona tiraje para Factura Consumidor Final</label>
+                                <select name="tirajeFacturaID" id="tirajeFacturaID" class="form-control">
+                                    {% for tiraje in tirajes %}
+                                        {% set selected = '' %}
+                                        {% if tiraje.TirajeFacturaID == facturaActual %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ tiraje.TirajeFacturaID }}" {{ selected }}>{{ tiraje.CodigoTiraje }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="tirajeCreditoID">Selecciona tiraje para Comprobante Crédito Fiscal</label>
+                                <select name="tirajeCreditoID" id="tirajeCreditoID" class="form-control">
+                                    {% for tiraje in tirajes %}
+                                        {% set selected = '' %}
+                                        {% if tiraje.TirajeFacturaID == creditoActual %}
+                                            {% set selected = 'selected' %}
+                                        {% endif %}
+                                        <option value="{{ tiraje.TirajeFacturaID }}" {{ selected }}>{{ tiraje.CodigoTiraje }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <button class="btn btn-block btn-info" type="submit"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
                         </form>
