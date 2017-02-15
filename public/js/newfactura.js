@@ -96,7 +96,7 @@
             }
         }
 
-        sumaIva = sumaAfectas * (porcentajeIVA / 100);
+        sumaIva = sumaAfectas - sumaAfectas / (1 + porcentajeIVA / 100);
         sumaSubTotal = sumaAfectas;
         sumaTotal = sumaAfectas + sumaExentas;
 
