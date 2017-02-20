@@ -127,7 +127,7 @@ class FacturasController
             $readOnly = 1;
         }
 
-        return $this->container->view->render(new Response(), 'invoices/nuevafactura.twig', [
+        return $this->container->view->render($response, 'invoices/nuevafactura.twig', [
             'empresa' => [
                 'nombre' => $empresa->getNombre(),
                 'giro' => $empresa->getGiro(),
