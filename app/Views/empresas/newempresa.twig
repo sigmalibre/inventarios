@@ -2,6 +2,11 @@
 
 {% block title  %}Nuevo Contacto Empresa{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('empresas'), 'Empresas') }}
+    {{ bread.crumb_active('Nuevo Contacto Empresa') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">

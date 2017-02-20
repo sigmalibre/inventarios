@@ -2,6 +2,10 @@
 
 {% block title  %}Inicio{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb_active('Inicio') }}
+{% endblock %}
+
 {% block content %}
     <div class="jumbotron text-center">
         <h1>Sistema de Inventarios</h1>

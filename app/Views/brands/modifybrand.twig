@@ -2,6 +2,11 @@
 
 {% block title  %}Modificar Marca{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('brands'), 'Marcas') }}
+    {{ bread.crumb_active('Editar Marca') }}
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">
