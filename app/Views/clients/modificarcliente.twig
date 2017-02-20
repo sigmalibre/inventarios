@@ -2,6 +2,11 @@
 
 {% block title  %}Modificar Cliente{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('clientes/personas'), 'Clientes') }}
+    {{ bread.crumb_active('Editar Cliente') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">

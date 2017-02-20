@@ -2,6 +2,11 @@
 
 {% block title  %}Nuevo Tiraje{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('tirajes'), 'Tirajes') }}
+    {{ bread.crumb_active('Nuevo Tiraje') }}
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">

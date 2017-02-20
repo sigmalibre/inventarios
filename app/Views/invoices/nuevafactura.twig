@@ -2,6 +2,21 @@
 
 {% block title  %}Nueva Factura{% endblock %}
 
+{% block breadcrumb %}
+    {% if tipoFactura == 1 %}
+        {{ bread.crumb(path_for('invoices'), 'Facturas') }}
+    {% else %}
+        {{ bread.crumb(path_for('creditofiscal'), 'Créditos Fiscales') }}
+    {% endif %}
+
+    {% set active_crumb_text = 'Nuevo' %}
+    {% if readOnly == 1 %}
+        {% set active_crumb_text = 'Revisar' %}
+    {% endif %}
+
+    {{ bread.crumb_active(active_crumb_text) }}
+{% endblock %}
+
 {% block content %}
 
     <div id="server-data" class="hidden">

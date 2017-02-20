@@ -2,6 +2,11 @@
 
 {% block title %}Clientes{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('empresas'), 'Empresas') }}
+    {{ bread.crumb_active('Ver Solo Contribuyentes') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">

@@ -30,3 +30,7 @@
 .text-faint {
     color: #CDCDCD;
 }
+
+.navbar {
+    margin-bottom: 0;
+}
