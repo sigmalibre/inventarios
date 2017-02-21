@@ -7,6 +7,11 @@ namespace Sigmalibre\Products\DataSource\MySQL;
  */
 class CountAllFilteredProducts extends FilterAllProducts
 {
-    protected $baseQuery = 'SELECT COUNT(*) AS cuenta FROM VistaProductosCompletos WHERE 1';
+    protected $baseQuery = '
+    SELECT COUNT(*) AS cuenta
+    FROM Productos
+    LEFT JOIN CategoriaProductos USING (CategoriaProductoID)
+    WHERE 1';
+    protected $endQuery = '';
     protected $setLimit = false;
 }
