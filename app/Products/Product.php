@@ -118,6 +118,10 @@ class Product
             $userInput['utilidadProducto'] = 0;
         }
 
+        if (empty($userInput['productoActivo']) === true) {
+            $userInput['productoActivo'] = 0;
+        }
+
         // Validar los inputs del usuario.
         $this->validator->validate($userInput);
 
