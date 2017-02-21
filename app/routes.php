@@ -1,6 +1,8 @@
 <?php
 
 // HOMEPAGE
+use Sigmalibre\Products\ProductsController;
+
 $app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
 
 // PRODUCTOS
@@ -8,6 +10,7 @@ $app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')
 
 $app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct')->setName('products/update');
 $app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update');
+$app->delete('/productos/id/{id}', ProductsController::class . ':delete');
 
 $app->get('/productos/id/{id}/detalles', '\Sigmalibre\Products\ProductsController:getDetalleAlmacenes')->setName('products/detalles');
 $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');

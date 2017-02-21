@@ -252,4 +252,37 @@ class ProductsController
 
         return (new Response())->withJson($existecia, 200);
     }
+
+    /**
+     * Elimina un producto
+     *
+     * @param $request
+     * @param $response
+     * @param $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function delete($request, $response, $arguments)
+    {
+        $product = new Product($arguments['id'], $this->container);
+
+        // Si el producto especificado en la URL no exsiste, devolver un 404.
+        if ($product->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        if ($product->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Failure',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
+    }
 }
