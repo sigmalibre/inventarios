@@ -19,6 +19,7 @@ class FilterAllProducts extends MySQLReader
         Utilidad,
         FechaCreacion,
         FechaModificacion,
+        Productos.Activo as ProductoActivo,
         CodigoLibroDet,
         CodigoBienDet,
         MarcaID,
@@ -67,6 +68,12 @@ class FilterAllProducts extends MySQLReader
             'tableName' => 'Productos',
             'columnName' => 'Descripcion',
             'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'productoActivo',
+            'tableName' => 'Productos',
+            'columnName' => 'Activo',
+            'searchType' => '=',
         ],
     ];
 }
