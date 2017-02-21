@@ -3,6 +3,7 @@
 namespace Sigmalibre\Products;
 
 use Sigmalibre\Categories\CategoryValidator;
+use Sigmalibre\Products\DataSource\MySQL\DeleteProducto;
 use Sigmalibre\Products\DataSource\MySQL\GetProductFromID;
 use Sigmalibre\Products\DataSource\MySQL\UpdateSingleAttributeProduct;
 
@@ -212,5 +213,19 @@ class Product
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
+    }
+
+    /**
+     * Elimina este producto desde la fuente de datos.
+     *
+     * @return bool
+     */
+    public function delete()
+    {
+        $isDeleted = (new DeleteProducto($this->container))->write($this->ProductoID);
+
+        $this->init($this->ProductoID);
+
+        return $isDeleted;
     }
 }
