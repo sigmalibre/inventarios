@@ -24,6 +24,8 @@ class Product
     public $Descripcion;
     public $StockMin;
     public $Utilidad;
+    public $FechaCreacion;
+    public $Activo;
     public $NombreMarca;
     public $UnidadMedida;
     public $CodigoBienDet;
@@ -50,6 +52,11 @@ class Product
             ],
         ]);
 
+        $this->setter();
+    }
+
+    protected function setter()
+    {
         $this->Cantidad = $this->attributes[0]['Cantidad'] ?? null;
         $this->CostoActual = $this->attributes[0]['CostoActual'] ?? null;
         $this->CategoriaProductoID = $this->attributes[0]['CategoriaProductoID'] ?? null;
@@ -57,6 +64,8 @@ class Product
         $this->Descripcion = $this->attributes[0]['Descripcion'] ?? null;
         $this->StockMin = $this->attributes[0]['StockMin'] ?? null;
         $this->Utilidad = $this->attributes[0]['Utilidad'] ?? null;
+        $this->FechaCreacion = $this->attributes[0]['FechaCreacion'] ?? null;
+        $this->Activo = $this->attributes[0]['ProductoActivo'] ?? null;
         $this->NombreMarca = $this->attributes[0]['NombreMarca'] ?? null;
         $this->UnidadMedida = $this->attributes[0]['UnidadMedida'] ?? null;
         $this->CodigoBienDet = $this->attributes[0]['CodigoBienDet'] ?? null;
@@ -107,6 +116,10 @@ class Product
         // El campo de utilidadProducto es opcional, por defecto será 0.
         if (empty($userInput['utilidadProducto']) === true) {
             $userInput['utilidadProducto'] = 0;
+        }
+
+        if (empty($userInput['productoActivo']) === true) {
+            $userInput['productoActivo'] = 0;
         }
 
         // Validar los inputs del usuario.

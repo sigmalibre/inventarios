@@ -151,6 +151,7 @@ class ProductsController
                 'descripcionProducto' => $product->Descripcion,
                 'stockMinProducto' => $product->StockMin,
                 'utilidadProducto' => $product->Utilidad,
+                'productoActivo' => $product->Activo,
                 'valorCostoActualTotal' => $product->CostoActual,
                 'marcaProducto' => $product->NombreMarca,
                 'medidaProducto' => $product->UnidadMedida,

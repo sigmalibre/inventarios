@@ -9,7 +9,6 @@ use Sigmalibre\DataSource\MySQL\MySQLReader;
  */
 class FilterAllProducts extends MySQLReader
 {
-//    protected $baseQuery = 'SELECT ProductoID, CodigoProducto, Descripcion, ExcentoIVA, StockMin, Utilidad, FechaCreacion, FechaModificacion, CodigoLibroDet, CodigoBienDet, MarcaID, NombreMarca, MedidaID, UnidadMedida, CategoriaProductoID, NombreCategoria, Cantidad, CostoActual FROM VistaProductosCompletos WHERE 1';
     protected $baseQuery = '
     SELECT
         ProductoID,
@@ -20,6 +19,7 @@ class FilterAllProducts extends MySQLReader
         Utilidad,
         FechaCreacion,
         FechaModificacion,
+        Productos.Activo as ProductoActivo,
         CodigoLibroDet,
         CodigoBienDet,
         MarcaID,
@@ -42,7 +42,7 @@ class FilterAllProducts extends MySQLReader
         [
             'filterName' => 'claveProducto',
             'tableName' => 'Productos',
-            'columnName' => 'CodigoProducto',
+            'columnName' => 'Codigo',
             'searchType' => 'LIKE',
         ],
         [
@@ -68,6 +68,12 @@ class FilterAllProducts extends MySQLReader
             'tableName' => 'Productos',
             'columnName' => 'Descripcion',
             'searchType' => 'LIKE',
+        ],
+        [
+            'filterName' => 'productoActivo',
+            'tableName' => 'Productos',
+            'columnName' => 'Activo',
+            'searchType' => '=',
         ],
     ];
 }

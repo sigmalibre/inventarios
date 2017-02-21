@@ -45,6 +45,13 @@
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreProducto %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group">
+                                <label for="productoActivo">Estado del Producto</label>
+                                <select name="productoActivo" class="form-control" id="productoActivo">
+                                    <option value="1" {% if input.productoActivo == 1 %}selected{% endif %}>Activos</option>
+                                    <option value="0" {% if input.productoActivo == 0 %}selected{% endif %}>Inactivos</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="productsPerPage">Cantidad por página</label>
                                 <select id="productsPerPage" class="form-control" name="itemsPerPage">
                                     {% set perPageOpts = [10, 25, 50] %}

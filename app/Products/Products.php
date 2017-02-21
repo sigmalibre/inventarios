@@ -33,6 +33,10 @@ class Products
      */
     public function readProductList($userInput)
     {
+        if (isset($userInput['productoActivo']) === false) {
+            $userInput['productoActivo'] = '1';
+        }
+
         $userInput = $this->parseCodigoConCategoria($userInput);
 
         $listReader = new ItemListReader(
