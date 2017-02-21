@@ -12,3 +12,25 @@ $(function () {
         modal.find('.collapse').collapse('hide');
     });
 });
+
+/**
+ * MANDAR ALERTA DE FEEDBACK AL ELIMINAR PERMANENTEMENTE
+ */
+$(function () {
+    eventos.on('eliminar-recurso-perma', function (data) {
+        if (data.error || data.status == 'error') {
+            eventos.emit('alert-feedback', {
+                context: 'danger',
+                icon: 'remove-sign',
+                message: 'El item no pudo ser eliminado.'
+            });
+        }
+        if (data.status == 'success') {
+            eventos.emit('alert-feedback', {
+                context: 'success',
+                icon: 'ok',
+                message: 'El item se eliminó correctamente.'
+            });
+        }
+    });
+});
