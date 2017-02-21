@@ -46,7 +46,7 @@ class Product
         $data_source = new GetProductFromID($this->container);
         $this->attributes = $data_source->read([
             'input' => [
-                'idProducto' => $id,
+                'idProducto' => $id ?? -1,
             ],
         ]);
 
