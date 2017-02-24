@@ -2,6 +2,11 @@
 
 namespace Sigmalibre\Brands;
 
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\Products\Products;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 /**
  * Controlador para las operaciones sobre marcas.
  */
@@ -87,5 +92,55 @@ class BrandsController
         $isBrandUpdated = $brand->update($request->getParsedBody());
 
         return $this->indexBrand($request, $response, $arguments, $isBrandUpdated, $brand->getInvalidInputs());
+    }
+
+    public function delete(Request $request, $response, $arguments)
+    {
+        $marca = new Brand($arguments['id'], $this->container);
+        if ($marca->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+        $transaction->beginTransaction();
+
+        $parameters = $request->getParsedBody();
+        if (empty($parameters['marcaSeleccionadaID']) === false) {
+            $marcaReemplazo = new Brand($parameters['marcaSeleccionadaID'], $this->container);
+
+            if ($marcaReemplazo->is_set() === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Not Found',
+                ], 200);
+            }
+
+            $productos = new Products($this->container);
+            if ($productos->replaceBrand($marca, $marcaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if ($marca->delete() === false) {
+            $transaction->rollBack();
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        $transaction->commit();
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

@@ -1,8 +1,9 @@
 <?php
 
-// HOMEPAGE
+use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Products\ProductsController;
 
+// HOMEPAGE
 $app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
 
 // PRODUCTOS
@@ -82,6 +83,7 @@ $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName
 
 $app->get('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:indexBrand')->setName('brands/update');
 $app->post('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:update');
+$app->delete('/marcas/id/{id}', BrandsController::class . ':delete');
 
 // UNIDADES DE MEDIDA
 $app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexMeasurements')->setName('measurements');
