@@ -21,12 +21,16 @@
                             <div class="panel-body">
                                 <p>Advertencia: Si usted elige esta opción, la marca será eliminada permanentemente.</p>
                                 <p>Se perderá toda información de su existencia en todos los productos que pertenezcan a esta marca.</p>
-                                <p>Los productos asociados a esta marca seguirán existiendo, pero la marca quedará en blanco.</p>
+                                <p>Los productos asociados a esta marca seguirán existiendo, pero la marca se reemplazará por "MARCA ELIMINADA"</p>
                                 <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón:</p>
+                                <form action="#" id="eliminarSoloMarca" class="hidden">
+                                    <input type="hidden" name="eliminarSoloMarca" value="1">
+                                </form>
                                 <button class="btn btn-block btn-danger submit-form-with-method"
                                         data-triggerevent="eliminar-recurso-perma"
                                         data-action="{{ path_for('brands/update', {id: idMarca}) }}"
                                         data-method="delete"
+                                        data-targetform="#eliminarSoloMarca"
                                         data-dismiss="modal">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Eliminar Permanentemente
