@@ -48,6 +48,7 @@ class BrandsController
     public function indexBrand($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         $brand = new Brand($arguments['id'], $this->container);
+        $brands = new Brands($this->container);
 
         // Si la marca especificada en la URL no existe, devolver un 404.
         if ($brand->is_set() === false) {
@@ -58,6 +59,7 @@ class BrandsController
             'idMarca' => $arguments['id'],
             'brandSaved' => $isSaved,
             'failedInputs' => $failedInputs,
+            'brandList' => $brands->readAllBrands(),
             'input' => [
                 'nombreMarca' => $brand->Nombre,
             ],
