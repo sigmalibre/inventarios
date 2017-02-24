@@ -141,14 +141,47 @@ class BrandsController
             }
         }
 
-        if ($marca->delete() === false) {
-            $transaction->rollBack();
-            return (new Response())->withJson([
-                'status' => 'error',
-                'reason' => 'Not Found',
-            ], 200);
-        }
+        if (empty($parameters['eliminarSoloMarca']) === false) {
+            // EN LUGAR DE DEJAR LA MARCA EN BLANCO, PASAR TODOS LOS PRODUCTOS A UNA MARCA LLAMADA
+            // "MARCA ELIMINADA"
 
+            // Si "MARCA ELIMINADA" ya existe, utilizar esa.
+            $marcas = new Brands($this->container);
+            $brandId = $marcas->idFromName('MARCA ELIMINADA');
+
+            // Si la marca no existe, crear una nueva.
+            if ($brandId === false) {
+                $brandId = $marcas->save(['nombreMarca' => 'MARCA ELIMINADA']);
+            }
+
+            // Si no se pudo obtener la marca de cualquier forma.
+            if ($brandId === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+
+            $marcaReemplazo = new Brand($brandId, $this->container);
+
+            if ($productos->replaceBrand($marca, $marcaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+
+            if ($marca->delete() === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Not Found',
+                ], 200);
+            }
+        }
+        
         $transaction->commit();
         return (new Response())->withJson([
             'status' => 'success',
