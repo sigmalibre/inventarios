@@ -2,10 +2,13 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Brands\Brand;
 use Sigmalibre\Brands\Brands;
 use Sigmalibre\Categories\CategoryValidator;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\Products\DataSource\MySQL\DeleteFromBrand;
+use Sigmalibre\Products\DataSource\MySQL\UpdateBrand;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement;
 
 /**
@@ -156,5 +159,23 @@ class Products
         }
 
         return $userInput;
+    }
+
+    public function replaceBrand(Brand $toReplace, Brand $replacement)
+    {
+        if ($toReplace->is_set() !== true && $replacement->is_set() !== true) {
+            return false;
+        }
+
+        return (new UpdateBrand($this->container))->write($toReplace->MarcaID, $replacement->MarcaID);
+    }
+
+    public function deleteFromBrand(Brand $toDelete)
+    {
+        if ($toDelete->is_set() === false) {
+            return false;
+        }
+
+        return (new DeleteFromBrand($this->container))->write($toDelete->MarcaID);
     }
 }

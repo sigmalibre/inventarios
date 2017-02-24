@@ -120,7 +120,7 @@ class ProductValidator extends Validator
     public function validarActivo($input)
     {
         $v = new Optional(new BoolVal());
-        if ($v->validate($input['productoActivo']) === false) {
+        if ($v->validate($input['productoActivo'] ?? null) === false) {
             $this->setInvalidInput('productoActivo');
 
             return false;

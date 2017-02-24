@@ -2,6 +2,11 @@
 
 namespace Sigmalibre\Brands;
 
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\Products\Products;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 /**
  * Controlador para las operaciones sobre marcas.
  */
@@ -48,6 +53,7 @@ class BrandsController
     public function indexBrand($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         $brand = new Brand($arguments['id'], $this->container);
+        $brands = new Brands($this->container);
 
         // Si la marca especificada en la URL no existe, devolver un 404.
         if ($brand->is_set() === false) {
@@ -58,6 +64,7 @@ class BrandsController
             'idMarca' => $arguments['id'],
             'brandSaved' => $isSaved,
             'failedInputs' => $failedInputs,
+            'brandList' => $brands->readAllBrands(),
             'input' => [
                 'nombreMarca' => $brand->Nombre,
             ],
@@ -85,5 +92,66 @@ class BrandsController
         $isBrandUpdated = $brand->update($request->getParsedBody());
 
         return $this->indexBrand($request, $response, $arguments, $isBrandUpdated, $brand->getInvalidInputs());
+    }
+
+    public function delete(Request $request, $response, $arguments)
+    {
+        $marca = new Brand($arguments['id'], $this->container);
+        if ($marca->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+        $transaction->beginTransaction();
+
+        $parameters = $request->getParsedBody();
+        $productos = new Products($this->container);
+
+        if (empty($parameters['marcaSeleccionadaID']) === false) {
+            $marcaReemplazo = new Brand($parameters['marcaSeleccionadaID'], $this->container);
+
+            if ($marcaReemplazo->is_set() === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Not Found',
+                ], 200);
+            }
+            
+            if ($productos->replaceBrand($marca, $marcaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+        
+        if (empty($parameters['eliminarProductos']) === false) {
+            if ($productos->deleteFromBrand($marca) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if ($marca->delete() === false) {
+            $transaction->rollBack();
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        $transaction->commit();
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

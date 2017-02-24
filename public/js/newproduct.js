@@ -16,12 +16,4 @@ $(function () {
     });
 
     setValue();
-
-    eventos.on('eliminar-recurso-perma', function (data) {
-        if (data.status === 'success') {
-            $(':input').prop('disabled', true);
-            $('tr').removeClass('anchorize');
-            $('table').removeClass('table-hover').addClass('text-muted');
-        }
-    });
 });

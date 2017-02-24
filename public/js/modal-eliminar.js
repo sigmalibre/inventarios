@@ -26,6 +26,9 @@ $(function () {
             });
         }
         if (data.status == 'success') {
+            $(':input').prop('disabled', true);
+            $('tr').removeClass('anchorize');
+            $('table').removeClass('table-hover').addClass('text-muted');
             eventos.emit('alert-feedback', {
                 context: 'success',
                 icon: 'ok',

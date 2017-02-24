@@ -2,6 +2,8 @@
 
 namespace Sigmalibre\Brands;
 
+use Sigmalibre\Brands\DataSource\MySQL\DeleteBrand;
+
 class Brand
 {
     private $container;
@@ -102,5 +104,10 @@ class Brand
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
+    }
+
+    public function delete()
+    {
+        return (new DeleteBrand($this->container))->write($this->MarcaID);
     }
 }
