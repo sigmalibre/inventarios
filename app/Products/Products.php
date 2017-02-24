@@ -7,6 +7,7 @@ use Sigmalibre\Brands\Brands;
 use Sigmalibre\Categories\CategoryValidator;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\Products\DataSource\MySQL\DeleteFromBrand;
 use Sigmalibre\Products\DataSource\MySQL\UpdateBrand;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement;
 
@@ -167,5 +168,14 @@ class Products
         }
 
         return (new UpdateBrand($this->container))->write($toReplace->MarcaID, $replacement->MarcaID);
+    }
+
+    public function deleteFromBrand(Brand $toDelete)
+    {
+        if ($toDelete->is_set() === false) {
+            return false;
+        }
+
+        return (new DeleteFromBrand($this->container))->write($toDelete->MarcaID);
     }
 }
