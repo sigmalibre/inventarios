@@ -48,8 +48,14 @@
                                 <p>Se eliminarán también todos los productos asociados a esta marca, lo cual tiene
                                 a su vez sus propios efectos secundarios.</p>
                                 <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón:</p>
-                                <button class="btn btn-block btn-danger trigger-event"
-                                        data-event="eliminar-marca-productos"
+                                <form action="#" id="eliminarConProductos" class="hidden">
+                                    <input type="hidden" name="eliminarProductos" value="1">
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('brands/update', {id: idMarca}) }}"
+                                        data-method="delete"
+                                        data-targetform="#eliminarConProductos"
                                         data-dismiss="modal">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Eliminar Marca y Productos
