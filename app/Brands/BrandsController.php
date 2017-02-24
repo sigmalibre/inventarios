@@ -109,6 +109,8 @@ class BrandsController
         $transaction->beginTransaction();
 
         $parameters = $request->getParsedBody();
+        $productos = new Products($this->container);
+
         if (empty($parameters['marcaSeleccionadaID']) === false) {
             $marcaReemplazo = new Brand($parameters['marcaSeleccionadaID'], $this->container);
 
@@ -119,9 +121,18 @@ class BrandsController
                     'reason' => 'Not Found',
                 ], 200);
             }
-
-            $productos = new Products($this->container);
+            
             if ($productos->replaceBrand($marca, $marcaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+        
+        if (empty($parameters['eliminarProductos']) === false) {
+            if ($productos->deleteFromBrand($marca) === false) {
                 $transaction->rollBack();
                 return (new Response())->withJson([
                     'status' => 'error',
