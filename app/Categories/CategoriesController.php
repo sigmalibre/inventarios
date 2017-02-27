@@ -65,6 +65,7 @@ class CategoriesController
     public function indexCategory($request, $response, $arguments, $categorySaved = null, $failedInputs = null)
     {
         $category = new Category($arguments['id'], $this->container);
+        $categoies = new Categories($this->container);
 
         // Si la categoría especificada en la URL no existe, devolver un 404.
         if ($category->is_set() === false) {
@@ -74,6 +75,7 @@ class CategoriesController
         return $this->container->view->render($response, 'categories/modifycategory.twig', [
             'categorySaved' => $categorySaved,
             'failedInputs' => $failedInputs,
+            'catList' => $categoies->readAllCategories(),
             'input' => [
                 'codigoCategoria' => $category->CategoriaProductoID,
                 'nombreCategoria' => $category->Nombre,
