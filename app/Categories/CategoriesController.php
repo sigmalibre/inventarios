@@ -2,6 +2,11 @@
 
 namespace Sigmalibre\Categories;
 
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\Products\Products;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 /**
  * Controlador para las operaciones sobre las categorías de producto.
  */
@@ -65,6 +70,7 @@ class CategoriesController
     public function indexCategory($request, $response, $arguments, $categorySaved = null, $failedInputs = null)
     {
         $category = new Category($arguments['id'], $this->container);
+        $categoies = new Categories($this->container);
 
         // Si la categoría especificada en la URL no existe, devolver un 404.
         if ($category->is_set() === false) {
@@ -74,6 +80,7 @@ class CategoriesController
         return $this->container->view->render($response, 'categories/modifycategory.twig', [
             'categorySaved' => $categorySaved,
             'failedInputs' => $failedInputs,
+            'catList' => $categoies->readAllCategories(),
             'input' => [
                 'codigoCategoria' => $category->CategoriaProductoID,
                 'nombreCategoria' => $category->Nombre,
@@ -125,5 +132,102 @@ class CategoriesController
         }
 
         return $this->indexCategory($request, $response, $arguments, $isCategoryUpdated, $category->getInvalidInputs());
+    }
+
+    public function delete(Request $request, $response, $arguments)
+    {
+        $categoria = new Category($arguments['id'], $this->container);
+        if ($categoria->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found'
+            ], 200);
+        }
+
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+        $transaction->beginTransaction();
+
+        $parameters = $request->getParsedBody();
+        $productos = new Products($this->container);
+        
+        if (empty($parameters['categoriaSeleccionadaID']) === false) {
+            $categoriaReemplazo = new Category($parameters['categoriaSeleccionadaID'], $this->container);
+
+            if ($categoriaReemplazo->is_set() === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Not Found'
+                ], 200);
+            }
+
+            if ($productos->replaceCategory($categoria, $categoriaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if (empty($parameters['eliminarProductos']) === false) {
+            if ($productos->deleteFromCategory($categoria) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if (empty($parameters['eliminarSoloCategoria']) === false) {
+            // REEMPLAZAR LAS CATEGORÍAS POR "CATEGORIA ELIMINADA"
+
+            $categorias = new Categories($this->container);
+
+            // Si "CATEGORIA ELIMINADA" ya existe, utilizar esa.
+            $idCategoria = $categorias->idFromName('CATEGORIA ELIMINADA');
+
+            // Si la categoría no existe, crear una nueva.
+            if ($idCategoria === false) {
+                $idCategoria = $categorias->save([
+                    'codigoCategoria' => '~~',
+                    'nombreCategoria' => 'CATEGORIA ELIMINADA',
+                ]);
+            }
+
+            // Si no se pudo obtener la categoría de cualquier forma
+            if ($idCategoria === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+
+            $categoriaReemplazo = new Category($idCategoria, $this->container);
+
+            if ($productos->replaceCategory($categoria, $categoriaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if ($categoria->delete() === false) {
+            $transaction->rollBack();
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Error',
+            ], 200);
+        }
+
+        $transaction->commit();
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

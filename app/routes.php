@@ -1,6 +1,7 @@
 <?php
 
 use Sigmalibre\Brands\BrandsController;
+use Sigmalibre\Categories\CategoriesController;
 use Sigmalibre\Products\ProductsController;
 
 // HOMEPAGE
@@ -36,6 +37,7 @@ $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCateg
 
 $app->get('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:indexCategory')->setName('categories/update');
 $app->post('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:update');
+$app->delete('/categorias/id/{id}', CategoriesController::class . ':delete');
 
 $app->get('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:indexNewCategory')->setName('categories/createform');
 $app->post('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:createNew');

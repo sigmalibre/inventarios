@@ -1,0 +1,113 @@
+<div class="modal modal-eliminar-recurso" id="modal-eliminar-recurso" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Opciones de Eliminación</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Advertencia: No se puede eliminar esta categoría de forma segura.</p>
+                <p>Para saber más sobre posibles efectos secundarios, elija una de las siguientes opciones:</p>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default {% if input.nombreCategoria == 'CATEGORIA ELIMINADA' %}hidden{% endif %}">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-perma" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-perma">
+                                    Eliminar Categoría Permanentemente
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-perma" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <p>Advertencia: Si usted elige esta opción, la categoría será eliminada permanentemente.</p>
+                                <p>Se perderá toda información de su existencia en todos los productos que pertenezcan a esta categoría.</p>
+                                <p>Los productos asociados a esta categoría seguirán existiendo, pero la categoría se reemplazará por "CATEGORÍA ELIMINADA"</p>
+                                <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón:</p>
+                                <form action="#" id="eliminarSoloCategoria" class="hidden">
+                                    <input type="hidden" name="eliminarSoloCategoria" value="1">
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('categories/update', {id: input.codigoCategoria}) }}"
+                                        data-method="delete"
+                                        data-targetform="#eliminarSoloCategoria"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Permanentemente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-con-productos" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-con-productos">
+                                    Eliminar Categoría Y Productos Permanentemente
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-con-productos" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <p>Advertencia: Si usted elige esta opción, la categoría será eliminada permanentemente.</p>
+                                <p>Se eliminarán también todos los productos asociados a esta categoría, lo cual tiene
+                                    a su vez sus propios efectos secundarios.</p>
+                                <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón:</p>
+                                <form action="#" id="eliminarConProductos" class="hidden">
+                                    <input type="hidden" name="eliminarProductos" value="1">
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('categories/update', {id: input.codigoCategoria}) }}"
+                                        data-method="delete"
+                                        data-targetform="#eliminarConProductos"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Categoría y Productos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-mover-productos" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-mover-productos">
+                                    Eliminar Categoría Permanentemente Y Mover Productos a Otra
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-mover-productos" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <p>Advertencia: Si usted elige esta opción, la categoría será eliminada permanentemente.</p>
+                                <p>Todos los productos asociados a esta categoría serán movidos a otra distinta.</p>
+                                <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón
+                                    para seleccionar la categoría hacia donde se hará el traslado:</p>
+                                <form action="#" id="form-seleccionar-cat-reemplazo">
+                                    <div class="form-group">
+                                        <label for="selectCategoriaSeleccionada">Seleccionar Categoría</label>
+                                        <select id="selectCategoriaSeleccionada" name="categoriaSeleccionadaID" class="form-control">
+                                            {% for categoria in catList if categoria.CategoriaProductoID != input.codigoCategoria and categoria.Nombre != 'CATEGORIA ELIMINADA' %}
+                                                <option value="{{ categoria.CategoriaProductoID}}">{{ categoria.Nombre }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('categories/update', {id: input.codigoCategoria}) }}"
+                                        data-method="delete"
+                                        data-targetform="#form-seleccionar-cat-reemplazo"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Categoría y Mover Productos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
