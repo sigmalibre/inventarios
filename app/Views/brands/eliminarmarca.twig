@@ -85,7 +85,7 @@
                                     <div class="form-group">
                                         <label for="selectMarcaSeleccionada">Seleccionar Marca</label>
                                         <select id="selectMarcaSeleccionada" name="marcaSeleccionadaID" class="form-control">
-                                            {% for marca in brandList if marca.MarcaID != idMarca %}
+                                            {% for marca in brandList if marca.MarcaID != idMarca and marca.Nombre != 'MARCA ELIMINADA' %}
                                                 <option value="{{ marca.MarcaID }}">{{ marca.Nombre }}</option>
                                             {% endfor %}
                                         </select>
