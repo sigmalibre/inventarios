@@ -18,7 +18,13 @@
             <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar la categoría.</div>
             {% endif %}
             <div class="panel panel-primary">
-                <div class="panel-heading">Modifica esta categoría</div>
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Modifica esta categoría</h3>
+                    <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Eliminar
+                    </button>
+                </div>
                 <div class="panel-body">
                     <form action="{{ path_for('categories/update', {id: input.codigoCategoria}) }}" method="post">
                         <div class="form-group has-feedback has-clear">
