@@ -9,7 +9,7 @@
                 <p class="text-danger">Advertencia: No se puede eliminar esta marca de forma segura.</p>
                 <p>Para saber más sobre posibles efectos secundarios, elija una de las siguientes opciones:</p>
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
+                    <div class="panel panel-default {% if input.nombreMarca == 'MARCA ELIMINADA' %}hidden{% endif %}">
                         <div class="panel-heading" role="tab">
                             <h4 class="panel-title">
                                 <a href="#collapse-eliminar-perma" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-perma">
@@ -85,7 +85,7 @@
                                     <div class="form-group">
                                         <label for="selectMarcaSeleccionada">Seleccionar Marca</label>
                                         <select id="selectMarcaSeleccionada" name="marcaSeleccionadaID" class="form-control">
-                                            {% for marca in brandList if marca.MarcaID != idMarca %}
+                                            {% for marca in brandList if marca.MarcaID != idMarca and marca.Nombre != 'MARCA ELIMINADA' %}
                                                 <option value="{{ marca.MarcaID }}">{{ marca.Nombre }}</option>
                                             {% endfor %}
                                         </select>
