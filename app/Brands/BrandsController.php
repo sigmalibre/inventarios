@@ -172,14 +172,14 @@ class BrandsController
                     'reason' => 'Internal Error',
                 ], 200);
             }
+        }
 
-            if ($marca->delete() === false) {
-                $transaction->rollBack();
-                return (new Response())->withJson([
-                    'status' => 'error',
-                    'reason' => 'Not Found',
-                ], 200);
-            }
+        if ($marca->delete() === false) {
+            $transaction->rollBack();
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Error',
+            ], 200);
         }
         
         $transaction->commit();
