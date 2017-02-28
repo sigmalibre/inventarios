@@ -13,6 +13,7 @@ use Sigmalibre\Products\DataSource\MySQL\DeleteFromCategory;
 use Sigmalibre\Products\DataSource\MySQL\DeleteFromMedida;
 use Sigmalibre\Products\DataSource\MySQL\UpdateBrand;
 use Sigmalibre\Products\DataSource\MySQL\UpdateCategory;
+use Sigmalibre\Products\DataSource\MySQL\UpdateMedida;
 use Sigmalibre\UnitsOfMeasurement\Unit;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement;
 
@@ -200,6 +201,15 @@ class Products
         }
 
         return (new DeleteFromCategory($this->container))->write($toDelete->CategoriaProductoID);
+    }
+
+    public function replaceMedida(Unit $toReplace, Unit $replacement)
+    {
+        if ($toReplace->is_set() !== true && $replacement->is_set() !== true) {
+            return false;
+        }
+
+        return (new UpdateMedida($this->container))->write($toReplace->MedidaID, $replacement->MedidaID);
     }
 
     public function deleteFromMedida(Unit $toDelete)
