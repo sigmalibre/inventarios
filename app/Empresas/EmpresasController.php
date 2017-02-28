@@ -127,4 +127,27 @@ class EmpresasController
 
         return $this->indexEmpresa($request, $response, $arguments, $isSaved, $empresa->getInvalidInputs());
     }
+
+    public function delete(Request $request, ResponseInterface $response, $arguments)
+    {
+        $empresa = new Empresa($arguments['id'], $this->container);
+
+        if ($empresa->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        if ($empresa->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Error',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
+    }
 }

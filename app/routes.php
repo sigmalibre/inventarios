@@ -2,6 +2,7 @@
 
 use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Categories\CategoriesController;
+use Sigmalibre\Empresas\EmpresasController;
 use Sigmalibre\Products\ProductsController;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
 
@@ -121,3 +122,4 @@ $app->post('/contactos/empresas/nuevo', '\Sigmalibre\Empresas\EmpresasController
 
 $app->get('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:indexEmpresa')->setName('empresa');
 $app->post('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:update');
+$app->delete('/contactos/empresas/id/{id}', EmpresasController::class . ':delete');
