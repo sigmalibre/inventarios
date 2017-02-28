@@ -3,6 +3,7 @@
 use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Categories\CategoriesController;
 use Sigmalibre\Products\ProductsController;
+use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
 
 // HOMEPAGE
 $app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
@@ -92,6 +93,7 @@ $app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementControll
 
 $app->get('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexUnit')->setName('measurements/update');
 $app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:update');
+$app->delete('/medidas/id/{id}', UnitsOfMeasurementController::class . ':delete');
 
 // TIRAJE FACTURAS
 $app->get('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:indexListaTirajes')->setName('tirajes');
