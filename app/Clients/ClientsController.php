@@ -150,4 +150,26 @@ class ClientsController
 
         return $this->indexCliente($request, $response, $arguments, $isSaved, $cliente->getInvalidInputs());
     }
+
+    public function delete(Request $request, ResponseInterface $response, $arguments)
+    {
+        $cliente = new Cliente($arguments['id'], $this->container);
+        if ($cliente->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ]);
+        }
+
+        if ($cliente->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Error',
+            ]);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ]);
+    }
 }
