@@ -106,13 +106,13 @@ class Cliente
             ],
         ]);
 
-        $this->id = $id;
-        $this->nombres = $this->attributes[0]['Nombres'];
-        $this->apellidos = $this->attributes[0]['Apellidos'];
-        $this->dui = $this->attributes[0]['DUI'];
-        $this->nit = $this->attributes[0]['NIT'];
-        $this->direccion = $this->attributes[0]['Direccion'];
-        $this->telefono = $this->attributes[0]['Telefono'];
+        $this->id = $id ?? null;
+        $this->nombres = $this->attributes[0]['Nombres'] ?? null;
+        $this->apellidos = $this->attributes[0]['Apellidos'] ?? null;
+        $this->dui = $this->attributes[0]['DUI'] ?? null;
+        $this->nit = $this->attributes[0]['NIT'] ?? null;
+        $this->direccion = $this->attributes[0]['Direccion'] ?? null;
+        $this->telefono = $this->attributes[0]['Telefono'] ?? null;
     }
 
     public function __construct($id, $container)
