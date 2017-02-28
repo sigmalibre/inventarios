@@ -39,8 +39,15 @@
     {% include 'templates/navbar.twig' %}
     {% include 'templates/alert.twig' %}
 
+    {% import 'templates/breadcrumbs.twig' as bread %}
+
     {# ALERTS GO HERE #}
     <div class="container-fluid">
+        <div class="row">
+            <ol class="breadcrumb">
+                {% block breadcrumb %}{% endblock %}
+            </ol>
+        </div>
         <div class="row">
             <div class="col-sm-12">
                 <div id="alert-group"></div>

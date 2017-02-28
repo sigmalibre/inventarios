@@ -50,24 +50,25 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadInterface
     protected function setFilters($input)
     {
         foreach ($this->filterFields as $filter) {
-            if (empty($input[$filter['filterName']]) === false) {
+            $valorInput = $input[$filter['filterName']] ?? false;
+            if (empty($valorInput) === false || $valorInput === '0') {
 
                 // Si el filtro es de tipo LIKE. Ej: SELECT * FROM tabla WHERE columna LIKE 'termino de búsqueda%'
                 if ($filter['searchType'] === 'LIKE') {
                     $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} LIKE :{$filter['filterName']}";
-                    $this->params[$filter['filterName']] = $input[$filter['filterName']].'%';
+                    $this->params[$filter['filterName']] = $valorInput .'%';
                 }
 
                 // Si el filtro es de tipo FULL TEXT. Ej: SELECT * FROM tabla WHERE MATCH(columna) AGAINST('termino de búsqueda')
                 if ($filter['searchType'] === 'MATCH') {
                     $this->filters[] = "MATCH({$filter['tableName']}.{$filter['columnName']}) AGAINST(:{$filter['filterName']})";
-                    $this->params[$filter['filterName']] = $input[$filter['filterName']];
+                    $this->params[$filter['filterName']] = $valorInput;
                 }
 
                 // Si el filtro es de tipo igualdad. Ej: SELECT * FROM tabla WHERE columna = 'termino de búsqueda'
                 if ($filter['searchType'] === '=') {
                     $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} = :{$filter['filterName']}";
-                    $this->params[$filter['filterName']] = $input[$filter['filterName']];
+                    $this->params[$filter['filterName']] = $valorInput;
                 }
             }
         }

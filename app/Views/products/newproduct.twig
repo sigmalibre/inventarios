@@ -2,6 +2,11 @@
 
 {% block title  %}Nuevo Producto{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('products'), 'Productos') }}
+    {{ bread.crumb(path_for('products/createform'), 'Nuevo Producto') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -105,5 +110,5 @@
             </div>
         </div>
     </div>
-    <script src="/js/new-product-set-cat-code.js" defer></script>
+    <script src="/js/newproduct.js" defer></script>
 {% endblock %}

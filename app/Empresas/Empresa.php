@@ -14,6 +14,7 @@ use Sigmalibre\DatosGenerales\Telefono;
 use Sigmalibre\DatosGenerales\ValidadorDireccion;
 use Sigmalibre\DatosGenerales\ValidadorEmails;
 use Sigmalibre\DatosGenerales\ValidadorTelefono;
+use Sigmalibre\Empresas\DataSource\DeleteEmpresa;
 use Sigmalibre\Empresas\DataSource\GetEmpresaFromID;
 use Sigmalibre\Empresas\DataSource\UpdateEmpresa;
 
@@ -122,15 +123,15 @@ class Empresa
             return false;
         }
 
-        $this->id = $attributes[0]['EmpresaID'];
-        $this->nombre = $attributes[0]['NombreComercial'];
-        $this->razonSocial = $attributes[0]['RazonSocial'];
-        $this->giro = $attributes[0]['Giro'];
-        $this->registro = $attributes[0]['Registro'];
-        $this->nit = $attributes[0]['NIT'];
-        $this->direccion = $attributes[0]['Direccion'];
-        $this->telefono = $attributes[0]['Telefono'];
-        $this->email = $attributes[0]['Email'];
+        $this->id = $attributes[0]['EmpresaID'] ?? null;
+        $this->nombre = $attributes[0]['NombreComercial'] ?? null;
+        $this->razonSocial = $attributes[0]['RazonSocial'] ?? null;
+        $this->giro = $attributes[0]['Giro'] ?? null;
+        $this->registro = $attributes[0]['Registro'] ?? null;
+        $this->nit = $attributes[0]['NIT'] ?? null;
+        $this->direccion = $attributes[0]['Direccion'] ?? null;
+        $this->telefono = $attributes[0]['Telefono'] ?? null;
+        $this->email = $attributes[0]['Email'] ?? null;
 
         return $this->is_set();
     }
@@ -306,5 +307,10 @@ class Empresa
         $this->email = $email;
 
         return true;
+    }
+
+    public function delete()
+    {
+        return (new DeleteEmpresa($this->container))->write($this->id);
     }
 }

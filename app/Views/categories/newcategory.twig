@@ -2,6 +2,11 @@
 
 {% block title  %}Nueva Categoría{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('categories'), 'Categorías') }}
+    {{ bread.crumb(path_for('categories/createform'), 'Nueva Categoría') }}
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">

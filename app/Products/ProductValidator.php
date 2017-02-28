@@ -30,6 +30,7 @@ class ProductValidator extends Validator
         $this->validarCodigo($input);
         $this->validarDescripcion($input);
         $this->validarExcentoIva($input);
+        $this->validarActivo($input);
         $this->validarStockMin($input);
         $this->validarUtilidad($input);
         $this->validarReferenciaLibroDet($input);
@@ -102,6 +103,25 @@ class ProductValidator extends Validator
 
         if ($v->validate($input['excentoIvaProducto']) === false) {
             $this->setInvalidInput('excentoIvaProducto');
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * El valor de activo o inactivo de un producto debe ser un valor booleano.
+     *
+     * @param $input
+     *
+     * @return bool
+     */
+    public function validarActivo($input)
+    {
+        $v = new Optional(new BoolVal());
+        if ($v->validate($input['productoActivo'] ?? null) === false) {
+            $this->setInvalidInput('productoActivo');
 
             return false;
         }

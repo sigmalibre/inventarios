@@ -2,6 +2,12 @@
 
 {% block title  %}Modificar Descuento{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('products'), 'Productos') }}
+    {{ bread.crumb(path_for('products/update', {id: productoID}), 'Editar Producto') }}
+    {{ bread.crumb(path_for('products/descuentos/modify', {'productoID': productoID, 'descuentoID': descuentoID}), 'Editar Descuento') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">

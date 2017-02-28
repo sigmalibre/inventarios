@@ -2,6 +2,11 @@
 
 {% block title  %}Nuevo Cliente{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('clientes/personas'), 'Clientes') }}
+    {{ bread.crumb(path_for('clientes/createform'), 'Nuevo Contacto Cliente') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">

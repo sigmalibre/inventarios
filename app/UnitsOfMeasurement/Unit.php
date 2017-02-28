@@ -1,6 +1,7 @@
 <?php
 
 namespace Sigmalibre\UnitsOfMeasurement;
+use Sigmalibre\UnitsOfMeasurement\DataSource\MySQL\DeleteUnit;
 
 /**
  * Modelo para las operaciones sobre las unidades de medida individuales.
@@ -105,5 +106,10 @@ class Unit
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
+    }
+
+    public function delete()
+    {
+        return (new DeleteUnit($this->container))->write($this->MedidaID);
     }
 }

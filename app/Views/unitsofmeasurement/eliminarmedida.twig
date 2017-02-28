@@ -1,0 +1,113 @@
+<div class="modal modal-eliminar-recurso" id="modal-eliminar-recurso" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Opciones de Eliminación</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Advertencia: No se puede eliminar esta medida de forma segura.</p>
+                <p>Para saber más sobre posibles efectos secundarios, elija una de las siguientes opciones:</p>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default {% if input.unidadMedida == 'MEDIDA ELIMINADA' %}hidden{% endif %}">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-perma" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-perma">
+                                    Eliminar Medida Permanentemente
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-perma" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <p>Advertencia: Si usted elige esta opción, la medida será eliminada permanentemente.</p>
+                                <p>Se perderá toda información de su existencia en todos los productos que pertenezcan a esta medida.</p>
+                                <p>Los productos asociados a esta medida seguirán existiendo, pero la medida se reemplazará por "MEDIDA ELIMINADA"</p>
+                                <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón:</p>
+                                <form action="#" id="eliminarSoloMedida" class="hidden">
+                                    <input type="hidden" name="eliminarSoloMedida" value="1">
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('measurements/update', {id: idMedida}) }}"
+                                        data-method="delete"
+                                        data-targetform="#eliminarSoloMedida"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Permanentemente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-con-productos" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-con-productos">
+                                    Eliminar Medida Y Productos Permanentemente
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-con-productos" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <p>Advertencia: Si usted elige esta opción, la medida será eliminada permanentemente.</p>
+                                <p>Se eliminarán también todos los productos asociados a esta medida, lo cual tiene
+                                a su vez sus propios efectos secundarios.</p>
+                                <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón:</p>
+                                <form action="#" id="eliminarConProductos" class="hidden">
+                                    <input type="hidden" name="eliminarProductos" value="1">
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('measurements/update', {id: idMedida}) }}"
+                                        data-method="delete"
+                                        data-targetform="#eliminarConProductos"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Medida y Productos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-mover-productos" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-mover-productos">
+                                    Eliminar Medida Permanentemente Y Mover Productos a Otra
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-mover-productos" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <p>Advertencia: Si usted elige esta opción, la medida será eliminada permanentemente.</p>
+                                <p>Todos los productos asociados a esta medida serán movidos a otra distinta.</p>
+                                <p>Esta acción es irreversible, si está seguro que desea continuar, presione el siguiente botón
+                                    para seleccionar la medida hacia donde se hará el traslado:</p>
+                                <form action="#" id="form-seleccionar-medida-reemplazo">
+                                    <div class="form-group">
+                                        <label for="selectMedidaSeleccionada">Seleccionar Medida</label>
+                                        <select id="selectMedidaSeleccionada" name="medidaSeleccionadaID" class="form-control">
+                                            {% for medida in unitList if medida.MedidaID != idMedida and medida.UnidadMedida != 'MEDIDA ELIMINADA' %}
+                                                <option value="{{ medida.MedidaID }}">{{ medida.UnidadMedida }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </form>
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('measurements/update', {id: idMedida}) }}"
+                                        data-method="delete"
+                                        data-targetform="#form-seleccionar-medida-reemplazo"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Medida y Mover Productos
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

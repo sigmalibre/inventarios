@@ -2,6 +2,11 @@
 
 {% block title %}Clientes{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('empresas'), 'Empresas') }}
+    {{ bread.crumb(path_for('clientes/empresas'), 'Ver Solo Contribuyentes') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -50,7 +55,7 @@
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-hover">
                             {% if not clients %}
                                 <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endif %}
@@ -65,7 +70,7 @@
                             </thead>
                             <tbody>
                             {% for client in clients %}
-                                <tr>
+                                <tr class="anchorize" data-href="{{ path_for('empresa', {id: client.EmpresaID}) }}">
                                     <td>{{ client.NombreComercial }}</td>
                                     <td>{{ client.Registro }}</td>
                                     <td>{{ client.NIT }}</td>

@@ -2,6 +2,11 @@
 
 {% block title  %}Modificar Contacto{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('empresas'), 'Empresas') }}
+    {{ bread.crumb(path_for('empresa', {id: empresaID}), 'Editar Empresa') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -13,7 +18,13 @@
                     <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar la empresa.</div>
                 {% endif %}
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Modifica los datos de contacto de esta empresa</div>
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title pull-left">Modifica los datos de contacto de esta empresa</h3>
+                        <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Eliminar
+                        </button>
+                    </div>
                     <div class="panel-body">
                         <form action="{{ path_for('empresa', {id: empresaID}) }}" method="post">
                             <div class="row">
@@ -69,4 +80,6 @@
             </div>
         </div>
     </div>
+
+    {% include 'empresas/eliminarempresa.twig' %}
 {% endblock %}

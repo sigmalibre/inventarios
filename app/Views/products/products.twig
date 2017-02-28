@@ -2,6 +2,10 @@
 
 {% block title  %}Productos{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('products'), 'Productos') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -39,6 +43,13 @@
                                 <label for="nombreProducto">Nombre</label>
                                 <input id="nombreProducto" class="form-control" type="text" name="nombreProducto" placeholder="Nombre del producto" value="{{ input.nombreProducto }}">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreProducto %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="productoActivo">Estado del Producto</label>
+                                <select name="productoActivo" class="form-control" id="productoActivo">
+                                    <option value="1" {% if input.productoActivo == 1 %}selected{% endif %}>Activos</option>
+                                    <option value="0" {% if input.productoActivo == 0 %}selected{% endif %}>Inactivos</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="productsPerPage">Cantidad por página</label>

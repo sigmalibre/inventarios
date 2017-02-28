@@ -1,0 +1,3 @@
+{% macro crumb(href, name) %}
+    <li><a href="{{ href|default('#') }}">{{ name|default('Not Found') }}</a></li>
+{% endmacro %}

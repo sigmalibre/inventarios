@@ -2,6 +2,10 @@
 
 {% block title %}Clientes{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('clientes/personas'), 'Clientes') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">

@@ -1,5 +1,12 @@
 <?php
 
+use Sigmalibre\Brands\BrandsController;
+use Sigmalibre\Categories\CategoriesController;
+use Sigmalibre\Clients\ClientsController;
+use Sigmalibre\Empresas\EmpresasController;
+use Sigmalibre\Products\ProductsController;
+use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
+
 // HOMEPAGE
 $app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
 
@@ -8,6 +15,7 @@ $app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')
 
 $app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct')->setName('products/update');
 $app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update');
+$app->delete('/productos/id/{id}', ProductsController::class . ':delete');
 
 $app->get('/productos/id/{id}/detalles', '\Sigmalibre\Products\ProductsController:getDetalleAlmacenes')->setName('products/detalles');
 $app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
@@ -32,6 +40,7 @@ $app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCateg
 
 $app->get('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:indexCategory')->setName('categories/update');
 $app->post('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:update');
+$app->delete('/categorias/id/{id}', CategoriesController::class . ':delete');
 
 $app->get('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:indexNewCategory')->setName('categories/createform');
 $app->post('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:createNew');
@@ -71,6 +80,7 @@ $app->post('/contactos/clientes/personas/nuevo', '\Sigmalibre\Clients\ClientsCon
 
 $app->get('/contactos/clientes/personas/id/{id}', '\Sigmalibre\Clients\ClientsController:indexCliente')->setName('clientes/update');
 $app->post('/contactos/clientes/personas/id/{id}', '\Sigmalibre\Clients\ClientsController:update');
+$app->delete('/contactos/clientes/personas/id/{id}', ClientsController::class . ':delete');
 
 $app->get('/contactos/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexCompanies')->setName('clientes/empresas');
 
@@ -79,12 +89,14 @@ $app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName
 
 $app->get('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:indexBrand')->setName('brands/update');
 $app->post('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:update');
+$app->delete('/marcas/id/{id}', BrandsController::class . ':delete');
 
 // UNIDADES DE MEDIDA
 $app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexMeasurements')->setName('measurements');
 
 $app->get('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexUnit')->setName('measurements/update');
 $app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:update');
+$app->delete('/medidas/id/{id}', UnitsOfMeasurementController::class . ':delete');
 
 // TIRAJE FACTURAS
 $app->get('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:indexListaTirajes')->setName('tirajes');
@@ -112,3 +124,4 @@ $app->post('/contactos/empresas/nuevo', '\Sigmalibre\Empresas\EmpresasController
 
 $app->get('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:indexEmpresa')->setName('empresa');
 $app->post('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:update');
+$app->delete('/contactos/empresas/id/{id}', EmpresasController::class . ':delete');

@@ -2,6 +2,10 @@
 
 {% block title  %}Ajustes{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('ajustes'), 'Configuración del Sistema') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         {# ALERTAS #}

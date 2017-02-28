@@ -3,8 +3,10 @@
 namespace Sigmalibre\Products;
 
 use Psr\Http\Message\ResponseInterface;
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
 use Sigmalibre\Empresas\Empresas;
 use Sigmalibre\IVA\IVA;
+use Sigmalibre\Products\DataSource\MySQL\DeleteDescuento;
 use Sigmalibre\Products\DataSource\MySQL\FilterDescuentos;
 use Sigmalibre\Warehouses\WarehouseDetail;
 use Sigmalibre\Warehouses\Warehouses;
@@ -151,6 +153,7 @@ class ProductsController
                 'descripcionProducto' => $product->Descripcion,
                 'stockMinProducto' => $product->StockMin,
                 'utilidadProducto' => $product->Utilidad,
+                'productoActivo' => $product->Activo,
                 'valorCostoActualTotal' => $product->CostoActual,
                 'marcaProducto' => $product->NombreMarca,
                 'medidaProducto' => $product->UnidadMedida,
@@ -198,9 +201,38 @@ class ProductsController
             return $this->container['notFoundHandler']($request, $response);
         }
 
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+        $transaction->beginTransaction();
+
         $isProductUpdated = $product->update($request->getParsedBody(), $brands, $unitsOfMeasurement);
 
-        return $this->indexProduct($request, $response, $arguments, $isProductUpdated, $product->getInvalidInputs());
+        if ($isProductUpdated === false) {
+            $transaction->rollBack();
+
+            return $this->indexProduct($request, $response, $arguments, false, $product->getInvalidInputs());
+        }
+
+        $descuentos = new Descuentos($product, new FilterDescuentos($this->container), new ValidadorDescuentos());
+        $listaDescuentos = $descuentos->getDescuentos();
+
+        $utilidadProducto = $request->getParsedBody()['utilidadProducto'];
+
+        // ELIMINAR TODOS LOS DESCUENTOS QUE SEAN MAYOR A LA UTILIDAD.
+        foreach ($listaDescuentos as $descuento) {
+            if ($utilidadProducto - $descuento['CantidadDescontada'] < 0) {
+                $isDeleted = $descuentos->eliminar($descuento['DescuentoID'], new DeleteDescuento($this->container));
+                if ($isDeleted === false) {
+                    $transaction->rollBack();
+
+                    return $this->indexProduct($request, $response, $arguments, false, ['descuentoNoEliminado' => true]);
+                }
+            }
+
+        }
+
+        $transaction->commit();
+        return $this->indexProduct($request, $response, $arguments, true, $product->getInvalidInputs());
     }
 
     /**
@@ -251,5 +283,38 @@ class ProductsController
         });
 
         return (new Response())->withJson($existecia, 200);
+    }
+
+    /**
+     * Elimina un producto
+     *
+     * @param $request
+     * @param $response
+     * @param $arguments
+     *
+     * @return \Slim\Http\Response
+     */
+    public function delete($request, $response, $arguments)
+    {
+        $product = new Product($arguments['id'], $this->container);
+
+        // Si el producto especificado en la URL no exsiste, devolver un 404.
+        if ($product->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        if ($product->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Failure',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

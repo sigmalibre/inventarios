@@ -2,6 +2,11 @@
 
 {% block title  %}Modificar Marca{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('brands'), 'Marcas') }}
+    {{ bread.crumb(path_for('brands/update', {id: idMarca}), 'Editar Marca') }}
+{% endblock %}
+
 {% block content %}
 <div class="container-fluid">
     <div class="row">
@@ -13,7 +18,13 @@
             <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar la marca.</div>
             {% endif %}
             <div class="panel panel-primary">
-                <div class="panel-heading">Modifica esta marca de producto</div>
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Modifica esta marca de producto</h3>
+                    <button class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Eliminar
+                    </button>
+                </div>
                 <div class="panel-body">
                     <form action="{{ path_for('brands/update', {id: idMarca}) }}" method="post">
                         <div class="form-group has-feedback has-clear">
@@ -28,4 +39,7 @@
         </div>
     </div>
 </div>
+{% include 'brands/eliminarmarca.twig' %}
+
+<script src="/js/delete-marca.js" defer></script>
 {% endblock %}

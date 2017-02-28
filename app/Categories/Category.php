@@ -2,6 +2,8 @@
 
 namespace Sigmalibre\Categories;
 
+use Sigmalibre\Categories\DataSource\MySQL\DeleteCategory;
+
 /**
  * Modelo para operaciones sobre las categorías individuales.
  */
@@ -108,5 +110,10 @@ class Category
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
+    }
+
+    public function delete()
+    {
+        return (new DeleteCategory($this->container))->write($this->CategoriaProductoID);
     }
 }

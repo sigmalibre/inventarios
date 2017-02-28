@@ -2,6 +2,11 @@
 
 {% block title  %}Modificar Producto{% endblock %}
 
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('products'), 'Productos') }}
+    {{ bread.crumb(path_for('products/update', {id: productID}), 'Editar Producto') }}
+{% endblock %}
+
 {% block content %}
     <div class="container-fluid">
         <div class="row">
@@ -13,7 +18,13 @@
                 <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el producto.</div>
                 {% endif %}
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Modifica un producto</div>
+                    <div class="panel-heading clearfix">
+                        <h2 class="panel-title pull-left">Modifica un producto</h2>
+                        <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Eliminar
+                        </button>
+                    </div>
                     <div class="panel-body">
                         <form action="{{ path_for('products/update', {id: productID}) }}" method="post">
                             <div class="row">
@@ -86,6 +97,11 @@
                                             <option value="{{ reference.CodigoLibroDet }}" {% if input.referenciaLibroDetProducto == reference.CodigoLibroDet %}selected{% endif %}>{{ reference.Descripcion }}</option>
                                             {% endfor %}
                                         </select>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="productoActivo" value="1" {% if input.productoActivo  %}checked{% endif %}> Producto Activo
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +191,11 @@
             </div>
         </div>
     </div>
-    <script src="/js/new-product-set-cat-code.js" defer></script>
+
+    {# MODAL ELIMINAR PRODUCTO #}
+    {% include 'products/eliminarproducto.twig' %}
+
+    <script src="/js/newproduct.js" defer></script>
     <script src="/js/sync-precio-venta.js" defer></script>
     <script src="/js/limitar-input-numerico.js" defer></script>
 {% endblock %}
