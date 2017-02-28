@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('categories'), 'Categorías') }}
-    {{ bread.crumb_active('Editar Categoría') }}
+    {{ bread.crumb(path_for('categories/update', {id: input.codigoCategoria}), 'Editar Categoría') }}
 {% endblock %}
 
 {% block content %}

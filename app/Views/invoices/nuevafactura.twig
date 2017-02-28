@@ -5,16 +5,19 @@
 {% block breadcrumb %}
     {% if tipoFactura == 1 %}
         {{ bread.crumb(path_for('invoices'), 'Facturas') }}
+        {% if readOnly == 1 %}
+            {{ bread.crumb(path_for('invoices/id', {id: facturaID}), 'Revisar') }}
+        {% else %}
+            {{ bread.crumb(path_for('invoices/createform'), 'Nuevo') }}
+        {% endif %}
     {% else %}
         {{ bread.crumb(path_for('creditofiscal'), 'Créditos Fiscales') }}
+        {% if readOnly == 1 %}
+            {{ bread.crumb(path_for('creditofiscal/id', {id: facturaID}), 'Revisar') }}
+        {% else %}
+            {{ bread.crumb(path_for('creditofiscal/createform'), 'Nuevo') }}
+        {% endif %}
     {% endif %}
-
-    {% set active_crumb_text = 'Nuevo' %}
-    {% if readOnly == 1 %}
-        {% set active_crumb_text = 'Revisar' %}
-    {% endif %}
-
-    {{ bread.crumb_active(active_crumb_text) }}
 {% endblock %}
 
 {% block content %}

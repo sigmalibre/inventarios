@@ -3,7 +3,7 @@
 {% block title %}Clientes{% endblock %}
 
 {% block breadcrumb %}
-    {{ bread.crumb_active('Clientes') }}
+    {{ bread.crumb(path_for('clientes/personas'), 'Clientes') }}
 {% endblock %}
 
 {% block content %}

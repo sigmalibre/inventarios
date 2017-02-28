@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('empresas'), 'Empresas') }}
-    {{ bread.crumb_active('Ver Solo Contribuyentes') }}
+    {{ bread.crumb(path_for('clientes/empresas'), 'Ver Solo Contribuyentes') }}
 {% endblock %}
 
 {% block content %}

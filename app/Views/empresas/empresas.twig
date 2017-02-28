@@ -3,7 +3,7 @@
 {% block title %}Contactos Empresas{% endblock %}
 
 {% block breadcrumb %}
-    {{ bread.crumb_active('Empresas') }}
+    {{ bread.crumb(path_for('empresas'), 'Empresas') }}
 {% endblock %}
 
 {% block content %}

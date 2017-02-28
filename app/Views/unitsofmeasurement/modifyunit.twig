@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('measurements'), 'Medidas') }}
-    {{ bread.crumb_active('Editar Medida') }}
+    {{ bread.crumb(path_for('measurements/update', {id: idMedida}), 'Editar Medida') }}
 {% endblock %}
 
 {% block content %}

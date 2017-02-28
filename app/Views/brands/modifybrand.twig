@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('brands'), 'Marcas') }}
-    {{ bread.crumb_active('Editar Marca') }}
+    {{ bread.crumb(path_for('brands/update', {id: idMarca}), 'Editar Marca') }}
 {% endblock %}
 
 {% block content %}

@@ -3,7 +3,7 @@
 {% block title  %}Detalles de Ingreso{% endblock %}
 
 {% block breadcrumb %}
-    {{ bread.crumb_active('Entrada de Productos') }}
+    {{ bread.crumb(path_for('ingresos'), 'Entrada de Productos') }}
 {% endblock %}
 
 {% block content %}
