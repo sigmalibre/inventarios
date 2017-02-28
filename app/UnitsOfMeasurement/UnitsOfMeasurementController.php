@@ -48,6 +48,7 @@ class UnitsOfMeasurementController
     public function indexUnit($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         $unit = new Unit($arguments['id'], $this->container);
+        $unitList = new UnitsOfMeasurement($this->container);
 
         // Si la medida especificada en la URL no existe, devolver un 404.
         if ($unit->is_set() === false) {
@@ -58,6 +59,7 @@ class UnitsOfMeasurementController
             'idMedida' => $arguments['id'],
             'unitSaved' => $isSaved,
             'failedInputs' => $failedInputs,
+            'unitList' => $unitList->readAllUnitsOfMeasurement(),
             'input' => [
                 'unidadMedida' => $unit->UnidadMedida,
             ],
