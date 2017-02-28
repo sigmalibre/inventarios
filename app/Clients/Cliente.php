@@ -2,6 +2,7 @@
 
 namespace Sigmalibre\Clients;
 
+use Sigmalibre\Clients\DataSource\MySQL\DeleteCliente;
 use Sigmalibre\Clients\DataSource\MySQL\GetClienteFromID;
 use Sigmalibre\Clients\DataSource\MySQL\UpdateCliente;
 use Sigmalibre\DataSource\MySQL\MySQLTransactions;
@@ -277,5 +278,10 @@ class Cliente
         $this->telefono = $telefono;
 
         return true;
+    }
+
+    public function delete()
+    {
+        return (new DeleteCliente($this->container))->write($this->id);
     }
 }

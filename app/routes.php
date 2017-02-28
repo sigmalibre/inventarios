@@ -2,6 +2,7 @@
 
 use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Categories\CategoriesController;
+use Sigmalibre\Clients\ClientsController;
 use Sigmalibre\Empresas\EmpresasController;
 use Sigmalibre\Products\ProductsController;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
@@ -79,6 +80,7 @@ $app->post('/contactos/clientes/personas/nuevo', '\Sigmalibre\Clients\ClientsCon
 
 $app->get('/contactos/clientes/personas/id/{id}', '\Sigmalibre\Clients\ClientsController:indexCliente')->setName('clientes/update');
 $app->post('/contactos/clientes/personas/id/{id}', '\Sigmalibre\Clients\ClientsController:update');
+$app->delete('/contactos/clientes/personas/id/{id}', ClientsController::class . ':delete');
 
 $app->get('/contactos/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexCompanies')->setName('clientes/empresas');
 
