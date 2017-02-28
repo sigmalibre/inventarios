@@ -103,11 +103,11 @@ class Warehouse
             return false;
         }
 
-        $this->id = $id;
-        $this->nombre = $attributes[0]['NombreAlmacen'];
-        $this->direccion = $attributes[0]['Direccion'];
-        $this->telefono = $attributes[0]['Telefono'];
-        $this->cantidad = $attributes[0]['Cantidad'];
+        $this->id = $id ?? null;
+        $this->nombre = $attributes[0]['NombreAlmacen'] ?? null;
+        $this->direccion = $attributes[0]['Direccion'] ?? null;
+        $this->telefono = $attributes[0]['Telefono'] ?? null;
+        $this->cantidad = $attributes[0]['Cantidad'] ?? null;
 
         return $this->is_set();
     }
