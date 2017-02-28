@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('categories'), 'Categorías') }}
-    {{ bread.crumb_active('Nueva Categoría') }}
+    {{ bread.crumb(path_for('categories/createform'), 'Nueva Categoría') }}
 {% endblock %}
 
 {% block content %}

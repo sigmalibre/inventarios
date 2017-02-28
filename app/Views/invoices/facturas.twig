@@ -3,7 +3,7 @@
 {% block title  %}Facturas{% endblock %}
 
 {% block breadcrumb %}
-    {{ bread.crumb_active('Facturas') }}
+    {{ bread.crumb(path_for('invoices'), 'Facturas') }}
 {% endblock %}
 
 {% block content %}

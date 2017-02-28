@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('clientes/personas'), 'Clientes') }}
-    {{ bread.crumb_active('Editar Cliente') }}
+    {{ bread.crumb(path_for('clientes/update', {id: clienteID}), 'Editar Cliente') }}
 {% endblock %}
 
 {% block content %}

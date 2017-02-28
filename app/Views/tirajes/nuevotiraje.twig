@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('tirajes'), 'Tirajes') }}
-    {{ bread.crumb_active('Nuevo Tiraje') }}
+    {{ bread.crumb(path_for('tirajes/createform'), 'Nuevo Tiraje') }}
 {% endblock %}
 
 {% block content %}

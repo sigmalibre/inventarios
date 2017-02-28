@@ -3,7 +3,7 @@
 {% block title  %}Inicio{% endblock %}
 
 {% block breadcrumb %}
-    {{ bread.crumb_active('Inicio') }}
+    {{ bread.crumb(path_for('homepage'), 'Inicio') }}
 {% endblock %}
 
 {% block content %}

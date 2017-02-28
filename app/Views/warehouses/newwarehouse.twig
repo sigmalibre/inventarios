@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('warehouses'), 'Almacenes') }}
-    {{ bread.crumb_active('Nuevo Almacén') }}
+    {{ bread.crumb(path_for('warehouses/createform'), 'Nuevo Almacén') }}
 {% endblock %}
 
 {% block content %}

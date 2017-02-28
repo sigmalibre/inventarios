@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('tirajes'), 'Tirajes') }}
-    {{ bread.crumb_active('Editar Tiraje') }}
+    {{ bread.crumb(path_for('tirajes/update', {id: idTiraje}), 'Editar Tiraje') }}
 {% endblock %}
 
 {% block content %}

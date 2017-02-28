@@ -3,7 +3,7 @@
 {% block title %}Tirajes de Factura{% endblock %}
 
 {% block breadcrumb %}
-    {{ bread.crumb_active('Tirajes') }}
+    {{ bread.crumb(path_for('tirajes'), 'Tirajes') }}
 {% endblock %}
 
 {% block content %}

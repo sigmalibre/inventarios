@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('warehouses'), 'Almacenes') }}
-    {{ bread.crumb_active('Editar Almacén') }}
+    {{ bread.crumb(path_for('warehouses/update', {'id': almacenID}), 'Editar Almacén') }}
 {% endblock %}
 
 {% block content %}

@@ -136,6 +136,7 @@ class FacturasController
                 'registro' => $empresa->getRegistro(),
                 'nit' => $empresa->getNit(),
             ],
+            'facturaID' => $arguments['id'] ?? null,
             'codigoTiraje' => $tiraje->CodigoTiraje,
             'tipoFactura' => $this->tipoFacturaID,
             'tirajeFacturaID' => $this->tirajeID,

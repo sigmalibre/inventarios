@@ -4,7 +4,7 @@
 
 {% block breadcrumb %}
     {{ bread.crumb(path_for('products'), 'Productos') }}
-    {{ bread.crumb_active('Editar Producto') }}
+    {{ bread.crumb(path_for('products/update', {id: productID}), 'Editar Producto') }}
 {% endblock %}
 
 {% block content %}
