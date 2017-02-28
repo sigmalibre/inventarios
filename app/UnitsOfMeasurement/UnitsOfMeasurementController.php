@@ -2,6 +2,11 @@
 
 namespace Sigmalibre\UnitsOfMeasurement;
 
+use Sigmalibre\DataSource\MySQL\MySQLTransactions;
+use Sigmalibre\Products\Products;
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 /**
  * Controlador para las operaciones sobre las unidades de medida de productos.
  */
@@ -48,6 +53,7 @@ class UnitsOfMeasurementController
     public function indexUnit($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
         $unit = new Unit($arguments['id'], $this->container);
+        $unitList = new UnitsOfMeasurement($this->container);
 
         // Si la medida especificada en la URL no existe, devolver un 404.
         if ($unit->is_set() === false) {
@@ -58,6 +64,7 @@ class UnitsOfMeasurementController
             'idMedida' => $arguments['id'],
             'unitSaved' => $isSaved,
             'failedInputs' => $failedInputs,
+            'unitList' => $unitList->readAllUnitsOfMeasurement(),
             'input' => [
                 'unidadMedida' => $unit->UnidadMedida,
             ],
@@ -85,5 +92,99 @@ class UnitsOfMeasurementController
         $isUnitUpdated = $unit->update($request->getParsedBody());
 
         return $this->indexUnit($request, $response, $arguments, $isUnitUpdated, $unit->getInvalidInputs());
+    }
+
+    public function delete(Request $request, $response, $arguments)
+    {
+        $medida = new Unit($arguments['id'], $this->container);
+        if ($medida->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        /** @var MySQLTransactions $transaction */
+        $transaction = $this->container->mysql;
+        $transaction->beginTransaction();
+
+        $parameters = $request->getParsedBody();
+        $productos = new Products($this->container);
+
+        if (empty($parameters['medidaSeleccionadaID']) === false) {
+            $medidaReemplazo = new Unit($parameters['medidaSeleccionadaID'], $this->container);
+
+            if ($medidaReemplazo->is_set() === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Not Found',
+                ], 200);
+            }
+
+            if ($productos->replaceMedida($medida, $medidaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if (empty($parameters['eliminarProductos']) === false) {
+            if ($productos->deleteFromMedida($medida) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if (empty($parameters['eliminarSoloMedida']) === false) {
+            // EN LUGAR DE DEJAR LA MEDIDA EN BLANCO, PASAR TODOS LOS PRODUCTOS A UNA MARCA LLAMADA
+            // "MEDIDA ELIMINADA"
+
+            // Si "MEDIDA ELIMINADA" ya existe, utilizar esa.
+            $medidas = new UnitsOfMeasurement($this->container);
+            $medidaID = $medidas->idFromName('MEDIDA ELIMINADA');
+
+            // Si la medida no existe, crear una nueva.
+            if ($medidaID === false) {
+                $medidaID = $medidas->save(['unidadMedida' => 'MEDIDA ELIMINADA']);
+            }
+
+            // Si no se pudo obtener la medida de cualquier forma.
+            if ($medidaID === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+
+            $medidaReemplazo = new Unit($medidaID, $this->container);
+
+            if ($productos->replaceMedida($medida, $medidaReemplazo) === false) {
+                $transaction->rollBack();
+                return (new Response())->withJson([
+                    'status' => 'error',
+                    'reason' => 'Internal Error',
+                ], 200);
+            }
+        }
+
+        if ($medida->delete() === false) {
+            $transaction->rollBack();
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Error',
+            ], 200);
+        }
+
+        $transaction->commit();
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

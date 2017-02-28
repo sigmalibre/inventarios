@@ -18,7 +18,13 @@
             <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar la unidad de medida.</div>
             {% endif %}
             <div class="panel panel-primary">
-                <div class="panel-heading">Modifica esta unidad de medida</div>
+                <div class="panel-heading clearfix">
+                    <h3 class="panel-title pull-left">Modifica esta unidad de medida</h3>
+                    <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        Eliminar
+                    </button>
+                </div>
                 <div class="panel-body">
                     <form action="{{ path_for('measurements/update', {id: idMedida}) }}" method="post">
                         <div class="form-group has-feedback has-clear">
@@ -33,4 +39,6 @@
         </div>
     </div>
 </div>
+
+{% include 'unitsofmeasurement/eliminarmedida.twig' %}
 {% endblock %}
