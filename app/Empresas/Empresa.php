@@ -14,6 +14,7 @@ use Sigmalibre\DatosGenerales\Telefono;
 use Sigmalibre\DatosGenerales\ValidadorDireccion;
 use Sigmalibre\DatosGenerales\ValidadorEmails;
 use Sigmalibre\DatosGenerales\ValidadorTelefono;
+use Sigmalibre\Empresas\DataSource\DeleteEmpresa;
 use Sigmalibre\Empresas\DataSource\GetEmpresaFromID;
 use Sigmalibre\Empresas\DataSource\UpdateEmpresa;
 
@@ -306,5 +307,10 @@ class Empresa
         $this->email = $email;
 
         return true;
+    }
+
+    public function delete()
+    {
+        return (new DeleteEmpresa($this->container))->write($this->id);
     }
 }
