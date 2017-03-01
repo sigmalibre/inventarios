@@ -23,6 +23,7 @@
     var almacenOptionsTemplate = $('#options-almacen-template').text();
     var almacenSelect = $('#almacenID');
 
+    var formCantidadPrecioDetalle = $('#cantidadDetalleForm');
     var inputPrecioDetalle = $('#precioDetalle');
     var inputCantidadDetalle = $('#cantidadDetalle');
 
@@ -30,8 +31,6 @@
 
     var descuentosOptionsTemplate = $('#options-descuentos-template').text();
     var descuentosSelect = $('#descuentoID');
-
-    var btnCrearDetalle = $('#btnCrearDetalle');
 
     var outputAfectas = $('#sum-afectas');
     var outputIVA = $('#sum-iva');
@@ -248,7 +247,9 @@
         btnPrecioOriginal.prop('disabled', true);
     });
 
-    btnCrearDetalle.on('click', function () {
+    formCantidadPrecioDetalle.on('submit', function (e) {
+        e.preventDefault();
+
         modalDialogResetValidationStatus();
 
         var goodToGo = true;
@@ -284,6 +285,8 @@
             cantidad: cantidad,
             precio: precio
         });
+
+        return false;
     });
 
     btnGuardarFactura.on('click', function () {
