@@ -23,6 +23,7 @@
     var almacenOptionsTemplate = $('#options-almacen-template').text();
     var almacenSelect = $('#almacenID');
 
+    var formCantidadPrecioDetalle = $('#cantidadDetalleForm');
     var inputPrecioDetalle = $('#precioDetalle');
     var inputCantidadDetalle = $('#cantidadDetalle');
 
@@ -30,8 +31,6 @@
 
     var descuentosOptionsTemplate = $('#options-descuentos-template').text();
     var descuentosSelect = $('#descuentoID');
-
-    var btnCrearDetalle = $('#btnCrearDetalle');
 
     var outputAfectas = $('#sum-afectas');
     var outputIVA = $('#sum-iva');
@@ -53,6 +52,8 @@
 
     var btnEliminar = $('#btn-eliminar-factura-perma');
     var btnActivarModalEliminar = $('#btnMostrarModalEliminar');
+
+    var formBuscarProductos = $('#buscarProductoForm');
 
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
@@ -218,6 +219,14 @@
         }
     });
 
+    formBuscarProductos.on('submit', function (e) {
+        e.preventDefault();
+
+        submitMethod.send('/productos', 'get', formBuscarProductos.serialize(), 'factura-busca-producto');
+
+        return false;
+    });
+
     formularioFactura.on('submit', function () {
         return false;
     });
@@ -248,7 +257,9 @@
         btnPrecioOriginal.prop('disabled', true);
     });
 
-    btnCrearDetalle.on('click', function () {
+    formCantidadPrecioDetalle.on('submit', function (e) {
+        e.preventDefault();
+
         modalDialogResetValidationStatus();
 
         var goodToGo = true;
@@ -284,6 +295,8 @@
             cantidad: cantidad,
             precio: precio
         });
+
+        return false;
     });
 
     btnGuardarFactura.on('click', function () {
