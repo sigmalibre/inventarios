@@ -53,6 +53,8 @@
     var btnEliminar = $('#btn-eliminar-factura-perma');
     var btnActivarModalEliminar = $('#btnMostrarModalEliminar');
 
+    var formBuscarProductos = $('#buscarProductoForm');
+
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
         if (tipoFactura == 1) {
@@ -215,6 +217,14 @@
             btnEliminar.prop('disabled', true);
             btnActivarModalEliminar.prop('disabled', true);
         }
+    });
+
+    formBuscarProductos.on('submit', function (e) {
+        e.preventDefault();
+
+        submitMethod.send('/productos', 'get', formBuscarProductos.serialize(), 'factura-busca-producto');
+
+        return false;
     });
 
     formularioFactura.on('submit', function () {
