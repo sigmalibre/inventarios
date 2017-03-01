@@ -1,4 +1,5 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="container-fluid">
     <div class="navbar-header">
         <button class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
             <span class="sr-only">Desplegar navegación</span>
@@ -179,9 +180,10 @@
             <li class="{% if uri_path == path_for('ajustes') %}active{% endif %}">
                 <a href="{{ path_for('ajustes') }}">
                     <span class="glyphicon glyphicon-cog"></span>
-                    Configuraciones
+                    Ajustes
                 </a>
             </li>
         </ul>
     </div>
+</div>
 </nav>

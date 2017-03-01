@@ -9,16 +9,30 @@
                 <input type="text" name="codigoProducto" id="codigoProducto" class="form-control">
                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
             </div>
+            <div class="form-group">
+                <label for="categoriaProducto">Categoría</label>
+                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                    <option value="">Todas</option>
+                    {% for category in categories %}
+                        <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="marcaProducto">Marca</label>
+                <select class="form-control" name="marcaProducto" id="marcaProducto">
+                    <option value="">Todas</option>
+                    {% for brand in brands %}
+                        <option value="{{ brand.MarcaID }}">{{ brand.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="form-group has-feedback has-clear">
                 <label for="nombreProducto">Nombre</label>
                 <input type="text" name="nombreProducto" id="nombreProducto" class="form-control">
                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
             </div>
-            <button type="button" class="btn btn-info btn-block submit-form-with-method"
-                    data-action="{{ path_for('products') }}"
-                    data-method="get"
-                    data-triggerevent="factura-busca-producto"
-                    data-targetform="#buscarProductoForm">
+            <button type="submit" class="btn btn-info btn-block">
                 <span class="glyphicon glyphicon-search"></span>
                 Buscar
             </button>
@@ -36,6 +50,7 @@
                 <tr>
                     <th>Código</th>
                     <th>Categoría</th>
+                    <th>Marca</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>

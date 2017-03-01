@@ -40,10 +40,10 @@ class FilterAllProducts extends MySQLReader
     protected $setLimit = true;
     protected $filterFields = [
         [
-            'filterName' => 'claveProducto',
+            'filterName' => 'codigoProducto',
             'tableName' => 'Productos',
             'columnName' => 'Codigo',
-            'searchType' => 'LIKE',
+            'searchType' => 'SLOWLIKE',
         ],
         [
             'filterName' => 'categoriaProducto',
@@ -67,7 +67,7 @@ class FilterAllProducts extends MySQLReader
             'filterName' => 'nombreProducto',
             'tableName' => 'Productos',
             'columnName' => 'Descripcion',
-            'searchType' => 'LIKE',
+            'searchType' => 'MATCH',
         ],
         [
             'filterName' => 'productoActivo',

@@ -73,7 +73,7 @@
                             <tbody>
                             {% for ingreso in ingresos %}
                             <tr class="anchorize" data-href="{{ path_for('ingresos') }}/id/{{ ingreso.DetalleIngresosID }}">
-                                <td>{{ ingreso.CategoriaProductoID }}{{ ingreso.CodigoProducto }}</td>
+                                <td>{{ ingreso.CodigoProducto }}</td>
                                 <td>{{ ingreso.Proveedor }}</td>
                                 <td>{{ ingreso.Cantidad }}</td>
                                 <td>{{ ingreso.PrecioUnitario }}</td>

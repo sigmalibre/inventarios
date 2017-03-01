@@ -46,8 +46,6 @@ class Products
             $userInput['productoActivo'] = '1';
         }
 
-        $userInput = $this->parseCodigoConCategoria($userInput);
-
         $listReader = new ItemListReader(
             new DataSource\MySQL\CountAllFilteredProducts($this->container),
             new DataSource\MySQL\FilterAllProducts($this->container),
@@ -145,26 +143,6 @@ class Products
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
-    }
-
-    /**
-     * Separa el código del producto en dos partes, los primeros dos carácteres son el código de la categoría
-     * Y el resto es el código mismo del producto.
-     *
-     * @param array $userInput
-     *
-     * @return array
-     */
-    public function parseCodigoConCategoria($userInput)
-    {
-        if (empty($userInput['codigoProducto']) === false) {
-            $codigoProducto = $userInput['codigoProducto'];
-
-            $userInput['claveProducto'] = (string)substr($codigoProducto, 2);
-            $userInput['codigoCategoria'] = (string)substr($codigoProducto, 0, 2);
-        }
-
-        return $userInput;
     }
 
     public function replaceBrand(Brand $toReplace, Brand $replacement)

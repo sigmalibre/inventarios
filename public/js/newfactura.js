@@ -23,6 +23,7 @@
     var almacenOptionsTemplate = $('#options-almacen-template').text();
     var almacenSelect = $('#almacenID');
 
+    var formCantidadPrecioDetalle = $('#cantidadDetalleForm');
     var inputPrecioDetalle = $('#precioDetalle');
     var inputCantidadDetalle = $('#cantidadDetalle');
 
@@ -30,8 +31,6 @@
 
     var descuentosOptionsTemplate = $('#options-descuentos-template').text();
     var descuentosSelect = $('#descuentoID');
-
-    var btnCrearDetalle = $('#btnCrearDetalle');
 
     var outputAfectas = $('#sum-afectas');
     var outputIVA = $('#sum-iva');
@@ -53,6 +52,11 @@
 
     var btnEliminar = $('#btn-eliminar-factura-perma');
     var btnActivarModalEliminar = $('#btnMostrarModalEliminar');
+
+    var formBuscarProductos = $('#buscarProductoForm');
+
+    var outputSeleccionadoCodigo = $('#outputSeleccionadoCodigo');
+    var outputSeleccionadoDescripcion = $('#outputSeleccionadoDescripcion');
 
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
@@ -123,6 +127,9 @@
     eventos.on('factura-open-dialogo-cantidad', function (datos) {
         modalDialogResetValidationStatus();
 
+        outputSeleccionadoCodigo.text(datos.producto.codigoProducto);
+        outputSeleccionadoDescripcion.text(datos.producto.descripcion);
+
         almacenSelect.html(Mustache.render(almacenOptionsTemplate, {
             almacenes: datos.almacenes
         }));
@@ -135,9 +142,11 @@
 
         inputPrecioDetalle.val(datos.precio);
         inputPrecioDetalle.data('preciooriginal', datos.precio);
-        inputPrecioDetalle.data('min', datos.precioMin);
+        inputPrecioDetalle.attr('min', datos.precioMin);
 
         modalDialogoCantidad.modal('show');
+
+        almacenSelect.focus();
     });
 
     eventos.on('factura-saved-success', function () {
@@ -218,6 +227,14 @@
         }
     });
 
+    formBuscarProductos.on('submit', function (e) {
+        e.preventDefault();
+
+        submitMethod.send('/productos', 'get', formBuscarProductos.serialize(), 'factura-busca-producto');
+
+        return false;
+    });
+
     formularioFactura.on('submit', function () {
         return false;
     });
@@ -248,7 +265,9 @@
         btnPrecioOriginal.prop('disabled', true);
     });
 
-    btnCrearDetalle.on('click', function () {
+    formCantidadPrecioDetalle.on('submit', function (e) {
+        e.preventDefault();
+
         modalDialogResetValidationStatus();
 
         var goodToGo = true;
@@ -267,7 +286,7 @@
             goodToGo = false;
         }
 
-        if (precio < Number(inputPrecioDetalle.data('min'))) {
+        if (precio < Number(inputPrecioDetalle.attr('min'))) {
             precioParent.addClass('has-error');
             goodToGo = false;
         }
@@ -284,6 +303,8 @@
             cantidad: cantidad,
             precio: precio
         });
+
+        return false;
     });
 
     btnGuardarFactura.on('click', function () {
@@ -334,7 +355,7 @@
 
             var producto = facturas.productos.crearProducto(
                 p.ProductoID, p.CategoriaProductoID, p.CodigoBienDet, p.CodigoLibroDet,
-                p.CategoriaProductoID + p.CodigoProducto, p.CostoActual, p.Descripcion, p.ExcentoIVA, p.FechaCreacion,
+                p.CodigoProducto, p.CostoActual, p.Descripcion, p.ExcentoIVA, p.FechaCreacion,
                 p.FechaModificacion, p.MarcaID, p.MedidaID, p.NombreCategoria, p.NombreMarca,
                 p.Cantidad, p.StockMin, p.UnidadMedida, p.Utilidad, precio.toFixed(2)
             );
@@ -380,6 +401,7 @@
         });
 
         eventos.emit('factura-open-dialogo-cantidad', {
+            producto: productoActual,
             almacenes: almacenesActuales,
             descuentos: descuentos,
             precio: productoActual.precio,
@@ -463,7 +485,7 @@
             // CREAR DETALLE A PARTIR DE LA INFORMACIÓN OBTENIDA
             var newDetalle = facturas.crearDetalle(
                 detalle.producto.ProductoID,
-                detalle.producto.CategoriaProductoID + detalle.producto.CodigoProducto,
+                detalle.producto.CodigoProducto,
                 detalle.cantidad,
                 detalle.producto.Descripcion,
                 detalle.precioUnitario.toFixed(2),
