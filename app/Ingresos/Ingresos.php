@@ -45,8 +45,6 @@ class Ingresos
      */
     public function readList(array $input)
     {
-        $input = $this->products->parseCodigoConCategoria($input);
-
         $listReader = new ItemListReader(
             new CountFilteredIngresos($this->container),
             new FilterIngresos($this->container),

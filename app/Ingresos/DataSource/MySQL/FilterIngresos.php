@@ -14,10 +14,10 @@ class FilterIngresos extends MySQLReader
     protected $setLimit = true;
     protected $filterFields = [
         [
-            'filterName' => 'claveProducto',
+            'filterName' => 'codigoProducto',
             'tableName' => 'Productos',
             'columnName' => 'Codigo',
-            'searchType' => 'LIKE',
+            'searchType' => 'SLOWLIKE',
         ],
         [
             'filterName' => 'codigoCategoria',
