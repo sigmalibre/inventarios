@@ -59,6 +59,12 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadInterface
                     $this->params[$filter['filterName']] = $valorInput .'%';
                 }
 
+                // Si el filtro es de tipo LIKE. Ej: SELECT * FROM tabla WHERE columna LIKE '%termino de búsqueda%'
+                if ($filter['searchType'] === 'SLOWLIKE') {
+                    $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} LIKE :{$filter['filterName']}";
+                    $this->params[$filter['filterName']] = '%' . $valorInput .'%';
+                }
+
                 // Si el filtro es de tipo FULL TEXT. Ej: SELECT * FROM tabla WHERE MATCH(columna) AGAINST('termino de búsqueda')
                 if ($filter['searchType'] === 'MATCH') {
                     $this->filters[] = "MATCH({$filter['tableName']}.{$filter['columnName']}) AGAINST(:{$filter['filterName']})";
