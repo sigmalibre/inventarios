@@ -185,7 +185,7 @@
                         </div>
                         <div class="form-group">
                             <label for="cantidadDetalle">Cantidad</label>
-                            <input type="number" name="cantidadDetalle" id="cantidadDetalle" class="form-control limit-to-max-value" min="0" step="1" value="0" data-max="0">
+                            <input type="number" name="cantidadDetalle" id="cantidadDetalle" class="form-control limit-to-max-value" min="0" step="1" value="0" data-max="0" required>
                         </div>
                         <div class="form-group hidden">
                             <label for="descuentoID">Descuento Aplicable</label>
@@ -197,7 +197,7 @@
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-usd"></span>
                                 </span>
-                                <input type="number" name="precioDetalle" id="precioDetalle" class="form-control limit-to-min-value" data-min="0.01" step="any" data-preciooriginal="0">
+                                <input type="number" name="precioDetalle" id="precioDetalle" class="form-control" min="0.01" step="any" data-preciooriginal="0" required>
                                 <span class="input-group-btn">
                                     <button type="button" id="btnDetallePrecioOriginal" class="btn btn-default" data-toggle="tooltip" title="Resetear al precio original">
                                         <span class="glyphicon glyphicon-refresh"></span>
