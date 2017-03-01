@@ -136,7 +136,7 @@
 
         inputPrecioDetalle.val(datos.precio);
         inputPrecioDetalle.data('preciooriginal', datos.precio);
-        inputPrecioDetalle.data('min', datos.precioMin);
+        inputPrecioDetalle.attr('min', datos.precioMin);
 
         modalDialogoCantidad.modal('show');
     });
@@ -278,7 +278,7 @@
             goodToGo = false;
         }
 
-        if (precio < Number(inputPrecioDetalle.data('min'))) {
+        if (precio < Number(inputPrecioDetalle.attr('min'))) {
             precioParent.addClass('has-error');
             goodToGo = false;
         }
