@@ -4,124 +4,135 @@ use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Categories\CategoriesController;
 use Sigmalibre\Clients\ClientsController;
 use Sigmalibre\Empresas\EmpresasController;
+use Sigmalibre\Homepage\HomeController;
+use Sigmalibre\Ingresos\IngresosController;
+use Sigmalibre\Invoices\CreditosFiscalesController;
+use Sigmalibre\Invoices\FacturasController;
+use Sigmalibre\IVA\IVAController;
+use Sigmalibre\Products\DescuentosController;
+use Sigmalibre\Products\ImportarController;
 use Sigmalibre\Products\ProductsController;
+use Sigmalibre\Providers\ProvidersController;
+use Sigmalibre\TirajeFactura\TirajesController;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
+use Sigmalibre\UserConfig\UserConfigController;
+use Sigmalibre\Warehouses\WarehousesController;
 
 // HOMEPAGE
-$app->get('/', '\Sigmalibre\Homepage\HomeController:home')->setName('homepage');
+$app->get('/', HomeController::class . ':home')->setName('homepage');
 
 // PRODUCTOS
-$app->get('/productos', '\Sigmalibre\Products\ProductsController:indexProducts')->setName('products');
+$app->get('/productos', ProductsController::class . ':indexProducts')->setName('products');
 
-$app->get('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:indexProduct')->setName('products/update');
-$app->post('/productos/id/{id}', '\Sigmalibre\Products\ProductsController:update');
+$app->get('/productos/id/{id}', ProductsController::class . ':indexProduct')->setName('products/update');
+$app->post('/productos/id/{id}', ProductsController::class . ':update');
 $app->delete('/productos/id/{id}', ProductsController::class . ':delete');
 
-$app->get('/productos/id/{id}/detalles', '\Sigmalibre\Products\ProductsController:getDetalleAlmacenes')->setName('products/detalles');
-$app->post('/productos/id/{id}/ingresos', '\Sigmalibre\Ingresos\IngresosController:createNew')->setName('products/ingresos');
-$app->post('/productos/id/{id}/traslados', '\Sigmalibre\Products\ProductsController:traslado')->setName('products/traslado');
-$app->post('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:createNew')->setName('products/descuentos');
-$app->get('/productos/id/{id}/descuentos', '\Sigmalibre\Products\DescuentosController:getDescuentosProducto');
+$app->get('/productos/id/{id}/detalles', ProductsController::class . ':getDetalleAlmacenes')->setName('products/detalles');
+$app->post('/productos/id/{id}/ingresos', IngresosController::class . ':createNew')->setName('products/ingresos');
+$app->post('/productos/id/{id}/traslados', ProductsController::class . ':traslado')->setName('products/traslado');
+$app->post('/productos/id/{id}/descuentos', DescuentosController::class . ':createNew')->setName('products/descuentos');
+$app->get('/productos/id/{id}/descuentos', DescuentosController::class . ':getDescuentosProducto');
 
-$app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:indexDescuento')->setName('products/descuentos/modify');
-$app->post('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:update');
-$app->delete('/productos/id/{productoID}/descuentos/id/{descuentoID}', '\Sigmalibre\Products\DescuentosController:delete');
+$app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', DescuentosController::class . ':indexDescuento')->setName('products/descuentos/modify');
+$app->post('/productos/id/{productoID}/descuentos/id/{descuentoID}', DescuentosController::class . ':update');
+$app->delete('/productos/id/{productoID}/descuentos/id/{descuentoID}', DescuentosController::class . ':delete');
 
-$app->get('/productos/nuevo', '\Sigmalibre\Products\ProductsController:indexNewProduct')->setName('products/createform');
-$app->post('/productos/nuevo', '\Sigmalibre\Products\ProductsController:createNew');
+$app->get('/productos/nuevo', ProductsController::class . ':indexNewProduct')->setName('products/createform');
+$app->post('/productos/nuevo', ProductsController::class . ':createNew');
 
-$app->get('/productos/importar', '\Sigmalibre\Products\ImportarController:importar')->setName('importar');
+$app->get('/productos/importar', ImportarController::class . ':importar')->setName('importar');
 
-$app->get('/productos/ingresos', '\Sigmalibre\Ingresos\IngresosController:indexAll')->setName('ingresos');
+$app->get('/productos/ingresos', IngresosController::class . ':indexAll')->setName('ingresos');
 
 
 // CATEGORIAS DE PRODUCTO
-$app->get('/categorias', '\Sigmalibre\Categories\CategoriesController:indexCategories')->setName('categories');
+$app->get('/categorias', CategoriesController::class . ':indexCategories')->setName('categories');
 
-$app->get('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:indexCategory')->setName('categories/update');
-$app->post('/categorias/id/{id}', '\Sigmalibre\Categories\CategoriesController:update');
+$app->get('/categorias/id/{id}', CategoriesController::class . ':indexCategory')->setName('categories/update');
+$app->post('/categorias/id/{id}', CategoriesController::class . ':update');
 $app->delete('/categorias/id/{id}', CategoriesController::class . ':delete');
 
-$app->get('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:indexNewCategory')->setName('categories/createform');
-$app->post('/categorias/nuevo', '\Sigmalibre\Categories\CategoriesController:createNew');
+$app->get('/categorias/nuevo', CategoriesController::class . ':indexNewCategory')->setName('categories/createform');
+$app->post('/categorias/nuevo', CategoriesController::class . ':createNew');
 
 // PROVEEDORES
-$app->get('/contactos/proveedores', '\Sigmalibre\Providers\ProvidersController:indexProviders')->setName('providers');
+$app->get('/contactos/proveedores', ProvidersController::class . ':indexProviders')->setName('providers');
 
 // FACTURACIÓN
-$app->get('/facturas', '\Sigmalibre\Invoices\FacturasController:indexFacturas')->setName('invoices');
-$app->get('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:indexNew')->setName('invoices/createform');
-$app->post('/facturas/nuevo', '\Sigmalibre\Invoices\FacturasController:saveNew');
+$app->get('/facturas', FacturasController::class . ':indexFacturas')->setName('invoices');
+$app->get('/facturas/nuevo', FacturasController::class . ':indexNew')->setName('invoices/createform');
+$app->post('/facturas/nuevo', FacturasController::class . ':saveNew');
 
-$app->get('/facturas/id/{id}', '\Sigmalibre\Invoices\FacturasController:indexNew')->setName('invoices/id');
-$app->delete('/facturas/id/{id}', '\Sigmalibre\Invoices\FacturasController:delete');
+$app->get('/facturas/id/{id}', FacturasController::class . ':indexNew')->setName('invoices/id');
+$app->delete('/facturas/id/{id}', FacturasController::class . ':delete');
 
-$app->get('/creditofiscal', '\Sigmalibre\Invoices\CreditosFiscalesController:indexFacturas')->setName('creditofiscal');
-$app->get('/creditofiscal/nuevo', '\Sigmalibre\Invoices\CreditosFiscalesController:indexNew')->setName('creditofiscal/createform');
-$app->post('/creditofiscal/nuevo', '\Sigmalibre\Invoices\CreditosFiscalesController:saveNew');
+$app->get('/creditofiscal', CreditosFiscalesController::class . ':indexFacturas')->setName('creditofiscal');
+$app->get('/creditofiscal/nuevo', CreditosFiscalesController::class . ':indexNew')->setName('creditofiscal/createform');
+$app->post('/creditofiscal/nuevo', CreditosFiscalesController::class . ':saveNew');
 
-$app->get('/creditofiscal/id/{id}', '\Sigmalibre\Invoices\CreditosFiscalesController:indexNew')->setName('creditofiscal/id');
-$app->delete('/creditofiscal/id/{id}', '\Sigmalibre\Invoices\CreditosFiscalesController:delete');
+$app->get('/creditofiscal/id/{id}', CreditosFiscalesController::class . ':indexNew')->setName('creditofiscal/id');
+$app->delete('/creditofiscal/id/{id}', CreditosFiscalesController::class . ':delete');
 
 // ALMACENES
-$app->get('/almacenes', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouses')->setName('warehouses');
+$app->get('/almacenes', WarehousesController::class . ':indexWarehouses')->setName('warehouses');
 
-$app->get('/almacenes/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:indexWarehouse')->setName('warehouses/update');
-$app->post('/almacenes/id/{id}', '\Sigmalibre\Warehouses\WarehousesController:update');
+$app->get('/almacenes/id/{id}', WarehousesController::class . ':indexWarehouse')->setName('warehouses/update');
+$app->post('/almacenes/id/{id}', WarehousesController::class . ':update');
 
-$app->get('/almacenes/nuevo', '\Sigmalibre\Warehouses\WarehousesController:indexCreateWarehouse')->setName('warehouses/createform');
-$app->post('/almacenes/nuevo', '\Sigmalibre\Warehouses\WarehousesController:createNew');
+$app->get('/almacenes/nuevo', WarehousesController::class . ':indexCreateWarehouse')->setName('warehouses/createform');
+$app->post('/almacenes/nuevo', WarehousesController::class . ':createNew');
 
 // CLIENTES
-$app->get('/contactos/clientes/personas', '\Sigmalibre\Clients\ClientsController:indexPeople')->setName('clientes/personas');
+$app->get('/contactos/clientes/personas', ClientsController::class . ':indexPeople')->setName('clientes/personas');
 
-$app->get('/contactos/clientes/personas/nuevo', '\Sigmalibre\Clients\ClientsController:indexNew')->setName('clientes/createform');
-$app->post('/contactos/clientes/personas/nuevo', '\Sigmalibre\Clients\ClientsController:createNew');
+$app->get('/contactos/clientes/personas/nuevo', ClientsController::class . ':indexNew')->setName('clientes/createform');
+$app->post('/contactos/clientes/personas/nuevo', ClientsController::class . ':createNew');
 
-$app->get('/contactos/clientes/personas/id/{id}', '\Sigmalibre\Clients\ClientsController:indexCliente')->setName('clientes/update');
-$app->post('/contactos/clientes/personas/id/{id}', '\Sigmalibre\Clients\ClientsController:update');
+$app->get('/contactos/clientes/personas/id/{id}', ClientsController::class . ':indexCliente')->setName('clientes/update');
+$app->post('/contactos/clientes/personas/id/{id}', ClientsController::class . ':update');
 $app->delete('/contactos/clientes/personas/id/{id}', ClientsController::class . ':delete');
 
-$app->get('/contactos/clientes/empresas', '\Sigmalibre\Clients\ClientsController:indexCompanies')->setName('clientes/empresas');
+$app->get('/contactos/clientes/empresas', ClientsController::class . ':indexCompanies')->setName('clientes/empresas');
 
 // MARCAS
-$app->get('/marcas', '\Sigmalibre\Brands\BrandsController:indexBrands')->setName('brands');
+$app->get('/marcas', BrandsController::class . ':indexBrands')->setName('brands');
 
-$app->get('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:indexBrand')->setName('brands/update');
-$app->post('/marcas/id/{id}', '\Sigmalibre\Brands\BrandsController:update');
+$app->get('/marcas/id/{id}', BrandsController::class . ':indexBrand')->setName('brands/update');
+$app->post('/marcas/id/{id}', BrandsController::class . ':update');
 $app->delete('/marcas/id/{id}', BrandsController::class . ':delete');
 
 // UNIDADES DE MEDIDA
-$app->get('/medidas', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexMeasurements')->setName('measurements');
+$app->get('/medidas', UnitsOfMeasurementController::class . ':indexMeasurements')->setName('measurements');
 
-$app->get('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:indexUnit')->setName('measurements/update');
-$app->post('/medidas/id/{id}', '\Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController:update');
+$app->get('/medidas/id/{id}', UnitsOfMeasurementController::class . ':indexUnit')->setName('measurements/update');
+$app->post('/medidas/id/{id}', UnitsOfMeasurementController::class . ':update');
 $app->delete('/medidas/id/{id}', UnitsOfMeasurementController::class . ':delete');
 
 // TIRAJE FACTURAS
-$app->get('/tirajes', '\Sigmalibre\TirajeFactura\TirajesController:indexListaTirajes')->setName('tirajes');
+$app->get('/tirajes', TirajesController::class . ':indexListaTirajes')->setName('tirajes');
 
-$app->get('/tirajes/id/{id}', '\Sigmalibre\TirajeFactura\TirajesController:indexTiraje')->setName('tirajes/update');
-$app->post('/tirajes/id/{id}', '\Sigmalibre\TirajeFactura\TirajesController:update');
+$app->get('/tirajes/id/{id}', TirajesController::class . ':indexTiraje')->setName('tirajes/update');
+$app->post('/tirajes/id/{id}', TirajesController::class . ':update');
 
-$app->get('/tirajes/nuevo', '\Sigmalibre\TirajeFactura\TirajesController:indexNew')->setName('tirajes/createform');
-$app->post('/tirajes/nuevo', '\Sigmalibre\TirajeFactura\TirajesController:createNew');
+$app->get('/tirajes/nuevo', TirajesController::class . ':indexNew')->setName('tirajes/createform');
+$app->post('/tirajes/nuevo', TirajesController::class . ':createNew');
 
 // AJUSTES DE USUARIO
-$app->get('/ajustes', '\Sigmalibre\UserConfig\UserConfigController:index')->setName('ajustes');
-$app->post('/ajustes/empresa', '\Sigmalibre\UserConfig\UserConfigController:setEmpresa')->setName('ajustes/empresa');
-$app->post('/ajustes/tirajes', '\Sigmalibre\UserConfig\UserConfigController:setTirajes')->setName('ajustes/tirajes');
+$app->get('/ajustes', UserConfigController::class . ':index')->setName('ajustes');
+$app->post('/ajustes/empresa', UserConfigController::class . ':setEmpresa')->setName('ajustes/empresa');
+$app->post('/ajustes/tirajes', UserConfigController::class . ':setTirajes')->setName('ajustes/tirajes');
 
 // IVA
-$app->get('/iva', '\Sigmalibre\IVA\IVAController:index')->setName('iva');
-$app->post('/iva', '\Sigmalibre\IVA\IVAController:update');
+$app->get('/iva', IVAController::class . ':index')->setName('iva');
+$app->post('/iva', IVAController::class . ':update');
 
 // CONTACTOS
-$app->get('/contactos/empresas', '\Sigmalibre\Empresas\EmpresasController:indexEmpresas')->setName('empresas');
+$app->get('/contactos/empresas', EmpresasController::class . ':indexEmpresas')->setName('empresas');
 
-$app->get('/contactos/empresas/nuevo', '\Sigmalibre\Empresas\EmpresasController:indexNew')->setName('empresas/createform');
-$app->post('/contactos/empresas/nuevo', '\Sigmalibre\Empresas\EmpresasController:createNew');
+$app->get('/contactos/empresas/nuevo', EmpresasController::class . ':indexNew')->setName('empresas/createform');
+$app->post('/contactos/empresas/nuevo', EmpresasController::class . ':createNew');
 
-$app->get('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:indexEmpresa')->setName('empresa');
-$app->post('/contactos/empresas/id/{id}', '\Sigmalibre\Empresas\EmpresasController:update');
+$app->get('/contactos/empresas/id/{id}', EmpresasController::class . ':indexEmpresa')->setName('empresa');
+$app->post('/contactos/empresas/id/{id}', EmpresasController::class . ':update');
 $app->delete('/contactos/empresas/id/{id}', EmpresasController::class . ':delete');
