@@ -3,6 +3,7 @@
 namespace Sigmalibre\Invoices;
 
 use Psr\Http\Message\ResponseInterface;
+use Sigmalibre\Brands\Brands;
 use Sigmalibre\Categories\Categories;
 use Sigmalibre\Clients\Clients;
 use Sigmalibre\DataSource\MySQL\MySQLTransactions;
@@ -123,6 +124,7 @@ class FacturasController
         $empresa = new Empresa((new ConfigReader())->read('empresa'), $this->container);
         $iva = new IVA();
         $categorias = new Categories($this->container);
+        $marcas = new Brands($this->container);
 
         $readOnly = 0;
 
@@ -150,6 +152,7 @@ class FacturasController
             'contribuyentes' => $empresas->getAll(),
             'iva' => $iva->getPorcentajeIVA(),
             'categories' => $categorias->readAllCategories(),
+            'brands' => $marcas->readAllBrands(),
             'readOnly' => $readOnly,
         ]);
     }
