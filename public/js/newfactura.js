@@ -55,6 +55,9 @@
 
     var formBuscarProductos = $('#buscarProductoForm');
 
+    var outputSeleccionadoCodigo = $('#outputSeleccionadoCodigo');
+    var outputSeleccionadoDescripcion = $('#outputSeleccionadoDescripcion');
+
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
         if (tipoFactura == 1) {
@@ -123,6 +126,9 @@
 
     eventos.on('factura-open-dialogo-cantidad', function (datos) {
         modalDialogResetValidationStatus();
+
+        outputSeleccionadoCodigo.text(datos.producto.codigoProducto);
+        outputSeleccionadoDescripcion.text(datos.producto.descripcion);
 
         almacenSelect.html(Mustache.render(almacenOptionsTemplate, {
             almacenes: datos.almacenes
@@ -393,6 +399,7 @@
         });
 
         eventos.emit('factura-open-dialogo-cantidad', {
+            producto: productoActual,
             almacenes: almacenesActuales,
             descuentos: descuentos,
             precio: productoActual.precio,
