@@ -9,6 +9,15 @@
                 <input type="text" name="codigoProducto" id="codigoProducto" class="form-control">
                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
             </div>
+            <div class="form-group">
+                <label for="categoriaProducto">Categoría</label>
+                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
+                    <option value="">Todas</option>
+                    {% for category in categories %}
+                        <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="form-group has-feedback has-clear">
                 <label for="nombreProducto">Nombre</label>
                 <input type="text" name="nombreProducto" id="nombreProducto" class="form-control">
