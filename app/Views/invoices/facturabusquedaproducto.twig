@@ -18,6 +18,15 @@
                     {% endfor %}
                 </select>
             </div>
+            <div class="form-group">
+                <label for="marcaProducto">Marca</label>
+                <select class="form-control" name="marcaProducto" id="marcaProducto">
+                    <option value="">Todas</option>
+                    {% for brand in brands %}
+                        <option value="{{ brand.MarcaID }}">{{ brand.Nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
             <div class="form-group has-feedback has-clear">
                 <label for="nombreProducto">Nombre</label>
                 <input type="text" name="nombreProducto" id="nombreProducto" class="form-control">
@@ -41,6 +50,7 @@
                 <tr>
                     <th>Código</th>
                     <th>Categoría</th>
+                    <th>Marca</th>
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
