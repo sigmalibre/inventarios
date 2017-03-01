@@ -145,6 +145,8 @@
         inputPrecioDetalle.attr('min', datos.precioMin);
 
         modalDialogoCantidad.modal('show');
+
+        almacenSelect.focus();
     });
 
     eventos.on('factura-saved-success', function () {
