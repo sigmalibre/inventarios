@@ -347,7 +347,7 @@
 
             var producto = facturas.productos.crearProducto(
                 p.ProductoID, p.CategoriaProductoID, p.CodigoBienDet, p.CodigoLibroDet,
-                p.CategoriaProductoID + p.CodigoProducto, p.CostoActual, p.Descripcion, p.ExcentoIVA, p.FechaCreacion,
+                p.CodigoProducto, p.CostoActual, p.Descripcion, p.ExcentoIVA, p.FechaCreacion,
                 p.FechaModificacion, p.MarcaID, p.MedidaID, p.NombreCategoria, p.NombreMarca,
                 p.Cantidad, p.StockMin, p.UnidadMedida, p.Utilidad, precio.toFixed(2)
             );
@@ -476,7 +476,7 @@
             // CREAR DETALLE A PARTIR DE LA INFORMACIÓN OBTENIDA
             var newDetalle = facturas.crearDetalle(
                 detalle.producto.ProductoID,
-                detalle.producto.CategoriaProductoID + detalle.producto.CodigoProducto,
+                detalle.producto.CodigoProducto,
                 detalle.cantidad,
                 detalle.producto.Descripcion,
                 detalle.precioUnitario.toFixed(2),
