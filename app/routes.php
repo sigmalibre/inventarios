@@ -13,6 +13,7 @@ use Sigmalibre\Products\DescuentosController;
 use Sigmalibre\Products\ImportarController;
 use Sigmalibre\Products\ProductsController;
 use Sigmalibre\Providers\ProvidersController;
+use Sigmalibre\Reports\ReporteController;
 use Sigmalibre\TirajeFactura\TirajesController;
 use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
 use Sigmalibre\UserConfig\UserConfigController;
@@ -136,3 +137,7 @@ $app->post('/contactos/empresas/nuevo', EmpresasController::class . ':createNew'
 $app->get('/contactos/empresas/id/{id}', EmpresasController::class . ':indexEmpresa')->setName('empresa');
 $app->post('/contactos/empresas/id/{id}', EmpresasController::class . ':update');
 $app->delete('/contactos/empresas/id/{id}', EmpresasController::class . ':delete');
+
+// REPORTES
+
+$app->get('/reportes/test', ReporteController::class . ':testReporte');
