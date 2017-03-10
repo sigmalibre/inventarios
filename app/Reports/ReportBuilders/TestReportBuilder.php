@@ -31,7 +31,7 @@ class TestReportBuilder implements ReporteBuilder
 
     public function buildHeaderLogoPath()
     {
-        $this->headerLogoPath = APP_ROOT . '/public/img/logo_arcoiris.jpg';
+        $this->headerLogoPath = 'img/logo_arcoiris.jpg';
     }
 
     public function buildContentMeta()
