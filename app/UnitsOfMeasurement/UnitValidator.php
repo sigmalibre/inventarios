@@ -34,7 +34,7 @@ class UnitValidator extends Validator
     {
         $v = new AllOf(
             new StringType(),
-            new Length(1, 100)
+            new Length(1, 23)
         );
 
         if ($v->validate($input['unidadMedida']) === false) {
