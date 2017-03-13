@@ -39,6 +39,7 @@
     var outputTotal = $('#sum-total');
 
     var btnGuardarFactura = $('#btnGuardarFactura');
+    var btnImprimirCotizacion = $('#btnImprimirCotizacion');
 
     var almacenParent = almacenSelect.parent().removeClass('has-error');
     var cantidadParent = inputCantidadDetalle.parent().removeClass('has-error');
@@ -66,6 +67,12 @@
 
         if (tipoFactura == 2) {
             $('.credito-only').removeClass('hidden');
+        }
+
+        if (tipoFactura == 3) {
+            // No es factura, es cotización.
+            $('.cotizacion-hidden').addClass('hidden');
+            $('.cotizacion-show').removeClass('hidden');
         }
 
         if (isReadOnly == 1) {
@@ -328,6 +335,12 @@
         submitMethod.send(window.location.pathname, 'post', message, 'factura-new-saved');
     });
 
+    btnImprimirCotizacion.on('click', function () {
+        var detalles = facturas.getAllDetails();
+
+        submitMethod.download(window.location.pathname, 'post', detalles, 'cotizacion-downloaded');
+    });
+
     btnEliminar.on('click', function () {
         submitMethod.send(window.location.pathname, 'delete', null, 'factura-eliminada');
     });
@@ -454,6 +467,25 @@
         eventos.emit('factura-saved-error', null);
 
         return false;
+    });
+
+    // RECIBIDO RESPUESTA COTIZACION PDF
+    eventos.on('cotizacion-downloaded', function (datos) {
+        if (datos.error) {
+            eventos.emit('alert-feedback', {
+                context: 'danger',
+                icon: 'remove-sign',
+                message: 'No se pudo crear el archivo PDF de la cotización. ' + datos.error.error
+            });
+
+            return false;
+        }
+
+        eventos.emit('alert-feedback', {
+            context: 'info',
+            icon: 'ok',
+            message: 'Reporte de cotización recibido.'
+        });
     });
 
     // MOSTRAR DATOS DE FACTURA EXISTENTE
