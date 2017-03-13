@@ -37,8 +37,50 @@ var submitMethod = (function () {
         });
     };
 
+    var download = function (url, method, data, eventOnFinish) {
+        // Jquery no soporta resposeType arraybuffer
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open(method.toUpperCase(), url, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.responseType = 'arraybuffer';
+
+        xhr.onload = function () {
+            if (xhr.status !== 200) {
+                eventos.emit(eventOnFinish, {
+                    error: {
+                        status: xhr.status,
+                        error: 'Servidor no responde.'
+                    }
+                });
+
+                return false;
+            }
+
+            var blob = new Blob([xhr.response], {type: xhr.getResponseHeader('Content-Type')});
+            window.open(URL.createObjectURL(blob));
+
+            eventos.emit(eventOnFinish, {
+                status: 'success'
+            });
+        };
+
+        xhr.onerror = function () {
+            eventos.emit(eventOnFinish, {
+                error: {
+                    status: 'Network Failure',
+                    error: 'No hay conexión al servidor.'
+                }
+            });
+        };
+
+        xhr.send(JSON.stringify(data));
+    };
+
     return {
-        send: send
+        send: send,
+        download: download
     }
 }());
 
