@@ -68,6 +68,12 @@
             $('.credito-only').removeClass('hidden');
         }
 
+        if (tipoFactura == 3) {
+            // No es factura, es cotización.
+            $('.cotizacion-hidden').addClass('hidden');
+            $('.cotizacion-show').removeClass('hidden');
+        }
+
         if (isReadOnly == 1) {
             $('.readonly-hidden').addClass('hidden');
             $('.readonly-disabled').prop('disabled', true);

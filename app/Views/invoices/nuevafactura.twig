@@ -1,6 +1,6 @@
 {% extends 'templates/base.twig' %}
 
-{% block title  %}Nueva Factura{% endblock %}
+{% block title  %}{{ titulo ?? 'Nueva Factura' }}{% endblock %}
 
 {% block breadcrumb %}
     {% if tipoFactura == 1 %}
@@ -10,13 +10,17 @@
         {% else %}
             {{ bread.crumb(path_for('invoices/createform'), 'Nuevo') }}
         {% endif %}
-    {% else %}
+    {% endif %}
+    {% if tipoFactura == 2 %}
         {{ bread.crumb(path_for('creditofiscal'), 'Créditos Fiscales') }}
         {% if readOnly == 1 %}
             {{ bread.crumb(path_for('creditofiscal/id', {id: facturaID}), 'Revisar') }}
         {% else %}
             {{ bread.crumb(path_for('creditofiscal/createform'), 'Nuevo') }}
         {% endif %}
+    {% endif %}
+    {% if tipoFactura == 3 %}
+        {{ bread.crumb(path_for('cotizacion'), 'Crear Cotización') }}
     {% endif %}
 {% endblock %}
 
@@ -42,16 +46,19 @@
             <div class="row">
                 <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                     <div class="panel panel-primary">
-                        <div class="panel-heading clearfix">
+                        <div class="panel-heading clearfix cotizacion-hidden">
                             <h4 class="panel-title pull-left">Factura <span class="readonly-hidden">Nueva</span></h4>
                             <button id="btnMostrarModalEliminar" class="btn btn-xs btn-danger pull-right hidden readonly-show" data-toggle="modal" data-target="#modal-eliminar-recurso">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Eliminar
                             </button>
                         </div>
+                        <div class="panel-heading hidden cotizacion-show">
+                            <h4 class="panel-title">Cotizar Productos</h4>
+                        </div>
                         <div class="panel-body">
                             <form id="facturaForm" action="#">
-                                <div class="well">
+                                <div class="well cotizacion-hidden">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <ul>
@@ -71,7 +78,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row cotizacion-hidden">
                                     <div class="col-sm-6">
                                         <div id="selectClientePersona" class="form-group factura-only hidden">
                                             <label for="clientePersonaID">Cliente</label>
@@ -150,9 +157,13 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <button type="button" id="btnGuardarFactura" class="btn btn-block btn-info readonly-hidden">
+                                        <button type="button" id="btnGuardarFactura" class="btn btn-block btn-info readonly-hidden cotizacion-hidden">
                                             <span class="glyphicon glyphicon-floppy-save"></span>
                                             Guardar Factura
+                                        </button>
+                                        <button type="button" id="btnImprimirCotizacion" class="btn btn-block btn-info hidden cotizacion-show">
+                                            <span class="glyphicon glyphicon-print"></span>
+                                            Imprimir cotización
                                         </button>
                                     </div>
                                 </div>
