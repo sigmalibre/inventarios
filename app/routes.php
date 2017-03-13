@@ -3,6 +3,7 @@
 use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Categories\CategoriesController;
 use Sigmalibre\Clients\ClientsController;
+use Sigmalibre\Cotizaciones\CotizacionController;
 use Sigmalibre\Empresas\EmpresasController;
 use Sigmalibre\Homepage\HomeController;
 use Sigmalibre\Ingresos\IngresosController;
@@ -141,3 +142,8 @@ $app->delete('/contactos/empresas/id/{id}', EmpresasController::class . ':delete
 // REPORTES
 
 $app->get('/reportes/test', ReporteController::class . ':testReporte');
+
+// COTIZACIONES
+
+$app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName('cotizacion');
+$app->post('/cotizacion/nuevo', CotizacionController::class. ':report');
