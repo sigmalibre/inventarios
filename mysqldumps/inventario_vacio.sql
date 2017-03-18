@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS `CategoriaProductos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CategoriaProductos` (
   `CategoriaProductoID` varchar(2) NOT NULL,
-  `Nombre` varchar(50) NOT NULL,
+  `Nombre` varchar(25) NOT NULL,
   `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`CategoriaProductoID`),
   UNIQUE KEY `Nombre_UNIQUE` (`Nombre`)
@@ -116,7 +116,7 @@ CREATE TABLE `DetalleAlmacenes` (
   KEY `fk_DetalleAlmacenes_Productos1_idx` (`ProductoID`),
   CONSTRAINT `fk_DetalleAlmacenes_Almacenes1` FOREIGN KEY (`AlmacenID`) REFERENCES `Almacenes` (`AlmacenID`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleAlmacenes_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=280 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=281 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,7 +166,7 @@ CREATE TABLE `DetalleIngresos` (
   CONSTRAINT `fk_DetalleIngresos_Almacenes1` FOREIGN KEY (`AlmacenID`) REFERENCES `Almacenes` (`AlmacenID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleIngresos_Empresas1` FOREIGN KEY (`EmpresaID`) REFERENCES `Empresas` (`EmpresaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_DetalleIngresos_Productos1` FOREIGN KEY (`ProductoID`) REFERENCES `Productos` (`ProductoID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,7 +327,7 @@ DROP TABLE IF EXISTS `Medidas`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Medidas` (
   `MedidaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `UnidadMedida` varchar(100) NOT NULL,
+  `UnidadMedida` varchar(24) NOT NULL,
   `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`MedidaID`),
   UNIQUE KEY `UnidadMedida_UNIQUE` (`UnidadMedida`)
@@ -344,7 +344,7 @@ DROP TABLE IF EXISTS `Productos`;
 CREATE TABLE `Productos` (
   `ProductoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Codigo` varchar(20) NOT NULL,
-  `Descripcion` varchar(50) NOT NULL,
+  `Descripcion` varchar(25) NOT NULL,
   `ExcentoIVA` tinyint(1) NOT NULL DEFAULT '0',
   `StockMin` int(10) unsigned NOT NULL DEFAULT '1',
   `Utilidad` decimal(19,4) unsigned NOT NULL DEFAULT '0.0000',
@@ -369,7 +369,7 @@ CREATE TABLE `Productos` (
   CONSTRAINT `fk_Productos_Marcas1` FOREIGN KEY (`MarcaID`) REFERENCES `Marcas` (`MarcaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Productos_Medidas1` FOREIGN KEY (`MedidaID`) REFERENCES `Medidas` (`MedidaID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_Productos_ReferenciaLibroDet1` FOREIGN KEY (`CodigoLibroDet`) REFERENCES `ReferenciaLibroDet` (`CodigoLibroDet`) ON DELETE NO ACTION ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=284 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,4 +480,4 @@ CREATE TABLE `Usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-13 16:09:00
+-- Dump completed on 2017-03-17 20:52:09
