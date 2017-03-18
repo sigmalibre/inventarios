@@ -30,4 +30,9 @@ class ReporteController
             ->withHeader('Cache-Control', 'private, max-age=0, must-revalidate')
             ->write($reporteRenderizado);
     }
+
+    public function index(Request $request, Response $response)
+    {
+        return $this->container->view->render($response, 'reports/reports.twig');
+    }
 }
