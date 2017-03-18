@@ -145,6 +145,8 @@ $app->get('/reportes', ReporteController::class . ':index')->setName('reportes')
 
 $app->get('/reportes/test', ReporteController::class . ':testReporte');
 
+$app->get('/reportes/det', ReporteController::class . ':detPRN');
+
 // COTIZACIONES
 
 $app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName('cotizacion');
