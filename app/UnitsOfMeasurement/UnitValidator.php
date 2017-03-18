@@ -24,7 +24,7 @@ class UnitValidator extends Validator
     }
 
     /**
-     * La unidad de medida del producto debe ser un string de 100 carácteres o menos.
+     * La unidad de medida del producto debe ser un string de 24 carácteres o menos.
      *
      * @param mixed $input
      *
@@ -34,7 +34,7 @@ class UnitValidator extends Validator
     {
         $v = new AllOf(
             new StringType(),
-            new Length(1, 100)
+            new Length(1, 24)
         );
 
         if ($v->validate($input['unidadMedida']) === false) {

@@ -7,10 +7,12 @@ $(function () {
     'use strict';
 
     // Cachear los selectores de los inputs.
-    var costo = $('#valorCostoActualTotal');
+    var inputCosto = $('#valorCostoActualTotal');
     var utilidad = $('#utilidadProducto');
     var precioVenta = $('#precioVentaProducto');
     var precioVentaIva = $('#precioVentaIVAProducto');
+
+    var costo = inputCosto.val();
 
     /**
      * Obtiene todos los datos necesarios para realizar el cálculo de precio de venta sincronizado.
@@ -19,7 +21,7 @@ $(function () {
      */
     var getValoresPrecios = function () {
         return {
-            costo: Number(costo.val()),
+            costo: Number(costo),
             utilidad: Number(utilidad.val()),
             precioVenta: Number(precioVenta.val()),
             precioVentaIva: Number(precioVentaIva.val()),
@@ -36,6 +38,9 @@ $(function () {
     var format_decimals = function (num) {
         return num.toFixed(4);
     };
+
+    // Es requisito que el costo sea mostrado con IVA, para poder saber el precio al que fue comprado.
+    inputCosto.val(format_decimals(costo * (1 + precioVentaIva.data('iva') / 100)));
 
     /**
      * Actualiza los campos cuando el input de la utilidad ha llegado a cero, ya que este no puede ser menor.

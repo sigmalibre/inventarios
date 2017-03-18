@@ -1,0 +1,26 @@
+{% extends 'templates/base.twig' %}
+
+{% block title %}Reportes{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('reportes'), 'Reportes') }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Generar .PRN Para Sistema DET</h4>
+                    </div>
+                    <div class="panel-body">
+                        <a href="/reportes/det" target="_blank" class="btn btn-block btn-info">Generar Reporte DET</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

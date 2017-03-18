@@ -11,7 +11,7 @@ class Paginator
     private $userInput;
     private $itemsPerPage;
     private $defaultItemsPerPage = 10;
-    private $maxItemsPerPage = 50;
+    private $maxItemsPerPage = 100;
 
     /**
      * Recibe directamente el input del usuario.
