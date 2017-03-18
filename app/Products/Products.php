@@ -11,6 +11,7 @@ use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Products\DataSource\MySQL\DeleteFromBrand;
 use Sigmalibre\Products\DataSource\MySQL\DeleteFromCategory;
 use Sigmalibre\Products\DataSource\MySQL\DeleteFromMedida;
+use Sigmalibre\Products\DataSource\MySQL\SearchAllProducts;
 use Sigmalibre\Products\DataSource\MySQL\UpdateBrand;
 use Sigmalibre\Products\DataSource\MySQL\UpdateCategory;
 use Sigmalibre\Products\DataSource\MySQL\UpdateMedida;
@@ -57,6 +58,23 @@ class Products
         $productList['userInput'] = $userInput;
 
         return $productList;
+    }
+
+    public function readAllProudcts()
+    {
+        $buscadorProductos = new SearchAllProducts($this->container);
+
+        $listaProductos = $buscadorProductos->read([
+            'input' => [
+                'productoActivo' => '1'
+            ]
+        ]);
+
+        $listaProductos = array_filter($listaProductos, function ($p) {
+            return $p['Cantidad'] > 0 && $p['CostoActual'] > 0;
+        });
+
+        return $listaProductos;
     }
 
     /**
