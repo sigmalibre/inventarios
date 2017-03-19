@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS `CategoriaProductos`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `CategoriaProductos` (
   `CategoriaProductoID` varchar(2) NOT NULL,
-  `Nombre` varchar(25) NOT NULL,
+  `Nombre` varchar(20) NOT NULL,
   `Activo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`CategoriaProductoID`),
   UNIQUE KEY `Nombre_UNIQUE` (`Nombre`)
@@ -344,7 +344,7 @@ DROP TABLE IF EXISTS `Productos`;
 CREATE TABLE `Productos` (
   `ProductoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Codigo` varchar(20) NOT NULL,
-  `Descripcion` varchar(25) NOT NULL,
+  `Descripcion` varchar(29) NOT NULL,
   `ExcentoIVA` tinyint(1) NOT NULL DEFAULT '0',
   `StockMin` int(10) unsigned NOT NULL DEFAULT '1',
   `Utilidad` decimal(19,4) unsigned NOT NULL DEFAULT '0.0000',
@@ -480,4 +480,4 @@ CREATE TABLE `Usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-17 20:52:09
+-- Dump completed on 2017-03-18 20:56:47
