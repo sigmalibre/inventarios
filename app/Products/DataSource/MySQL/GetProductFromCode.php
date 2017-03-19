@@ -12,7 +12,7 @@ class GetProductFromCode extends FilterAllProducts
         [
             'filterName' => 'codigoProducto',
             'tableName' => 'Productos',
-            'columnName' => 'CodigoProducto',
+            'columnName' => 'Codigo',
             'searchType' => '=',
         ],
     ];
