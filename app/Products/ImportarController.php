@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\Products;
 
+use Slim\Http\Request;
+use Slim\Http\Response;
+
 /**
  * Controlador para hacer correr la importación de productos.
  */
@@ -16,13 +19,21 @@ class ImportarController
 
     /**
      * Corre la importación de productos.
+     *
+     * @param \Slim\Http\Request  $request
+     * @param \Slim\Http\Response $response
      */
-    public function importar()
+    public function importar(Request $request, Response $response)
     {
         $traslador = new ImportarProductos($this->container);
 
         $seTraslado = $traslador->importar();
 
-        return 'Todos los productos fueron importados con éxito.';
+        $productosConErrores = $traslador->getProductosConError();
+
+        return $this->container->view->render($response, 'products/importarresultados.twig', [
+            'importacionExitosa' => $seTraslado,
+            'productosErroneos' => $productosConErrores,
+        ]);
     }
 }

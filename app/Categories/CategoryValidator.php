@@ -53,7 +53,7 @@ class CategoryValidator extends Validator
     }
 
     /**
-     * El nombre de la categoría debe ser un string de 1 a 50 carácteres.
+     * El nombre de la categoría debe ser un string de 1 a 20 carácteres.
      *
      * @param mixed $input
      *
@@ -63,7 +63,7 @@ class CategoryValidator extends Validator
     {
         $v = new AllOf(
             new StringType(),
-            new Length(1, 25)
+            new Length(1, 20)
         );
 
         if ($v->validate($input['nombreCategoria']) === false) {
