@@ -1,0 +1,20 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Productos{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('products'), 'Regresar a Productos') }}
+{% endblock %}
+
+{% block content %}
+    {% if importacionExitosa %}
+        <div class="well">
+            <h2 class="text-success">Se importaron todos los productos sin errores.</h2>
+        </div>
+    {% else %}
+        <div class="well">
+            <h2 class="text-danger">Se importaron los productos, algunos presentaron errores:</h2>
+        </div>
+        {{ dump(productosErroneos) }}
+    {% endif %}
+{% endblock %}
