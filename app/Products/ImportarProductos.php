@@ -2,7 +2,12 @@
 
 namespace Sigmalibre\Products;
 
+use Sigmalibre\Brands\Brands;
+use Sigmalibre\Categories\Categories;
+use Sigmalibre\DataSource\MySQL\MySQLCustomDatabase;
+use Sigmalibre\Ingresos\Ingresos;
 use Sigmalibre\Ingresos\IngresosSoftValidator;
+use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement;
 
 /**
  * Realiza una importación de los datos provenientes desde la BD que utiliza
@@ -16,71 +21,36 @@ class ImportarProductos
     private $container;
     private $categoriasCreadas = 0;
 
+    private $productosConError = [];
+
     public function __construct($container)
     {
         $this->container = $container;
     }
 
-    /**
-     * Obtiene la información sobre productos que serán importados.
-     *
-     * @return array
-     */
-    private function obtenerProductosAImportar()
+    private function obtenerDatosAImportar()
     {
-        $listaProductosAImportar = new DataSource\MySQL\ObtenerProductosAImportar(new \Sigmalibre\DataSource\MySQL\MySQLCustomDatabase('trasladoinventario'));
+        $listaDatos = new DataSource\MySQL\DatosProductosAImportar(new MySQLCustomDatabase('inventarios'));
 
-        return $listaProductosAImportar->read([]);
+        return $listaDatos->read([]);
     }
 
-    /**
-     * Obtiene información adicional a la que se obtiene mediante obtenerProductosAImportar
-     * y que es necesaria para la correcta creación de productos nuevos.
-     *
-     * @return array
-     */
-    private function obtenerDatosAdicionalesAImportar()
-    {
-        $listaDatosAdicionales = new DataSource\MySQL\DatosAdicionalesProductosAImportar(new \Sigmalibre\DataSource\MySQL\MySQLCustomDatabase('inventarios'));
-
-        return $listaDatosAdicionales->read([]);
-    }
-
-    /**
-     * La información vieja le hacen falta datos necesarios para poder
-     * trasladarla a la BD nueva, esa información se obtiene desde la BD antigua
-     * y se añade a la información corregida.
-     *
-     * @return array
-     */
     private function prepararDatosAImportar()
     {
-        $listaDatosAImportar = $this->obtenerProductosAImportar();
+        $datos_importar = $this->obtenerDatosAImportar();
 
-        $listaDatosAdicionales = $this->obtenerDatosAdicionalesAImportar();
+        return array_map(function ($p) {
+            $p['Categoria'] = empty($p['Categoria']) ? 'SINCATEGORIA' : $p['Categoria'];
+            $p['Utilidad'] = isset($p['Utilidad']) ? $p['Utilidad'] : 0;
+            $p['ReferenciaLibroDet'] = empty($p['ReferenciaLibroDet']) ? '03' : $p['ReferenciaLibroDet'];
+            $p['CodigoBienDet'] = empty($p['CodigoBienDet']) ? '01' : $p['CodigoBienDet'];
+            $p['Marca'] = empty($p['Marca']) ? 'SINMARCA' : $p['Marca'];
+            $p['Medida'] = empty($p['Medida']) ? 'SINMEDIDA' : $p['Medida'];
+            $p['Unidades'] = isset($p['Unidades']) ? $p['Unidades'] : 0;
+            $p['Costo'] = isset($p['Costo']) ? $p['Costo'] : 0;
 
-        // Convierte la lista con los datos adicionales de utilizar índice
-        // numérico a ser una lista asociativa utilizando el código del producto
-        // como el índice de la lista.
-        $datosAdicionalesAsociativa = [];
-
-        foreach ($listaDatosAdicionales as $dato) {
-            $datosAdicionalesAsociativa[$dato['codigo_mas']] = $dato;
-        }
-
-        // Une la lista con los datos a importar junto con la lista de los datos
-        // adicionales para crear una sola con ambos datos necesarios para
-        // completar la creación de un producto.
-        $listaDatosCompletos = array_map(function ($datoAImportar) use ($datosAdicionalesAsociativa) {
-            $datoAImportar['Utilidad'] = $datosAdicionalesAsociativa[$datoAImportar['Codigo']]['precio1_cst'] ?? 0;
-            $datoAImportar['CodiboBienDet'] = $datosAdicionalesAsociativa[$datoAImportar['Codigo']]['codigo_catbiendet'] ?? '01';
-            $datoAImportar['ReferenciaLibroDet'] = $datosAdicionalesAsociativa[$datoAImportar['Codigo']]['codigo_reflibrodet'] ?? '03';
-
-            return $datoAImportar;
-        },
-        $listaDatosAImportar);
-
-        return $listaDatosCompletos;
+            return $p;
+        }, $datos_importar);
     }
 
     /**
@@ -93,7 +63,7 @@ class ImportarProductos
      */
     private function crearCategoria($nombre)
     {
-        $buscadorCategorias = new \Sigmalibre\Categories\Categories($this->container);
+        $buscadorCategorias = new Categories($this->container);
 
         // Si la categoría ingresada ya existe, utilizar esa.
         $idCategoria = $buscadorCategorias->idFromName($nombre);
@@ -123,22 +93,29 @@ class ImportarProductos
     {
         $productosPorCrear = $this->prepararDatosAImportar();
 
-        $creadorProductos = new \Sigmalibre\Products\Products($this->container);
-        $marcas = new \Sigmalibre\Brands\Brands($this->container);
-        $medidas = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
-        $ingresos = new \Sigmalibre\Ingresos\Ingresos($this->container, new IngresosSoftValidator());
-
-        $this->container->mysql->beginTransaction();
+        $marcas = new Brands($this->container);
+        $medidas = new UnitsOfMeasurement($this->container);
 
         foreach ($productosPorCrear as $index => $producto) {
+
+            $producto = array_map('trim', $producto);
+
+            if (strlen($producto['Categoria']) > 20) {
+                $producto['Categoria'] = str_replace(' ', '', $producto['Categoria']);
+                $producto['Categoria'] = substr($producto['Categoria'], 0, 20);
+            }
+
+            if (strlen($producto['Descripcion']) > 29) {
+                $producto['Descripcion'] = substr($producto['Descripcion'], 0, 29);
+            }
+
             $categoriaCreada = $this->crearCategoria($producto['Categoria']);
 
             // Revisar si la categoría no pudo ser creada
             if ($categoriaCreada === false) {
-                $this->container->mysql->rollBack();
-
-                // Detener la importación.
-                throw new \RuntimeException('La categoría "'.$producto['Categoria'].'" no pudo ser creada.');
+                $producto['RAZONERROR'] = 'La categoría "' . $producto['Categoria'] . '" no pudo ser creada.';
+                $this->productosConError[] = $producto;
+                continue;
             }
 
             // Revisar si el producto ya existe.
@@ -146,13 +123,16 @@ class ImportarProductos
 
             // Si el producto no existe.
             if ($productoExistente->is_set() === false) {
+
+                $creadorProductos = new Products($this->container);
+
                 $seCreoProducto = $creadorProductos->save([
                     'codigoProducto' => $producto['Codigo'],
                     'descripcionProducto' => $producto['Descripcion'],
                     'stockMinProducto' => 1,
                     'utilidadProducto' => $producto['Utilidad'],
                     'referenciaLibroDetProducto' => $producto['ReferenciaLibroDet'],
-                    'categoriaDetProducto' => $producto['CodiboBienDet'],
+                    'categoriaDetProducto' => $producto['CodigoBienDet'],
                     'marcaProducto' => $producto['Marca'],
                     'medidaProducto' => $producto['Medida'],
                     'categoriaProducto' => $categoriaCreada,
@@ -160,14 +140,16 @@ class ImportarProductos
 
                 // Revisar si el producto no fue creado.
                 if ($seCreoProducto === false) {
-                    $this->container->mysql->rollBack();
-
-                    // Detener la importación.
-                    throw new \RuntimeException('El producto ['.$producto['Codigo'].'] no pudo ser creado.');
+                    $producto['RAZONERROR'] = 'El producto [' . $producto['Codigo'] . '] no pudo ser creado.';
+                    $producto['ERRORES'] = $creadorProductos->getInvalidInputs();
+                    $this->productosConError[] = $producto;
+                    continue;
                 }
 
                 // El producto se creó.
                 // Guardar costoInicial.
+                $ingresos = new Ingresos($this->container, new IngresosSoftValidator());
+
                 $isIngresoSaved = $ingresos->save([
                     'cantidadIngreso' => $producto['Unidades'],
                     'valorPrecioUnitario' => $producto['Costo'],
@@ -177,18 +159,19 @@ class ImportarProductos
                 ], $seCreoProducto);
 
                 if ($isIngresoSaved === false) {
-                    $this->container->mysql->rollBack();
-
-                    // Detener la importación.
-                    throw new \RuntimeException('No se pudo establecer el costo inicial del producto ['.$producto['Codigo'].']');
+                    $producto['RAZONERROR'] = 'Se creó el producto, pero no se pudo establecer el costo inicial; Cantidad y Costo son cero.';
+                    $producto['ERRORES'] = $ingresos->getInvalidInputs();
+                    $this->productosConError[] = $producto;
+                    continue;
                 }
             }
         }
 
-        // LLegados a este punto, significa que no hubo ningún error en la
-        // importación de los productos, es seguro realizar un commit.
-        $this->container->mysql->commit();
+        return empty($this->productosConError);
+    }
 
-        return true;
+    public function getProductosConError()
+    {
+        return $this->productosConError;
     }
 }
