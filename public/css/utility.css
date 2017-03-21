@@ -34,3 +34,13 @@
 body {
     padding-top: 50px;
 }
+
+.text-light {
+    color: white;
+}
+
+.bg-shade {
+    background: rgba(0, 0, 0, 0.8);
+    display: inline-block;
+    padding: 20px;
+}
