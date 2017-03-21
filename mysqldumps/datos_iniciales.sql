@@ -18,3 +18,6 @@ INSERT INTO TiposFactura (TipoFacturaID, Nombre, TirajeFacturaID) VALUES ('2', '
 INSERT INTO ClientesPersonas (ClientesPersonasID, Nombres, Apellidos, DUI, NIT) VALUES ('1', 'CLIENTE', 'FACTURA', 'N/A', 'N/A');
 INSERT INTO Empresas (EmpresaID, NombreComercial, RazonSocial, Giro, Registro, NIT) VALUES ('1', 'CLIENTE CREDITO', 'N/A', 'N/A', 'N/A', 'N/A');
 INSERT INTO Empresas (EmpresaID, NombreComercial, RazonSocial, Giro, Registro, NIT) VALUES ('2', 'ARCO IRIS', 'COMERCIAL', 'Fabricacion de productos de cemento y ferreteria', '57462-7', '0819-060163-001-0');
+
+INSERT INTO Empleados (Nombres, Apellidos, Codigo) VALUES ('Admin', 'Admin', '11111');
+INSERT INTO Usuarios (EmpleadoID, Username, Password) VALUES ('1', 'admin', '$2y$10$VD5elgg8gsoW872JVV9Zt.trtLO5lmAxJ1WCJz4UWbR9G3Nsw8GlS');
