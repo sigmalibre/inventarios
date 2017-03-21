@@ -60,15 +60,19 @@ class Products
         return $productList;
     }
 
-    public function readAllProudcts()
+    public function readAllProudcts($input = [])
     {
         $buscadorProductos = new SearchAllProducts($this->container);
 
-        $listaProductos = $buscadorProductos->read([
+        $options = [
             'input' => [
                 'productoActivo' => '1'
             ]
-        ]);
+        ];
+
+        $options['input'] = array_merge($options['input'], $input);
+
+        $listaProductos = $buscadorProductos->read($options);
 
         $listaProductos = array_filter($listaProductos, function ($p) {
             return $p['Cantidad'] > 0 && $p['CostoActual'] > 0;
