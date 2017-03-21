@@ -1,5 +1,6 @@
 <?php
 
+use Sigmalibre\Accounts\LogIn\LogInController;
 use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Categories\CategoriesController;
 use Sigmalibre\Clients\ClientsController;
@@ -153,3 +154,8 @@ $app->get('/reportes/conteo', ReporteController::class . ':conteoInventario');
 
 $app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName('cotizacion');
 $app->post('/cotizacion/nuevo', CotizacionController::class. ':report');
+
+// SESIONES
+
+$app->get('/login', LogInController::class . ':index')->setName('login');
+$app->post('/login', LogInController::class . ':iniciarSesion');
