@@ -2,6 +2,7 @@
 
 namespace Sigmalibre\Reports;
 
+use Sigmalibre\Categories\Categories;
 use Sigmalibre\DET\DETReport;
 use Sigmalibre\Reports\ReportBuilders\CorteProductosReportBuilder;
 use Sigmalibre\Reports\ReportBuilders\TestReportBuilder;
@@ -36,7 +37,11 @@ class ReporteController
 
     public function index(Request $request, Response $response)
     {
-        return $this->container->view->render($response, 'reports/reports.twig');
+        $categories = (new Categories($this->container))->readAllCategories();
+
+        return $this->container->view->render($response, 'reports/reports.twig', [
+            'categories' => $categories,
+        ]);
     }
 
     public function detPRN(Request $request, Response $response)
