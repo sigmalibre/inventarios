@@ -8,7 +8,8 @@
         "slim/twig-view": "^2.1",
         "willdurand/negotiation": "^2.0",
         "respect/validation": "^1.1",
-        "dompdf/dompdf": "^0.8.0"
+        "dompdf/dompdf": "^0.8.0",
+        "phpextra/sorter": "^1.0"
     },
     "autoload": {
         "psr-4": {

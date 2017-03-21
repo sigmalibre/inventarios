@@ -20,6 +20,26 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Reporte de Conteo de Inventario Físico</h4>
+                    </div>
+                    <div class="panel-body">
+                        <form action="/reportes/conteo" method="get" target="_blank">
+                            <div class="form-group">
+                                <label for="category">Categoría</label>
+                                <select name="category" id="category" class="form-control">
+                                    {% for category in categories %}
+                                        <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info">Generar Reporte Conteo</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
