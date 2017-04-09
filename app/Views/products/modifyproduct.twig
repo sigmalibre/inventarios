@@ -29,7 +29,7 @@
                         <form action="{{ path_for('products/update', {id: productID}) }}" method="post">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group">
+                                    <div class="form-group {% if failedInputs.codigoCategoria %}has-error{% endif %}">
                                         <label for="categoriaProducto">Categoría del Producto</label>
                                         <select class="form-control new-product-category-select" name="categoriaProducto" id="categoriaProducto">
                                             <option value="">Elige Una Categoría</option>
@@ -37,19 +37,28 @@
                                             <option value="{{ category.CategoriaProductoID }}" {% if input.categoriaProducto == category.CategoriaProductoID %}selected{% endif %}>{{ category.Nombre }}</option>
                                             {% endfor %}
                                         </select>
+                                        {% if failedInputs.codigoCategoria %}
+                                            <span class="help-block">Por favor elige una categoría.</span>
+                                        {% endif %}
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.codigoProducto %}has-error{% endif %}">
                                         <label for="codigoProducto">Código</label>
                                         <div class="input-group">
                                             <span class="input-group-addon new-product-cat-preview">--</span>
-                                            <input type="text" name="codigoProducto" value="{{ input.codigoProducto }}" class="form-control" id="codigoProducto" maxlength="50">
+                                            <input type="text" name="codigoProducto" value="{{ input.codigoProducto }}" class="form-control" id="codigoProducto" maxlength="20" required>
                                             <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoProducto %}hidden{% endif %}"></span>
                                         </div>
+                                        {% if failedInputs.codigoProducto %}
+                                            <span class="help-block">Debe ser un código entre 1 y 20 caracteres.</span>
+                                        {% endif %}
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.descripcionProducto %}has-error{% endif %}">
                                         <label for="descripcionProducto">Descripción</label>
-                                        <input type="text" name="descripcionProducto" value="{{ input.descripcionProducto }}" class="form-control" id="descripcionProducto" maxlength="255">
+                                        <input type="text" name="descripcionProducto" value="{{ input.descripcionProducto }}" class="form-control" id="descripcionProducto" maxlength="29" required>
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.descripcionProducto %}hidden{% endif %}"></span>
+                                        {% if failedInputs.descripcionProducto %}
+                                            <span class="help-block">Debe ser entre 1 y 29 caracteres.</span>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label for="stockMinProducto">Stock Mínimo</label>
@@ -62,25 +71,31 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.marcaProducto %}has-error{% endif %}">
                                         <label for="marcaProducto">Marca</label>
-                                        <input type="text" name="marcaProducto" value="{{ input.marcaProducto }}" class="form-control" id="marcaProducto" maxlength="100" list="listaMarcas">
+                                        <input type="text" name="marcaProducto" value="{{ input.marcaProducto }}" class="form-control" id="marcaProducto" maxlength="100" list="listaMarcas" required>
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.marcaProducto %}hidden{% endif %}"></span>
                                         <datalist id="listaMarcas">
                                             {% for brand in brands %}
                                             <option>{{ brand.Nombre }}</option>
                                             {% endfor %}
                                         </datalist>
+                                        {% if failedInputs.marcaProducto %}
+                                            <span class="help-block">Debe ser entre 1 y 100 caracteres.</span>
+                                        {% endif %}
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.medidaProducto %}has-error{% endif %}">
                                         <label for="medidaProducto">Unidad de Medida</label>
-                                        <input type="text" name="medidaProducto" value="{{ input.medidaProducto }}" class="form-control" id="medidaProducto" maxlength="100" list="listaMedidas">
+                                        <input type="text" name="medidaProducto" value="{{ input.medidaProducto }}" class="form-control" id="medidaProducto" maxlength="24" list="listaMedidas" required>
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.medidaProducto %}hidden{% endif %}"></span>
                                         <datalist id="listaMedidas">
                                             {% for unit in measurements %}
                                             <option>{{ unit.UnidadMedida }}</option>
                                             {% endfor %}
                                         </datalist>
+                                        {% if failedInputs.medidaProducto %}
+                                            <span class="help-block">Debe ser entre 1 y 24 caracteres.</span>
+                                        {% endif %}
                                     </div>
                                     <div class="form-group">
                                         <label for="categoriaDetProducto">Categoría DET</label>
