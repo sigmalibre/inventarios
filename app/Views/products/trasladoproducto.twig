@@ -4,7 +4,7 @@
     </div>
     <div class="panel-body">
         <form action="{{ path_for('products/traslado', {'id': productID}) }}" method="post">
-            <div class="form-group">
+            <div class="form-group {% if failedInputs.almacenDesdeID %}has-error{% endif %}">
                 <label for=almacenDesdeID>Desde el Almacén</label>
                 <select name=almacenDesdeID id=almacenDesdeID class="form-control">
                     <option value="">Elige un Almacén</option>
@@ -12,15 +12,21 @@
                         <option value="{{ almacen.AlmacenID }}">{{ almacen.NombreAlmacen }}</option>
                     {% endfor %}
                 </select>
+                {% if failedInputs.almacenDesdeID %}
+                    <span class="help-block">Por favor, elige un almacén.</span>
+                {% endif %}
             </div>
-            <div class="form-group">
+            <div class="form-group {% if failedInputs.cantidadMenorCero or failedInputs.cantidadIngreso %}has-error{% endif %}">
                 <label for="cantidadIngreso">Transferir</label>
                 <div class="input-group">
-                    <input type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso">
+                    <input type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso" min="1">
                     <span class="input-group-addon">{{ input.medidaProducto }}</span>
                 </div>
+                {% if failedInputs.cantidadMenorCero or failedInputs.cantidadIngreso %}
+                    <span class="help-block">Debe ser un número entero positivo</span>
+                {% endif %}
             </div>
-            <div class="form-group">
+            <div class="form-group {% if failedInputs.almacenHastaID %}has-error{% endif %}">
                 <label for="almacenHastaID">Hasta el Almacén</label>
                 <select name="almacenHastaID" id="almacenHastaID" class="form-control">
                     <option value="">Elige un Almacén</option>
@@ -28,6 +34,9 @@
                         <option value="{{ almacen.AlmacenID }}">{{ almacen.NombreAlmacen }}</option>
                     {% endfor %}
                 </select>
+                {% if failedInputs.almacenHastaID %}
+                    <span class="help-block">Por favor, elige un almacén.</span>
+                {% endif %}
             </div>
             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-transfer"></span> Transferir</button>
         </form>
