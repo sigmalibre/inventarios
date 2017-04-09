@@ -26,7 +26,7 @@ class Category
     {
         $this->attributes = $this->dataSource->read([
             'input' => [
-                'codigoCategoria' => $id,
+                'codigoCategoria' => empty($id) ? -1 : $id,
             ],
         ]);
     }

@@ -115,7 +115,7 @@ class Empresa
         $dataSource = new GetEmpresaFromID($this->container);
         $attributes = $dataSource->read([
             'input' => [
-                'idEmpresa' => $id,
+                'idEmpresa' => empty($id) ? -1 : $id,
             ],
         ]);
 

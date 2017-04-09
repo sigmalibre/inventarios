@@ -25,7 +25,7 @@ class Unit
     {
         $this->attributes = $this->dataSource->read([
             'input' => [
-                'idMedida' => $id,
+                'idMedida' => empty($id) ? -1 : $id,
             ],
         ]);
     }

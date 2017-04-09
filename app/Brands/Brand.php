@@ -23,7 +23,7 @@ class Brand
     {
         $this->attributes = $this->dataSource->read([
             'input' => [
-                'idMarca' => $id,
+                'idMarca' => empty($id) ? -1 : $id,
             ],
         ]);
     }
