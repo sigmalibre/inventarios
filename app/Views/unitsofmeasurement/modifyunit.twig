@@ -27,10 +27,13 @@
                 </div>
                 <div class="panel-body">
                     <form action="{{ path_for('measurements/update', {id: idMedida}) }}" method="post">
-                        <div class="form-group has-feedback has-clear">
+                        <div class="form-group has-feedback has-clear {% if failedInputs.unidadMedida %}has-error{% endif %}">
                             <label for="unidadMedida">Nombre de la Magnitud</label>
                             <input type="text" name="unidadMedida" value="{{ input.unidadMedida }}" class="form-control" id="unidadMedida" maxlength="100">
                             <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.unidadMedida %}hidden{% endif %}"></span>
+                            {% if failedInputs.unidadMedida %}
+                                <span class="help-block">Debe ser entre 1 y 24 caracteres.</span>
+                            {% endif %}
                         </div>
                         <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Medida</button>
                     </form>
