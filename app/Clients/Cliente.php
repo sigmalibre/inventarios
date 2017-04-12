@@ -103,7 +103,7 @@ class Cliente
         $dataSource = new GetClienteFromID($this->container);
         $this->attributes = $dataSource->read([
             'input' => [
-                'idClientePersona' => $id,
+                'idClientePersona' => empty($id) ? -1 : $id,
             ],
         ]);
 

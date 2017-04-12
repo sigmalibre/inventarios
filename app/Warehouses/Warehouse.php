@@ -95,7 +95,7 @@ class Warehouse
         $dataSource = new GetWarehouseFromID($this->container);
         $attributes = $dataSource->read([
             'input' => [
-                'idAlmacen' => $id,
+                'idAlmacen' => empty($id) ? -1 : $id,
             ],
         ]);
 

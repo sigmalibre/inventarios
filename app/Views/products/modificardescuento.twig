@@ -25,19 +25,25 @@
                     </div>
                     <div class="panel-body">
                         <form action="{{ path_for('products/descuentos/modify', {'productoID': productoID, 'descuentoID': descuentoID}) }}" method="post">
-                            <div class="form-group has-feedback has-clear">
+                            <div class="form-group has-feedback has-clear {% if failedInputs.razonDescuento %}has-error{% endif %}">
                                 <label for="razonDescuento">Descripción del descuento</label>
-                                <input type="text" name="razonDescuento" value="{{ input.razonDescuento }}" class="form-control" id="razonDescuento">
+                                <input type="text" name="razonDescuento" value="{{ input.razonDescuento }}" class="form-control" id="razonDescuento" maxlength="45" required>
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonDescuento %}hidden{% endif %}"></span>
+                                {% if failedInputs.razonDescuento %}
+                                    <span class="help-block">Escribe una razón para este descuento, entre 1 y 45 caracteres.</span>
+                                {% endif %}
                             </div>
-                            <div class="form-group">
+                            <div class="form-group {% if failedInputs.cantidadDescontada %}has-error{% endif %}">
                                 <label for="cantidadDescontada">Cantidad del descuento</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
                                         <span class="glyphicon glyphicon-usd"></span>
                                     </span>
-                                    <input type="number" name="cantidadDescontada" value="{{ input.cantidadDescontada }}" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}">
+                                    <input type="number" name="cantidadDescontada" value="{{ input.cantidadDescontada }}" class="form-control limit-to-max-value" id="cantidadDescontada" min="0" step="any" data-max="{{ input.utilidadProducto }}" required>
                                 </div>
+                                {% if failedInputs.cantidadDescontada %}
+                                    <span class="help-block">El descuento debe ser mayor que $0.0001 y menor a la utilidad del producto</span>
+                                {% endif %}
                             </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Guardar Cambios</button>
                         </form>

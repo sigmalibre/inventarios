@@ -30,7 +30,7 @@ class TirajeFactura
     {
         $this->attributes = $this->dataSource->read([
             'input' => [
-                'idTiraje' => $id,
+                'idTiraje' => empty($id) ? -1 : $id,
             ],
         ]);
     }

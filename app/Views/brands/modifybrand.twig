@@ -27,10 +27,13 @@
                 </div>
                 <div class="panel-body">
                     <form action="{{ path_for('brands/update', {id: idMarca}) }}" method="post">
-                        <div class="form-group has-feedback has-clear">
+                        <div class="form-group has-feedback has-clear {% if failedInputs.nombreMarca %}has-error{% endif %}">
                             <label for="nombreMarca">Nombre de la Marca</label>
                             <input type="text" name="nombreMarca" value="{{ input.nombreMarca }}" class="form-control" id="nombreMarca" maxlength="100">
                             <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreMarca %}hidden{% endif %}"></span>
+                            {% if failedInputs.nombreMarca %}
+                                <span class="help-block">Debe ser entre 1 y 100 caracteres.</span>
+                            {% endif %}
                         </div>
                         <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Marca</button>
                     </form>
