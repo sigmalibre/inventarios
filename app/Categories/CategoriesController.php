@@ -49,6 +49,10 @@ class CategoriesController
      */
     public function indexNewCategory($request, $response, $arguments, $categorySaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         return $this->container->view->render($response, 'categories/newcategory.twig', [
             'categorySaved' => $categorySaved,
             'failedInputs' => $failedInputs,
@@ -98,6 +102,10 @@ class CategoriesController
      */
     public function createNew($request, $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $categories = new Categories($this->container);
 
         $isCategorySaved = $categories->save($request->getParsedBody());
@@ -116,6 +124,10 @@ class CategoriesController
      */
     public function update($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $category = new Category($arguments['id'], $this->container);
 
         // Si la categoría especificada en la URL no existe, devolver un 404.
@@ -136,6 +148,10 @@ class CategoriesController
 
     public function delete(Request $request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $categoria = new Category($arguments['id'], $this->container);
         if ($categoria->is_set() === false) {
             return (new Response())->withJson([

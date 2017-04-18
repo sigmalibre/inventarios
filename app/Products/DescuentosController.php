@@ -33,6 +33,10 @@ class DescuentosController
      */
     public function createNew(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $producto = new Product($arguments['id'], $this->container);
 
         if ($producto->is_set() === false) {
@@ -98,6 +102,10 @@ class DescuentosController
      */
     public function update(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $validatorDescuentos = new ValidadorDescuentos();
         $descuentos = new Descuentos(new Product($arguments['productoID'], $this->container), new FilterDescuentos($this->container), $validatorDescuentos);
 
@@ -120,6 +128,10 @@ class DescuentosController
      */
     public function delete(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $descuentos = new Descuentos(new Product($arguments['productoID'], $this->container), new FilterDescuentos($this->container), new ValidadorDescuentos());
 
         $isDeleted = $descuentos->eliminar($arguments['descuentoID'], new DeleteDescuento($this->container));

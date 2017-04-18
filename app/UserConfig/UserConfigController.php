@@ -69,6 +69,10 @@ class UserConfigController
      */
     public function setEmpresa(Request $request, ResponseInterface $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $input = (int)$request->getParsedBody()['empresaID'] ?? -1;
 
         $empresa = new Empresa($input, $this->container);
@@ -90,6 +94,10 @@ class UserConfigController
      */
     public function setTirajes(Request $request, ResponseInterface $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $input = $request->getParsedBody();
 
         $tirajeFacturaID = (int)$input['tirajeFacturaID'] ?? -1;

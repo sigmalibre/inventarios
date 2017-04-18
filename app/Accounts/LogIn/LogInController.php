@@ -64,6 +64,10 @@ class LogInController
 
     public function newUser(Request $request, Response $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $params = $request->getParsedBody();
 
         if (empty($params['username']) || empty($params['password'])) {
