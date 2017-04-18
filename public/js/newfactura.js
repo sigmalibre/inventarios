@@ -338,7 +338,7 @@
     btnImprimirCotizacion.on('click', function () {
         var detalles = facturas.getAllDetails();
 
-        submitMethod.download(window.location.pathname, 'post', detalles, 'cotizacion-downloaded');
+        submitMethod.download('/cotizacion/nuevo', 'post', detalles, 'cotizacion-downloaded');
     });
 
     btnEliminar.on('click', function () {
@@ -475,7 +475,7 @@
             eventos.emit('alert-feedback', {
                 context: 'danger',
                 icon: 'remove-sign',
-                message: 'No se pudo crear el archivo PDF de la cotización. ' + datos.error.error
+                message: 'No se pudo crear el archivo PDF. ' + datos.error.error
             });
 
             return false;
@@ -484,7 +484,7 @@
         eventos.emit('alert-feedback', {
             context: 'info',
             icon: 'ok',
-            message: 'Reporte de cotización recibido.'
+            message: 'Reporte recibido.'
         });
     });
 
