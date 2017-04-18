@@ -2,6 +2,9 @@
 
 namespace Sigmalibre\TirajeFactura;
 
+use Sigmalibre\TirajeFactura\DataSource\MySQL\DeleteTiraje;
+
+
 /**
  * Modelo para operar sobre un tiraje de factura.
  *
@@ -30,7 +33,7 @@ class TirajeFactura
     {
         $this->attributes = $this->dataSource->read([
             'input' => [
-                'idTiraje' => $id,
+                'idTiraje' => empty($id) ? -1 : $id,
             ],
         ]);
     }
@@ -113,5 +116,10 @@ class TirajeFactura
     public function getInvalidInputs()
     {
         return $this->validator->getInvalidInputs();
+    }
+
+    public function delete()
+    {
+        return (new DeleteTiraje($this->container))->write($this->TirajeFacturaID);
     }
 }

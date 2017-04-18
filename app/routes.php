@@ -82,6 +82,7 @@ $app->get('/almacenes', WarehousesController::class . ':indexWarehouses')->setNa
 
 $app->get('/almacenes/id/{id}', WarehousesController::class . ':indexWarehouse')->setName('warehouses/update');
 $app->post('/almacenes/id/{id}', WarehousesController::class . ':update');
+$app->delete('/almacenes/id/{id}', WarehousesController::class . ':delete');
 
 $app->get('/almacenes/nuevo', WarehousesController::class . ':indexCreateWarehouse')->setName('warehouses/createform');
 $app->post('/almacenes/nuevo', WarehousesController::class . ':createNew');
@@ -117,6 +118,7 @@ $app->get('/tirajes', TirajesController::class . ':indexListaTirajes')->setName(
 
 $app->get('/tirajes/id/{id}', TirajesController::class . ':indexTiraje')->setName('tirajes/update');
 $app->post('/tirajes/id/{id}', TirajesController::class . ':update');
+$app->delete('/tirajes/id/{id}', TirajesController::class . ':delete');
 
 $app->get('/tirajes/nuevo', TirajesController::class . ':indexNew')->setName('tirajes/createform');
 $app->post('/tirajes/nuevo', TirajesController::class . ':createNew');
@@ -150,6 +152,8 @@ $app->get('/reportes/det', ReporteController::class . ':detPRN');
 
 $app->get('/reportes/conteo', ReporteController::class . ':conteoInventario');
 
+$app->get('/reportes/resumenexistencia', ReporteController::class . ':resumenExistencia');
+
 // COTIZACIONES
 
 $app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName('cotizacion');
@@ -159,3 +163,4 @@ $app->post('/cotizacion/nuevo', CotizacionController::class. ':report');
 
 $app->get('/login', LogInController::class . ':index')->setName('login');
 $app->post('/login', LogInController::class . ':iniciarSesion');
+$app->post('/login/nuevo', LogInController::class . ':newUser')->setName('login/nuevo');

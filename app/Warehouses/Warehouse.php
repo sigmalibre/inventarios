@@ -11,6 +11,7 @@ use Sigmalibre\DatosGenerales\Direccion;
 use Sigmalibre\DatosGenerales\Telefono;
 use Sigmalibre\DatosGenerales\ValidadorDireccion;
 use Sigmalibre\DatosGenerales\ValidadorTelefono;
+use Sigmalibre\Warehouses\DataSource\MySQL\DeleteWarehouse;
 use Sigmalibre\Warehouses\DataSource\MySQL\GetWarehouseFromID;
 use Sigmalibre\Warehouses\DataSource\MySQL\UpdateWarehouse;
 
@@ -95,7 +96,7 @@ class Warehouse
         $dataSource = new GetWarehouseFromID($this->container);
         $attributes = $dataSource->read([
             'input' => [
-                'idAlmacen' => $id,
+                'idAlmacen' => empty($id) ? -1 : $id,
             ],
         ]);
 
@@ -262,5 +263,12 @@ class Warehouse
         $this->telefono = $telefono;
 
         return true;
+    }
+
+    public function delete()
+    {
+        $isDeleted = (new DeleteWarehouse($this->container))->write($this->id);
+
+        return $isDeleted;
     }
 }

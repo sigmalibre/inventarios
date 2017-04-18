@@ -77,6 +77,10 @@ class ProductsController
      */
     public function indexNewProduct($request, $response, $arguments, $productSaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $categories = new \Sigmalibre\Categories\Categories($this->container);
 
         $brands = new \Sigmalibre\Brands\Brands($this->container);
@@ -172,6 +176,10 @@ class ProductsController
      */
     public function createNew($request, $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $brands = new \Sigmalibre\Brands\Brands($this->container);
 
         $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
@@ -190,6 +198,10 @@ class ProductsController
      */
     public function update($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $brands = new \Sigmalibre\Brands\Brands($this->container);
 
         $unitsOfMeasurement = new \Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurement($this->container);
@@ -246,6 +258,10 @@ class ProductsController
      */
     public function traslado(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $warehouses = new Warehouses($this->container);
 
         $product = new Product($arguments['id'], $this->container);
@@ -296,6 +312,10 @@ class ProductsController
      */
     public function delete($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $product = new Product($arguments['id'], $this->container);
 
         // Si el producto especificado en la URL no exsiste, devolver un 404.

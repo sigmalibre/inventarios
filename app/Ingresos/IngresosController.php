@@ -29,6 +29,10 @@ class IngresosController
      */
     public function indexAll(Request $request, ResponseInterface $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $almacenes = new Warehouses($this->container);
 
         $ingresos = new Ingresos($this->container);
@@ -53,6 +57,10 @@ class IngresosController
      */
     public function createNew(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $ingresos = new Ingresos($this->container);
 
         $productsController = new ProductsController($this->container);

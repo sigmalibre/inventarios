@@ -52,6 +52,10 @@ class BrandsController
      */
     public function indexBrand($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $brand = new Brand($arguments['id'], $this->container);
         $brands = new Brands($this->container);
 
@@ -82,6 +86,10 @@ class BrandsController
      */
     public function update($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $brand = new Brand($arguments['id'], $this->container);
 
         // Si la marca especificada en la URL no existe, devolver un 404.
@@ -96,6 +104,10 @@ class BrandsController
 
     public function delete(Request $request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $marca = new Brand($arguments['id'], $this->container);
         if ($marca->is_set() === false) {
             return (new Response())->withJson([

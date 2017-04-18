@@ -65,6 +65,10 @@ class EmpresasController
      */
     public function createNew(Request $request, ResponseInterface $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $empresas = new Empresas($this->container);
         $isSaved = $empresas->save($request->getParsedBody());
 
@@ -117,6 +121,10 @@ class EmpresasController
      */
     public function update(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $empresa = new Empresa($arguments['id'], $this->container);
 
         if ($empresa->is_set() === false) {
@@ -130,6 +138,10 @@ class EmpresasController
 
     public function delete(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $empresa = new Empresa($arguments['id'], $this->container);
 
         if ($empresa->is_set() === false) {

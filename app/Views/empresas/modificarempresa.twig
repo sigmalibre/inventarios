@@ -20,60 +20,64 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <h3 class="panel-title pull-left">Modifica los datos de contacto de esta empresa</h3>
+                        {% if is_admin %}
                         <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
                             <span class="glyphicon glyphicon-trash"></span>
                             Eliminar
                         </button>
+                        {% endif %}
                     </div>
                     <div class="panel-body">
                         <form action="{{ path_for('empresa', {id: empresaID}) }}" method="post">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nombreComercial %}has-error{% endif %}">
                                         <label for="nombreComercial">Nombre Comercial</label>
                                         <input type="text" name="nombreComercial" value="{{ input.nombreComercial }}" class="form-control" id="nombreComercial">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreComercial %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.razonSocial %}has-error{% endif %}">
                                         <label for="razonSocial">Razón Social</label>
                                         <input type="text" name="razonSocial" value="{{ input.razonSocial }}" class="form-control" id="razonSocial">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.razonSocial %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.giro %}has-error{% endif %}">
                                         <label for="giro">Giro</label>
                                         <input type="text" name="giro" value="{{ input.giro }}" class="form-control" id="giro">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.giro %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.registro %}has-error{% endif %}">
                                         <label for="registro">Número de Registro de Contribuyente</label>
                                         <input type="text" name="registro" value="{{ input.registro }}" class="form-control" id="registro">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.registro %}hidden{% endif %}"></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nit %}has-error{% endif %}">
                                         <label for="nit">Número NIT</label>
                                         <input type="text" name="nit" value="{{ input.nit }}" class="form-control" id="nit">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nit %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.direccion %}has-error{% endif %}">
                                         <label for="direccion">Dirección</label>
                                         <input type="text" name="direccion" value="{{ input.direccion }}" class="form-control" id="direccion">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.telefono %}has-error{% endif %}">
                                         <label for="telefono">Teléfono</label>
                                         <input type="text" name="telefono" value="{{ input.telefono }}" class="form-control" id="telefono">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.email %}has-error{% endif %}">
                                         <label for="email">Correo Electrónico</label>
                                         <input type="text" name="email" value="{{ input.email }}" class="form-control" id="email">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.email %}hidden{% endif %}"></span>
                                     </div>
                                 </div>
                             </div>
+                            {% if is_admin %}
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Contacto</button>
+                            {% endif %}
                         </form>
                     </div>
                 </div>

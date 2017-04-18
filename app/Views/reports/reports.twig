@@ -10,6 +10,7 @@
 
     <div class="container-fluid">
         <div class="row">
+            {% if is_admin %}
             <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -20,6 +21,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-sm-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Reporte de resumen de existencia de mercadería</h4>
+                    </div>
+                    <div class="panel-body">
+                        <a href="/reportes/resumenexistencia" target="_blank" class="btn btn-block btn-info">Generar Reporte Resumen Total</a>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
             <div class="col-sm-4">
                 <div class="panel panel-primary">
                     <div class="panel-heading">

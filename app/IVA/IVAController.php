@@ -38,6 +38,10 @@ class IVAController
      */
     public function update(ServerRequestInterface $request, Response $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $isSaved = $this->iva->setPorcentajeIVA($request->getParsedBody());
 
         return $response->withRedirect($this->container->router->pathFor('ajustes', [], ['saved' => (int)$isSaved]));

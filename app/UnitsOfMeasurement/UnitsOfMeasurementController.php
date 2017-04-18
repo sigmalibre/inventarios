@@ -52,6 +52,10 @@ class UnitsOfMeasurementController
      */
     public function indexUnit($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $unit = new Unit($arguments['id'], $this->container);
         $unitList = new UnitsOfMeasurement($this->container);
 
@@ -82,6 +86,10 @@ class UnitsOfMeasurementController
      */
     public function update($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $unit = new Unit($arguments['id'], $this->container);
 
         // Si la medida especificada en la URL no existe, devolver un 404.
@@ -96,6 +104,10 @@ class UnitsOfMeasurementController
 
     public function delete(Request $request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $medida = new Unit($arguments['id'], $this->container);
         if ($medida->is_set() === false) {
             return (new Response())->withJson([

@@ -74,7 +74,6 @@
                                 <th>Tiraje</th>
                                 <th>Código</th>
                                 <th>Cliente</th>
-                                <th>Facturado Por</th>
                                 <th>Venta Total</th>
                             </tr>
                             </thead>
@@ -85,7 +84,6 @@
                                 <td>{{ invoice.codigoTiraje }}</td>
                                 <td>{{ invoice.correlativo }}</td>
                                 <td>{{ invoice.nombreCliente }} {{ invoice.apellidoCliente }}</td>
-                                <td>{{ invoice.codigoEmpleado }}</td>
                                 <td>$ {{ invoice.ventaTotal|number_format(2) }}</td>
                             </tr>
                             {% endfor %}

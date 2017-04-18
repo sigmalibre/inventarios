@@ -23,34 +23,34 @@
                         <form action="{{ path_for('clientes/createform') }}" method="post">
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nombres %}has-error{% endif %}">
                                         <label for="nombres">Nombres del Cliente</label>
                                         <input type="text" name="nombres" value="{% if isSaved is same as(false) %}{{ input.nombres }}{% endif %}" class="form-control" id="nombres">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombres %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.apellidos %}has-error{% endif %}">
                                         <label for="apellidos">Apellidos del Cliente</label>
                                         <input type="text" name="apellidos" value="{% if isSaved is same as(false) %}{{ input.apellidos }}{% endif %}" class="form-control" id="apellidos">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.apellidos %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.dui %}has-error{% endif %}">
                                         <label for="dui">DUI del Cliente</label>
                                         <input type="text" name="dui" value="{% if isSaved is same as(false) %}{{ input.dui }}{% endif %}" class="form-control" id="dui">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.dui %}hidden{% endif %}"></span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nit %}has-error{% endif %}">
                                         <label for="nit">NIT del Cliente</label>
                                         <input type="text" name="nit" value="{% if isSaved is same as(false) %}{{ input.nit }}{% endif %}" class="form-control" id="nit">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nit %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.direccion %}has-error{% endif %}">
                                         <label for="direccion">Dirección</label>
                                         <input type="text" name="direccion" value="{% if isSaved is same as (false) %}{{ input.direccion }}{% endif %}" class="form-control" id="direccion">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
                                     </div>
-                                    <div class="form-group has-feedback has-clear">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.telefono %}has-error{% endif %}">
                                         <label for="telefono">Teléfono</label>
                                         <input type="text" name="telefono" value="{% if isSaved is same as (false) %}{{ input.telefono }}{% endif %}" class="form-control" id="telefono">
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>

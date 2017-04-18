@@ -1,6 +1,8 @@
 <?php
 
 namespace Sigmalibre\TirajeFactura;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Controlador para las acciones sobre los tirajes de facturación.
@@ -96,6 +98,10 @@ class TirajesController
      */
     public function createNew($request, $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $creador = new CreadorTirajes($this->container);
 
         $isSaved = $creador->save($request->getParsedBody());
@@ -115,6 +121,10 @@ class TirajesController
      */
     public function update($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $tiraje = new TirajeFactura($arguments['id'], $this->container);
 
         // Si la id especificada en la URL no existe, devolver un 404.
@@ -125,5 +135,32 @@ class TirajesController
         $isUpdated = $tiraje->update($request->getParsedBody());
 
         return $this->indexTiraje($request, $response, $arguments, $isUpdated, $tiraje->getInvalidInputs());
+    }
+
+    public function delete(Request $request, Response $response, $arguments)
+    {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
+        $tiraje = new TirajeFactura($arguments['id'], $this->container);
+
+        if ($tiraje->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        if ($tiraje->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Failure',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }

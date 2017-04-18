@@ -18,23 +18,40 @@
                     <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el almacén.</div>
                 {% endif %}
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Modifica este almacén</div>
+                    <div class="panel-heading clearfix">
+                        <h2 class="panel-title pull-left">Modifica este almacén</h2>
+                        {% if is_admin and almacenID != 1 %}
+                        <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Eliminar
+                        </button>
+                        {% endif %}
+                    </div>
                     <div class="panel-body">
                         <form action="{{ path_for('warehouses/update', {'id': almacenID}) }}" method="post">
-                            <div class="form-group has-feedback has-clear">
+                            <div class="form-group has-feedback has-clear {% if failedInputs.nombreAlmacen %}has-error{% endif %}">
                                 <label for="nombreAlmacen">Nombre del Almacen</label>
                                 <input type="text" name="nombreAlmacen" value="{{ input.nombreAlmacen }}" class="form-control" id="nombreAlmacen">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombreAlmacen %}hidden{% endif %}"></span>
+                                {% if failedInputs.nombreAlmacen %}
+                                    <span class="help-block">Debe ser entre 1 y 50 caracteres.</span>
+                                {% endif %}
                             </div>
-                            <div class="form-group has-feedback has-clear">
+                            <div class="form-group has-feedback has-clear {% if failedInputs.direccion %}has-error{% endif %}">
                                 <label for="direccion">Dirección</label>
                                 <input type="text" name="direccion" value="{{ input.direccion }}" class="form-control" id="direccion">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
+                                {% if failedInputs.direccion %}
+                                    <span class="help-block">Debe ser entre 1 y 255 caracteres.</span>
+                                {% endif %}
                             </div>
-                            <div class="form-group has-feedback has-clear">
+                            <div class="form-group has-feedback has-clear {% if failedInputs.telefono %}has-error{% endif %}">
                                 <label for="telefono">Teléfono</label>
                                 <input type="text" name="telefono" value="{{ input.telefono }}" class="form-control" id="telefono">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
+                                {% if failedInputs.telefono %}
+                                    <span class="help-block">Debe ser entre 1 y 30 caracteres.</span>
+                                {% endif %}
                             </div>
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Almacén</button>
                         </form>
@@ -43,4 +60,6 @@
             </div>
         </div>
     </div>
+
+    {% include '/warehouses/eliminaralmacen.twig' %}
 {% endblock %}
