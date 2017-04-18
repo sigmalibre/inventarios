@@ -437,7 +437,7 @@
             return almacen.AlmacenID == input.almacenID;
         })[0];
 
-        var detalle = facturas.crearDetalle(productoActual.productoID, productoActual.codigoProducto, input.cantidad,
+        var detalle = facturas.crearDetalle(productoActual.productoID, productoActual.codigoProducto, input.cantidad, productoActual.nombreMarca,
             productoActual.descripcion, Number(input.precio).toFixed(2), excentas.toFixed(2), afectas.toFixed(2), input.almacenID, almacen.NombreAlmacen);
 
         facturas.addDetalle(detalle);
@@ -519,6 +519,7 @@
                 detalle.producto.ProductoID,
                 detalle.producto.CodigoProducto,
                 detalle.cantidad,
+                detalle.producto.NombreMarca,
                 detalle.producto.Descripcion,
                 detalle.precioUnitario.toFixed(2),
                 exentas.toFixed(2),
@@ -540,11 +541,12 @@ var facturas = (function () {
 
     var listaDetalles = {};
 
-    var crearDetalle = function (id, codigo, cantidad, descripcion, precio, excentas, afectas, almacenID, almacen) {
+    var crearDetalle = function (id, codigo, cantidad, marca, descripcion, precio, excentas, afectas, almacenID, almacen) {
         return {
             id: id,
             codigo: codigo,
             cantidad: cantidad,
+            marca: marca,
             descripcion: descripcion,
             precio: precio,
             excentas: excentas,
