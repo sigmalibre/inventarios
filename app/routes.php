@@ -159,3 +159,4 @@ $app->post('/cotizacion/nuevo', CotizacionController::class. ':report');
 
 $app->get('/login', LogInController::class . ':index')->setName('login');
 $app->post('/login', LogInController::class . ':iniciarSesion');
+$app->post('/login/nuevo', LogInController::class . ':newUser')->setName('login/nuevo');
