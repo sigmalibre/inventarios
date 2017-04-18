@@ -52,6 +52,10 @@ class BrandsController
      */
     public function indexBrand($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $brand = new Brand($arguments['id'], $this->container);
         $brands = new Brands($this->container);
 

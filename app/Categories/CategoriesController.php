@@ -73,6 +73,10 @@ class CategoriesController
      */
     public function indexCategory($request, $response, $arguments, $categorySaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $category = new Category($arguments['id'], $this->container);
         $categoies = new Categories($this->container);
 

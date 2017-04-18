@@ -52,6 +52,10 @@ class UnitsOfMeasurementController
      */
     public function indexUnit($request, $response, $arguments, $isSaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $unit = new Unit($arguments['id'], $this->container);
         $unitList = new UnitsOfMeasurement($this->container);
 
