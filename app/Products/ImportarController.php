@@ -22,9 +22,15 @@ class ImportarController
      *
      * @param \Slim\Http\Request  $request
      * @param \Slim\Http\Response $response
+     *
+     * @return \Slim\Http\Response
      */
     public function importar(Request $request, Response $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $traslador = new ImportarProductos($this->container);
 
         $seTraslado = $traslador->importar();

@@ -68,6 +68,10 @@ class ClientsController
      */
     public function createNew(Request $request, ResponseInterface $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $clients = new Clients($this->container);
 
         $isCategorySaved = $clients->save($request->getParsedBody());
@@ -140,6 +144,10 @@ class ClientsController
      */
     public function update(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $cliente = new Cliente($arguments['id'], $this->container);
 
         if ($cliente->is_set() === false) {
@@ -153,6 +161,10 @@ class ClientsController
 
     public function delete(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $cliente = new Cliente($arguments['id'], $this->container);
         if ($cliente->is_set() === false) {
             return (new Response())->withJson([

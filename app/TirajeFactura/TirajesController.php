@@ -96,6 +96,10 @@ class TirajesController
      */
     public function createNew($request, $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $creador = new CreadorTirajes($this->container);
 
         $isSaved = $creador->save($request->getParsedBody());
@@ -115,6 +119,10 @@ class TirajesController
      */
     public function update($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $tiraje = new TirajeFactura($arguments['id'], $this->container);
 
         // Si la id especificada en la URL no existe, devolver un 404.

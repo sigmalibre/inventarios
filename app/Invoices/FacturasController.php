@@ -62,12 +62,18 @@ class FacturasController
     /**
      * Obtiene el input del usuario y crea una factura nueva.
      *
-     * @param \Slim\Http\Request $request
+     * @param \Slim\Http\Request  $request
+     *
+     * @param \Slim\Http\Response $response
      *
      * @return \Slim\Http\Response
      */
-    public function saveNew(Request $request)
+    public function saveNew(Request $request, Response $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $correlativo = new SiguienteCorrelativo(new TirajeFactura($this->tirajeID, $this->container));
 
         $input = $request->getParsedBody();
@@ -113,6 +119,10 @@ class FacturasController
      */
     public function indexNew($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         if ($this->container->negotiator->getValue() === 'application/json') {
             return $this->indexSingle($arguments['id']);
         }
@@ -179,6 +189,10 @@ class FacturasController
 
     public function delete($request, $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $id = $arguments['id'];
 
         $facturas = new MySQLFacturaRepository($this->container);

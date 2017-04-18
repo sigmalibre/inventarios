@@ -68,6 +68,10 @@ class WarehousesController
      */
     public function createNew(Request $request, ResponseInterface $response)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $warehouses = new Warehouses($this->container);
 
         $isSaved = $warehouses->save($request->getParsedBody());
@@ -88,6 +92,10 @@ class WarehousesController
      */
     public function indexWarehouse(Request $request, ResponseInterface $response, $arguments, $isSaved = null, $failedInputs = null)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $warehouse = new Warehouse($arguments['id'], $this->container);
 
         if ($warehouse->is_set() === false) {
@@ -117,6 +125,10 @@ class WarehousesController
      */
     public function update(Request $request, ResponseInterface $response, $arguments)
     {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
         $warehouse = new Warehouse($arguments['id'], $this->container);
 
         if ($warehouse->is_set() === false) {

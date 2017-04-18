@@ -21,6 +21,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    {% if is_admin %}
                     <li class="{% if uri_path == path_for('invoices/createform') %}active{% endif %}">
                         <a href="{{ path_for('invoices/createform') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -39,12 +40,14 @@
                             Nuevo Tiraje de Factura
                         </a>
                     </li>
+                    {% endif %}
                     <li class="{% if uri_path == path_for('cotizacion') %}active{% endif %}">
                         <a href="{{ path_for('cotizacion') }}">
                             <span class="glyphicon glyphicon-usd"></span>
                             Nueva Cotización
                         </a>
                     </li>
+                    {% if is_admin %}
                     <li class="{% if uri_path == path_for('invoices') %}active{% endif %}">
                         <a href="{{ path_for('invoices') }}">
                             <span class="glyphicon glyphicon-user"></span>
@@ -63,6 +66,7 @@
                             Ver Tirajes de Factura
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
             </li>
             {% set productos_urls = [path_for('products/createform'), path_for('categories/createform'), path_for('products'), path_for('categories'), path_for('brands'), path_for('measurements'), path_for('ingresos')] %}
@@ -73,6 +77,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    {% if is_admin %}
                     <li class="{% if uri_path == path_for('products/createform') %}active{% endif %}">
                         <a href="{{ path_for('products/createform') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -85,6 +90,7 @@
                             Nueva Categoría
                         </a>
                     </li>
+                    {% endif %}
                     <li class="{% if uri_path == path_for('products') %}active{% endif %}">
                         <a href="{{ path_for('products') }}">
                             <span class="glyphicon glyphicon-gift"></span>
@@ -109,12 +115,14 @@
                             Ver Medidas
                         </a>
                     </li>
+                    {% if is_admin %}
                     <li class="{% if uri_path == path_for('ingresos') %}active{% endif %}">
                         <a href="{{ path_for('ingresos') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Ver Detalles de Entradas
                         </a>
                     </li>
+                    {% endif %}
                 </ul>
             </li>
             {% set warehouses_urls = [path_for('warehouses'), path_for('warehouses/createform')] %}
@@ -125,12 +133,14 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    {% if is_admin %}
                     <li class="{% if uri_path == path_for('warehouses/createform') %}active{% endif %}">
                         <a href="{{ path_for('warehouses/createform') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Nuevo Almacén
                         </a>
                     </li>
+                    {% endif %}
                     <li class="{% if uri_path == path_for('warehouses') %}active{% endif %}">
                         <a href="{{ path_for('warehouses') }}">
                             <span class="glyphicon glyphicon-home"></span>
@@ -147,6 +157,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
+                    {% if is_admin %}
                     <li class="{% if uri_path == path_for('empresas/createform') %}active{% endif %}">
                         <a href="{{ path_for('empresas/createform') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -159,6 +170,7 @@
                             Nuevo Contacto Cliente
                         </a>
                     </li>
+                    {% endif %}
                     <li class="{% if uri_path == path_for('empresas') %}active{% endif %}">
                         <a href="{{ path_for('empresas') }}">
                             <span class="glyphicon glyphicon-home"></span>
