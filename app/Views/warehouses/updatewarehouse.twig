@@ -18,7 +18,15 @@
                     <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el almacén.</div>
                 {% endif %}
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Modifica este almacén</div>
+                    <div class="panel-heading clearfix">
+                        <h2 class="panel-title pull-left">Modifica este almacén</h2>
+                        {% if is_admin and almacenID != 1 %}
+                        <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Eliminar
+                        </button>
+                        {% endif %}
+                    </div>
                     <div class="panel-body">
                         <form action="{{ path_for('warehouses/update', {'id': almacenID}) }}" method="post">
                             <div class="form-group has-feedback has-clear {% if failedInputs.nombreAlmacen %}has-error{% endif %}">
@@ -52,4 +60,6 @@
             </div>
         </div>
     </div>
+
+    {% include '/warehouses/eliminaralmacen.twig' %}
 {% endblock %}
