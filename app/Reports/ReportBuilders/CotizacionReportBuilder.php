@@ -18,7 +18,7 @@ class CotizacionReportBuilder implements ReporteBuilder
     private $contentTitles;
     private $contentBody;
     private $contentFooter;
-    
+
     private $detalles;
 
     public function __construct($detalles)
@@ -48,26 +48,21 @@ class CotizacionReportBuilder implements ReporteBuilder
 
     public function buildContentTitles()
     {
-        $this->contentTitles = ['Codigo', 'Almacén', 'Cantidad', 'Descripción', 'Precio Unitario', 'Ventas Excentas', 'Ventas Afectas'];
+        $this->contentTitles = ['Codigo', 'Almacén', 'Cant.', 'Descripción', 'Marca', 'Unitario', 'Excentas', 'Afectas'];
     }
 
     public function buildContentBody()
     {
-        $this->contentBody = [
-            ['001', 'UNIDAD', 'RASTRILLO METÁLICO', 'SURTEK', 'JARDINERÍA'],
-            ['002', 'PAR', 'BOTAS INDUSTRIALES', 'TRUPER', 'PROTECCIÓN'],
-            ['003', 'GALÓN', 'PINTURA ROJA', 'COMEX', 'PINTURAS'],
-        ];
-
         $this->contentBody = array_map(function ($d) {
             return [
                 $d['codigo'],
                 $d['almacen'],
                 $d['cantidad'],
                 $d['descripcion'],
+                $d['marca'],
                 '$ ' . number_format($d['precio'], 2),
                 '$ ' . number_format($d['excentas'], 2),
-                '$ ' . number_format($d['afectas'], 2)
+                '$ ' . number_format($d['afectas'], 2),
             ];
         }, $this->detalles);
     }
@@ -85,17 +80,17 @@ class CotizacionReportBuilder implements ReporteBuilder
 
         $this->contentFooter = [
             [
-                ['empty' => true, 'colspan' => 5],
+                ['empty' => true, 'colspan' => 6],
                 ['head' => true, 'text' => 'SUMAS'],
                 ['cell' => true, 'text' => '$ ' . number_format($afectas, 2)],
             ],
             [
-                ['empty' => true, 'colspan' => 5],
+                ['empty' => true, 'colspan' => 6],
                 ['head' => true, 'text' => 'EXENTAS'],
                 ['cell' => true, 'text' => '$ ' . number_format($exentas, 2)],
             ],
             [
-                ['empty' => true, 'colspan' => 5],
+                ['empty' => true, 'colspan' => 6],
                 ['head' => true, 'text' => 'TOTAL'],
                 ['cell' => true, 'text' => '$ ' . number_format($afectas + $exentas, 2)],
             ],

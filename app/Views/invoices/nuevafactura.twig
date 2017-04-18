@@ -116,6 +116,7 @@
                                                     <th class="center-center">Almacén</th>
                                                     <th class="center-center">Cant.</th>
                                                     <th class="center-center">Descripción</th>
+                                                    <th class="center-center">Marca</th>
                                                     <th class="center-center">Precio Unitario</th>
                                                     <th class="center-center">Ventas Exentas</th>
                                                     <th class="center-center">Ventas Afectas</th>
@@ -205,7 +206,7 @@
                             <label for="cantidadDetalle">Cantidad</label>
                             <input type="number" name="cantidadDetalle" id="cantidadDetalle" class="form-control limit-to-max-value" min="0" step="1" value="0" data-max="0" required>
                         </div>
-                        <div class="form-group hidden">
+                        <div class="form-group">
                             <label for="descuentoID">Descuento Aplicable</label>
                             <select name="descuentoID" id="descuentoID" class="form-control"></select>
                         </div>
@@ -247,6 +248,7 @@
             <td class="small">{{almacen}}</td>
             <td class="small">{{cantidad}}</td>
             <td class="small">{{descripcion}}</td>
+            <td class="small">{{marca}}</td>
             <td class="small">$ {{precio}}</td>
             <td class="small">$ {{excentas}}</td>
             <td class="small">$ {{afectas}}</td>
