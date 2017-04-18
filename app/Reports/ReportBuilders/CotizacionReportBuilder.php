@@ -28,7 +28,7 @@ class CotizacionReportBuilder implements ReporteBuilder
 
     public function buildTitle()
     {
-        $this->title = 'COTIZACIÓN PRODUCTOS';
+        $this->title = 'DETALLE DE PRODUCTOS';
     }
 
     public function buildWithHeader()
