@@ -118,6 +118,7 @@ $app->get('/tirajes', TirajesController::class . ':indexListaTirajes')->setName(
 
 $app->get('/tirajes/id/{id}', TirajesController::class . ':indexTiraje')->setName('tirajes/update');
 $app->post('/tirajes/id/{id}', TirajesController::class . ':update');
+$app->delete('/tirajes/id/{id}', TirajesController::class . ':delete');
 
 $app->get('/tirajes/nuevo', TirajesController::class . ':indexNew')->setName('tirajes/createform');
 $app->post('/tirajes/nuevo', TirajesController::class . ':createNew');

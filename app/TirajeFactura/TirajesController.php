@@ -1,6 +1,8 @@
 <?php
 
 namespace Sigmalibre\TirajeFactura;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Controlador para las acciones sobre los tirajes de facturación.
@@ -133,5 +135,32 @@ class TirajesController
         $isUpdated = $tiraje->update($request->getParsedBody());
 
         return $this->indexTiraje($request, $response, $arguments, $isUpdated, $tiraje->getInvalidInputs());
+    }
+
+    public function delete(Request $request, Response $response, $arguments)
+    {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
+        $tiraje = new TirajeFactura($arguments['id'], $this->container);
+
+        if ($tiraje->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        if ($tiraje->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Failure',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
     }
 }
