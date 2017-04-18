@@ -152,6 +152,8 @@ $app->get('/reportes/det', ReporteController::class . ':detPRN');
 
 $app->get('/reportes/conteo', ReporteController::class . ':conteoInventario');
 
+$app->get('/reportes/resumenexistencia', ReporteController::class . ':resumenExistencia');
+
 // COTIZACIONES
 
 $app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName('cotizacion');
