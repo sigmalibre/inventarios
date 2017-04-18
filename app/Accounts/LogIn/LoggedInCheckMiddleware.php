@@ -17,6 +17,8 @@ class LoggedInCheckMiddleware
             return $response->withRedirect('/login');
         }
 
+        $request = $request->withAttribute('isAdmin', $_SESSION['username'] === 'admin');
+
         return $next($request, $response);
     }
 }
