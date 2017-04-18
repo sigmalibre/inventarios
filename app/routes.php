@@ -82,6 +82,7 @@ $app->get('/almacenes', WarehousesController::class . ':indexWarehouses')->setNa
 
 $app->get('/almacenes/id/{id}', WarehousesController::class . ':indexWarehouse')->setName('warehouses/update');
 $app->post('/almacenes/id/{id}', WarehousesController::class . ':update');
+$app->delete('/almacenes/id/{id}', WarehousesController::class . ':delete');
 
 $app->get('/almacenes/nuevo', WarehousesController::class . ':indexCreateWarehouse')->setName('warehouses/createform');
 $app->post('/almacenes/nuevo', WarehousesController::class . ':createNew');

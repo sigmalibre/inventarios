@@ -139,4 +139,31 @@ class WarehousesController
 
         return $this->indexWarehouse($request, $response, $arguments, $isSaved, $warehouse->getInvalidInputs());
     }
+
+    public function delete(Request $request, Response $response, $arguments)
+    {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
+        $almacen = new Warehouse($arguments['id'], $this->container);
+
+        if ($almacen->is_set() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Not Found',
+            ], 200);
+        }
+
+        if ($almacen->delete() === false) {
+            return (new Response())->withJson([
+                'status' => 'error',
+                'reason' => 'Internal Failure',
+            ], 200);
+        }
+
+        return (new Response())->withJson([
+            'status' => 'success',
+        ], 200);
+    }
 }
