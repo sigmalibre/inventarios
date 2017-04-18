@@ -20,10 +20,12 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading clearfix">
                         <h2 class="panel-title pull-left">Modifica un producto</h2>
+                        {% if is_admin %}
                         <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
                             <span class="glyphicon glyphicon-trash"></span>
                             Eliminar
                         </button>
+                        {% endif %}
                     </div>
                     <div class="panel-body">
                         <form action="{{ path_for('products/update', {id: productID}) }}" method="post">
@@ -163,25 +165,30 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if is_admin %}
                             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Producto</button>
+                            {% endif %}
                         </form>
                     </div>
                 </div>
                 <hr>
             </div>
         </div>
+        {% if is_admin %}
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 {% include 'products/ingresarproducto.twig' %}
                 <hr>
             </div>
         </div>
+        {% endif %}
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <div class="row">
                     <div class="col-sm-6">
                         {% include 'products/existenciaproducto.twig' %}
                     </div>
+                    {% if is_admin %}
                     <div class="col-sm-6">
                         {% include 'products/trasladoproducto.twig' %}
                     </div>
@@ -192,12 +199,15 @@
         <div class="row">
             <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
                 <div class="row">
+                    {% endif %}
                     <div class="col-sm-6">
                         {% include 'products/descuentos.twig' %}
                     </div>
+                    {% if is_admin %}
                     <div class="col-sm-6">
                         {% include 'products/newdescuento.twig' %}
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
