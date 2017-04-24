@@ -7,6 +7,15 @@ namespace Sigmalibre\Ingresos\DataSource\MySQL;
  */
 class CountFilteredIngresos extends FilterIngresos
 {
-    protected $baseQuery = 'SELECT COUNT(*) AS cuenta FROM DetalleIngresos LEFT JOIN Productos USING (ProductoID) LEFT JOIN Empresas USING (EmpresaID) WHERE 1';
+    protected $baseQuery = '
+      SELECT
+        COUNT(*) AS cuenta
+      FROM DetalleIngresos
+      LEFT JOIN Productos USING (ProductoID)
+      LEFT JOIN CategoriaProductos USING (CategoriaProductoID)
+      LEFT JOIN Marcas USING (MarcaID)
+      LEFT JOIN Empresas USING (EmpresaID)
+      LEFT JOIN Almacenes USING (AlmacenID)
+      WHERE 1';
     protected $setLimit = false;
 }
