@@ -73,7 +73,7 @@ class ProductValidator extends Validator
     {
         $v = new AllOf(
             new StringType(),
-            new Length(1, 29)
+            new Length(1, 50)
         );
 
         if ($v->validate($input['descripcionProducto']) === false) {
