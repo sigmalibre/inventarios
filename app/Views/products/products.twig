@@ -30,14 +30,15 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group has-feedback has-clear">
                                 <label for="marcaProducto">Marca</label>
-                                <select class="form-control" name="marcaProducto" id="marcaProducto">
-                                    <option value="">Todas</option>
+                                <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto" value="{{ input.marcaProducto }}" list="listaMarcas" maxlength="500">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.marcaProducto %}hidden{% endif %}"></span>
+                                <datalist id="listaMarcas">
                                     {% for brand in brands %}
-                                        <option value="{{ brand.MarcaID }}" {% if input.marcaProducto == brand.MarcaID %}selected{% endif %}>{{ brand.Nombre }}</option>
+                                        <option>{{ brand.Nombre }}</option>
                                     {% endfor %}
-                                </select>
+                                </datalist>
                             </div>
                             <div class="form-group has-feedback has-clear">
                                 <label for="nombreProducto">Nombre</label>
