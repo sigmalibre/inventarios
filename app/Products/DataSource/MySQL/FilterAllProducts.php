@@ -47,9 +47,9 @@ class FilterAllProducts extends MySQLReader
         ],
         [
             'filterName' => 'categoriaProducto',
-            'tableName' => 'Productos',
-            'columnName' => 'CategoriaProductoID',
-            'searchType' => '=',
+            'tableName' => 'CategoriaProductos',
+            'columnName' => 'Nombre',
+            'searchType' => 'SLOWLIKE',
         ],
         [
             'filterName' => 'codigoCategoria',
