@@ -29,7 +29,7 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('uri_path', $container->request->getUri()->getPath());
 
     // AGREGAR SI ES ADMIN A LAS VISTAS PARA OCULTAR SEGÚN TIPO DE CUENTA
-    $view->getEnvironment()->addGlobal('is_admin', $_SESSION['username'] === 'admin');
+    $view->getEnvironment()->addGlobal('is_admin', ($_SESSION['username'] ?? '') === 'admin');
 
     return $view;
 };

@@ -35,15 +35,29 @@ class ImportarProductos
         return $listaDatos->read([]);
     }
 
+    private function obtenerDatosDesdeExcel()
+    {
+        $listaDatos = new DataSource\MySQL\DatosDesdeExcel(new MySQLCustomDatabase('trasladoinventario'));
+
+        return $listaDatos->read([]);
+    }
+
     private function prepararDatosAImportar()
     {
-        $datos_importar = $this->obtenerDatosAImportar();
+        $datos_importar = $this->obtenerDatosDesdeExcel();
 
-        return array_map(function ($p) {
+        $datos_extra = $this->obtenerDatosAImportar();
+
+        $extraAssoc = [];
+        foreach ($datos_extra as $dato) {
+            $extraAssoc[$dato['Codigo']] = $dato;
+        }
+
+        return array_map(function ($p) use ($extraAssoc) {
             $p['Categoria'] = empty($p['Categoria']) ? 'SINCATEGORIA' : $p['Categoria'];
-            $p['Utilidad'] = isset($p['Utilidad']) ? $p['Utilidad'] : 0;
-            $p['ReferenciaLibroDet'] = empty($p['ReferenciaLibroDet']) ? '03' : $p['ReferenciaLibroDet'];
-            $p['CodigoBienDet'] = empty($p['CodigoBienDet']) ? '01' : $p['CodigoBienDet'];
+            $p['Utilidad'] = empty($extraAssoc[$p['Codigo']]['Utilidad']) ? 0 : $extraAssoc[$p['Codigo']]['Utilidad'];
+            $p['ReferenciaLibroDet'] = '03';
+            $p['CodigoBienDet'] = '01';
             $p['Marca'] = empty($p['Marca']) ? 'SINMARCA' : $p['Marca'];
             $p['Medida'] = empty($p['Medida']) ? 'SINMEDIDA' : $p['Medida'];
             $p['Unidades'] = isset($p['Unidades']) ? $p['Unidades'] : 0;

@@ -11,6 +11,7 @@ class CountAllFilteredProducts extends FilterAllProducts
     SELECT COUNT(*) AS cuenta
     FROM Productos
     LEFT JOIN CategoriaProductos USING (CategoriaProductoID)
+    LEFT JOIN Marcas USING (MarcaID)
     WHERE 1';
     protected $endQuery = '';
     protected $setLimit = false;

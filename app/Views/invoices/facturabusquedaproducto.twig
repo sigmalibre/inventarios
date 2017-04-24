@@ -9,23 +9,25 @@
                 <input type="text" name="codigoProducto" id="codigoProducto" class="form-control">
                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback has-clear">
                 <label for="categoriaProducto">Categoría</label>
-                <select class="form-control" name="categoriaProducto" id="categoriaProducto">
-                    <option value="">Todas</option>
+                <input id="categoriaProducto" class="form-control" type="text" name="categoriaProducto" placeholder="Categoría del producto" value="{{ input.categoriaProducto }}" list="listaCategorias" maxlength="100">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+                <datalist id="listaCategorias">
                     {% for category in categories %}
-                        <option value="{{ category.CategoriaProductoID }}">{{ category.Nombre }}</option>
+                        <option>{{ category.Nombre }}</option>
                     {% endfor %}
-                </select>
+                </datalist>
             </div>
-            <div class="form-group">
+            <div class="form-group has-feedback has-clear">
                 <label for="marcaProducto">Marca</label>
-                <select class="form-control" name="marcaProducto" id="marcaProducto">
-                    <option value="">Todas</option>
+                <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto" value="{{ input.marcaProducto }}" list="listaMarcas" maxlength="500">
+                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
+                <datalist id="listaMarcas">
                     {% for brand in brands %}
-                        <option value="{{ brand.MarcaID }}">{{ brand.Nombre }}</option>
+                        <option>{{ brand.Nombre }}</option>
                     {% endfor %}
-                </select>
+                </datalist>
             </div>
             <div class="form-group has-feedback has-clear">
                 <label for="nombreProducto">Nombre</label>
