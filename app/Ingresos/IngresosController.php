@@ -34,6 +34,8 @@ class IngresosController
         }
 
         $almacenes = new Warehouses($this->container);
+        $categories = new \Sigmalibre\Categories\Categories($this->container);
+        $brands = new \Sigmalibre\Brands\Brands($this->container);
 
         $ingresos = new Ingresos($this->container);
         $result = $ingresos->readList($request->getQueryParams());
@@ -41,6 +43,8 @@ class IngresosController
         return $this->container->view->render($response, 'ingresos/ingresos.twig', [
             'ingresos' => $result['itemList'],
             'almacenes' => $almacenes->readAll(),
+            'categories' => $categories->readAllCategories(),
+            'brands' => $brands->readAllBrands(),
             'pagination' => $result['pagination'],
             'input' => $result['userInput'],
         ]);
