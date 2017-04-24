@@ -15,6 +15,6 @@ class DatosDesdeExcel extends MySQLReaderCustomConnection
         Marca,
         Unidades,
         Costo
-      FROM Productos';
+      FROM productos';
     protected $setLimit = false;
 }

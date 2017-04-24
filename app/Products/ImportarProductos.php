@@ -119,10 +119,6 @@ class ImportarProductos
                 $producto['Categoria'] = substr($producto['Categoria'], 0, 20);
             }
 
-            if (strlen($producto['Descripcion']) > 29) {
-                $producto['Descripcion'] = substr($producto['Descripcion'], 0, 29);
-            }
-
             $categoriaCreada = $this->crearCategoria($producto['Categoria']);
 
             // Revisar si la categoría no pudo ser creada
