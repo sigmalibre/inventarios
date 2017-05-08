@@ -31,6 +31,9 @@ $container['view'] = function ($container) {
     // AGREGAR SI ES ADMIN A LAS VISTAS PARA OCULTAR SEGÚN TIPO DE CUENTA
     $view->getEnvironment()->addGlobal('is_admin', ($_SESSION['username'] ?? '') === 'admin');
 
+    // LISTA DE OPCIONES DE CANTIDAD DE ITEMS POR PÁGINA
+    $view->getEnvironment()->addGlobal('perPageOpts', [25, 50, 75]);
+
     return $view;
 };
 

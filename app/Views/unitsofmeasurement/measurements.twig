@@ -24,7 +24,6 @@
                             <div class="form-group">
                                 <label for="productsPerPage">Cantidad por página</label>
                                 <select id="productsPerPage" class="form-control" name="itemsPerPage">
-                                    {% set perPageOpts = [10, 25, 50] %}
                                     {% for opt in perPageOpts %}
                                         <option value="{{ opt }}" {% if pagination.itemsPerPage == opt %}selected{% endif %}>{{ opt }}</option>
                                     {% endfor %}
