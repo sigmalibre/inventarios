@@ -108,6 +108,10 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadInterface
             $statement .= ' '.$this->endQuery;
         }
 
+        if (empty($input['orderby']) === false) {
+            $this->params[':orderby'] = $input['orderby'];
+        }
+
         // Concatenar la instrucción LIMIT al final del query.
         if ($this->setLimit === true) {
             $statement .= ' LIMIT :offset, :items';
