@@ -78,7 +78,7 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
-                                <tr>
+                                <tr class="small">
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="CodigoProducto">Código {% if input.orderby == 'CodigoProducto' %}▼{% endif %}</a></th>
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreCategoria">Categoría{% if input.orderby == 'NombreCategoria' %}▼{% endif %}</a></th>
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreMarca">Marca{% if input.orderby == 'NombreMarca' %}▼{% endif %}</a></th>
@@ -90,7 +90,7 @@
 
                             <tbody>
                             {% for product in products %}
-                                <tr class="anchorize" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
+                                <tr class="anchorize small" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
                                     <td>{{ product.CodigoProducto }}</td>
                                     <td>{{ product.NombreCategoria }}</td>
                                     <td>{{ product.NombreMarca }}</td>
