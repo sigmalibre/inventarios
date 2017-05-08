@@ -16,4 +16,5 @@ class GetProductFromCode extends FilterAllProducts
             'searchType' => '=',
         ],
     ];
+    protected $endQuery = 'GROUP BY ProductoID';
 }

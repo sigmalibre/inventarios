@@ -63,6 +63,7 @@
                                 </select>
                             </div>
                             <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
+                            <input type="hidden" name="orderby" value="{{ input.orderby }}">
                             <button class="btn btn-block btn-info link-submit" type="submit" data-input="currentPage" data-value="1" >
                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
                             </button>
@@ -79,10 +80,10 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Código</th>
-                                    <th>Categoría</th>
-                                    <th>Marca</th>
-                                    <th>Nombre</th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="CodigoProducto">Código {% if input.orderby == 'CodigoProducto' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreCategoria">Categoría{% if input.orderby == 'NombreCategoria' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreMarca">Marca{% if input.orderby == 'NombreMarca' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="Descripcion">Nombre{% if input.orderby == 'Descripcion' %}▼{% endif %}</a></th>
                                     <th>Cantidad</th>
                                     <th>Precio de Venta</th>
                                 </tr>
