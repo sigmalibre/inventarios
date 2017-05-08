@@ -13,6 +13,6 @@ class CountAllFilteredProducts extends FilterAllProducts
     LEFT JOIN CategoriaProductos USING (CategoriaProductoID)
     LEFT JOIN Marcas USING (MarcaID)
     WHERE 1';
-    protected $endQuery = '';
+    protected $endQuery = 'ORDER BY :orderby';
     protected $setLimit = false;
 }

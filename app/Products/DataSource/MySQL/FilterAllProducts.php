@@ -36,7 +36,18 @@ class FilterAllProducts extends MySQLReader
     LEFT JOIN Medidas USING (MedidaID)
     LEFT JOIN DetalleAlmacenes USING (ProductoID)
     WHERE 1';
-    protected $endQuery = 'GROUP BY ProductoID';
+    protected $endQuery = "
+    GROUP BY ProductoID
+    ORDER BY
+        case :orderby
+        when 'CodigoProducto' then CodigoProducto
+        when 'NombreCategoria' then NombreCategoria
+        when 'NombreMarca' then NombreMarca
+        when 'Descripcion' then Descripcion
+        when 'Cantidad' then Cantidad
+        when 'CostoActual' then CostoActual
+        else CodigoProducto
+        end";
     protected $setLimit = true;
     protected $filterFields = [
         [
