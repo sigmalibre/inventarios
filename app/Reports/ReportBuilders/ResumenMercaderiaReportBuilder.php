@@ -48,7 +48,7 @@ class ResumenMercaderiaReportBuilder implements ReporteBuilder
 
     public function buildContentTitles()
     {
-        $this->contentTitles = ['Cantidad en Unidades', 'Cantidad en Dinero'];
+        $this->contentTitles = ['Departamento', 'Cantidad en Unidades', 'Valor en Dinero'];
     }
 
     public function buildContentBody()
@@ -57,14 +57,23 @@ class ResumenMercaderiaReportBuilder implements ReporteBuilder
 
         $lista_productos = $productos->readAllProudcts();
 
-        $resumen = array_reduce($lista_productos, function ($carry, $p) {
-            $carry[0] += $p['Cantidad']; // Cantidad
-            $carry[1] += ($p['Cantidad'] * $p['CostoActual']); // Valor en dinero
+        $cuerpo = [];
 
-            return $carry;
-        }, [0, 0]);
+        foreach ($lista_productos as $producto) {
+            $cuerpo[$producto['CategoriaProductoID']] = [
+                $producto['NombreCategoria'],
+                ($cuerpo[$producto['CategoriaProductoID']][1] ?? 0) + $producto['Cantidad'],
+                ($cuerpo[$producto['CategoriaProductoID']][2] ?? 0) + ($producto['CostoActual'] * $producto['Cantidad']),
+            ];
+        }
 
-        $this->contentBody = [[$resumen[0], '$ ' . number_format($resumen[1], 2)]];
+        $cuerpo = array_map(function ($detalle) {
+            $detalle[2] = '$ ' . $detalle[2];
+
+            return $detalle;
+        }, $cuerpo);
+
+        $this->contentBody = $cuerpo;
     }
 
     public function buildContentFooter()
