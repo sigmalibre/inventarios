@@ -344,7 +344,7 @@ DROP TABLE IF EXISTS `Productos`;
 CREATE TABLE `Productos` (
   `ProductoID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `Codigo` varchar(20) NOT NULL,
-  `Descripcion` varchar(29) NOT NULL,
+  `Descripcion` varchar(50) NOT NULL,
   `ExcentoIVA` tinyint(1) NOT NULL DEFAULT '0',
   `StockMin` int(10) unsigned NOT NULL DEFAULT '1',
   `Utilidad` decimal(19,4) unsigned NOT NULL DEFAULT '0.0000',
