@@ -46,7 +46,7 @@ class DETReport
         foreach ($listaProductos as $p) {
             $linea = '';
 
-            $linea .= $this->mb_str_pad($p['NombreCategoria'] . ' ' . $p['Descripcion'], 50, ' ', STR_PAD_RIGHT);
+            $linea .= mb_substr($this->mb_str_pad($p['NombreCategoria'] . ' ' . $p['Descripcion'], 50, ' ', STR_PAD_RIGHT), 0, 50);
             $linea .= $this->mb_str_pad($p['UnidadMedida'], 24, ' ', STR_PAD_RIGHT);
             $linea .= str_pad($p['Cantidad'] * 10000000000, 22, ' ', STR_PAD_LEFT);
             $linea .= str_pad($p['CostoActual'] * 10000000000, 24, ' ', STR_PAD_LEFT);
