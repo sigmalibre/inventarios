@@ -16,4 +16,5 @@ class GetProductFromID extends FilterAllProducts
             'searchType' => '=',
         ],
     ];
+    protected $endQuery = 'GROUP BY ProductoID';
 }

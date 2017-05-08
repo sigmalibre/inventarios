@@ -60,7 +60,7 @@ class CorteProductosReportBuilder implements ReporteBuilder
         $productos = new Products($this->container);
 
         $lista_productos = $productos->readAllProudcts([
-            'categoriaProducto' => $this->category,
+            'codigoCategoria' => $this->category,
         ]);
 
         $lista_productos = array_map(function ($p) {
@@ -76,12 +76,6 @@ class CorteProductosReportBuilder implements ReporteBuilder
         $sorter = new Sorter();
 
         $lista_productos = $sorter->setStrategy($sorting_strategy)->sort($lista_productos);
-
-        $this->contentBody = [
-            ['001', 'UNIDAD', 'RASTRILLO METÁLICO', 'SURTEK', 'JARDINERÍA'],
-            ['002', 'PAR', 'BOTAS INDUSTRIALES', 'TRUPER', 'PROTECCIÓN'],
-            ['003', 'GALÓN', 'PINTURA ROJA', 'COMEX', 'PINTURAS'],
-        ];
 
         $this->contentBody = array_map(function ($p) {
             return [

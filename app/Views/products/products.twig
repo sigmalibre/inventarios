@@ -56,13 +56,13 @@
                             <div class="form-group">
                                 <label for="productsPerPage">Cantidad por página</label>
                                 <select id="productsPerPage" class="form-control" name="itemsPerPage">
-                                    {% set perPageOpts = [10, 25, 50] %}
                                     {% for opt in perPageOpts %}
                                         <option value="{{ opt }}" {% if pagination.itemsPerPage == opt %}selected{% endif %}>{{ opt }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
+                            <input type="hidden" name="orderby" value="{{ input.orderby }}">
                             <button class="btn btn-block btn-info link-submit" type="submit" data-input="currentPage" data-value="1" >
                                 <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
                             </button>
@@ -78,11 +78,11 @@
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Categoría</th>
-                                    <th>Marca</th>
-                                    <th>Nombre</th>
+                                <tr class="small">
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="CodigoProducto">Código {% if input.orderby == 'CodigoProducto' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreCategoria">Categoría{% if input.orderby == 'NombreCategoria' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreMarca">Marca{% if input.orderby == 'NombreMarca' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="Descripcion">Nombre{% if input.orderby == 'Descripcion' %}▼{% endif %}</a></th>
                                     <th>Cantidad</th>
                                     <th>Precio de Venta</th>
                                 </tr>
@@ -90,7 +90,7 @@
 
                             <tbody>
                             {% for product in products %}
-                                <tr class="anchorize" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
+                                <tr class="anchorize small" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
                                     <td>{{ product.CodigoProducto }}</td>
                                     <td>{{ product.NombreCategoria }}</td>
                                     <td>{{ product.NombreMarca }}</td>
