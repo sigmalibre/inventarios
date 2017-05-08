@@ -47,6 +47,10 @@ class Products
             $userInput['productoActivo'] = '1';
         }
 
+        if (isset($userInput['orderby']) === false) {
+            $userInput['orderby'] = 'CodigoProducto';
+        }
+
         $listReader = new ItemListReader(
             new DataSource\MySQL\CountAllFilteredProducts($this->container),
             new DataSource\MySQL\FilterAllProducts($this->container),
