@@ -53,3 +53,7 @@ body {
     display: inline-block;
     padding: 20px;
 }
+
+.link-submit {
+    cursor: pointer;
+}
