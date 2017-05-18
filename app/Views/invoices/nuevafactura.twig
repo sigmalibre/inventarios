@@ -288,6 +288,30 @@
         {{/descuentos}}
         {% endverbatim %}
     </script>
+    <script type="text/template" id="navegacion-productos-template">
+        {% verbatim %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="{{#disablePrev}}disabled{{/disablePrev}}">
+                    <a data-disabled="{{disablePrev}}" class="link-submit" data-input="currentPage" data-value="{{valuePrev}}" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {{#pages}}
+                    <li class="{{#active}}active{{/active}}"><a class="link-submit" data-input="currentPage" data-value="{{number}}" href="#">{{number}}</a></li>
+                {{/pages}}
+                {{^pages}}
+                    <li class="disabled"><a href="#">0</a></li>
+                {{/pages}}
+                <li class="{{#disableNext}}disabled{{/disableNext}}">
+                    <a data-disabled="{{disableNext}}" class="link-submit" data-input="currentPage" data-value="{{valueNext}}" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        {% endverbatim %}
+    </script>
 
     {# SCRIPTS FACTURA #}
     <script src="/js/newfactura.js" defer></script>
