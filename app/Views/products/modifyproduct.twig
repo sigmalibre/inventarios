@@ -126,7 +126,36 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="valorCostoActualTotal">Costo del Producto (mas IVA)</label>
+                                        <label for="valorCostoActualTotalNoIva">Costo del Producto (SIN IVA)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-usd"></span>
+                                            </span>
+                                            <input type="number" value="{{ input.valorCostoActualTotal }}" class="form-control" id="valorCostoActualTotalNoIva" step="any" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="utilidadProductoConIVA">Ganancia (IVA INCLUIDO)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-usd"></span>
+                                            </span>
+                                            <input type="number" value="{{ ((input.utilidadProducto ?? 0 ) * (1 + porcentajeIVA / 100))|number_format(4) }}" class="form-control" id="utilidadProductoConIVA" min="0" step="any">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="utilidadProducto">Ganancia (SIN IVA)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-usd"></span>
+                                            </span>
+                                            <input type="number" name="utilidadProducto" value="{{ (input.utilidadProducto ?? 0)|number_format(4) }}" class="form-control" id="utilidadProducto" min="0" step="any">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="valorCostoActualTotal">Costo del Producto (IVA INCLUIDO)</label>
                                         <div class="input-group">
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-usd"></span>
@@ -134,19 +163,8 @@
                                             <input type="number" value="{{ input.valorCostoActualTotal }}" class="form-control" id="valorCostoActualTotal" step="any" readonly>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="utilidadProducto">Ganancia</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-usd"></span>
-                                            </span>
-                                            <input type="number" name="utilidadProducto" value="{{ input.utilidadProducto ?? 0 }}" class="form-control" id="utilidadProducto" min="0" step="any">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
                                     <div class="form-group {% if not input.excentoIvaProducto  %}hidden{% endif %}">
-                                        <label for="precioVentaProducto">Precio de Venta a Consumidor (exento IVA)</label>
+                                        <label for="precioVentaProducto">Precio de Venta a Consumidor (EXENTO IVA)</label>
                                         <div class="input-group">
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-usd"></span>
@@ -155,7 +173,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group {% if input.excentoIvaProducto  %}hidden{% endif %}">
-                                        <label for="precioVentaIVAProducto">Precio de Venta a Consumidor (mas IVA)</label>
+                                        <label for="precioVentaIVAProducto">Precio de Venta a Consumidor (IVA INCLUIDO)</label>
                                         <div class="input-group">
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-usd"></span>
