@@ -44,6 +44,7 @@
                     </select>
                 </div>
                 <input type="hidden" name="currentPage" value="">
+                <input type="hidden" name="orderby" value="CodigoProducto">
                 <button type="submit" class="btn btn-info btn-block">
                     <span class="glyphicon glyphicon-search"></span>
                     Buscar
@@ -61,11 +62,11 @@
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Categoría</th>
-                        <th>Marca</th>
-                        <th>Descripción</th>
+                    <tr class="small">
+                        <th><a href="#" class="link-submit" data-input="orderby" data-value="CodigoProducto" data-friendlyname="Código">Código</a></th>
+                        <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreCategoria" data-friendlyname="Categoría">Categoría</a></th>
+                        <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreMarca" data-friendlyname="Marca">Marca</a></th>
+                        <th><a href="#" class="link-submit" data-input="orderby" data-value="Descripcion" data-friendlyname="Nombre">Nombre</a></th>
                         <th>Cantidad</th>
                         <th>Precio Unitario</th>
                     </tr>
