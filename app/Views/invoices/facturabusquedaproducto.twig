@@ -12,7 +12,7 @@
                 </div>
                 <div class="form-group has-feedback has-clear">
                     <label for="categoriaProducto">Categoría</label>
-                    <input id="categoriaProducto" class="form-control" type="text" name="categoriaProducto" placeholder="Categoría del producto" value="{{ input.categoriaProducto }}" list="listaCategorias" maxlength="100">
+                    <input id="categoriaProducto" class="form-control" type="text" name="categoriaProducto" placeholder="Categoría del producto" value="" list="listaCategorias" maxlength="100">
                     <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
                     <datalist id="listaCategorias">
                         {% for category in categories %}
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group has-feedback has-clear">
                     <label for="marcaProducto">Marca</label>
-                    <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto" value="{{ input.marcaProducto }}" list="listaMarcas" maxlength="500">
+                    <input id="marcaProducto" class="form-control" type="text" name="marcaProducto" placeholder="Marca del producto" value="" list="listaMarcas" maxlength="500">
                     <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback hidden"></span>
                     <datalist id="listaMarcas">
                         {% for brand in brands %}
