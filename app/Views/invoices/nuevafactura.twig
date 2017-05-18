@@ -262,13 +262,13 @@
     </script>
     <script type="text/template" id="tr-producto-encontrado-template">
         {% verbatim %}
-        <tr class="trigger-event" data-productoid="{{productoID}}" data-event="factura-producto-selected">
+        <tr class="trigger-event small" data-productoid="{{productoID}}" data-event="factura-producto-selected">
             <td>{{codigoProducto}}</td>
             <td>{{nombreCategoria}}</td>
             <td>{{nombreMarca}}</td>
             <td>{{descripcion}}</td>
             <td>{{cantidad}}</td>
-            <td>{{precio}}</td>
+            <td>$ {{precio}}</td>
         </tr>
         {% endverbatim %}
     </script>
