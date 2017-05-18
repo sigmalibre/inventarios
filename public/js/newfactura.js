@@ -159,6 +159,17 @@
         outputPagination.html(Mustache.render(paginacionTemplate, view));
     });
 
+    eventos.on('updateOrderBy', function (orderby) {
+        $('a.link-submit[data-input="orderby"]').each(function (_, elem) {
+            var title = $(elem);
+            if (title.data('value') === orderby) {
+                title.text(title.data('friendlyname') + ' ▼');
+            } else {
+                title.text(title.data('friendlyname'));
+            }
+        });
+    });
+
     eventos.on('factura-open-dialogo-cantidad', function (datos) {
         modalDialogResetValidationStatus();
 
@@ -405,6 +416,7 @@
         });
 
         eventos.emit('updatePaginacionEncontrados', data.pagination);
+        eventos.emit('updateOrderBy', data.input.orderby);
     });
 
     // MANEJAR SELECCION DE PRODUCTOS Y AGREGARLOS A LOS DETALLES
