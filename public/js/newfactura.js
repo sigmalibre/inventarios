@@ -59,6 +59,9 @@
     var outputSeleccionadoCodigo = $('#outputSeleccionadoCodigo');
     var outputSeleccionadoDescripcion = $('#outputSeleccionadoDescripcion');
 
+    var paginacionTemplate = $('#navegacion-productos-template').text();
+    var outputPagination = $('#outputPagination');
+
     // MODIFICAR LA VISTA DE LA FACTURA SEGÚN EL TIPO DE FACTURA (CONSUMIDOR FINAL Y CRÉDITO FISCAL).
     (function () {
         if (tipoFactura == 1) {
@@ -129,6 +132,42 @@
                 tablaProductosEncontrados.append(Mustache.render(productoEntontradoTemplate, listaProductos[key]));
             }
         }
+    });
+
+    eventos.on('updatePaginacionEncontrados', function (pag) {
+        outputPagination.html('');
+
+        var pages = [];
+
+        for (var i = pag.currentPage - 3; i < pag.currentPage + 3; i++) {
+            if (i < 1) continue;
+            if (i > pag.totalPages) continue;
+
+            pages.push({
+                number: i,
+                active: i == pag.currentPage
+            });
+        }
+
+        var view = {
+            disablePrev: pag.currentPage <= 1,
+            valuePrev: pag.currentPage - 1,
+            pages: pages,
+            disableNext: pag.currentPage >= pag.totalPages,
+            valueNext: pag.currentPage + 1
+        };
+        outputPagination.html(Mustache.render(paginacionTemplate, view));
+    });
+
+    eventos.on('updateOrderBy', function (orderby) {
+        $('a.link-submit[data-input="orderby"]').each(function (_, elem) {
+            var title = $(elem);
+            if (title.data('value') === orderby) {
+                title.text(title.data('friendlyname') + ' ▼');
+            } else {
+                title.text(title.data('friendlyname'));
+            }
+        });
     });
 
     eventos.on('factura-open-dialogo-cantidad', function (datos) {
@@ -375,6 +414,9 @@
 
             facturas.productos.addProducto(producto);
         });
+
+        eventos.emit('updatePaginacionEncontrados', data.pagination);
+        eventos.emit('updateOrderBy', data.input.orderby);
     });
 
     // MANEJAR SELECCION DE PRODUCTOS Y AGREGARLOS A LOS DETALLES

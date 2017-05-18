@@ -29,7 +29,7 @@ class FilterAllProducts extends MySQLReader
         CategoriaProductoID,
         CategoriaProductos.Nombre AS NombreCategoria,
         COALESCE(SUM(DetalleAlmacenes.Cantidad), 0) AS Cantidad,
-        COALESCE((SELECT CostoActual FROM DetalleIngresos GROUP BY ProductoID DESC HAVING DetalleIngresos.ProductoID = Productos.ProductoID), 0) AS CostoActual
+        COALESCE((SELECT d.CostoActual FROM DetalleIngresos d WHERE d.ProductoID = Productos.ProductoID ORDER BY d.DetalleIngresosID DESC LIMIT 1), 0) AS CostoActual
     FROM Productos
     LEFT JOIN CategoriaProductos USING (CategoriaProductoID)
     LEFT JOIN Marcas USING (MarcaID)

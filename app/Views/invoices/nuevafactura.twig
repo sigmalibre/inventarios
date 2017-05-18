@@ -174,9 +174,7 @@
                 </div>
             </div>
             <div class="row readonly-hidden">
-                <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
-                    {% include 'invoices/facturabusquedaproducto.twig' %}
-                </div>
+                {% include 'invoices/facturabusquedaproducto.twig' %}
             </div>
         {% endif %}
     </div>
@@ -264,13 +262,13 @@
     </script>
     <script type="text/template" id="tr-producto-encontrado-template">
         {% verbatim %}
-        <tr class="trigger-event" data-productoid="{{productoID}}" data-event="factura-producto-selected">
+        <tr class="trigger-event small" data-productoid="{{productoID}}" data-event="factura-producto-selected">
             <td>{{codigoProducto}}</td>
             <td>{{nombreCategoria}}</td>
             <td>{{nombreMarca}}</td>
             <td>{{descripcion}}</td>
             <td>{{cantidad}}</td>
-            <td>{{precio}}</td>
+            <td>$ {{precio}}</td>
         </tr>
         {% endverbatim %}
     </script>
@@ -288,6 +286,30 @@
         {{#descuentos}}
             <option value="{{DescuentoID}}" data-cantidad="{{CantidadDescontada}}">{{RazonDescuento}} ($ {{CantidadDescontada}})</option>
         {{/descuentos}}
+        {% endverbatim %}
+    </script>
+    <script type="text/template" id="navegacion-productos-template">
+        {% verbatim %}
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="{{#disablePrev}}disabled{{/disablePrev}}">
+                    <a data-disabled="{{disablePrev}}" class="link-submit" data-input="currentPage" data-value="{{valuePrev}}" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {{#pages}}
+                    <li class="{{#active}}active{{/active}}"><a class="link-submit" data-input="currentPage" data-value="{{number}}" href="#">{{number}}</a></li>
+                {{/pages}}
+                {{^pages}}
+                    <li class="disabled"><a href="#">0</a></li>
+                {{/pages}}
+                <li class="{{#disableNext}}disabled{{/disableNext}}">
+                    <a data-disabled="{{disableNext}}" class="link-submit" data-input="currentPage" data-value="{{valueNext}}" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         {% endverbatim %}
     </script>
 
