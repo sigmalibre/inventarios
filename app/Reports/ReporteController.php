@@ -63,7 +63,11 @@ class ReporteController
             return $response->withRedirect('/reportes');
         }
 
-        $builder = new ReporteBuilderDirector(new CorteProductosReportBuilder($this->container, $params['category']));
+        if (empty($params['orderby']) === true) {
+            return $response->withRedirect('/reportes');
+        }
+
+        $builder = new ReporteBuilderDirector(new CorteProductosReportBuilder($this->container, $params['category'], $params['orderby']));
 
         $reporte = $builder->make();
 

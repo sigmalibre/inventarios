@@ -23,11 +23,13 @@ class CorteProductosReportBuilder implements ReporteBuilder
 
     private $container;
     private $category;
+    private $orderby;
 
-    public function __construct($container, $category)
+    public function __construct($container, $category, $orderby)
     {
         $this->container = $container;
         $this->category = $category;
+        $this->orderby = $orderby;
     }
 
     public function buildTitle()
@@ -70,8 +72,7 @@ class CorteProductosReportBuilder implements ReporteBuilder
         $sorting_strategy = new ComplexSortStrategy();
         $sorting_strategy
             ->setSortOrder(Sorter::ASC)
-            ->sortBy('NombreCategoria')
-            ->sortBy('Descripcion');
+            ->sortBy($this->orderby);
 
         $sorter = new Sorter();
 
@@ -84,7 +85,7 @@ class CorteProductosReportBuilder implements ReporteBuilder
                 $p->UnidadMedida,
                 $p->Descripcion,
                 $p->NombreMarca,
-                $p->Cantidad,
+                $p->Cantidad . ' ' . $p->UnidadMedida,
                 '$ ' . number_format($p->CostoActual, 2),
             ];
         }, $lista_productos);

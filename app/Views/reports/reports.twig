@@ -49,6 +49,15 @@
                                     {% endfor %}
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label for="orderby">Ordenar Por</label>
+                                <select name="orderby" id="orderby" class="form-control">
+                                    <option value="Descripcion">Nombre</option>
+                                    <option value="CodigoProducto">Código</option>
+                                    <option value="UnidadMedida">Medida</option>
+                                    <option value="NombreMarca">Marca</option>
+                                </select>
+                            </div>
                             <button type="submit" class="btn btn-block btn-info">Generar Reporte Conteo</button>
                         </form>
                     </div>
