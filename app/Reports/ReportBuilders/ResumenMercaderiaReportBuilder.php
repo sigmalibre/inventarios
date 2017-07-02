@@ -20,6 +20,7 @@ class ResumenMercaderiaReportBuilder implements ReporteBuilder
     private $contentFooter;
 
     private $container;
+    private $total = 0;
 
     public function __construct($container)
     {
@@ -65,6 +66,7 @@ class ResumenMercaderiaReportBuilder implements ReporteBuilder
                 ($cuerpo[$producto['CategoriaProductoID']][1] ?? 0) + $producto['Cantidad'],
                 ($cuerpo[$producto['CategoriaProductoID']][2] ?? 0) + ($producto['CostoActual'] * $producto['Cantidad']),
             ];
+            $this->total += ($producto['CostoActual'] * $producto['Cantidad']);
         }
 
         $cuerpo = array_map(function ($detalle) {
@@ -78,7 +80,13 @@ class ResumenMercaderiaReportBuilder implements ReporteBuilder
 
     public function buildContentFooter()
     {
-        $this->contentFooter = [];
+        $this->contentFooter = [
+            [
+                ['head' => true, 'text' => 'TOTAL'],
+                ['empty' => true, 'colspan' => 1],
+                ['cell' => true, 'text' => '$ ' . $this->total],
+            ],
+        ];
     }
 
     public function getReporte()
