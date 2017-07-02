@@ -14,6 +14,7 @@ class FilterAllProducts extends MySQLReader
         ProductoID,
         Productos.Codigo AS CodigoProducto,
         Descripcion,
+        Detalles,
         ExcentoIVA,
         StockMin,
         Utilidad,

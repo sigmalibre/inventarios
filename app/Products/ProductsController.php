@@ -155,6 +155,7 @@ class ProductsController
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,
                 'descripcionProducto' => $product->Descripcion,
+                'detallesProducto' => $product->Detalles,
                 'stockMinProducto' => $product->StockMin,
                 'utilidadProducto' => $product->Utilidad,
                 'productoActivo' => $product->Activo,

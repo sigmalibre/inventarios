@@ -22,6 +22,7 @@ class Product
     public $CategoriaProductoID;
     public $CodigoProducto;
     public $Descripcion;
+    public $Detalles;
     public $StockMin;
     public $Utilidad;
     public $FechaCreacion;
@@ -62,6 +63,7 @@ class Product
         $this->CategoriaProductoID = $this->attributes[0]['CategoriaProductoID'] ?? null;
         $this->CodigoProducto = $this->attributes[0]['CodigoProducto'] ?? null;
         $this->Descripcion = $this->attributes[0]['Descripcion'] ?? null;
+        $this->Detalles = $this->attributes[0]['Detalles'] ?? null;
         $this->StockMin = $this->attributes[0]['StockMin'] ?? null;
         $this->Utilidad = $this->attributes[0]['Utilidad'] ?? null;
         $this->FechaCreacion = $this->attributes[0]['FechaCreacion'] ?? null;
@@ -120,6 +122,10 @@ class Product
 
         if (empty($userInput['productoActivo']) === true) {
             $userInput['productoActivo'] = 0;
+        }
+
+        if (empty($userInput['detallesProducto'] == true)) {
+            $userInput['detallesProducto'] = '';
         }
 
         // Validar los inputs del usuario.
