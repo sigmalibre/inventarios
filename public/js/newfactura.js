@@ -487,7 +487,7 @@
 
     // BORRADO DE UNO O TODOS LOS DETALLES
     eventos.on('factura-eliminar-detalle', function (datos) {
-        var detalleID = datos.detalleid;
+        var detalleID = datos.index;
 
         if (detalleID == 'todos') {
             facturas.clear();
@@ -581,7 +581,7 @@
 var facturas = (function () {
     'use strict';
 
-    var listaDetalles = {};
+    var listaDetalles = [];
 
     var crearDetalle = function (id, codigo, cantidad, marca, descripcion, precio, excentas, afectas, almacenID, almacen) {
         return {
@@ -600,17 +600,23 @@ var facturas = (function () {
 
     // Efecto secundario: si ya existe un producto con la misma ID, esta función  lo actualiza.
     var addDetalle = function (detalle) {
-        listaDetalles[detalle.id] = detalle;
+        detalle.index = new Date().getUTCMilliseconds();
+        listaDetalles.push(detalle);
         eventos.emit('updateFacturaDetallesView', listaDetalles);
     };
 
     var removeDetalle = function (id) {
-        delete listaDetalles[id];
+        listaDetalles = listaDetalles.filter(function (d) {
+            return d.index != id;
+        });
         eventos.emit('updateFacturaDetallesView', listaDetalles);
     };
 
     var getFromID = function (id) {
-        return listaDetalles[id];
+        var detalle = listaDetalles.filter(function (d) {
+            return d.id === id;
+        });
+        return detalle[0];
     };
 
     var getAll = function () {
@@ -618,7 +624,7 @@ var facturas = (function () {
     };
 
     var clear = function () {
-        listaDetalles = {};
+        listaDetalles = [];
         eventos.emit('updateFacturaDetallesView', listaDetalles);
     };
 
