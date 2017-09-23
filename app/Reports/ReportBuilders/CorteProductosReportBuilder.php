@@ -25,6 +25,8 @@ class CorteProductosReportBuilder implements ReporteBuilder
     private $category;
     private $orderby;
 
+    private $totalCostos = 0;
+
     public function __construct($container, $category, $orderby)
     {
         $this->container = $container;
@@ -54,14 +56,14 @@ class CorteProductosReportBuilder implements ReporteBuilder
 
     public function buildContentTitles()
     {
-        $this->contentTitles = ['Código', 'Categoría', 'Medida', 'Producto', 'Marca', 'Unidades', 'Precio Unitario'];
+        $this->contentTitles = ['Código', 'Categoría', 'Medida', 'Producto', 'Marca', 'Unidades', 'Precio Unitario', 'Total Item'];
     }
 
     public function buildContentBody()
     {
         $productos = new Products($this->container);
 
-        $lista_productos = $productos->readAllProudcts([
+        $lista_productos = $productos->readAllProudctsUnfiltered([
             'codigoCategoria' => $this->category,
         ]);
 
@@ -79,6 +81,7 @@ class CorteProductosReportBuilder implements ReporteBuilder
         $lista_productos = $sorter->setStrategy($sorting_strategy)->sort($lista_productos);
 
         $this->contentBody = array_map(function ($p) {
+            $this->totalCostos += $p->Cantidad * $p->CostoActual;
             return [
                 $p->CodigoProducto,
                 $p->NombreCategoria,
@@ -87,13 +90,20 @@ class CorteProductosReportBuilder implements ReporteBuilder
                 $p->NombreMarca,
                 $p->Cantidad . ' ' . $p->UnidadMedida,
                 '$ ' . number_format($p->CostoActual, 2),
+                '$ ' . number_format($p->Cantidad * $p->CostoActual, 2),
             ];
         }, $lista_productos);
     }
 
     public function buildContentFooter()
     {
-        $this->contentFooter = [];
+        $this->contentFooter = [
+            [
+                ['head' => true, 'text' => 'TOTAL CATEGORÍA'],
+                ['empty' => true, 'colspan' => 6],
+                ['cell' => true, 'text' => '$ ' . number_format($this->totalCostos, 2)],
+            ],
+        ];
     }
 
     public function getReporte()

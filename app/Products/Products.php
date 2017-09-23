@@ -85,6 +85,24 @@ class Products
         return $listaProductos;
     }
 
+        public function readAllProudctsUnfiltered($input = [])
+    {
+        $buscadorProductos = new SearchAllProducts($this->container);
+
+        $options = [
+            'input' => [
+                'productoActivo' => '1'
+            ]
+        ];
+
+        $options['input'] = array_merge($options['input'], $input);
+
+        $listaProductos = $buscadorProductos->read($options);
+
+        return $listaProductos;
+    }
+
+
     /**
      * Guarda un producto nuevo en la fuente de datos.
      *
