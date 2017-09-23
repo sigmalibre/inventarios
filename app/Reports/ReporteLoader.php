@@ -3,6 +3,7 @@
 namespace Sigmalibre\Reports;
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\UserConfig\ConfigReader;
 
@@ -47,12 +48,13 @@ class ReporteLoader
             ],
         ]);
 
-        $pdf = new Dompdf();
+        $pdfOptions = new Options([
+            'isHtml5ParserEnabled' => true
+        ]);
 
+        $pdf = new Dompdf($pdfOptions);
         $pdf->loadHtml($render);
-
         $pdf->setPaper('letter');
-
         $pdf->render();
 
         return $pdf->output();
