@@ -56,14 +56,15 @@
                                     </div>
                                     <div class="form-group has-feedback has-clear {% if failedInputs.descripcionProducto %}has-error{% endif %}">
                                         <label for="descripcionProducto">Descripción</label>
-                                        <textarea class="form-control" rows="3" name="descripcionProducto" id="descripcionProducto" required>{{ input.descripcionProducto }}</textarea>
+                                        <input type="text" name="descripcionProducto" value="{{ input.descripcionProducto }}" class="form-control" id="descripcionProducto" maxlength="50" required>
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.descripcionProducto %}hidden{% endif %}"></span>
                                         {% if failedInputs.descripcionProducto %}
-                                            <span class="help-block">Debe ser entre 1 y 500 caracteres.</span>
+                                            <span class="help-block">Debe ser entre 1 y 50 caracteres.</span>
                                         {% endif %}
                                     </div>
                                     <div class="form-group has-feedback has-clear">
                                         <label for="detallesProducto">Detalles</label>
-                                        <input type="text" name="detallesProducto" value="{{ input.detallesProducto }}" class="form-control" id="detallesProducto">
+                                        <textarea rows="3" name="detallesProducto" class="form-control" id="detallesProducto">{{ input.detallesProducto }}</textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="stockMinProducto">Stock Mínimo</label>

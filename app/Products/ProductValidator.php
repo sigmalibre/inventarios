@@ -63,7 +63,7 @@ class ProductValidator extends Validator
     }
 
     /**
-     * La descripción del producto debe ser un string de 1 a 29 carácteres.
+     * La descripción del producto debe ser un string de 1 a 50 carácteres.
      *
      * @param mixed $input
      *
@@ -73,7 +73,7 @@ class ProductValidator extends Validator
     {
         $v = new AllOf(
             new StringType(),
-            new Length(1, 500)
+            new Length(1, 50)
         );
 
         if ($v->validate($input['descripcionProducto']) === false) {
