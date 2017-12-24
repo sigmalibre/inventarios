@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="form-group has-feedback has-clear {% if failedInputs.descripcionProducto %}has-error{% endif %}">
                                         <label for="descripcionProducto">Descripción</label>
-                                        <input type="text" name="descripcionProducto" value="{{ input.descripcionProducto }}" class="form-control" id="descripcionProducto" maxlength="50" required>
+                                        <textarea class"="form-control" rows="3" name="descripcionProducto" id="descripcionProducto" required>{{ input.descripcionProducto }}</textarea>
                                         <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.descripcionProducto %}hidden{% endif %}"></span>
                                         {% if failedInputs.descripcionProducto %}
                                             <span class="help-block">Debe ser entre 1 y 29 caracteres.</span>
