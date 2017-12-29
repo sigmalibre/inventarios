@@ -56,7 +56,7 @@ class CorteProductosReportBuilder implements ReporteBuilder
 
     public function buildContentTitles()
     {
-        $this->contentTitles = ['Código', 'Categoría', 'Medida', 'Producto', 'Marca', 'Unidades', 'Precio Unitario', 'Total Item'];
+        $this->contentTitles = ['Código', 'Categoría', 'Producto', 'Marca', 'Cantidad/', 'Medida', 'Precio Unitario', 'Total Item'];
     }
 
     public function buildContentBody()
@@ -85,10 +85,10 @@ class CorteProductosReportBuilder implements ReporteBuilder
             return [
                 $p->CodigoProducto,
                 $p->NombreCategoria,
-                $p->UnidadMedida,
                 $p->Descripcion,
                 $p->NombreMarca,
-                $p->Cantidad . ' ' . $p->UnidadMedida,
+                $p->Cantidad,
+                $p->UnidadMedida,
                 '$ ' . number_format($p->CostoActual, 2),
                 '$ ' . number_format($p->Cantidad * $p->CostoActual, 2),
             ];

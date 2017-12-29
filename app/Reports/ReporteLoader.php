@@ -12,9 +12,13 @@ class ReporteLoader
     protected $pdf;
     protected $templates;
     protected $datosEmpresa;
+    protected $reportTemplate;
+    protected $orientation;
 
-    public function __construct($container)
+    public function __construct($container, $template='basereport.twig', $orientation='portrait')
     {
+        $this->reportTemplate = $template;
+        $this->orientation = $orientation;
         $this->templates = new \Twig_Environment(new \Twig_Loader_Filesystem(APP_ROOT . '/app/Views/pdf'));
         $this->datosEmpresa = new Empresa((new ConfigReader())->read('empresa'), $container);
 
@@ -23,7 +27,7 @@ class ReporteLoader
 
     public function render(Reporte $reporte)
     {
-        $render = $this->templates->render('basereport.twig', [
+        $render = $this->templates->render($this->reportTemplate, [
             'reporte_titulo' => $reporte->title,
             'show_header' => $reporte->withHeader,
             'header_logo_src' => $reporte->headerLogoPath,
@@ -54,7 +58,7 @@ class ReporteLoader
 
         $pdf = new Dompdf($pdfOptions);
         $pdf->loadHtml($render);
-        $pdf->setPaper('letter');
+        $pdf->setPaper('letter', $this->orientation);
         $pdf->render();
 
         return $pdf->output();

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ reporte_titulo }}</title>
+    {# TAMAÑO DE PÁGINA DISPONIBLE (RESTANDO MÁRGENES) PARA PAPEL TAMAÑO CARTA #}
+    {# ANCHO: 260mm #}
+    {# ALTO: 200mm #}
+    <style>
+        @page {
+            margin: 8mm 10mm !important;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        ul {
+            padding-left: 1em;
+        }
+
+        body {
+            font-family: 'DejaVu Sans', sans-serif;
+        }
+
+        .header {
+            height: 20mm;
+            margin-bottom: 4mm;
+        }
+
+        .header__logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50mm;
+            height: 20mm;
+            text-align: center;
+        }
+
+        .header__logo img {
+            max-width: 50mm;
+            max-height: 20mm;
+        }
+
+        .header__title {
+            position: absolute;
+            top: 0;
+            left: 50mm;
+            width: 160mm;
+            height: 20mm;
+            text-align: center;
+        }
+
+        .header__meta {
+            position: absolute;
+            top: 0;
+            left: 210mm;
+            width: 50mm;
+            font-size: 7pt;
+        }
+
+        .content-table table {
+            width: 100%;
+            font-size: 8pt;
+            border-collapse: collapse;
+        }
+
+        .content-table thead tr th {
+            border-bottom: 1px solid black;
+        }
+
+        .content-table tbody tr td, .content-table tbody tr th {
+            border-bottom: 0.2mm solid #BBBBBB;
+        }
+
+        .content-table tbody tr td {
+            vertical-align: top;
+        }
+
+        .content-table tbody tr td:last-child,
+        .content-table thead tr th:last-child,
+        .content-table tbody tr td:nth-child(5),
+        .content-table thead tr th:nth-child(5),
+        .content-table tbody tr td:nth-child(7),
+        .content-table thead tr th:nth-child(7)
+        {
+            text-align: right;
+        }
+
+        .content-table tbody tr td:nth-child(5)::after,
+        {
+            content: ' ';
+            display: inline;
+        }
+        
+        #footer {
+            position: fixed;
+            left: 0;
+            top: 199mm;
+            font-family: serif;
+            font-size: 10pt;
+        }
+        
+        #footer .page_num:after {
+            content: counter(page);
+        }
+    </style>
+</head>
+<body>
+
+<div id="footer">
+    <p class="page_num">Pág. </p>
+</div>
+
+{% if header.visible %}
+    <div class="header">
+        <div class="header__logo">
+            <img src="{{ header.logo }}" alt="Logo">
+        </div>
+        <div class="header__title">
+            <h3>{{ empresa.nombre }}</h3>
+            <p><small>{{ empresa.giro }}</small></p>
+            <p><b>{{ reporte_titulo }}</b></p>
+        </div>
+        <div class="header__meta">
+            <ul>
+                <li><b>Reg.</b> {{ empresa.registro }}</li>
+                <li><b>Dirección:</b> {{ empresa.direccion}}</li>
+                <li><b>Tel:</b> {{ empresa.telefono }}</li>
+            </ul>
+        </div>
+    </div>
+{% endif %}
+<div class="content-table">
+    <table>
+        <thead>
+        {% if content.header.meta %}
+            <tr>
+                <td colspan="{{ content.header.titles|length }}">{{ content.header.meta }}</td>
+            </tr>
+        {% endif %}
+        <tr>
+            {% for title in content.header.titles %}
+                <th>{{ title }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in content.body %}
+            <tr>
+                {% for data in item %}
+                    <td>{{ data }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tbody>
+        {% for item in content.footer %}
+            <tr>
+                {% for data in item %}
+                    {% if data.empty %}
+                        <td colspan="{{ data.colspan ?? 1 }}"></td>
+                    {% endif %}
+                    {% if data.head %}
+                        <th colspan="{{ data.colspan ?? 1 }}">{{ data.text }}</th>
+                    {% endif %}
+                    {% if data.cell %}
+                        <td colspan="{{ data.colspan ?? 1 }}">{{ data.text }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

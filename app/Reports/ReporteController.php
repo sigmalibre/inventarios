@@ -57,6 +57,8 @@ class ReporteController
 
     public function conteoInventario(Request $request, Response $response)
     {
+        $loader = new ReporteLoader($this->container, 'conteoreport.twig', 'landscape');
+
         $params = $request->getQueryParams();
 
         if (empty($params['category']) === true) {
@@ -71,7 +73,7 @@ class ReporteController
 
         $reporte = $builder->make();
 
-        $reporteRenderizado = $this->loader->render($reporte);
+        $reporteRenderizado = $loader->render($reporte);
 
         return (new Response())
             ->withHeader('Content-Type', 'application/pdf')
