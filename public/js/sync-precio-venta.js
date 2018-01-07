@@ -119,3 +119,21 @@ $(function () {
         precioVentaIva.val(format_decimals((data.costo + calculated_utilidad) * (1 + data.porcentajeIva / 100)));
     });
 });
+
+new Vue({
+    el: '#syncCostoTotal',
+    data: {
+        costoUnitario: 0,
+        cantidad: 0,
+    },
+    computed: {
+        costoTotal: {
+            get: function () {
+                return (this.costoUnitario * this.cantidad).toFixed(4)
+            },
+            set: function (total) {
+                this.costoUnitario = (total / this.cantidad).toFixed(4)
+            }
+        },
+    },
+})

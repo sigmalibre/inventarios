@@ -1,4 +1,4 @@
-<div class="panel panel-primary">
+<div id="syncCostoTotal" class="panel panel-primary">
     <div class="panel-heading clearfix">Entrada de Producto <span class="pull-right">Cantidad Total: {{ cantidadActual }}</span></div>
     <div class="panel-body">
         <form action="{{ path_for('products/ingresos', {'id': productID}) }}" method="post">
@@ -26,24 +26,39 @@
             <div class="form-group {% if failedInputs.cantidadIngreso %}has-error{% endif %}">
                 <label for="cantidadIngreso">Cantidad a Ingresar</label>
                 <div class="input-group">
-                    <input type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso">
+                    <input v-model="cantidad" type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso">
                     <span class="input-group-addon">{{ input.medidaProducto }}</span>
                 </div>
                 {% if failedInputs.cantidadIngreso %}
                     <span class="help-block">Debe ser un número entero, y no debe ser cero.</span>
                 {% endif %}
             </div>
-            <div class="form-group {% if failedInputs.valorPrecioUnitario %}has-error{% endif %}">
-                <label for="valorPrecioUnitario">Costo Unitario (INGRESAR SIN IVA)</label>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-usd"></span>
-                    </span>
-                    <input type="number" name="valorPrecioUnitario" value="0" class="form-control" id="valorPrecioUnitario" min="0" step="any">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group {% if failedInputs.valorPrecioUnitario %}has-error{% endif %}">
+                        <label for="valorPrecioUnitario">Costo Unitario (INGRESAR SIN IVA)</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-usd"></span>
+                            </span>
+                            <input v-model="costoUnitario" type="number" name="valorPrecioUnitario" value="0" class="form-control" id="valorPrecioUnitario" min="0" step="any">
+                        </div>
+                        {% if failedInputs.valorPrecioUnitario %}
+                            <span class="help-block">Debe ser un número mayor a 0.0001</span>
+                        {% endif %}
+                    </div>
                 </div>
-                {% if failedInputs.valorPrecioUnitario %}
-                    <span class="help-block">Debe ser un número mayor a 0.0001</span>
-                {% endif %}
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="valorPrecioUnitarioTotal">Costo Total</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-usd"></span>
+                            </span>
+                            <input v-model="costoTotal" type="number" value="0" class="form-control" id="valorPrecioUnitarioTotal" min="0" step="any">
+                        </div>
+                    </div>
+                </div>
             </div>
             <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus"></span> Ingresar el Producto</button>
         </form>
