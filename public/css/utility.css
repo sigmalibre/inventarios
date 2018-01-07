@@ -57,3 +57,7 @@ body {
 .link-submit {
     cursor: pointer;
 }
+
+.keepInViewport {
+    height: 65vh;
+}

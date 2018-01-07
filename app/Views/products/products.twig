@@ -75,7 +75,7 @@
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive keepInViewport">
                         <table class="table table-hover">
                             <thead>
                                 <tr class="small">
@@ -87,7 +87,6 @@
                                     <th>P/Venta</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                             {% for product in products %}
                                 <tr class="anchorize small" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
