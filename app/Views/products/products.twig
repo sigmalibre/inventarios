@@ -85,6 +85,7 @@
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="Descripcion">Nombre{% if input.orderby == 'Descripcion' %}▼{% endif %}</a></th>
                                     <th>Cantidad</th>
                                     <th>P/Venta</th>
+                                    <th>Costo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,6 +103,7 @@
                                         $ {{ ((product.CostoActual + product.Utilidad) * (1 + porcentajeIVA / 100))|number_format(2) }}
                                     {% endif %}
                                     </a></td>
+                                    <td><a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Costo (IVA Incluido)" data-content="$ {{ (product.CostoActual * (1 + porcentajeIVA / 100))|number_format(4) }}">Ver</a></td>
                                 </tr>
                             {% else %}
                             </tbody>
