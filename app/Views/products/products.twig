@@ -96,7 +96,7 @@
                                     <td>{{ product.NombreMarca }}</td>
                                     <td>{{ product.Descripcion }}</td>
                                     <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
-                                    <td><a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Detalles" data-content="{{ product.Detalles }}">
+                                    <td><a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Detalles" data-html="true" data-content="<pre class='no-margin text-wrap'>{{ product.Detalles }}</pre>">
                                     {% if product.ExcentoIVA == 1 %}
                                         $ {{ (product.CostoActual + product.Utilidad)|number_format(2) }}<b class="text-info">*</b>
                                     {% else %}

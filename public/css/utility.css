@@ -71,3 +71,7 @@ body {
 .pagination {
     margin-bottom: 0;
 }
+
+.text-wrap {
+    white-space: pre-wrap;
+}
