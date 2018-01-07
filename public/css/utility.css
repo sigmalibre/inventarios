@@ -74,4 +74,5 @@ body {
 
 .text-wrap {
     white-space: pre-wrap;
+    word-break: normal;
 }
