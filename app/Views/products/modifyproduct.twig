@@ -120,6 +120,12 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="excentoIvaProducto" value="1" {% if input.excentoIvaProducto  %}checked{% endif %}> Exento IVA?
                                     </label>
+                                    <div style="padding-top: 20px">
+                                        <a href="/img/products/{{ productID }}.jpg" target="_blank">
+                                            <img src="/img/products/{{ productID }}.jpg" height="70">
+                                        </a>
+                                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-upload-pic">Subir Imagen</button>
+                                    </div>
                                 </div>
                             </div>
                             <hr>
@@ -224,6 +230,8 @@
 
     {# MODAL ELIMINAR PRODUCTO #}
     {% include 'products/eliminarproducto.twig' %}
+    {# MODAL SUBIR FOTO #}
+    {% include 'products/uploadpic.twig' %}
 
     <script src="/js/newproduct.js" defer></script>
     <script src="/js/sync-precio-venta.js" defer></script>

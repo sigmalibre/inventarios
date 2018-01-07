@@ -36,6 +36,7 @@ $app->post('/productos/id/{id}/ingresos', IngresosController::class . ':createNe
 $app->post('/productos/id/{id}/traslados', ProductsController::class . ':traslado')->setName('products/traslado');
 $app->post('/productos/id/{id}/descuentos', DescuentosController::class . ':createNew')->setName('products/descuentos');
 $app->get('/productos/id/{id}/descuentos', DescuentosController::class . ':getDescuentosProducto');
+$app->post('/productos/id/{id}/imagen', ProductsController::class . ':picture')->setName('products/picture');
 
 $app->get('/productos/id/{productoID}/descuentos/id/{descuentoID}', DescuentosController::class . ':indexDescuento')->setName('products/descuentos/modify');
 $app->post('/productos/id/{productoID}/descuentos/id/{descuentoID}', DescuentosController::class . ':update');

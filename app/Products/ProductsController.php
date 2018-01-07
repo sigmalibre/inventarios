@@ -338,4 +338,21 @@ class ProductsController
             'status' => 'success',
         ], 200);
     }
+
+    /**
+     * Sube una foto del producto.
+     * @param  object $request   HTTP Request
+     * @param  object $response  HTTP Response
+     * @param  array $arguments Contiene la ID especificada en la URL.
+     */
+    public function picture($request, $response, $arguments)
+    {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
+        $picture = $request->getUploadedFiles()['picture'];
+        $picture->moveTo(APP_ROOT . '/public/img/products/' . $arguments['id'] . '.jpg');
+        return $response->withRedirect('/productos/id/' . $arguments['id']);
+    }
 }
