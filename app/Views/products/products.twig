@@ -11,9 +11,7 @@
         <div class="row">
             <div class="col-sm-10 col-sm-offset-1 col-md-4 col-md-offset-0 col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">Búsqueda de Productos</h2>
-                    </div>
+                    
                     <div class="panel-body">
                         <form id="productsForm" action="{{ path_for('products') }}" method="get" role="form">
                             <div class="form-group has-feedback has-clear">
@@ -64,7 +62,7 @@
                             <input type="hidden" name="currentPage" value="{{ pagination.currentPage }}">
                             <input type="hidden" name="orderby" value="{{ input.orderby }}">
                             <button class="btn btn-block btn-info link-submit" type="submit" data-input="currentPage" data-value="1" >
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar Productos
                             </button>
                         </form>
                     </div>
@@ -74,6 +72,7 @@
                 <div class="panel no-margin-bottom {% if products %}panel-primary{% else %}panel-default{% endif %}">
                     <div class="panel-heading">
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
+                        <small class="abs-right"><b>*</b> Precios exentos de IVA</small>
                     </div>
                     <div class="table-responsive keepInViewport">
                         <table class="table table-hover">
@@ -116,9 +115,6 @@
                             <caption class="bottom-captions text-center">No se encontraron resultados</caption>
                             {% endfor %}
                         </table>
-                    </div>
-                    <div class="panel-footer">
-                        <small class="text-muted bg-info"><b class="text-info">*</b> Precios exentos de IVA</small>
                     </div>
                 </div>
                 {% include 'templates/listpagination.twig' %}

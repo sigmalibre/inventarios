@@ -61,3 +61,13 @@ body {
 .keepInViewport {
     height: 65vh;
 }
+
+.abs-right {
+    position: absolute;
+    right: 50px;
+    top: 10px;
+}
+
+.pagination {
+    margin-bottom: 0;
+}
