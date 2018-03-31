@@ -15,6 +15,7 @@ class FilterAllProducts extends MySQLReader
         Productos.Codigo AS CodigoProducto,
         Descripcion,
         Detalles,
+        Barra,
         ExcentoIVA,
         StockMin,
         Utilidad,
@@ -42,6 +43,7 @@ class FilterAllProducts extends MySQLReader
     ORDER BY
         case :orderby
         when 'CodigoProducto' then CodigoProducto
+        when 'Barra' then Barra
         when 'NombreCategoria' then NombreCategoria
         when 'NombreMarca' then NombreMarca
         when 'Descripcion' then Descripcion
@@ -62,6 +64,12 @@ class FilterAllProducts extends MySQLReader
             'tableName' => 'CategoriaProductos',
             'columnName' => 'Nombre',
             'searchType' => 'SLOWLIKE',
+        ],
+        [
+            'filterName' => 'codigoBarra',
+            'tableName' => 'Productos',
+            'columnName' => 'Barra',
+            'searchType' => '=',
         ],
         [
             'filterName' => 'codigoCategoria',

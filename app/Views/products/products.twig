@@ -20,6 +20,11 @@
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoProducto %}hidden{% endif %}"></span>
                             </div>
                             <div class="form-group has-feedback has-clear">
+                                <label for="codigoBarra">Código de Barras</label>
+                                <input id="codigoBarra" class="form-control" type="text" name="codigoBarra" placeholder="Código de Barras" value="{{ input.codigoBarra }}">
+                                <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigoBarra %}hidden{% endif %}"></span>
+                            </div>
+                            <div class="form-group has-feedback has-clear">
                                 <label for="categoriaProducto">Categoría</label>
                                 <input id="categoriaProducto" class="form-control" type="text" name="categoriaProducto" placeholder="Categoría del producto" value="{{ input.categoriaProducto }}" list="listaCategorias" maxlength="100">
                                 <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.categoriaProducto %}hidden{% endif %}"></span>
@@ -79,6 +84,7 @@
                             <thead>
                                 <tr class="small">
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="CodigoProducto">Código {% if input.orderby == 'CodigoProducto' %}▼{% endif %}</a></th>
+                                    <th><a href="#" class="link-submit" data-input="orderby" data-value="Barra">Barra {% if input.orderby == 'Barra' %}▼{% endif %}</a></th>
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreCategoria">Categoría{% if input.orderby == 'NombreCategoria' %}▼{% endif %}</a></th>
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="NombreMarca">Marca{% if input.orderby == 'NombreMarca' %}▼{% endif %}</a></th>
                                     <th><a href="#" class="link-submit" data-input="orderby" data-value="Descripcion">Nombre{% if input.orderby == 'Descripcion' %}▼{% endif %}</a></th>
@@ -92,6 +98,7 @@
                             {% for product in products %}
                                 <tr class="anchorize small" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
                                     <td>{{ product.CodigoProducto }}</td>
+                                    <td>{{ product.Barra }}</td>
                                     <td>{{ product.NombreCategoria }}</td>
                                     <td>{{ product.NombreMarca }}</td>
                                     <td>{{ product.Descripcion }}</td>

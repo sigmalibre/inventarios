@@ -54,6 +54,10 @@
                                             <span class="help-block">Debe ser un código entre 1 y 20 caracteres.</span>
                                         {% endif %}
                                     </div>
+                                    <div class="form-group has-feedback has-clear">
+                                        <label for="codigoBarra">Código de Barra</label>
+                                        <input type="text" name="codigoBarra" value="{{ input.codigoBarra }}" class="form-control" id="codigoBarra" maxlength="1000">
+                                    </div>
                                     <div class="form-group has-feedback has-clear {% if failedInputs.descripcionProducto %}has-error{% endif %}">
                                         <label for="descripcionProducto">Descripción</label>
                                         <input type="text" name="descripcionProducto" value="{{ input.descripcionProducto }}" class="form-control" id="descripcionProducto" maxlength="50" required>
@@ -64,11 +68,7 @@
                                     </div>
                                     <div class="form-group has-feedback has-clear">
                                         <label for="detallesProducto">Detalles</label>
-                                        <textarea rows="3" name="detallesProducto" class="form-control" id="detallesProducto" style="resize: vertical">{{ input.detallesProducto }}</textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="stockMinProducto">Stock Mínimo</label>
-                                        <input type="number" name="stockMinProducto" value="{{ input.stockMinProducto ?? 1 }}" class="form-control" id="stockMinProducto" min="0">
+                                        <textarea rows="5" name="detallesProducto" class="form-control" id="detallesProducto" style="resize: vertical">{{ input.detallesProducto }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -113,6 +113,10 @@
                                             <option value="{{ reference.CodigoLibroDet }}" {% if input.referenciaLibroDetProducto == reference.CodigoLibroDet %}selected{% endif %}>{{ reference.Descripcion }}</option>
                                             {% endfor %}
                                         </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stockMinProducto">Stock Mínimo</label>
+                                        <input type="number" name="stockMinProducto" value="{{ input.stockMinProducto ?? 1 }}" class="form-control" id="stockMinProducto" min="0">
                                     </div>
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="productoActivo" value="1" {% if input.productoActivo  %}checked{% endif %}> Producto Activo

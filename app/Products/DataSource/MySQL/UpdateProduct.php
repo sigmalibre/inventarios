@@ -25,6 +25,6 @@ class UpdateProduct
      */
     public function write($dataList)
     {
-        return $this->connection->execute('UPDATE Productos SET Codigo = :codigoProducto, Descripcion = :descripcionProducto, Detalles = :detallesProducto, ExcentoIVA = :excentoIvaProducto, StockMin = :stockMinProducto, Utilidad = :utilidadProducto, Activo = :productoActivo, CodigoLibroDet = :referenciaLibroDetProducto, CodigoBienDet = :categoriaDetProducto, MarcaID = :marcaProducto, MedidaID = :medidaProducto, CategoriaProductoID = :categoriaProducto WHERE Productos.ProductoID = :id', $dataList);
+        return $this->connection->execute('UPDATE Productos SET Codigo = :codigoProducto, Descripcion = :descripcionProducto, Detalles = :detallesProducto, Barra = :codigoBarra, ExcentoIVA = :excentoIvaProducto, StockMin = :stockMinProducto, Utilidad = :utilidadProducto, Activo = :productoActivo, CodigoLibroDet = :referenciaLibroDetProducto, CodigoBienDet = :categoriaDetProducto, MarcaID = :marcaProducto, MedidaID = :medidaProducto, CategoriaProductoID = :categoriaProducto WHERE Productos.ProductoID = :id', $dataList);
     }
 }
