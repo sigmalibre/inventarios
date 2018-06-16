@@ -76,3 +76,7 @@ body {
     white-space: pre-wrap;
     word-break: normal;
 }
+
+.productos-ajustes-inputs {
+    width: 70px;
+}

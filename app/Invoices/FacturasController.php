@@ -250,4 +250,23 @@ class FacturasController
             'status' => 'success',
         ], 200);
     }
+
+    public function ultimoWarehouse(Request $request, ResponseInterface $response, $arguments)
+    {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
+        $facturas = new MySQLFacturaRepository($this->container);
+
+        $ultimo = $facturas->getLastWarehouse($arguments['id']);
+
+        if(!isset($ultimo[0])) {
+            return (new Response())->withJson([ 'success' => false ], 200);
+        }
+
+        $ultimo = $ultimo[0];
+
+        return (new Response())->withJson([ 'success' => true, 'ultimo' => $ultimo ], 200);
+    }
 }

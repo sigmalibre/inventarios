@@ -33,6 +33,8 @@ $app->delete('/productos/id/{id}', ProductsController::class . ':delete');
 
 $app->get('/productos/id/{id}/detalles', ProductsController::class . ':getDetalleAlmacenes')->setName('products/detalles');
 $app->post('/productos/id/{id}/ingresos', IngresosController::class . ':createNew')->setName('products/ingresos');
+$app->post('/productos/id/{id}/ingresos/ajustes', IngresosController::class . ':ajuste')->setName('products/ingresos/ajustes');
+$app->get('/productos/id/{id}/facturas/ultimo', FacturasController::class . ':ultimoWarehouse')->setName('products/facturas/ultimo');
 $app->post('/productos/id/{id}/traslados', ProductsController::class . ':traslado')->setName('products/traslado');
 $app->post('/productos/id/{id}/descuentos', DescuentosController::class . ':createNew')->setName('products/descuentos');
 $app->get('/productos/id/{id}/descuentos', DescuentosController::class . ':getDescuentosProducto');

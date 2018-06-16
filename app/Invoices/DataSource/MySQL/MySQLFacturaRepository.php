@@ -7,6 +7,8 @@ use Sigmalibre\Invoices\Factura;
 use Sigmalibre\Invoices\FacturaRepository;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
+use Sigmalibre\Invoices\DataSource\MySQL\GetLastWarehouseFromProduct;
+
 
 class MySQLFacturaRepository implements FacturaRepository
 {
@@ -142,5 +144,16 @@ class MySQLFacturaRepository implements FacturaRepository
 
             return $factura;
         }, $results);
+    }
+
+    public function getLastWarehouse($productId) {
+        $getLast = new GetLastWarehouseFromProduct($this->container);
+        $ultimo = $getLast->read([
+            'input' => [
+                'productoID' => $productId
+            ],
+        ]);
+
+        return $ultimo;
     }
 }

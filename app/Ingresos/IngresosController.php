@@ -73,4 +73,41 @@ class IngresosController
 
         return $productsController->indexProduct($request, $response, $arguments, $isSaved, $ingresos->getInvalidInputs());
     }
+
+    /**
+     * Registra una nueva entrada de productos.
+     *
+     * Por ajuste de inventario.
+     *
+     * @param \Slim\Http\Request                  $request
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param                                     $arguments
+     *
+     * @return Response
+     */
+    public function ajuste(Request $request, ResponseInterface $response, $arguments)
+    {
+        if ($request->getAttribute('isAdmin') !== true) {
+            return $response->withRedirect('/');
+        }
+
+        $ingresos = new Ingresos($this->container);
+
+        $ultimo_ingreso = $ingresos->lastFromProduct($arguments['id']);
+
+        if(!isset($ultimo_ingreso[0])) {
+            return (new Response())->withJson([ 'success' => false ], 200);
+        }
+
+        $ultimo_ingreso = $ultimo_ingreso[0];
+
+        $isSaved = $ingresos->save([
+            'empresaID' => $ultimo_ingreso['EmpresaID'],
+            'almacenID' => $ultimo_ingreso['AlmacenID'],
+            'cantidadIngreso' => $request->getParsedBody()['ajuste'],
+            'valorPrecioUnitario' => $ultimo_ingreso['PrecioUnitario'],
+        ], $arguments['id']);
+
+        return (new Response())->withJson([ 'success' => $isSaved ], 200);
+    }
 }

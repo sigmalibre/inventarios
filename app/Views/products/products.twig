@@ -92,30 +92,48 @@
                                     <th>P/Venta</th>
                                     <th>Costo</th>
                                     <th>Imagen</th>
+                                    {% if is_admin %}
+                                    <th>Ajuste</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
                             {% for product in products %}
-                                <tr class="anchorize small" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
-                                    <td>{{ product.CodigoProducto }}</td>
+                                <tr class="small">
+                                    <td class="anchorize" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
+                                        <a href="#">{{ product.CodigoProducto }}</a>
+                                    </td>
                                     <td>{{ product.Barra }}</td>
                                     <td>{{ product.NombreCategoria }}</td>
                                     <td>{{ product.NombreMarca }}</td>
-                                    <td>{{ product.Descripcion }}</td>
-                                    <td>{{ product.Cantidad }} {{ product.UnidadMedida }}</td>
-                                    <td><a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Detalles" data-html="true" data-content="<pre class='no-margin text-wrap'>{{ product.Detalles }}</pre>">
-                                    {% if product.ExcentoIVA == 1 %}
-                                        $ {{ (product.CostoActual + product.Utilidad)|number_format(2) }}<b class="text-info">*</b>
-                                    {% else %}
-                                        $ {{ ((product.CostoActual + product.Utilidad) * (1 + porcentajeIVA / 100))|number_format(2) }}
+                                    <td class="anchorize" data-href="{{ path_for('products/update', {id: product.ProductoID}) }}">
+                                        <a href="#">{{ product.Descripcion }}</a>
+                                    </td>
+                                    <td><span id="productocantidad{{ product.ProductoID }}">{{ product.Cantidad }}</span> {{ product.UnidadMedida }}</td>
+                                    <td>
+                                        <a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Detalles" data-html="true" data-content="<pre class='no-margin text-wrap'>{{ product.Detalles }}</pre>">
+                                        {% if product.ExcentoIVA == 1 %}
+                                            $ {{ (product.CostoActual + product.Utilidad)|number_format(2) }}<b class="text-info">*</b>
+                                        {% else %}
+                                            $ {{ ((product.CostoActual + product.Utilidad) * (1 + porcentajeIVA / 100))|number_format(2) }}
+                                        {% endif %}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Costo (IVA Incluido)" data-content="$ {{ (product.CostoActual * (1 + porcentajeIVA / 100))|number_format(4) }}">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Imagen" data-html="true" data-content="<img style='max-height: 70vh; max-width: 100%' src='/img/products/{{ product.ProductoID }}.jpg'>">
+                                            <img src="/img/products/{{ product.ProductoID }}.jpg" height="20" width="20">
+                                        </a>
+                                    </td>
+                                    {% if is_admin %}
+                                    <td>
+                                        <input type="number" data-producto="{{ product.ProductoID }}" class="productos-ajustes-inputs" value="0">
+                                    </td>
                                     {% endif %}
-                                    </a></td>
-                                    <td><a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Costo (IVA Incluido)" data-content="$ {{ (product.CostoActual * (1 + porcentajeIVA / 100))|number_format(4) }}">
-                                        <span class="glyphicon glyphicon-eye-open"></span>
-                                    </a></td>
-                                    <td><a class="popovers" href="#" tabindex="0" role="button" data-placement="left" data-toggle="popover" data-trigger="hover" title="Imagen" data-html="true" data-content="<img style='max-height: 70vh; max-width: 100%' src='/img/products/{{ product.ProductoID }}.jpg'>">
-                                        <img src="/img/products/{{ product.ProductoID }}.jpg" height="20" width="20">
-                                    </a></td>
                                 </tr>
                             {% else %}
                             </tbody>

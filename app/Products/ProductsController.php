@@ -136,7 +136,7 @@ class ProductsController
 
         $descuentos = new Descuentos($product, new FilterDescuentos($this->container), new ValidadorDescuentos());
 
-        return $this->container->view->render($response, 'products/modifyproduct.twig', [
+        $responseData = [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
             'brands' => $brands->readAllBrands(),
@@ -167,7 +167,13 @@ class ProductsController
                 'referenciaLibroDetProducto' => $product->CodigoLibroDet,
                 'excentoIvaProducto' => $product->ExcentoIVA,
             ],
-        ]);
+        ];
+
+        if ($this->container->negotiator->getValue() === 'application/json') {
+            return (new Response())->withJson($responseData, 200);
+        }
+
+        return $this->container->view->render($response, 'products/modifyproduct.twig', $responseData);
     }
 
     /**

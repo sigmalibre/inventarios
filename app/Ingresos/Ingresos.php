@@ -5,6 +5,7 @@ namespace Sigmalibre\Ingresos;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Ingresos\DataSource\MySQL\CountFilteredIngresos;
 use Sigmalibre\Ingresos\DataSource\MySQL\FilterIngresos;
+use Sigmalibre\Ingresos\DataSource\MySQL\GetLastFromProduct;
 use Sigmalibre\ItemList\ItemListReader;
 use Sigmalibre\Pagination\Paginator;
 use Sigmalibre\Products\Product;
@@ -162,6 +163,17 @@ class Ingresos
         $this->container->mysql->commit();
 
         return true;
+    }
+
+    public function lastFromProduct($productID) {
+        $getLast = new GetLastFromProduct($this->container);
+        $ultimo_ingreso = $getLast->read([
+            'input' => [
+                'productoID' => $productID ?? -1,
+            ],
+        ]);
+
+        return $ultimo_ingreso;
     }
 
     /**
