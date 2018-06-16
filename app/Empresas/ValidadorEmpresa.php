@@ -135,9 +135,11 @@ class ValidadorEmpresa extends Validator
      */
     public function validarNit($input)
     {
-        $v = new AllOf(
-            new StringType(),
-            new Length(1, 20)
+        $v = new Optional(
+            new AllOf(
+                new StringType(),
+                new Length(1, 20)
+            )
         );
 
         if ($v->validate($input['nit']) === false) {
