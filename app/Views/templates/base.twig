@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="/css/form-clearinput.css">
     <link rel="stylesheet" href="/css/utility.css">
+    <link rel="stylesheet" href="/js/trumbowyg/ui/trumbowyg.min.css">
+    <link rel="stylesheet" href="/js/trumbowyg/plugins/colors/ui/trumbowyg.colors.min.css">
 
     <!-- HTML5 shim y Respond.js para soporte IE8 de elementos HTML5 y media queries -->
     <!-- WARNING: Respond.js no funciona si ves la página via file:// -->
@@ -22,7 +24,7 @@
     <![endif]-->
 
     <!-- jQuery (necesario para los plugins JavaScript de Bootstrap) -->
-    <script src="/js/jquery-3.1.0.min.js" defer></script>
+    <script src="/js/jquery-3.1.0.min.js"></script>
     <script src="/js/bootstrap.min.js" defer></script>
     <script src="/js/mustache.min.js" defer></script>
 
@@ -38,6 +40,11 @@
     <script src="/js/setup.js" defer></script>
     <script src="/js/vue.min.js" defer></script>
     <script src="/js/enviar-ajuste-producto.js" defer></script>
+    <script src="/js/trumbowyg/trumbowyg.min.js"></script>
+    <script src="/js/trumbowyg/plugins/colors/trumbowyg.colors.min.js"></script>
+    <script>
+        $.trumbowyg.svgPath = '/js/trumbowyg/ui/icons.svg';
+    </script>
 </head>
 <body>
     {% include 'templates/navbar.twig' %}
