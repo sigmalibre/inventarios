@@ -3,6 +3,7 @@
 namespace Sigmalibre\Reports;
 
 use Sigmalibre\Categories\Categories;
+use Sigmalibre\Brands\Brands;
 use Sigmalibre\DET\DETReport;
 use Sigmalibre\Reports\ReportBuilders\CorteProductosReportBuilder;
 use Sigmalibre\Reports\ReportBuilders\ResumenMercaderiaReportBuilder;
@@ -39,9 +40,11 @@ class ReporteController
     public function index(Request $request, Response $response)
     {
         $categories = (new Categories($this->container))->readAllCategories();
+        $brands = (new Brands($this->container))->readAllBrands();
 
         return $this->container->view->render($response, 'reports/reports.twig', [
             'categories' => $categories,
+            'brands' => $brands,
         ]);
     }
 

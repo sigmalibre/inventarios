@@ -78,6 +78,12 @@ class FilterAllProducts extends MySQLReader
             'searchType' => 'LIKE',
         ],
         [
+            'filterName' => 'marcaID',
+            'tableName' => 'Marcas',
+            'columnName' => 'MarcaID',
+            'searchType' => 'LIKE',
+        ],
+        [
             'filterName' => 'marcaProducto',
             'tableName' => 'Marcas',
             'columnName' => 'Nombre',
