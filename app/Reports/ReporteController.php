@@ -68,11 +68,19 @@ class ReporteController
             return $response->withRedirect('/reportes');
         }
 
+        if (empty($params['brand']) === true) {
+            return $response->withRedirect('/reportes');
+        }
+
         if (empty($params['orderby']) === true) {
             return $response->withRedirect('/reportes');
         }
 
-        $builder = new ReporteBuilderDirector(new CorteProductosReportBuilder($this->container, $params['category'], $params['orderby']));
+        if (!isset($params['columns']) === true) {
+            $params['columns'] = [];
+        }
+
+        $builder = new ReporteBuilderDirector(new CorteProductosReportBuilder($this->container, $params['category'], $params['brand'], $params['orderby'], $params['columns']));
 
         $reporte = $builder->make();
 
