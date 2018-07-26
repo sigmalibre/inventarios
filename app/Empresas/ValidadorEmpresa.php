@@ -5,6 +5,7 @@ namespace Sigmalibre\Empresas;
 use Respect\Validation\Rules\AllOf;
 use Respect\Validation\Rules\Length;
 use Respect\Validation\Rules\StringType;
+use Respect\Validation\Rules\Optional;
 use Sigmalibre\Validation\Validator;
 
 /**
