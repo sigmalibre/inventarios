@@ -12,8 +12,10 @@ $(function () {
     var utilidadIva = $('#utilidadProductoConIVA');
     var precioVenta = $('#precioVentaProducto');
     var precioVentaIva = $('#precioVentaIVAProducto');
+    var porcentajeGanancia = $('#porcentajeGanancia');
 
-    var costo = inputCosto.val();
+    var costo = Number(inputCosto.val());
+    var iva = 1 + Number(precioVentaIva.data('iva')) / 100
 
     /**
      * Obtiene todos los datos necesarios para realizar el cálculo de precio de venta sincronizado.
@@ -22,12 +24,14 @@ $(function () {
      */
     var getValoresPrecios = function () {
         return {
-            costo: Number(costo),
+            costo: costo,
+            costoConIva: costo * iva,
             utilidad: Number(utilidad.val()),
             utilidadIva: Number(utilidadIva.val()),
             precioVenta: Number(precioVenta.val()),
             precioVentaIva: Number(precioVentaIva.val()),
-            porcentajeIva: Number(precioVentaIva.data('iva'))
+            porcentajeIva: Number(precioVentaIva.data('iva')),
+            porcentajeGanancia: Number(porcentajeGanancia.val()),
         };
     };
 
@@ -42,7 +46,7 @@ $(function () {
     };
 
     // Es requisito que el costo sea mostrado con IVA, para poder saber el precio al que fue comprado.
-    inputCosto.val(format_decimals(costo * (1 + precioVentaIva.data('iva') / 100)));
+    inputCosto.val(format_decimals(costo * iva));
 
     /**
      * Actualiza los campos cuando el input de la utilidad ha llegado a cero, ya que este no puede ser menor.
@@ -52,13 +56,20 @@ $(function () {
     var resetToZero = function (data) {
         utilidad.val(format_decimals(0));
         utilidadIva.val(format_decimals(0));
+        porcentajeGanancia.val(format_decimals(0))
         // Cuando la utilidad es cero, el precio de venta es igual al costo.
         precioVenta.val(format_decimals(data.costo));
-        precioVentaIva.val(format_decimals(data.costo * (1 + data.porcentajeIva / 100)));
+        precioVentaIva.val(format_decimals(data.costo * iva));
     };
 
+    var updatePorcentajeGanancia = function () {
+        var data = getValoresPrecios()
+        var valor = ((data.precioVentaIva / data.costoConIva) - 1) * 100
+        porcentajeGanancia.val(valor.toFixed(2))
+    }
+
     // Sincronizar cuando el input de utilidad sea cambiado
-    utilidad.on('input', function () {
+    utilidad.on('change', function () {
         var data = getValoresPrecios();
 
         if (data.utilidad < 0) {
@@ -69,10 +80,11 @@ $(function () {
         precioVenta.val(format_decimals(data.costo + data.utilidad));
         utilidadIva.val(format_decimals(data.utilidad * (1 + data.porcentajeIva / 100)));
         precioVentaIva.val(format_decimals((data.costo + data.utilidad) * (1 + data.porcentajeIva / 100)));
+        updatePorcentajeGanancia()
     });
 
     // Sincronizar cuando el input de precio de venta sea cambiado
-    precioVenta.on('input', function () {
+    precioVenta.on('change', function () {
         var data = getValoresPrecios();
 
         var calculated_utilidad = data.precioVenta - data.costo;
@@ -86,10 +98,11 @@ $(function () {
         utilidad.val(format_decimals(calculated_utilidad));
         utilidadIva.val(format_decimals(calculated_utilidad * (1 + data.porcentajeIva / 100)));
         precioVentaIva.val(format_decimals(data.precioVenta * (1 + data.porcentajeIva / 100)));
+        updatePorcentajeGanancia()
     });
 
     // Sincronizar cuando el input de precio venta + iva sea cambiado
-    precioVentaIva.on('input', function () {
+    precioVentaIva.on('change', function () {
         var data = getValoresPrecios();
 
         var calculated_utilidad = data.precioVentaIva / (1 + data.porcentajeIva / 100) - data.costo;
@@ -103,9 +116,10 @@ $(function () {
         utilidad.val(format_decimals(calculated_utilidad));
         utilidadIva.val(format_decimals(calculated_utilidad * (1 + data.porcentajeIva / 100)));
         precioVenta.val(format_decimals(data.precioVentaIva / (1 + data.porcentajeIva / 100)));
+        updatePorcentajeGanancia()
     });
 
-    utilidadIva.on('input', function () {
+    utilidadIva.on('change', function () {
         var data = getValoresPrecios();
 
         if (data.utilidadIva < 0) {
@@ -117,7 +131,21 @@ $(function () {
         utilidad.val(format_decimals(calculated_utilidad));
         precioVenta.val(format_decimals(data.costo + calculated_utilidad));
         precioVentaIva.val(format_decimals((data.costo + calculated_utilidad) * (1 + data.porcentajeIva / 100)));
+        updatePorcentajeGanancia()
     });
+
+    porcentajeGanancia.on('change', function () {
+        var data = getValoresPrecios()
+
+        if (data.porcentajeGanancia < 0) {
+            resetToZero(data)
+            return false;
+        }
+
+        var valUtilidadIva = data.costoConIva * (data.porcentajeGanancia / 100)
+        utilidadIva.val(format_decimals(valUtilidadIva))
+        utilidadIva.trigger('change')
+    })
 });
 
 new Vue({
