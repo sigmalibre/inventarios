@@ -17,7 +17,7 @@ class MySQLCustomDatabase extends MySQLTransactions
         $dsn = 'mysql:dbname='.$database.';host=localhost;charset=utf8mb4';
 
         $this->connection = new \PDO($dsn, 'invuser', 'invpass');
-        $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_SILENT);
+        $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         $this->connection->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
         $this->connection->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
     }
