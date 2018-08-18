@@ -56,7 +56,7 @@ $(function () {
     var resetToZero = function (data) {
         utilidad.val(format_decimals(0));
         utilidadIva.val(format_decimals(0));
-        porcentajeGanancia.val(format_decimals(0))
+        porcentajeGanancia.val((0).toFixed(2))
         // Cuando la utilidad es cero, el precio de venta es igual al costo.
         precioVenta.val(format_decimals(data.costo));
         precioVentaIva.val(format_decimals(data.costo * iva));
@@ -65,6 +65,9 @@ $(function () {
     var updatePorcentajeGanancia = function () {
         var data = getValoresPrecios()
         var valor = ((data.precioVentaIva / data.costoConIva) - 1) * 100
+        if (isNaN(valor) || !isFinite(valor) || !valor) {
+            valor = 0
+        }
         porcentajeGanancia.val(valor.toFixed(2))
     }
 
@@ -146,6 +149,7 @@ $(function () {
         utilidadIva.val(format_decimals(valUtilidadIva))
         utilidadIva.trigger('change')
     })
+    utilidadIva.trigger('change')
 });
 
 new Vue({
