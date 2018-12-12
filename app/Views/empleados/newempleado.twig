@@ -1,0 +1,87 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Nuevo Empleado{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('empleados'), 'Empleados') }}
+    {{ bread.crumb(path_for('empleados/createform'), 'Nuevo Empleado') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                {% if isSaved %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El empleado ha sido creado exitosamente!</div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo crear el empleado.</div>
+                {% endif %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Introduce los datos del empleado</div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('empleados/createform') }}" method="post">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nombres %}has-error{% endif %}">
+                                        <label for="nombres">Nombres</label>
+                                        <input type="text" name="nombres" value="{% if isSaved is same as(false) %}{{ input.nombres }}{% endif %}" class="form-control" id="nombres">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nombres %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.apellidos %}has-error{% endif %}">
+                                        <label for="apellidos">Apellidos</label>
+                                        <input type="text" name="apellidos" value="{% if isSaved is same as(false) %}{{ input.apellidos }}{% endif %}" class="form-control" id="apellidos">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.apellidos %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.dui %}has-error{% endif %}">
+                                        <label for="dui">DUI</label>
+                                        <input type="text" name="dui" value="{% if isSaved is same as(false) %}{{ input.dui }}{% endif %}" class="form-control" id="dui">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.dui %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nit %}has-error{% endif %}">
+                                        <label for="nit">NIT</label>
+                                        <input type="text" name="nit" value="{% if isSaved is same as(false) %}{{ input.nit }}{% endif %}" class="form-control" id="nit">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nit %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nup %}has-error{% endif %}">
+                                        <label for="nup">NUP</label>
+                                        <input type="text" name="nup" value="{% if isSaved is same as(false) %}{{ input.nup }}{% endif %}" class="form-control" id="nup">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.nup %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.isss %}has-error{% endif %}">
+                                        <label for="isss">ISSS</label>
+                                        <input type="text" name="isss" value="{% if isSaved is same as(false) %}{{ input.isss }}{% endif %}" class="form-control" id="isss">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.isss %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.codigo %}has-error{% endif %}">
+                                        <label for="codigo">Código</label>
+                                        <input type="text" name="codigo" value="{% if isSaved is same as(false) %}{{ input.codigo }}{% endif %}" class="form-control" id="codigo">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.codigo %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.direccion %}has-error{% endif %}">
+                                        <label for="direccion">Dirección</label>
+                                        <input type="text" name="direccion" value="{% if isSaved is same as (false) %}{{ input.direccion }}{% endif %}" class="form-control" id="direccion">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.direccion %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.telefono %}has-error{% endif %}">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" name="telefono" value="{% if isSaved is same as (false) %}{{ input.telefono }}{% endif %}" class="form-control" id="telefono">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.telefono %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.email %}has-error{% endif %}">
+                                        <label for="email">Correo Electrónico</label>
+                                        <input type="text" name="email" value="{% if isSaved is same as(false) %}{{ input.email }}{% endif %}" class="form-control" id="email">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.email %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Empleado</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

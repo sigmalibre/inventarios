@@ -1,0 +1,99 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Modificar Empleado{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('empleados'), 'Empleados') }}
+    {{ bread.crumb(path_for('empleado', {id: empleadoID}), 'Editar Empleado') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                {% if isSaved %}
+                    <div class="alert alert-success"><span class="glyphicon glyphicon-ok-sign"></span> El empleado ha sido modificado exitosamente!</div>
+                {% endif %}
+                {% if isSaved is same as(false) %}
+                    <div class="alert alert-danger"><span class="glyphicon glyphicon-remove-sign"></span> No se pudo modificar el empleado.</div>
+                {% endif %}
+                <div class="panel panel-primary">
+                    <div class="panel-heading clearfix">
+                        <h3 class="panel-title pull-left">Modifica los datos de este empleado</h3>
+                        {% if is_admin %}
+                        <button type="button" class="btn btn-xs btn-danger pull-right" data-toggle="modal" data-target="#modal-eliminar-recurso">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            Eliminar
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ path_for('empleado', {id: empleadoID}) }}" method="post">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nombres %}has-error{% endif %}">
+                                        <label for="nombres">Nombres</label>
+                                        <input type="text" name="nombres" value="{{ input.Nombres }}" class="form-control" id="nombres">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.Nombres %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.apellidos %}has-error{% endif %}">
+                                        <label for="apellidos">Apellidos</label>
+                                        <input type="text" name="apellidos" value="{{ input.Apellidos }}" class="form-control" id="apellidos">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.Apellidos %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.dui %}has-error{% endif %}">
+                                        <label for="dui">DUI</label>
+                                        <input type="text" name="dui" value="{{ input.DUI }}" class="form-control" id="dui">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.DUI %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nit %}has-error{% endif %}">
+                                        <label for="nit">NIT</label>
+                                        <input type="text" name="nit" value="{{ input.NIT }}" class="form-control" id="nit">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.NIT %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.nup %}has-error{% endif %}">
+                                        <label for="nup">NUP</label>
+                                        <input type="text" name="nup" value="{{ input.NUP }}" class="form-control" id="nup">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.NUP %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.isss %}has-error{% endif %}">
+                                        <label for="isss">ISSS</label>
+                                        <input type="text" name="isss" value="{{ input.ISSS }}" class="form-control" id="isss">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.ISSS %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.codigo %}has-error{% endif %}">
+                                        <label for="codigo">Código</label>
+                                        <input type="text" name="codigo" value="{{ input.Codigo }}" class="form-control" id="codigo">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.Codigo %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.direccion %}has-error{% endif %}">
+                                        <label for="direccion">Dirección</label>
+                                        <input type="text" name="direccion" value="{{ input.Direccion }}" class="form-control" id="direccion">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.Direccion %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.telefono %}has-error{% endif %}">
+                                        <label for="telefono">Teléfono</label>
+                                        <input type="text" name="telefono" value="{{ input.Telefono }}" class="form-control" id="telefono">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.Telefono %}hidden{% endif %}"></span>
+                                    </div>
+                                    <div class="form-group has-feedback has-clear {% if failedInputs.email %}has-error{% endif %}">
+                                        <label for="email">Correo Electrónico</label>
+                                        <input type="text" name="email" value="{{ input.Email }}" class="form-control" id="email">
+                                        <span class="form-control-clear glyphicon glyphicon-remove form-control-feedback {% if not input.Email %}hidden{% endif %}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if is_admin %}
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-edit"></span> Modificar Empleado</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'empleados/eliminarempleado.twig' %}
+{% endblock %}

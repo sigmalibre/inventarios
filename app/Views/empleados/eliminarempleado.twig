@@ -1,0 +1,41 @@
+<div class="modal modal-eliminar-recurso" id="modal-eliminar-recurso" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Opciones de Eliminación</h4>
+            </div>
+            <div class="modal-body">
+                <p class="text-danger">Advertencia: Se eliminará este empleado de forma permanente.</p>
+                <p>Toda información relacionada a este empleado en facturas quedará en blanco.</p>
+                <p>Esta accion es irreversible, si está seguro que desea continuar, presione el siguiente botón.</p>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab">
+                            <h4 class="panel-title">
+                                <a href="#collapse-eliminar-perma" role="button" data-toggle="collapse" data-parent="#accordion" aria-expanded="false" aria-controls="collapse-eliminar-perma">
+                                    Eliminar Permanentemente
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse-eliminar-perma" class="panel-collapse collapse" role="tabpanel">
+                            <div class="panel-body">
+                                <button class="btn btn-block btn-danger submit-form-with-method"
+                                        data-triggerevent="eliminar-recurso-perma"
+                                        data-action="{{ path_for('empleado', {id: empleadoID}) }}"
+                                        data-method="delete"
+                                        data-dismiss="modal">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Eliminar Permanentemente
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,25 +1,26 @@
 <?php
 
-use Sigmalibre\Accounts\LogIn\LogInController;
-use Sigmalibre\Brands\BrandsController;
-use Sigmalibre\Categories\CategoriesController;
-use Sigmalibre\Clients\ClientsController;
-use Sigmalibre\Cotizaciones\CotizacionController;
-use Sigmalibre\Empresas\EmpresasController;
-use Sigmalibre\Homepage\HomeController;
-use Sigmalibre\Ingresos\IngresosController;
-use Sigmalibre\Invoices\CreditosFiscalesController;
-use Sigmalibre\Invoices\FacturasController;
 use Sigmalibre\IVA\IVAController;
-use Sigmalibre\Products\DescuentosController;
+use Sigmalibre\Brands\BrandsController;
+use Sigmalibre\Homepage\HomeController;
+use Sigmalibre\Clients\ClientsController;
+use Sigmalibre\Reports\ReporteController;
+use Sigmalibre\Empresas\EmpresasController;
+use Sigmalibre\Ingresos\IngresosController;
+use Sigmalibre\Invoices\FacturasController;
 use Sigmalibre\Products\ImportarController;
 use Sigmalibre\Products\ProductsController;
+use Sigmalibre\Empleados\EmpleadoController;
+use Sigmalibre\Products\DescuentosController;
 use Sigmalibre\Providers\ProvidersController;
-use Sigmalibre\Reports\ReporteController;
+use Sigmalibre\Accounts\LogIn\LogInController;
+use Sigmalibre\Categories\CategoriesController;
 use Sigmalibre\TirajeFactura\TirajesController;
-use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
 use Sigmalibre\UserConfig\UserConfigController;
 use Sigmalibre\Warehouses\WarehousesController;
+use Sigmalibre\Cotizaciones\CotizacionController;
+use Sigmalibre\Invoices\CreditosFiscalesController;
+use Sigmalibre\UnitsOfMeasurement\UnitsOfMeasurementController;
 
 // HOMEPAGE
 $app->get('/', HomeController::class . ':home')->setName('homepage');
@@ -144,6 +145,16 @@ $app->post('/contactos/empresas/nuevo', EmpresasController::class . ':createNew'
 $app->get('/contactos/empresas/id/{id}', EmpresasController::class . ':indexEmpresa')->setName('empresa');
 $app->post('/contactos/empresas/id/{id}', EmpresasController::class . ':update');
 $app->delete('/contactos/empresas/id/{id}', EmpresasController::class . ':delete');
+
+// EMPLEADOS
+$app->get('/contactos/empleados', EmpleadoController::class . ':indexEmpleados')->setName('empleados');
+
+$app->get('/contactos/empleados/nuevo', EmpleadoController::class . ':indexNew')->setName('empleados/createform');
+$app->post('/contactos/empleados/nuevo', EmpleadoController::class . ':createNew');
+
+$app->get('/contactos/empleados/id/{id}', EmpleadoController::class . ':indexEmpleado')->setName('empleado');
+$app->post('/contactos/empleados/id/{id}', EmpleadoController::class . ':update');
+$app->delete('/contactos/empleados/id/{id}', EmpleadoController::class . ':delete');
 
 // REPORTES
 

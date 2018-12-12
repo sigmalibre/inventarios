@@ -149,7 +149,7 @@
                     </li>
                 </ul>
             </li>
-            {% set contactos_urls = [path_for('empresas'), path_for('empresas/createform'), path_for('providers'), path_for('clientes/personas'), path_for('clientes/empresas'), path_for('clientes/createform')] %}
+            {% set contactos_urls = [path_for('empleados'), path_for('empleados/createform'), path_for('empresas'), path_for('empresas/createform'), path_for('providers'), path_for('clientes/personas'), path_for('clientes/empresas'), path_for('clientes/createform')] %}
             <li class="dropdown {% if uri_path in contactos_urls %}active{% endif %}">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     <span class="glyphicon glyphicon-earphone"></span>
@@ -158,6 +158,12 @@
                 </a>
                 <ul class="dropdown-menu">
                     {% if is_admin %}
+                    <li class="{% if uri_path == path_for('empleados/createform') %}active{% endif %}">
+                        <a href="{{ path_for('empleados/createform') }}">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Nuevo Empleado
+                        </a>
+                    </li>
                     <li class="{% if uri_path == path_for('empresas/createform') %}active{% endif %}">
                         <a href="{{ path_for('empresas/createform') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
@@ -168,6 +174,12 @@
                         <a href="{{ path_for('clientes/createform') }}">
                             <span class="glyphicon glyphicon-plus-sign"></span>
                             Nuevo Contacto Cliente
+                        </a>
+                    </li>
+                    <li class="{% if uri_path == path_for('empleados') %}active{% endif %}">
+                        <a href="{{ path_for('empleados') }}">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Ver Empleados
                         </a>
                     </li>
                     {% endif %}
