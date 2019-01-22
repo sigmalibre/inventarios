@@ -99,10 +99,21 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-3">
                                         <div class="form-group">
                                             <label for="correlativo">Correlativo Manual</label>
                                             <input type="number" id="correlativo" class="form-control limit-to-max-value limit-to-min-value readonly-disabled" name="correlativo" value="{{ nextCorrelativo }}" data-min="{{ minCorrelativo }}" data-max="{{ maxCorrelativo }}" step="1">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label for="empleadoID">Empleado</label>
+                                            <select name="empleadoID" id="empleadoID" class="form-control readonly-disabled">
+                                                <option value="" selected>Elige un empleado</option>
+                                                {% for empleado in empleados %}
+                                                    <option value="{{ empleado.EmpleadoID }}">{{ empleado.Codigo }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                     </div>
                                 </div>

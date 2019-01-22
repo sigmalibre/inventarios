@@ -47,6 +47,7 @@
 
     var clienteSelect = $('#clientePersonaID');
     var contribuyenteSelect = $('#empresaID');
+    var empleadoSelect = $('#empleadoID');
     var inputCorrelativo = $('#correlativo');
     var tirajeNumCorrelativo = $('#numFacturaCorrelativo');
     var codigoTiraje = $('#txtCodigoTiraje');
@@ -233,6 +234,7 @@
         codigoTiraje.text('--');
         clienteSelect.val('');
         contribuyenteSelect.val('');
+        empleadoSelect.val('');
 
         btnActivarModalEliminar.prop('disabled', true);
     });
@@ -243,6 +245,7 @@
         codigoTiraje.text(datos.codigoTiraje);
         clienteSelect.val(datos.clienteID);
         contribuyenteSelect.val(datos.empresaID);
+        empleadoSelect.val(datos.empleadoID);
     });
 
     eventos.on('factura-existente-finished', function () {
@@ -362,11 +365,13 @@
 
         var clientePersonaID = clienteSelect.val();
         var clienteContribuyenteID = contribuyenteSelect.val();
+        var empleadoID = empleadoSelect.val();
         var correlativoSeleccionado = inputCorrelativo.val();
 
         var message = {
             clienteID: clientePersonaID,
             empresaID: clienteContribuyenteID,
+            empleadoID: empleadoID,
             correlativo: correlativoSeleccionado,
             detalles: detalles
         };

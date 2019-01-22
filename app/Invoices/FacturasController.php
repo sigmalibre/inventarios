@@ -9,6 +9,7 @@ use Sigmalibre\Clients\Clients;
 use Sigmalibre\DataSource\MySQL\MySQLTransactions;
 use Sigmalibre\Empresas\Empresa;
 use Sigmalibre\Empresas\Empresas;
+use Sigmalibre\Empleados\Empleados;
 use Sigmalibre\Ingresos\Ingresos;
 use Sigmalibre\Invoices\DataSource\MySQL\MySQLFacturaRepository;
 use Sigmalibre\IVA\IVA;
@@ -131,6 +132,7 @@ class FacturasController
         $correlativo = new SiguienteCorrelativo($tiraje);
         $clientes = new Clients($this->container);
         $empresas = new Empresas($this->container);
+        $empleados = new Empleados($this->container);
         $empresa = new Empresa((new ConfigReader())->read('empresa'), $this->container);
         $iva = new IVA();
         $categorias = new Categories($this->container);
@@ -160,6 +162,7 @@ class FacturasController
             'maxCorrelativo' => $tiraje->TirajeHasta,
             'clientes' => $clientes->getAllClients(),
             'contribuyentes' => $empresas->getAll(),
+            'empleados' => $empleados->getAll(),
             'iva' => $iva->getPorcentajeIVA(),
             'categories' => $categorias->readAllCategories(),
             'brands' => $marcas->readAllBrands(),
