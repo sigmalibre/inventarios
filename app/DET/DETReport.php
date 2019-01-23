@@ -35,7 +35,7 @@ class DETReport
         return $before . $str . $after;
     }
 
-    public function run()
+    public function run($year)
     {
         // Obtener la lista de todos los productos
 
@@ -54,7 +54,7 @@ class DETReport
             $linea .= ' ';
             $linea .= $p['CodigoBienDet'];
             $linea .= $p['CodigoLibroDet'];
-            $linea .= (new \DateTime('now', new \DateTimeZone('America/El_Salvador')))->format('Y');
+            $linea .= $year;
             $linea .= PHP_EOL;
 
             $reporte .= strtoupper($linea);

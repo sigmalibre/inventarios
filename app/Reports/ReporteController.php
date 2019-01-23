@@ -50,10 +50,16 @@ class ReporteController
 
     public function detPRN(Request $request, Response $response)
     {
+        $params = $request->getQueryParams();
+
+        if (empty($params['year']) === true || strlen($params['year']) !== 4) {
+            return $response->withRedirect('/reportes');
+        }
+
         $det = new DETReport($this->container);
 
         return $response
-            ->write($det->run())
+            ->write($det->run($params['year']))
             ->withHeader('Content-Disposition', 'attachment; filename="det.txt"')
             ->withHeader('Content-Type', 'text/plain');
     }
