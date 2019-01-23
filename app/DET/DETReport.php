@@ -49,9 +49,9 @@ class DETReport
             $linea .= mb_substr($this->mb_str_pad(preg_replace("/[^A-Za-z0-9 ]/", ' ', $p['NombreCategoria'] . ' ' . $p['Descripcion']), 49, ' ', STR_PAD_RIGHT), 0, 49);
             $linea .= ' ';
             $linea .= mb_substr($this->mb_str_pad($p['UnidadMedida'], 24, ' ', STR_PAD_RIGHT), 0, 24);
-            $linea .= mb_substr(str_pad($p['Cantidad'] * 10000000000, 22, ' ', STR_PAD_LEFT), 0, 22);
-            $linea .= mb_substr(str_pad($p['CostoActual'] * 10000000000, 24, ' ', STR_PAD_LEFT), 0, 24);
-            $linea .= mb_substr(str_pad($p['Cantidad'] * $p['CostoActual'] * 10000000000, 24, ' ', STR_PAD_LEFT), 0, 24);
+            $linea .= mb_substr(str_pad(printf('%0.0f', $p['Cantidad'] * 10000000000), 22, ' ', STR_PAD_LEFT), 0, 22);
+            $linea .= mb_substr(str_pad(printf('%0.0f', $p['CostoActual'] * 10000000000), 24, ' ', STR_PAD_LEFT), 0, 24);
+            $linea .= mb_substr(str_pad(printf('%0.0f', $p['Cantidad'] * $p['CostoActual'] * 10000000000), 24, ' ', STR_PAD_LEFT), 0, 24);
             $linea .= ' ';
             $linea .= $p['CodigoBienDet'];
             $linea .= $p['CodigoLibroDet'];
