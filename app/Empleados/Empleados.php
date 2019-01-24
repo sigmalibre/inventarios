@@ -82,14 +82,14 @@ class Empleados
 			return false;
 		}
 
-		$newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['empleadoID' => $newEmpleadoID]);
-		$newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['empleadoID' => $newEmpleadoID]);
-		$newEmailID = (new Email())->save(new SaveNewEmail($this->container), $input['email'], ['empleadoID' => $newEmpleadoID]);
-
-		if ($newDireccionID === false || $newTelefonoID === false || $newEmailID === false) {
-			$this->container->mysql->rollBack();
-
-			return false;
+		if (!empty($input['direccion'])) {
+			$newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['empleadoID' => $newEmpleadoID]);
+		}
+		if (!empty($input['telefono'])) {
+			$newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['empleadoID' => $newEmpleadoID]);
+		}
+		if (!empty($input['email'])) {
+			$newEmailID = (new Email())->save(new SaveNewEmail($this->container), $input['email'], ['empleadoID' => $newEmpleadoID]);
 		}
 
 		$this->container->mysql->commit();
@@ -100,9 +100,15 @@ class Empleados
 	public function runValidators($input)
 	{
 		$this->validador->validate($input);
-		$this->validadorDirecciones->validate($input);
-		$this->validadorTelefonos->validate($input);
-		$this->validadorEmails->validate($input);
+		if (!empty($input['direccion'])) {
+			$this->validadorDirecciones->validate($input);
+		}
+		if (!empty($input['telefono'])) {
+			$this->validadorTelefonos->validate($input);
+		}
+		if (!empty($input['email'])) {
+			$this->validadorEmails->validate($input);
+		}
 
 		return empty($this->getInvalidInputs());
 	}
@@ -153,16 +159,16 @@ class Empleados
 			return false;
 		}
 
-		$isDireccionUpdated = $this->updateDireccion($input['direccion']);
-		$isTelefonoUpdated = $this->updateTelefono($input['telefono']);
-		$isEmailUpdated = $this->updateEmail($input['email']);
-
-		if ($isDireccionUpdated === false || $isTelefonoUpdated === false || $isEmailUpdated === false) {
-            $this->container->mysql->rollBack();
-
-            return false;
+		if (!empty($input['direccion'])) {
+			$isDireccionUpdated = $this->updateDireccion($input['direccion']);
 		}
-		
+		if (!empty($input['telefono'])) {
+			$isTelefonoUpdated = $this->updateTelefono($input['telefono']);
+		}
+		if (!empty($input['email'])) {
+			$isEmailUpdated = $this->updateEmail($input['email']);
+		}
+
 		$this->container->mysql->commit();
 
 		return true;
