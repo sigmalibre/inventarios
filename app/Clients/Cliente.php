@@ -167,12 +167,6 @@ class Cliente
         $isDirectionUpdated = $this->updateDireccion($input['direccion']);
         $isTelefonoUpdated = $this->updateTelefono($input['telefono']);
 
-        if ($isDirectionUpdated === false || $isTelefonoUpdated === false) {
-            $this->transaction->rollBack();
-
-            return false;
-        }
-
         $this->transaction->commit();
 
         $this->init($this->id);
@@ -183,8 +177,12 @@ class Cliente
     private function runValidators($input)
     {
         $this->validator->validate($input);
-        $this->validadorDirecciones->validate($input);
-        $this->validadorTelefonos->validate($input);
+        if (!empty($input['direccion'])) {
+            $this->validadorDirecciones->validate($input);
+        }
+        if (!empty($input['telefono'])) {
+            $this->validadorTelefonos->validate($input);
+        }
 
         return empty($this->getInvalidInputs());
     }

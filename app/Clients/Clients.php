@@ -113,13 +113,11 @@ class Clients
             return false;
         }
 
-        $newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['clientePersonaID' => $newClientID]);
-        $newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['clientePersonaID' => $newClientID]);
-
-        if ($newDireccionID === false || $newTelefonoID === false) {
-            $this->container->mysql->rollBack();
-
-            return false;
+        if (!empty($input['direccion'])) {
+            $newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['clientePersonaID' => $newClientID]);
+        }
+        if (!empty($input['telefono'])) {
+            $newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['clientePersonaID' => $newClientID]);
         }
 
         $this->container->mysql->commit();
@@ -130,8 +128,12 @@ class Clients
     private function runValidators($input)
     {
         $this->validator->validate($input);
-        $this->validadorDirecciones->validate($input);
-        $this->validadorTelefonos->validate($input);
+        if (!empty($input['direccion'])) {
+            $this->validadorDirecciones->validate($input);
+        }
+        if (!empty($input['telefono'])) {
+            $this->validadorTelefonos->validate($input);
+        }
 
         return empty($this->getInvalidInputs());
     }
