@@ -177,12 +177,6 @@ class Empresa
         $isTelefonoUpdated = $this->updateTelefono($input['telefono']);
         $isEmailUpdated = $this->updateEmail($input['email']);
 
-        if ($isDireccionUpdated === false || $isTelefonoUpdated === false || $isEmailUpdated === false) {
-            $this->container->mysql->rollBack();
-
-            return false;
-        }
-
         $this->container->mysql->commit();
 
         $this->init($this->id);
@@ -200,9 +194,15 @@ class Empresa
     public function runValidators($input)
     {
         $this->validador->validate($input);
-        $this->validadorDirecciones->validate($input);
-        $this->validadorTelefonos->validate($input);
-        $this->validadorEmails->validate($input);
+        if (!empty($input['direccion'])) {
+			$this->validadorDirecciones->validate($input);
+		}
+		if (!empty($input['telefono'])) {
+			$this->validadorTelefonos->validate($input);
+		}
+		if (!empty($input['email'])) {
+			$this->validadorEmails->validate($input);
+		}
 
         return empty($this->getInvalidInputs());
     }

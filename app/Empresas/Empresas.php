@@ -97,14 +97,14 @@ class Empresas
             return false;
         }
 
-        $newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['empresaID' => $newEmpresaID]);
-        $newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['empresaID' => $newEmpresaID]);
-        $newEmailID = (new Email())->save(new SaveNewEmail($this->container), $input['email'], ['empresaID' => $newEmpresaID]);
-
-        if ($newDireccionID === false || $newTelefonoID === false || $newEmailID === false) {
-            $this->container->mysql->rollBack();
-
-            return false;
+        if (!empty($input['direccion'])) {
+            $newDireccionID = (new Direccion())->save(new SaveNewDireccion($this->container), $input['direccion'], ['empresaID' => $newEmpresaID]);
+        }
+        if (!empty($input['telefono'])) {
+            $newTelefonoID = (new Telefono())->save(new SaveNewTelefono($this->container), $input['telefono'], ['empresaID' => $newEmpresaID]);
+        }
+        if (!empty($input['email'])) {
+            $newEmailID = (new Email())->save(new SaveNewEmail($this->container), $input['email'], ['empresaID' => $newEmpresaID]);
         }
 
         $this->container->mysql->commit();
@@ -122,9 +122,15 @@ class Empresas
     public function runValidators($input)
     {
         $this->validador->validate($input);
-        $this->validadorDirecciones->validate($input);
-        $this->validadorTelefonos->validate($input);
-        $this->validadorEmails->validate($input);
+        if (!empty($input['direccion'])) {
+			$this->validadorDirecciones->validate($input);
+		}
+		if (!empty($input['telefono'])) {
+			$this->validadorTelefonos->validate($input);
+		}
+		if (!empty($input['email'])) {
+			$this->validadorEmails->validate($input);
+		}
 
         return empty($this->getInvalidInputs());
     }

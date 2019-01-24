@@ -65,9 +65,11 @@ class ValidadorEmpresa extends Validator
      */
     public function validarRazonSocial($input)
     {
-        $v = new AllOf(
-            new StringType(),
-            new Length(1, 50)
+        $v = new Optional(
+            new AllOf(
+                new StringType(),
+                new Length(1, 50)
+            )
         );
 
         if ($v->validate($input['razonSocial']) === false) {
@@ -88,9 +90,11 @@ class ValidadorEmpresa extends Validator
      */
     public function validarGiro($input)
     {
-        $v = new AllOf(
-            new StringType(),
-            new Length(1, 255)
+        $v = new Optional(
+            new AllOf(
+                new StringType(),
+                new Length(1, 255)
+            )
         );
 
         if ($v->validate($input['giro']) === false) {
@@ -111,9 +115,11 @@ class ValidadorEmpresa extends Validator
      */
     public function validarRegistro($input)
     {
-        $v = new AllOf(
-            new StringType(),
-            new Length(1, 30, true)
+        $v = new Optional(
+            new AllOf(
+                new StringType(),
+                new Length(1, 30, true)
+            )
         );
 
         if ($v->validate($input['registro']) === false) {

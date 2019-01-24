@@ -159,15 +159,9 @@ class Empleados
 			return false;
 		}
 
-		if (!empty($input['direccion'])) {
-			$isDireccionUpdated = $this->updateDireccion($input['direccion']);
-		}
-		if (!empty($input['telefono'])) {
-			$isTelefonoUpdated = $this->updateTelefono($input['telefono']);
-		}
-		if (!empty($input['email'])) {
-			$isEmailUpdated = $this->updateEmail($input['email']);
-		}
+		$isDireccionUpdated = $this->updateDireccion($input['direccion']);
+		$isTelefonoUpdated = $this->updateTelefono($input['telefono']);
+		$isEmailUpdated = $this->updateEmail($input['email']);
 
 		$this->container->mysql->commit();
 
