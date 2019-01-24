@@ -10,6 +10,7 @@ use Sigmalibre\DatosGenerales\Direccion;
 use Sigmalibre\DatosGenerales\ValidadorEmails;
 use Sigmalibre\DatosGenerales\ValidadorTelefono;
 use Sigmalibre\DatosGenerales\ValidadorDireccion;
+use Sigmalibre\Empleados\DataSource\GetFacturas;
 use Sigmalibre\Empleados\DataSource\DeleteEmpleado;
 use Sigmalibre\Empleados\DataSource\UpdateEmpleado;
 use Sigmalibre\Empleados\DataSource\FilterEmpleados;
@@ -283,10 +284,43 @@ class Empleados
 	public function getRendimiento($fecha) {
 		$dia = date('d', strtotime($fecha));
         $mes = date('m', strtotime($fecha));
-        $ano = date('Y', strtotime($fecha));
-        var_dump($dia);
-        var_dump($mes);
-        var_dump($ano);
-		return true;
+		$ano = date('Y', strtotime($fecha));
+
+		$dataSource = new GetFacturas($this->container);
+		$facturas = $dataSource->read($ano);
+
+		$rendimiento = [];
+
+		foreach ($facturas as $factura) {
+			if (isset($rendimiento[$factura['EmpleadoID']]) === false) {
+				$rendimiento[$factura['EmpleadoID']]['codigo'] = $factura['Codigo'];
+				$rendimiento[$factura['EmpleadoID']]['nombre'] = $factura['Empleado'];
+				$rendimiento[$factura['EmpleadoID']]['dia']['cantidad'] = 0;
+				$rendimiento[$factura['EmpleadoID']]['dia']['valor'] = 0;
+				$rendimiento[$factura['EmpleadoID']]['mes']['cantidad'] = 0;
+				$rendimiento[$factura['EmpleadoID']]['mes']['valor'] = 0;
+				$rendimiento[$factura['EmpleadoID']]['ano']['cantidad'] = 0;
+				$rendimiento[$factura['EmpleadoID']]['ano']['valor'] = 0;
+			}
+
+			$dia_factura = date('d', strtotime($factura['FechaFacturacion']));
+			$mes_factura = date('m', strtotime($factura['FechaFacturacion']));
+			$ano_factura = date('Y', strtotime($factura['FechaFacturacion']));
+
+			if ($dia === $dia_factura) {
+				$rendimiento[$factura['EmpleadoID']]['dia']['cantidad'] += 1;
+				$rendimiento[$factura['EmpleadoID']]['dia']['valor'] += $factura['Total'];
+			}
+
+			if ($mes === $mes_factura) {
+				$rendimiento[$factura['EmpleadoID']]['mes']['cantidad'] += 1;
+				$rendimiento[$factura['EmpleadoID']]['mes']['valor'] += $factura['Total'];
+			}
+
+			$rendimiento[$factura['EmpleadoID']]['ano']['cantidad'] += 1;
+			$rendimiento[$factura['EmpleadoID']]['ano']['valor'] += $factura['Total'];
+		}
+
+		return $rendimiento;
 	}
 }

@@ -2,10 +2,20 @@
 
 namespace Sigmalibre\Empleados\DataSource;
 
-use Sigmalibre\DataSource\MySQL\MySQLReader;
-//SELECT EmpleadoID, CONCAT(Nombres, ' ', Apellidos) as Empleado, FacturaID, Cantidad * PrecioUnitario as Total, FechaFacturacion FROM `detallefactura` INNER JOIN facturas USING(FacturaID) LEFT JOIN empleados USING (EmpleadoID)
-class GetFacturas extends MySQLReader
+class GetFacturas
 {
-	protected $baseQuery = 'SELECT EmpleadoID, Nombres, Apellidos, DUI, NIT, NUP, ISSS, Codigo, DireccionID, Direccion, TelefonoID, Telefono, EmailID, Email FROM Empleados LEFT JOIN Direcciones USING (EmpleadoID) LEFT JOIN Telefonos USING (EmpleadoID) LEFT JOIN Emails USING (EmpleadoID) WHERE 1';
-	protected $setLimit = false;
+	private $connection;
+
+	public function __construct($container)
+	{
+		$this->connection = $container->mysql;
+	}
+
+	public function read($year)
+	{
+		return $this->connection->query('SELECT EmpleadoID, Codigo, CONCAT(Nombres, \' \', Apellidos) as Empleado, FacturaID, SUM(Cantidad * PrecioUnitario) as Total, FechaFacturacion FROM DetalleFactura INNER JOIN Facturas USING(FacturaID) LEFT JOIN Empleados USING (EmpleadoID) WHERE FechaFacturacion BETWEEN :start AND :end GROUP BY FacturaID', [
+			'start' => $year . '-01-01',
+			'end' => $year . '-12-31',
+		]);
+	}
 }

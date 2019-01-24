@@ -9,6 +9,7 @@
 {% block content %}
 
 <div class="container-fluid">
+    {% if is_admin %}
     <div class="row">
         <div class="col-sm-8 col-sm-offset-2">
             <div class="panel panel-primary">
@@ -16,17 +17,17 @@
                     <h4 class="panel-title">Rendimiento de Ventas</h4>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
+                    <table id="rendimiento_vendedores" class="table table-bordered">
+                        <thead style="border-top: 1px solid #dddddd;">
                             <tr>
-                                <th>Vendedor</th>
-                                <th>Codigo</th>
-                                <th colspan="2">Dia 17</th>
-                                <th colspan="2">Mes Noviembre</th>
-                                <th colspan="2">Año 2019</th>
+                                <th colspan="2">Periodos</th>
+                                <th colspan="2">Dia {{ dia }}</th>
+                                <th colspan="2">Mes {{ mes }}</th>
+                                <th colspan="2" class="tableexport-string">Año {{ ano }}</th>
                             </tr>
                             <tr>
-                                <th colspan="2"></th>
+                                <th>Empleado</th>
+                                <th>Codigo</th>
                                 <th>Facturas</th>
                                 <th>Valor</th>
                                 <th>Facturas</th>
@@ -36,22 +37,32 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for empleado in rendimiento %}
                             <tr>
-                                <td>Javier Portillo</td>
-                                <td>1001</td>
-                                <td>51</td>
-                                <td>$75.10</td>
-                                <td>503</td>
-                                <td>$9624.23</td>
-                                <td>3764</td>
-                                <td>$685651.42</td>
+                                <td>{{ empleado.nombre }}</td>
+                                <td>{{ empleado.codigo }}</td>
+                                <td>{{ empleado.dia.cantidad }}</td>
+                                <td>$ {{ empleado.dia.valor|number_format(2) }}</td>
+                                <td>{{ empleado.mes.cantidad }}</td>
+                                <td>$ {{ empleado.mes.valor|number_format(2) }}</td>
+                                <td>{{ empleado.ano.cantidad }}</td>
+                                <td>$ {{ empleado.ano.valor|number_format(2) }}</td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
+<script>
+TableExport(document.getElementById('rendimiento_vendedores'), {
+    filename: 'rendimiento_vendedores',
+    position: 'top',
+    formats: ['xlsx'],
+})
+</script>
 
 {% endblock %}

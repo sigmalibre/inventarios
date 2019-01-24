@@ -26,6 +26,20 @@
                         </form>
                     </div>
                 </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Rendimiento de Ventas</h4>
+                    </div>
+                    <div class="panel-body">
+                        <form action="/reportes/rendimiento" method="get">
+                            <div class="form-group">
+                                <label for="fecha">Fecha a mostrar</label>
+                                <input type="date" name="fecha" class="form-control" id="fecha" required>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info">Generar Reporte</button>
+                        </form>
+                    </div>
+                </div>
             </div>
 
             <div class="col-sm-4">
@@ -95,24 +109,6 @@
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-block btn-info">Generar Reporte Conteo</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Rendimiento de Ventas</h4>
-                    </div>
-                    <div class="panel-body">
-                        <form action="/reportes/rendimiento" method="get">
-                            <div class="form-group">
-                                <label for="fecha">Fecha a mostrar</label>
-                                <input type="date" name="fecha" class="form-control" id="fecha" required>
-                            </div>
-                            <button type="submit" class="btn btn-block btn-info">Generar Reporte</button>
                         </form>
                     </div>
                 </div>

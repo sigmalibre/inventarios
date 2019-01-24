@@ -125,9 +125,26 @@ class ReporteController
         $empleados = new Empleados($this->container);
         $rendimiento = $empleados->getRendimiento($params['fecha']);
 
-        var_dump($params['fecha']);
+        $meses = [
+            '01' => 'Enero',
+            '02' => 'Febrero',
+            '03' => 'Marzo',
+            '04' => 'Abril',
+            '05' => 'Mayo',
+            '06' => 'Junio',
+            '07' => 'Julio',
+            '08' => 'Agosto',
+            '09' => 'Septiembre',
+            '10' => 'Octubre',
+            '11' => 'Noviembre',
+            '12' => 'Diciembre',
+        ];
 
         return $this->container->view->render($response, 'reports/rendimiento.twig', [
+            'rendimiento' => $rendimiento,
+            'dia' => date('d', strtotime($params['fecha'])),
+            'mes' => $meses[date('m', strtotime($params['fecha']))],
+            'ano' => date('Y', strtotime($params['fecha'])),
         ]);
     }
 }
