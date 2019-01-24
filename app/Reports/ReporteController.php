@@ -5,6 +5,7 @@ namespace Sigmalibre\Reports;
 use Sigmalibre\Categories\Categories;
 use Sigmalibre\Brands\Brands;
 use Sigmalibre\DET\DETReport;
+use Sigmalibre\Empleados\Empleados;
 use Sigmalibre\Reports\ReportBuilders\CorteProductosReportBuilder;
 use Sigmalibre\Reports\ReportBuilders\ResumenMercaderiaReportBuilder;
 use Sigmalibre\Reports\ReportBuilders\TestReportBuilder;
@@ -112,5 +113,21 @@ class ReporteController
             ->withHeader('Content-Disposition', 'inline ' . utf8_encode('reporte.pdf'))
             ->withHeader('Cache-Control', 'private, max-age=0, must-revalidate')
             ->write($reporteRenderizado);
+    }
+
+    public function rendimiento(Request $request, Response $response)
+    {
+        $params = $request->getQueryParams();
+        if (empty($params['fecha']) === true) {
+            return $response->withRedirect('/reportes');
+        }
+
+        $empleados = new Empleados($this->container);
+        $rendimiento = $empleados->getRendimiento($params['fecha']);
+
+        var_dump($params['fecha']);
+
+        return $this->container->view->render($response, 'reports/rendimiento.twig', [
+        ]);
     }
 }

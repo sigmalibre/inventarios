@@ -1,0 +1,57 @@
+{% extends 'templates/base.twig' %}
+
+{% block title %}Reporte Rendimiento{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('reportes'), 'Reportes') }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Rendimiento de Ventas</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Vendedor</th>
+                                <th>Codigo</th>
+                                <th colspan="2">Dia 17</th>
+                                <th colspan="2">Mes Noviembre</th>
+                                <th colspan="2">Año 2019</th>
+                            </tr>
+                            <tr>
+                                <th colspan="2"></th>
+                                <th>Facturas</th>
+                                <th>Valor</th>
+                                <th>Facturas</th>
+                                <th>Valor</th>
+                                <th>Facturas</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Javier Portillo</td>
+                                <td>1001</td>
+                                <td>51</td>
+                                <td>$75.10</td>
+                                <td>503</td>
+                                <td>$9624.23</td>
+                                <td>3764</td>
+                                <td>$685651.42</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

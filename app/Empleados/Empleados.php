@@ -279,4 +279,14 @@ class Empleados
 	public function delete($id) {
 		return (new DeleteEmpleado($this->container))->write($id);
 	}
+
+	public function getRendimiento($fecha) {
+		$dia = date('d', strtotime($fecha));
+        $mes = date('m', strtotime($fecha));
+        $ano = date('Y', strtotime($fecha));
+        var_dump($dia);
+        var_dump($mes);
+        var_dump($ano);
+		return true;
+	}
 }
