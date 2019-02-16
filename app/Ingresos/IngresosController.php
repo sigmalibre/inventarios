@@ -69,7 +69,10 @@ class IngresosController
 
         $productsController = new ProductsController($this->container);
 
-        $isSaved = $ingresos->save($request->getParsedBody(), $arguments['id']);
+        $params = $request->getParsedBody();
+        $params['ajuste'] = 0;
+
+        $isSaved = $ingresos->save($params, $arguments['id']);
 
         return $productsController->indexProduct($request, $response, $arguments, $isSaved, $ingresos->getInvalidInputs());
     }
@@ -106,6 +109,7 @@ class IngresosController
             'almacenID' => $ultimo_ingreso['AlmacenID'],
             'cantidadIngreso' => $request->getParsedBody()['ajuste'],
             'valorPrecioUnitario' => $ultimo_ingreso['PrecioUnitario'],
+            'ajuste' => 1,
         ], $arguments['id']);
 
         return (new Response())->withJson([ 'success' => $isSaved ], 200);

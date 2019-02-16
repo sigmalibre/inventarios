@@ -102,7 +102,7 @@
                                 <td>{{ ingreso.CodigoProducto }}</td>
                                 <td>{{ ingreso.NombreCategoria }}</td>
                                 <td>[{{ ingreso.NombreMarca }}] {{ ingreso.Descripcion }}</td>
-                                <td>{{ ingreso.Proveedor }}</td>
+                                <td>{{ ingreso.DeAjuste ? 'Ajuste Admin' : ingreso.Proveedor }}</td>
                                 <td>{{ ingreso.Cantidad }}</td>
                                 <td>{{ ingreso.PrecioUnitario }}</td>
                                 <td>{{ ingreso.NombreAlmacen }}</td>

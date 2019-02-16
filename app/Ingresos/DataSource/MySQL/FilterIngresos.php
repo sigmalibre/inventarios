@@ -27,7 +27,8 @@ class FilterIngresos extends MySQLReader
         NombreComercial AS Proveedor,
         Registro AS RegistroProveedor,
         AlmacenID,
-        NombreAlmacen
+        NombreAlmacen,
+        DeAjuste
       FROM DetalleIngresos
       LEFT JOIN Productos USING (ProductoID)
       LEFT JOIN CategoriaProductos USING (CategoriaProductoID)
