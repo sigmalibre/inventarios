@@ -293,8 +293,8 @@ class Empleados
 
 		foreach ($facturas as $factura) {
 			if (isset($rendimiento[$factura['EmpleadoID']]) === false) {
-				$rendimiento[$factura['EmpleadoID']]['codigo'] = $factura['Codigo'];
-				$rendimiento[$factura['EmpleadoID']]['nombre'] = $factura['Empleado'];
+				$rendimiento[$factura['EmpleadoID']]['codigo'] = $factura['Codigo'] ?? '--';
+				$rendimiento[$factura['EmpleadoID']]['nombre'] = $factura['Empleado'] ?? 'Sin empleado';
 				$rendimiento[$factura['EmpleadoID']]['dia']['cantidad'] = 0;
 				$rendimiento[$factura['EmpleadoID']]['dia']['valor'] = 0;
 				$rendimiento[$factura['EmpleadoID']]['mes']['cantidad'] = 0;
