@@ -40,7 +40,7 @@ class Facturas
     {
         return new Factura(0, (string)(new \DateTime())->getTimestamp(),
             $input['tipoFacturaID'], $input['tirajeFacturaID'], '', $input['correlativo'],
-            $input['clientePersonaID'], '', '', $input['empleadoID'], '', $input['empresaID'], null, 0, []);
+            $input['clientePersonaID'], '', '', $input['empleadoID'], '', $input['empresaID'], null, 0, [], $input['ajuste']);
     }
 
     private function buildDetalles($input)

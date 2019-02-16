@@ -27,8 +27,7 @@ $('body').on('keypress', '.productos-ajustes-inputs', function (e) {
 		})
 	}
 	if (valor_ajuste < 0) {
-		if (Number(valor_actual.text()) < Number(valor_ajuste,
-			) * -1) {
+		if (Number(valor_actual.text()) < Number(valor_ajuste) * -1) {
 			return eventos.emit('alert-feedback', {
 			    context: 'danger',
 			    icon: 'remove-sign',
@@ -58,6 +57,7 @@ $('body').on('keypress', '.productos-ajustes-inputs', function (e) {
 							url: '/facturas/nuevo',
 							method: 'POST',
 							data: {
+								ajuste: 1,
 								detalles: [{
 									id: productoID,
 									almacenID: resa.ultimo.AlmacenID,

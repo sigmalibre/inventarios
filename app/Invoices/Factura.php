@@ -19,6 +19,7 @@ class Factura
     public $nombreEmpresa;
     public $ventaTotal = 0;
     public $detalles = [];
+    public $ajuste = 0;
 
     /**
      * Factura constructor.
@@ -39,7 +40,7 @@ class Factura
      * @param float  $ventaTotal
      * @param array  $detalles
      */
-    public function __construct(int $id, string $fechaFacturacion, int $tipoFacturaID, int $tirajeFacturaID, string $codigoTiraje, int $correlativo, $clienteID, $nombreCliente, $apellidoCliente, $empleadoID, $codigoEmpleado, $empresaID, $nombreEmpresa, float $ventaTotal, array $detalles)
+    public function __construct(int $id, string $fechaFacturacion, int $tipoFacturaID, int $tirajeFacturaID, string $codigoTiraje, int $correlativo, $clienteID, $nombreCliente, $apellidoCliente, $empleadoID, $codigoEmpleado, $empresaID, $nombreEmpresa, float $ventaTotal, array $detalles, $ajuste)
     {
         $this->id = $id;
         $this->fechaFacturacion = $fechaFacturacion;
@@ -56,5 +57,6 @@ class Factura
         $this->nombreEmpresa = $nombreEmpresa;
         $this->ventaTotal = $ventaTotal;
         $this->detalles = $detalles;
+        $this->ajuste = $ajuste;
     }
 }

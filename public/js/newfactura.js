@@ -373,6 +373,7 @@
             empresaID: clienteContribuyenteID,
             empleadoID: empleadoID,
             correlativo: correlativoSeleccionado,
+            ajuste: 0,
             detalles: detalles
         };
 

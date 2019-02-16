@@ -134,7 +134,7 @@ class MySQLFacturaRepository implements FacturaRepository
     {
         return array_map(function ($f) {
 
-            $factura = new Factura($f['FacturaID'], $f['FechaFacturacion'], $f['TipoFacturaID'], $f['TirajeFacturaID'], $f['CodigoTiraje'], $f['Correlativo'], $f['ClientesPersonasID'], $f['NombreCliente'], $f['ApellidoCliente'], $f['EmpleadoID'], $f['CodigoEmpleado'], $f['EmpresaID'], $f['NombreEmpresa'], 0, []);
+            $factura = new Factura($f['FacturaID'], $f['FechaFacturacion'], $f['TipoFacturaID'], $f['TirajeFacturaID'], $f['CodigoTiraje'], $f['Correlativo'], $f['ClientesPersonasID'], $f['NombreCliente'], $f['ApellidoCliente'], $f['EmpleadoID'], $f['CodigoEmpleado'], $f['EmpresaID'], $f['NombreEmpresa'], 0, [], $f['DeAjuste']);
 
             $factura->detalles = $this->detallesRepo->findByFactura($factura);
 

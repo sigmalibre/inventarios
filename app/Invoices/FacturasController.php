@@ -84,7 +84,7 @@ class FacturasController
         $input['empleadoID'] = empty($input['empleadoID']) ? null : $input['empleadoID'];
         $input['empresaID'] = empty($input['empresaID']) ? null : $input['empresaID'];
         $input['clientePersonaID'] = empty($input['clienteID']) ? null : $input['clienteID'];
-
+        $input['ajuste'] = empty($input['ajuste']) ? 0 : $input['ajuste'];
         $input['detalles'] = array_map(function ($detalle) {
             $d = [
                 'almacenID' => $detalle['almacenID'] ?? null,

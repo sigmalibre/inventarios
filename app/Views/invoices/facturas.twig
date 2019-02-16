@@ -84,7 +84,7 @@
                                 <td>{{ invoice.codigoTiraje }}</td>
                                 <td>{{ invoice.correlativo }}</td>
                                 <td>{{ invoice.nombreCliente }} {{ invoice.apellidoCliente }}</td>
-                                <td>{{ invoice.codigoEmpleado }}</td>
+                                <td>{{ invoice.ajuste ? 'Ajuste admin' : invoice.codigoEmpleado }}</td>
                                 <td>$ {{ invoice.ventaTotal|number_format(2) }}</td>
                             </tr>
                             {% endfor %}

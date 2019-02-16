@@ -29,13 +29,14 @@ class SaveNewFactura
      */
     public function write(Factura $factura)
     {
-        $isSaved = $this->connection->execute('INSERT INTO Facturas (Correlativo, TipoFacturaID, EmpleadoID, TirajeFacturaID, EmpresaID, ClientesPersonasID) VALUES (:correlativo, :tipoFacturaID, :empleadoID, :tirajeFacuraID, :empresaID, :clientePersonaID)', [
+        $isSaved = $this->connection->execute('INSERT INTO Facturas (Correlativo, TipoFacturaID, EmpleadoID, TirajeFacturaID, EmpresaID, ClientesPersonasID, DeAjuste) VALUES (:correlativo, :tipoFacturaID, :empleadoID, :tirajeFacuraID, :empresaID, :clientePersonaID, :ajuste)', [
             'correlativo' => $factura->correlativo,
             'tipoFacturaID' => $factura->tipoFacturaID,
             'empleadoID' => $factura->empleadoID,
             'tirajeFacuraID' => $factura->tirajeFacturaID,
             'empresaID' => $factura->empresaID,
             'clientePersonaID' => $factura->clienteID,
+            'ajuste' => $factura->ajuste,
         ]);
 
         if ($isSaved === false) {
