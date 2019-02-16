@@ -20,20 +20,37 @@
                     <table id="rendimiento_vendedores" class="table table-bordered">
                         <thead style="border-top: 1px solid #dddddd;">
                             <tr>
-                                <th colspan="2">Periodos</th>
-                                <th colspan="2">Dia {{ dia }}</th>
-                                <th colspan="2">Mes {{ mes }}</th>
-                                <th colspan="2" class="tableexport-string">Año {{ ano }}</th>
+                                <th></th>
+                                <th></th>
+                                <th colspan="3">Periodo</th>
+                                <th colspan="2">Periodo</th>
+                                <th></th>
+                                <th></th>
+                                <th>Periodo</th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th colspan="3">Mes {{ mes.nombre }}</th>
+                                <th colspan="2">Mes</th>
+                                <th></th>
+                                <th></th>
+                                <th class="tableexport-string">Año {{ ano }}</th>
+                                <th></th>
                             </tr>
                             <tr>
                                 <th>Empleado</th>
-                                <th>Codigo</th>
+                                <th>Código</th>
+                                <th>Día</th>
                                 <th>Facturas</th>
                                 <th>Valor</th>
-                                <th>Facturas</th>
-                                <th>Valor</th>
-                                <th>Facturas</th>
-                                <th>Valor</th>
+                                <th>Del</th>
+                                <th>Al</th>
+                                <th>Facturas mes</th>
+                                <th>Valor mes</th>
+                                <th>Total Facturas</th>
+                                <th>Valor monetario anual</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -41,8 +58,11 @@
                             <tr>
                                 <td>{{ empleado.nombre }}</td>
                                 <td>{{ empleado.codigo }}</td>
+                                <td>{{ dia }}</td>
                                 <td>{{ empleado.dia.cantidad }}</td>
                                 <td>$ {{ empleado.dia.valor|number_format(2) }}</td>
+                                <td>1</td>
+                                <td>{{ mes.longitud }}</td>
                                 <td>{{ empleado.mes.cantidad }}</td>
                                 <td>$ {{ empleado.mes.valor|number_format(2) }}</td>
                                 <td>{{ empleado.ano.cantidad }}</td>

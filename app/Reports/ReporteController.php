@@ -126,18 +126,18 @@ class ReporteController
         $rendimiento = $empleados->getRendimiento($params['fecha']);
 
         $meses = [
-            '01' => 'Enero',
-            '02' => 'Febrero',
-            '03' => 'Marzo',
-            '04' => 'Abril',
-            '05' => 'Mayo',
-            '06' => 'Junio',
-            '07' => 'Julio',
-            '08' => 'Agosto',
-            '09' => 'Septiembre',
-            '10' => 'Octubre',
-            '11' => 'Noviembre',
-            '12' => 'Diciembre',
+            '01' => ['longitud' => 31, 'nombre' => 'Enero'],
+            '02' => ['longitud' => 28, 'nombre' => 'Febrero'],
+            '03' => ['longitud' => 31, 'nombre' => 'Marzo'],
+            '04' => ['longitud' => 30, 'nombre' => 'Abril'],
+            '05' => ['longitud' => 31, 'nombre' => 'Mayo'],
+            '06' => ['longitud' => 30, 'nombre' => 'Junio'],
+            '07' => ['longitud' => 31, 'nombre' => 'Julio'],
+            '08' => ['longitud' => 31, 'nombre' => 'Agosto'],
+            '09' => ['longitud' => 30, 'nombre' => 'Septiembre'],
+            '10' => ['longitud' => 31, 'nombre' => 'Octubre'],
+            '11' => ['longitud' => 30, 'nombre' => 'Noviembre'],
+            '12' => ['longitud' => 31, 'nombre' => 'Diciembre'],
         ];
 
         return $this->container->view->render($response, 'reports/rendimiento.twig', [
