@@ -15,10 +15,10 @@ $('body').on('keypress', '.productos-ajustes-inputs', function (e) {
 			success: function(res) {
 				if (!res.success) {
 					return eventos.emit('alert-feedback', {
-			    context: 'danger',
-			    icon: 'remove-sign',
-			    message: 'No se pudo ajustar el producto.'
-			})
+						context: 'danger',
+						icon: 'remove-sign',
+						message: 'No se pudo ajustar el producto.'
+					})
 				}
 
 				valor_actual.text(Number(valor_actual.text()) + Number(valor_ajuste))
@@ -102,42 +102,5 @@ $('body').on('keypress', '.productos-ajustes-inputs', function (e) {
 				})
 			},
 		})
-
-
-		// send to new factura
-		// clienteID: 
-		// empresaID: 
-		// correlativo: 3
-		// detalles[0][id]: 4558
-		// detalles[0][codigo]: 834jgnk
-		// detalles[0][cantidad]: 5
-		// detalles[0][marca]: Sin Marca
-		// detalles[0][descripcion]: hgq8h
-		// detalles[0][precio]: 4.26
-		// detalles[0][excentas]: 0.00
-		// detalles[0][afectas]: 21.30
-		// detalles[0][almacenID]: 1
-		// detalles[0][almacen]: CASA MATRIZ
-		// detalles[0][index]: 835
-
-		// we need to:
-		// send data to: POST /facturas/nuevo
-
-		// needed data
-		// 'almacenID' => $detalle['almacenID'] ?? null,
-		// 'cantidad' => (int)$detalle['cantidad'] ?? null, \\\\\ READY
-		// 'precio' => (float)$detalle['precio: '] ?? null, \\\\\ READY
-		// 'productoID' => $detalle['id'] ?? null, \\\\\ READY
-
-		// get product data: $.ajax({ url: 'http://localhost:9001/productos/id/4558', dataType: "json" })
-
-		// calculate price
-		// utilidadProducto:"1.7699"	
-		// valorCostoActualTotal:"2.0000"
-		// porcentajeIVA: 13
-		// (utilidadProducto + valorCostoActualTotal) * ( 1 + porcentajeIVA / 100)
-
-		// get almacen details: http://localhost:9001/productos/id/4558/detalles
-		// [{"DetalleAlmacenesID":1,"Cantidad":1030,"AlmacenID":1,"NombreAlmacen":"CASA MATRIZ","ProductoID":4558},{"DetalleAlmacenesID":2,"Cantidad":151,"AlmacenID":2,"NombreAlmacen":"SUCURSAL CENTRO","ProductoID":4558}]
 	}
 })
