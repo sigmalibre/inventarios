@@ -25,7 +25,7 @@ class ReporteLoader
         $this->pdf = new Dompdf();
     }
 
-    public function render(Reporte $reporte)
+    public function render(Reporte $reporte, $html_only = false)
     {
         $render = $this->templates->render($this->reportTemplate, [
             'reporte_titulo' => $reporte->title,
@@ -51,6 +51,10 @@ class ReporteLoader
                 'footer' => $reporte->contentFooter,
             ],
         ]);
+
+        if ($html_only) {
+            return $render;
+        }
 
         $pdfOptions = new Options([
             'isHtml5ParserEnabled' => true

@@ -91,7 +91,9 @@ class ReporteController
 
         $reporte = $builder->make();
 
-        $reporteRenderizado = $loader->render($reporte);
+        $reporteRenderizado = $loader->render($reporte, true);
+
+        return $reporteRenderizado;
 
         return (new Response())
             ->withHeader('Content-Type', 'application/pdf')

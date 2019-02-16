@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ reporte_titulo }}</title>
+    <link rel="stylesheet" href="/css/tableexport.css">
+    <script src="/js/jszip.js"></script>
+    <script src="/js/xlsx.core.js"></script>
+    <script src="/js/blob.js"></script>
+    <script src="/js/FileSaver.js"></script>
+    <script src="/js/tableexport.js"></script>
     {# TAMAÑO DE PÁGINA DISPONIBLE (RESTANDO MÁRGENES) PARA PAPEL TAMAÑO CARTA #}
     {# ANCHO: 260mm #}
     {# ALTO: 200mm #}
@@ -105,7 +111,7 @@
 </div>
 
 {% if header.visible %}
-    <div class="header">
+    <div class="header" id="header">
         <div class="header__logo">
             <img src="{{ header.logo }}" alt="Logo">
         </div>
@@ -124,7 +130,7 @@
     </div>
 {% endif %}
 <div class="content-table">
-    <table>
+    <table id="tablareporte">
         <thead>
         {% if content.header.meta %}
             <tr>
@@ -165,5 +171,13 @@
         </tbody>
     </table>
 </div>
+<script>
+document.getElementById('header').style.display = 'none'
+TableExport(document.getElementById('tablareporte'), {
+    filename: 'reporte',
+    position: 'top',
+    formats: ['xlsx'],
+})
+</script>
 </body>
 </html>
