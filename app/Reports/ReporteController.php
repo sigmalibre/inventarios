@@ -91,9 +91,13 @@ class ReporteController
 
         $reporte = $builder->make();
 
-        $reporteRenderizado = $loader->render($reporte, true);
+        $sacar_excel = $params['excel'] ?? false;
 
-        return $reporteRenderizado;
+        $reporteRenderizado = $loader->render($reporte, $sacar_excel);
+
+        if ($sacar_excel) {
+            return $reporteRenderizado;
+        }
 
         return (new Response())
             ->withHeader('Content-Type', 'application/pdf')
@@ -102,13 +106,21 @@ class ReporteController
             ->write($reporteRenderizado);
     }
 
-    public function resumenExistencia()
+    public function resumenExistencia(Request $request)
     {
+        $params = $request->getQueryParams();
+
         $builder = new ReporteBuilderDirector(new ResumenMercaderiaReportBuilder($this->container));
 
         $reporte = $builder->make();
 
-        $reporteRenderizado = $this->loader->render($reporte);
+        $sacar_excel = $params['excel'] ?? false;
+
+        $reporteRenderizado = $this->loader->render($reporte, $sacar_excel);
+
+        if ($sacar_excel) {
+            return $reporteRenderizado;
+        }
 
         return (new Response())
             ->withHeader('Content-Type', 'application/pdf')
