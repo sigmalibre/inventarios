@@ -149,7 +149,7 @@
         {% for item in content.body %}
             <tr>
                 {% for data in item %}
-                    <td>{{ data }}</td>
+                    <td class="tableexport-string">{{ data }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -159,13 +159,13 @@
             <tr>
                 {% for data in item %}
                     {% if data.empty %}
-                        <td colspan="{{ data.colspan ?? 1 }}"></td>
+                        <td colspan="{{ data.colspan ?? 1 }}" class="tableexport-string"></td>
                     {% endif %}
                     {% if data.head %}
-                        <th colspan="{{ data.colspan ?? 1 }}">{{ data.text }}</th>
+                        <th colspan="{{ data.colspan ?? 1 }}" class="tableexport-string">{{ data.text }}</th>
                     {% endif %}
                     {% if data.cell %}
-                        <td colspan="{{ data.colspan ?? 1 }}">{{ data.text }}</td>
+                        <td colspan="{{ data.colspan ?? 1 }}" class="tableexport-string">{{ data.text }}</td>
                     {% endif %}
                 {% endfor %}
             </tr>
