@@ -93,6 +93,7 @@
                                 <th>Precio Unitario</th>
                                 <th>Almacén</th>
                                 <th>Fecha Ingreso</th>
+                                <th>Es Devolución</th>
                             </tr>
                             </thead>
 
@@ -107,6 +108,7 @@
                                 <td>{{ ingreso.PrecioUnitario }}</td>
                                 <td>{{ ingreso.NombreAlmacen }}</td>
                                 <td>{{ ingreso.FechaIngreso }}</td>
+                                <td>{{ ingreso.esDevolucion ? 'Sí' : 'No' }}</td>
                             </tr>
                             {% else %}
                             </tbody>
