@@ -26,7 +26,7 @@ class SaveNewIngreso
      */
     public function write($data)
     {
-        $isSaved = $this->connection->execute('INSERT INTO DetalleIngresos (Cantidad, PrecioUnitario, CostoActual, ProductoID, EmpresaID, AlmacenID, DeAjuste) VALUES (:cantidadIngreso, :valorPrecioUnitario, :valorCostoActualTotal, :productoID, :empresaID, :almacenID, :ajuste)', $data);
+        $isSaved = $this->connection->execute('INSERT INTO DetalleIngresos (Cantidad, PrecioUnitario, CostoActual, ProductoID, EmpresaID, AlmacenID, DeAjuste, esDevolucion) VALUES (:cantidadIngreso, :valorPrecioUnitario, :valorCostoActualTotal, :productoID, :empresaID, :almacenID, :ajuste, :esDevolucion)', $data);
 
         if ($isSaved === false) {
             return false;

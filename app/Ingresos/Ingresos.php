@@ -72,6 +72,8 @@ class Ingresos
         // Limpiar los espacios en blanco al inicio y final de todos los inputs.
         $input = array_map('trim', $input);
 
+        error_log(var_export($input, true));
+
         $input['valorCostoActualTotal'] = $input['valorCostoActualTotal'] ?? '';
 
         // Validar el input del usuario.
