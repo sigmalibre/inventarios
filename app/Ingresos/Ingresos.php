@@ -75,6 +75,7 @@ class Ingresos
         error_log(var_export($input, true));
 
         $input['valorCostoActualTotal'] = $input['valorCostoActualTotal'] ?? '';
+        $input['esDevolucion'] = $input['esDevolucion'] ?? 0;
 
         // Validar el input del usuario.
         if ($this->validator->validate($input) === false) {
