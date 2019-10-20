@@ -158,8 +158,8 @@ $(function () {
     new Vue({
         el: '#syncCostoTotal',
         data: {
-            costoUnitario: cantidad || 0,
-            cantidad: costo || 0,
+            costoUnitario: costo || 0,
+            cantidad: cantidad || 0,
         },
         computed: {
             costoTotal: {
