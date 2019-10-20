@@ -7,7 +7,11 @@
                 <select name="empresaID" id="empresaID" class="form-control">
                     <option value="">Elige un Proveedor</option>
                     {% for empresa in empresas %}
+                        {% if empresa.EmpresaID == ingreso.EmpresaID %}
+                        <option value="{{ empresa.EmpresaID }}" selected>{{ empresa.NombreComercial }}</option>
+                        {% else %}
                         <option value="{{ empresa.EmpresaID }}">{{ empresa.NombreComercial }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -16,7 +20,11 @@
                 <select name="almacenID" id="almacenID" class="form-control">
                     <option value="">Elige un Almacén</option>
                     {% for almacen in almacenes %}
+                        {% if almacen.AlmacenID == ingreso.AlmacenID %}
+                        <option value="{{ almacen.AlmacenID }}" selected>{{ almacen.NombreAlmacen }}</option>
+                        {% else %}
                         <option value="{{ almacen.AlmacenID }}">{{ almacen.NombreAlmacen }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
                 {% if failedInputs.almacenID %}
@@ -26,7 +34,7 @@
             <div class="form-group {% if failedInputs.cantidadIngreso %}has-error{% endif %}">
                 <label for="cantidadIngreso">Cantidad a Ingresar</label>
                 <div class="input-group">
-                    <input v-model="cantidad" type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso">
+                    <input v-model="cantidad" type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? ingreso.Cantidad }}" class="form-control" id="cantidadIngreso">
                     <span class="input-group-addon">{{ input.medidaProducto }}</span>
                 </div>
                 {% if failedInputs.cantidadIngreso %}
@@ -41,7 +49,7 @@
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-usd"></span>
                             </span>
-                            <input v-model="costoUnitario" type="number" name="valorPrecioUnitario" value="0" class="form-control" id="valorPrecioUnitario" min="0" step="any">
+                            <input v-model="costoUnitario" type="number" name="valorPrecioUnitario" value="{{ ingreso.PrecioUnitario ?? 0 }}" class="form-control" id="valorPrecioUnitario" min="0" step="any">
                         </div>
                         {% if failedInputs.valorPrecioUnitario %}
                             <span class="help-block">Debe ser un número mayor a 0.0001</span>

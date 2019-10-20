@@ -14,6 +14,7 @@ class GetLastFromProduct extends MySQLReader
             DetalleIngresosID,
             EmpresaID,
             AlmacenID,
+            Cantidad,
             PrecioUnitario
         FROM DetalleIngresos
         WHERE 1';

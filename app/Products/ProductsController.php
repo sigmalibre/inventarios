@@ -136,6 +136,10 @@ class ProductsController
 
         $descuentos = new Descuentos($product, new FilterDescuentos($this->container), new ValidadorDescuentos());
 
+        $ingresos = new \Sigmalibre\Ingresos\Ingresos($this->container);
+        $last_ingreso = $ingresos->lastFromProduct($arguments['id']);
+        $last_ingreso = isset($last_ingreso[0]) ? $last_ingreso[0] : [];
+
         $responseData = [
             'productID' => $arguments['id'],
             'categories' => $categories->readAllCategories(),
@@ -151,6 +155,7 @@ class ProductsController
             'existencia' => $warehouseDetails->readList(['productoID' => $arguments['id']])['itemList'],
             'empresas' => $empresas->getAll(),
             'descuentos' => $descuentos->getDescuentos(),
+            'ingreso' => $last_ingreso,
             'input' => [
                 'categoriaProducto' => $product->CategoriaProductoID,
                 'codigoProducto' => $product->CodigoProducto,

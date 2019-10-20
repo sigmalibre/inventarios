@@ -152,20 +152,24 @@ $(function () {
     utilidadIva.trigger('change')
 });
 
-new Vue({
-    el: '#syncCostoTotal',
-    data: {
-        costoUnitario: 0,
-        cantidad: 0,
-    },
-    computed: {
-        costoTotal: {
-            get: function () {
-                return (this.costoUnitario * this.cantidad).toFixed(4)
-            },
-            set: function (total) {
-                this.costoUnitario = (total / this.cantidad).toFixed(4)
-            }
+$(function () {
+    var cantidad = $('#cantidadIngreso').val()
+    var costo = $('#valorPrecioUnitario').val()
+    new Vue({
+        el: '#syncCostoTotal',
+        data: {
+            costoUnitario: cantidad || 0,
+            cantidad: costo || 0,
         },
-    },
-})
+        computed: {
+            costoTotal: {
+                get: function () {
+                    return (this.costoUnitario * this.cantidad).toFixed(4)
+                },
+                set: function (total) {
+                    this.costoUnitario = (total / this.cantidad).toFixed(4)
+                }
+            },
+        },
+    })
+}())
