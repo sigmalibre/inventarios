@@ -153,13 +153,12 @@ $(function () {
 });
 
 $(function () {
-    var cantidad = $('#cantidadIngreso').val()
     var costo = $('#valorPrecioUnitario').val()
     new Vue({
         el: '#syncCostoTotal',
         data: {
             costoUnitario: costo || 0,
-            cantidad: cantidad || 0,
+            cantidad: 0,
         },
         computed: {
             costoTotal: {

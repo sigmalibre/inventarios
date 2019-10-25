@@ -34,7 +34,7 @@
             <div class="form-group {% if failedInputs.cantidadIngreso %}has-error{% endif %}">
                 <label for="cantidadIngreso">Cantidad a Ingresar</label>
                 <div class="input-group">
-                    <input v-model="cantidad" type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? ingreso.Cantidad }}" class="form-control" id="cantidadIngreso">
+                    <input v-model="cantidad" type="number" name="cantidadIngreso" value="{{ input.cantidadIngreso ?? 0 }}" class="form-control" id="cantidadIngreso">
                     <span class="input-group-addon">{{ input.medidaProducto }}</span>
                 </div>
                 {% if failedInputs.cantidadIngreso %}
