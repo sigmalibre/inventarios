@@ -25,8 +25,8 @@ var submitMethod = (function () {
             method: method.toUpperCase(),
             data: data,
             dataType: 'json'
-        }).done(function (data) {
-            eventos.emit(eventOnFinish, data);
+        }).done(function (response) {
+            eventos.emit(eventOnFinish, response);
         }).fail(function (_, status, error) {
             eventos.emit(eventOnFinish, {
                 error: {
