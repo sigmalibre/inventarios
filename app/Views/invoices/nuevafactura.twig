@@ -255,7 +255,9 @@
         <tr data-productoid="{{id}}">
             <td class="small">{{codigo}}</td>
             <td class="small">{{almacen}}</td>
-            <td class="small">{{cantidad}}</td>
+            <td class="small" style="padding:0; height: 1px;max-width:75px;">
+                <input id="input-cantidad-detalle-{{index}}" type="number" value="{{cantidad}}" style="height:100%;width:100%" min="1" data-index="{{index}}" class="input-cantidad-detalle"/>
+            </td>
             <td class="small">{{descripcion}}</td>
             <td class="small">{{marca}}</td>
             <td class="small">$ {{precio}}</td>

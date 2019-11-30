@@ -374,9 +374,12 @@
             empleadoID: empleadoID,
             correlativo: correlativoSeleccionado,
             ajuste: 0,
-            detalles: detalles
+            detalles: detalles.map(function(d) {
+                var copy = Object.assign({}, d)
+                copy.producto = undefined
+                return copy
+            })
         };
-
         submitMethod.send(window.location.pathname, 'post', message, 'factura-new-saved');
     });
 
@@ -486,7 +489,7 @@
         })[0];
 
         var detalle = facturas.crearDetalle(productoActual.productoID, productoActual.codigoProducto, input.cantidad, productoActual.nombreMarca,
-            productoActual.descripcion, Number(input.precio).toFixed(2), excentas.toFixed(2), afectas.toFixed(2), input.almacenID, almacen.NombreAlmacen);
+            productoActual.descripcion, Number(input.precio).toFixed(2), excentas.toFixed(2), afectas.toFixed(2), input.almacenID, almacen.NombreAlmacen, productoActual);
 
         facturas.addDetalle(detalle);
     });
@@ -503,6 +506,24 @@
 
         facturas.removeDetalle(detalleID);
     });
+
+    // ACTUALIZAR CANTIDAD DE UN DETALLE AGREGADO
+    eventos.on('factura-change-cantidad-detalle', function (datos) {
+        var detalle = facturas.getFromIndex(datos.detalle_id)
+        if (!detalle) { return }
+        detalle.cantidad = datos.cantidad
+
+        if (detalle.producto.ExcentoIVA == 1) {
+            detalle.exentas = Number(detalle.precio * detalle.cantidad).toFixed(2);
+        } else {
+            detalle.afectas = Number(detalle.precio * detalle.cantidad).toFixed(2);
+        }
+
+        facturas.update(detalle)
+        setTimeout(function () {
+            $('#input-cantidad-detalle-' + datos.detalle_id).focus()
+        }, 50)
+    })
 
     // RECIBIDO RESPUESTA DE CREACIÓN DE FACTURA EN EL SERVIDOR
     eventos.on('factura-new-saved', function (datos) {
@@ -573,7 +594,8 @@
                 exentas.toFixed(2),
                 afectas.toFixed(2),
                 detalle.almacenID,
-                almacen.NombreAlmacen
+                almacen.NombreAlmacen,
+                detalle.producto,
             );
 
             // AGREGAR DETALLE A LA FACTURA
@@ -582,6 +604,20 @@
 
         eventos.emit('factura-existente-finished', null);
     })
+
+    $('#listaProductos').on('change', '.input-cantidad-detalle', function (e) {
+
+    })
+    $('#listaProductos').on('change', '.input-cantidad-detalle', function (e) {
+        e.currentTarget.value = Number(e.currentTarget.value).toFixed(0)
+        if (e.currentTarget.value < 1) {
+            e.currentTarget.value = 1
+        }
+        eventos.emit('factura-change-cantidad-detalle',  {
+            detalle_id: $(e.currentTarget).data('index'),
+            cantidad: e.currentTarget.value,
+        })
+    })
 }());
 
 var facturas = (function () {
@@ -589,7 +625,7 @@ var facturas = (function () {
 
     var listaDetalles = [];
 
-    var crearDetalle = function (id, codigo, cantidad, marca, descripcion, precio, excentas, afectas, almacenID, almacen) {
+    var crearDetalle = function (id, codigo, cantidad, marca, descripcion, precio, excentas, afectas, almacenID, almacen, producto) {
         return {
             id: id,
             codigo: codigo,
@@ -600,7 +636,8 @@ var facturas = (function () {
             excentas: excentas,
             afectas: afectas,
             almacenID: almacenID,
-            almacen: almacen
+            almacen: almacen,
+            producto: producto,
         };
     };
 
@@ -625,6 +662,11 @@ var facturas = (function () {
         return detalle[0];
     };
 
+    var getFromIndex = function (index) {
+        var detalle = listaDetalles.find(d => d.index === index)
+        return detalle
+    }
+
     var getAll = function () {
         return listaDetalles;
     };
@@ -633,6 +675,13 @@ var facturas = (function () {
         listaDetalles = [];
         eventos.emit('updateFacturaDetallesView', listaDetalles);
     };
+    
+    var update = function (updated) {
+        var idx_detalle = listaDetalles.findIndex(d => d.id === updated.id)
+        if (idx_detalle < 0) { return }
+        listaDetalles[idx_detalle] = updated
+        eventos.emit('updateFacturaDetallesView', listaDetalles);
+    }
 
     return {
         crearDetalle: crearDetalle,
@@ -640,7 +689,9 @@ var facturas = (function () {
         removeDetalle: removeDetalle,
         getFromID: getFromID,
         getAllDetails: getAll,
-        clear: clear
+        getFromIndex: getFromIndex,
+        clear: clear,
+        update: update,
     }
 }());
 
