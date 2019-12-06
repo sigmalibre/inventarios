@@ -203,9 +203,9 @@
         var nextCorr = Number(inputCorrelativo.val()) + 1;
 
         // inputCorrelativo.data('min', nextCorr);
-        inputCorrelativo.val(nextCorr);
+        // inputCorrelativo.val(nextCorr);
 
-        tirajeNumCorrelativo.text(nextCorr);
+        // tirajeNumCorrelativo.text(nextCorr);
 
         eventos.emit('alert-feedback', {
             context: 'success',

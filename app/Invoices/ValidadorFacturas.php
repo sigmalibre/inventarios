@@ -36,7 +36,7 @@ class ValidadorFacturas extends Validator
      */
     public function validate($input)
     {
-        $this->validarCorrelativo($input);
+        // $this->validarCorrelativo($input);
         $this->validarTipoFactura($input);
         $this->validarEmpleado($input);
         $this->validarTiraje($input);

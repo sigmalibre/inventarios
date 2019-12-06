@@ -80,7 +80,7 @@ class FacturasController
         $input = $request->getParsedBody();
         $input['tipoFacturaID'] = $this->tipoFacturaID;
         $input['tirajeFacturaID'] = $this->tirajeID;
-        $input['correlativo'] = $input['correlativo'] ?? $correlativo->getNext();
+        $input['correlativo'] = empty($input['correlativo']) ? $correlativo->getNext() : $input['correlativo'];
         $input['empleadoID'] = empty($input['empleadoID']) ? null : $input['empleadoID'];
         $input['empresaID'] = empty($input['empresaID']) ? null : $input['empresaID'];
         $input['clientePersonaID'] = empty($input['clienteID']) ? null : $input['clienteID'];
