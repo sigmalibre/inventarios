@@ -384,9 +384,16 @@
     });
 
     btnImprimirCotizacion.on('click', function () {
+        var clientePersonaID = clienteSelect.val();
+        var empleadoID = empleadoSelect.val();
         var detalles = facturas.getAllDetails();
+        var message = {
+            clienteID: clientePersonaID,
+            empleadoID: empleadoID,
+            detalles: detalles,
+        }
 
-        submitMethod.download('/cotizacion/nuevo', 'post', detalles, 'cotizacion-downloaded');
+        submitMethod.download('/cotizacion/nuevo', 'post', message, 'cotizacion-downloaded');
     });
 
     btnEliminar.on('click', function () {
@@ -397,6 +404,8 @@
 (function () {
     var productoActual;
     var almacenesActuales;
+
+    var tipoFactura = $('#tipo-factura').data('tipofactura');
 
     var porcentajeIVA = Number($('#porcetaje-iva').data('porcentajeiva'));
 
@@ -447,8 +456,18 @@
     // PASO 2: Se recibió la información sobre los almacenes donde hay disponible el producto seleccionado.
     eventos.on('factura-obtuvo-almacenes', function (detalles) {
 
-        if (detalles.length == 0) {
+        if (detalles.length == 0 && tipoFactura !== 3) {
             return false;
+        }
+
+        if (tipoFactura === 3) {
+            detalles.push({
+                AlmacenID: 'cot',
+                Cantidad: 100000,
+                DetalleAlmacenesID: null,
+                NombreAlmacen: "COTIZACION",
+                ProductoID: null,
+            })
         }
 
         almacenesActuales = detalles;

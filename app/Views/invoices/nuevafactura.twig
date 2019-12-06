@@ -58,7 +58,7 @@
                         </div>
                         <div class="panel-body">
                             <form id="facturaForm" action="#">
-                                <div class="well cotizacion-hidden">
+                                <div class="well">
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <ul>
@@ -78,9 +78,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row cotizacion-hidden">
+                                <div class="row">
                                     <div class="col-sm-6">
-                                        <div id="selectClientePersona" class="form-group factura-only hidden">
+                                        <div id="selectClientePersona" class="form-group factura-only cotizacion-show hidden">
                                             <label for="clientePersonaID">Cliente</label>
                                             <select name="clientePersonaID" class="form-control readonly-disabled" id="clientePersonaID">
                                                 <option value="" selected>Elige a un cliente</option>
@@ -100,7 +100,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
-                                        <div class="form-group">
+                                        <div class="form-group cotizacion-hidden">
                                             <label for="correlativo">Correlativo Manual</label>
                                             <input type="number" id="correlativo" class="form-control limit-to-max-value limit-to-min-value readonly-disabled" name="correlativo" value="" data-min="{{ minCorrelativo }}" data-max="{{ maxCorrelativo }}" step="1">
                                         </div>

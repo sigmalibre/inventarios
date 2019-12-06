@@ -174,6 +174,8 @@ $app->get('/reportes/rendimiento', ReporteController::class . ':rendimiento');
 
 $app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName('cotizacion');
 $app->post('/cotizacion/nuevo', CotizacionController::class. ':report');
+$app->get('/cotizaciones', CotizacionController::class . ':indexCotizaciones')->setName('cotizaciones');
+$app->delete('/cotizacion/{id}', CotizacionController::class . ':delete');
 
 // SESIONES
 

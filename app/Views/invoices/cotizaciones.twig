@@ -1,0 +1,63 @@
+{% extends 'templates/base.twig' %}
+
+{% block title  %}Cotizaciones{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('cotizaciones'), 'Cotizaciones') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-9">
+                <div class="panel no-margin-bottom {% if cotizaciones %}panel-primary{% else %}panel-default{% endif %}">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            {% if not cotizaciones %}
+                                <caption class="bottom-captions text-center">No se encontraron resultados</caption>
+                            {% endif %}
+                            <thead>
+                            <tr>
+                                <th>Registro</th>
+                                <th>Fecha</th>
+                                <th>Total</th>
+                                <th>Cliente</th>
+                                <th>Empleado</th>
+                                <th>Accion</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for cotizacion in cotizaciones %}
+                            <tr id="linea-cotizacion-{{ cotizacion.CotizacionID }}">
+                                <td>{{ cotizacion.CotizacionID }}</td>
+                                <td>{{ cotizacion.FechaCreacion }}</td>
+                                <td>$ {{ cotizacion.Total }}</td>
+                                <td>{{ cotizacion.Cliente }}</td>
+                                <td>
+                                    {% if cotizacion.Empleado %}
+                                    {{ cotizacion.Codigo }}
+                                    |
+                                    {{ cotizacion.Empleado }}
+                                    {% endif %}
+                                </td>
+                                <td>
+									<button class="btn" onclick="sendCotizacion({{ loop.index0 }})">Ver</button>
+									<button class="btn" onclick="eliminarCotizacion({{ cotizacion.CotizacionID }})">Eliminar</button>
+								</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script>
+		var datos_cotizaciones = JSON.parse('{{ datos|raw }}')
+	</script>
+    <script src="/js/cotizaciones.js" defer></script>
+{% endblock %}
