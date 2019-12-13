@@ -1,0 +1,163 @@
+{% extends 'templates/base.twig' %}
+
+{% block title %}Estados de Cuenta{% endblock %}
+
+{% block breadcrumb %}
+    {{ bread.crumb(path_for('listadeudas'), 'Estados de Cuenta') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Crear nuevo registro de deuda a proveedor</div>
+                    <div class="panel-body">
+                        <form action="/deudas/nuevo" method="post" id="formulario-deuda-nueva">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="NumeroFactura">Número de Factura</label>
+                                        <input type="text" name="NumeroFactura"  class="form-control" id="NumeroFactura">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="FechaFactura">Fecha de Factura</label>
+                                        <input type="date" name="FechaFactura"  class="form-control" id="FechaFactura">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="VencimientoFactura">Fecha de Vencimiento</label>
+                                        <input type="date" name="VencimientoFactura"  class="form-control" id="VencimientoFactura">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="Monto">Monto Total de Factura</label>
+                                        <input type="number" min="0" name="Monto" class="form-control" id="Monto">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Abonos">Abonos Iniciales</label>
+                                        <input type="text" name="Abonos"  class="form-control" id="Abonos" min="0" value="0">
+                                    </div>
+                                     <div class="form-group">
+                                            <label for="EmpresaID">Proveedor</label>
+                                            <select name="EmpresaID" id="EmpresaID" class="form-control">
+                                                <option value="" selected>Elige a un proveedor</option>
+                                                {% for empresa in empresas %}
+                                                    <option value="{{ empresa.EmpresaID }}">{{ empresa.NombreComercial }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    <input type="hidden" name="PorcentajeInteres" value="0">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-info"><span class="glyphicon glyphicon-plus-sign"></span> Crear Deuda</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="panel no-margin-bottom {% if deudas %}panel-primary{% else %}panel-default{% endif %}">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">Deudas a Proveedores</h2>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="tabla-deudas" class="table table-hover">
+                            {% if not deudas %}
+                                <caption class="bottom-captions text-center">No se encontraron estados de cuenta</caption>
+                            {% endif %}
+                            <thead>
+                            <tr>
+                                <th>N°</th>
+                                <th>Proveedor</th>
+                                <th>N° Factura</th>
+                                <th>Fecha</th>
+                                <th>Vencimiento</th>
+                                <th>Monto</th>
+                                <th>Dias Mora</th>
+                                <th>Abonos</th>
+                                <th>Saldo</th>
+								<th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for deuda in deudas %}
+                                <tr>
+                                    <td>{{ deuda.DeudaID }}</td>
+                                    <td>{{ deuda.NombreComercial }}</td>
+                                    <td>{{ deuda.NumeroFactura }}</td>
+                                    <td>{{ deuda.FechaFactura }}</td>
+                                    <td>{{ deuda.VencimientoFactura }}</td>
+                                    <td>$ {{ deuda.Monto|number_format(2) }}</td>
+                                    {% if deuda.Saldo <= 0 %}
+                                    <td></td> 
+                                    {% else %}
+                                    <td>{{ deuda.DiasMora }}</td>
+                                    {% endif %}
+                                    <td>
+										<input class="input-deuda-abonos" data-id="{{ deuda.DeudaID }}" type="number" min="1" max="{{ deuda.Monto }}" value="{{ deuda.Abonos }}" style="width:100px;">
+									</td>
+                                    <td>$ {{ deuda.Saldo|number_format(2) }}</td>
+									<td><button class="btn btn-sm" onclick="deleteDeuda({{ deuda.DeudaID }})">Eliminar</button></td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                {% include 'templates/listpagination.twig' %}
+            </div>
+        </div>
+    </div>
+    <script>
+        $("#tabla-deudas").on('keyup', '.input-deuda-abonos', function (e) {
+            if (event.keyCode !== 13) { return }
+            console.log(e.currentTarget)
+            var deudaID = $(e.currentTarget).data('id')
+            var valor = $(e.currentTarget).val()
+            $.post('/deuda/' + deudaID, { cantidad: valor }, function (res) {
+                if (res.saved) {
+                    alert('Abono guardado exitosamente')
+                    window.location.reload()
+                } else {
+                    alert('No se pudo guardar el abono')
+                }
+            })
+        })
+
+        function deleteDeuda(id) {
+            $.post('/deuda/' + id + '/eliminar', function (res) {
+                if (res.deleted) {
+                    alert('eliminado exitosamente')
+                    window.location.reload()
+                } else {
+                    alert('No se pudo eliminar')
+                }
+            })
+        }
+
+        $('#formulario-deuda-nueva').on('submit', function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+            var formulario = $('#formulario-deuda-nueva').serializeArray()
+            var body = {}
+            for (var i = 0; i < formulario.length; i++) {
+                var campo = formulario[i]
+                if (!campo.value) {
+                    alert('Falta el campo ' + campo.name)
+                    return
+                }
+                body[campo.name] = campo.value
+            }
+            $.post('/deudas/nuevo', body, function (res) {
+                if (res.created) {
+                    alert('Deuda creada exitosamente')
+                    window.location.reload()
+                } else {
+                    alert('No se pudo crear la deuda')
+                }
+            })
+        })
+    </script>
+{% endblock %}

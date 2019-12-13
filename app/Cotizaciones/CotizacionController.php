@@ -85,10 +85,6 @@ class CotizacionController
     }
 
     public function indexCotizaciones(Request $request, ResponseInterface $response) {
-        if ($request->getAttribute('isAdmin') !== true) {
-            return $response->withRedirect('/');
-        }
-
         $cotizaciones = new Cotizaciones($this->container);
         $list = $cotizaciones->readAllCotizaciones();
 

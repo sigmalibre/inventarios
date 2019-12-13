@@ -76,6 +76,16 @@ abstract class MySQLReader implements \Sigmalibre\DataSource\ReadInterface
                     $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} = :{$filter['filterName']}";
                     $this->params[$filter['filterName']] = $valorInput;
                 }
+
+                if ($filter['searchType'] === '>=') {
+                    $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} >= :{$filter['filterName']}";
+                    $this->params[$filter['filterName']] = $valorInput;
+                }
+
+                if ($filter['searchType'] === '<=') {
+                    $this->filters[] = "{$filter['tableName']}.{$filter['columnName']} <= :{$filter['filterName']}";
+                    $this->params[$filter['filterName']] = $valorInput;
+                }
             }
         }
     }

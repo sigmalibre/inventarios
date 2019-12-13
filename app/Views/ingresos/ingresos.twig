@@ -61,6 +61,14 @@
                                 </select>
                             </div>
                             <div class="form-group">
+                                <label for="fechaDesde">Fecha Desde</label>
+                                <input id="fechaDesde" class="form-control" type="date" name="fechaDesde" value="{{ input.fechaDesde }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="fechaHasta">Fecha Hasta</label>
+                                <input id="fechaHasta" class="form-control" type="date" name="fechaHasta" value="{{ input.fechaHasta }}">
+                            </div>
+                            <div class="form-group">
                                 <label for="itemsPerPage">Cantidad por página</label>
                                 <select id="itemsPerPage" class="form-control" name="itemsPerPage">
                                     {% for opt in perPageOpts %}
@@ -82,7 +90,7 @@
                         <h2 class="panel-title">{{ pagination.totalItems }} Resultados</h2>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-striped">
+                        <table id="compras_proveedores" class="table table-striped">
                             <thead>
                             <tr>
                                 <th>Codigo</th>
@@ -100,15 +108,15 @@
                             <tbody>
                             {% for ingreso in ingresos %}
                             <tr>
-                                <td>{{ ingreso.CodigoProducto }}</td>
-                                <td>{{ ingreso.NombreCategoria }}</td>
-                                <td>[{{ ingreso.NombreMarca }}] {{ ingreso.Descripcion }}</td>
-                                <td>{{ ingreso.DeAjuste ? 'Ajuste Admin' : ingreso.Proveedor }}</td>
-                                <td>{{ ingreso.Cantidad }}</td>
-                                <td>{{ ingreso.PrecioUnitario }}</td>
-                                <td>{{ ingreso.NombreAlmacen }}</td>
-                                <td>{{ ingreso.FechaIngreso }}</td>
-                                <td>{{ ingreso.esDevolucion ? 'Sí' : 'No' }}</td>
+                                <td class="tableexport-string">{{ ingreso.CodigoProducto }}</td>
+                                <td class="tableexport-string">{{ ingreso.NombreCategoria }}</td>
+                                <td class="tableexport-string">[{{ ingreso.NombreMarca }}] {{ ingreso.Descripcion }}</td>
+                                <td class="tableexport-string">{{ ingreso.DeAjuste ? 'Ajuste Admin' : ingreso.Proveedor }}</td>
+                                <td class="tableexport-string">{{ ingreso.Cantidad }}</td>
+                                <td class="tableexport-string">{{ ingreso.PrecioUnitario }}</td>
+                                <td class="tableexport-string">{{ ingreso.NombreAlmacen }}</td>
+                                <td class="tableexport-string">{{ ingreso.FechaIngreso }}</td>
+                                <td class="tableexport-string">{{ ingreso.esDevolucion ? 'Sí' : 'No' }}</td>
                             </tr>
                             {% else %}
                             </tbody>
@@ -121,4 +129,11 @@
             </div>
         </div>
     </div>
+    <script>
+    TableExport(document.getElementById('compras_proveedores'), {
+        filename: 'compras_proveedores',
+        position: 'top',
+        formats: ['xlsx'],
+    })
+    </script>
 {% endblock %}

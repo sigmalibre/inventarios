@@ -83,5 +83,17 @@ class FilterIngresos extends MySQLReader
             'columnName' => 'AlmacenID',
             'searchType' => '=',
         ],
+        [
+            'filterName' => 'fechaDesde',
+            'tableName' => 'DetalleIngresos',
+            'columnName' => 'FechaIngreso',
+            'searchType' => '>=',
+        ],
+        [
+            'filterName' => 'fechaHasta',
+            'tableName' => 'DetalleIngresos',
+            'columnName' => 'FechaIngreso',
+            'searchType' => '<=',
+        ],
     ];
 }

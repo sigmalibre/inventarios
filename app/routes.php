@@ -3,6 +3,7 @@
 use Sigmalibre\IVA\IVAController;
 use Sigmalibre\Brands\BrandsController;
 use Sigmalibre\Homepage\HomeController;
+use Sigmalibre\Deudas\DeudasController;
 use Sigmalibre\Clients\ClientsController;
 use Sigmalibre\Reports\ReporteController;
 use Sigmalibre\Empresas\EmpresasController;
@@ -176,6 +177,13 @@ $app->get('/cotizacion/nuevo', CotizacionController::class . ':index')->setName(
 $app->post('/cotizacion/nuevo', CotizacionController::class. ':report');
 $app->get('/cotizaciones', CotizacionController::class . ':indexCotizaciones')->setName('cotizaciones');
 $app->delete('/cotizacion/{id}', CotizacionController::class . ':delete');
+
+// DEUDAS
+
+$app->get('/deudas', DeudasController::class . ':listaDeudas')->setName('listadeudas');
+$app->post('/deudas/nuevo', DeudasController::class . ':crear');
+$app->post('/deuda/{id}', DeudasController::class . ':editarDeuda');
+$app->post('/deuda/{id}/eliminar', DeudasController::class . ':eliminar');
 
 // SESIONES
 

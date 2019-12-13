@@ -32,7 +32,7 @@ $container['view'] = function ($container) {
     $view->getEnvironment()->addGlobal('is_admin', ($_SESSION['username'] ?? '') === 'admin');
 
     // LISTA DE OPCIONES DE CANTIDAD DE ITEMS POR PÁGINA
-    $view->getEnvironment()->addGlobal('perPageOpts', [25, 50, 75]);
+    $view->getEnvironment()->addGlobal('perPageOpts', [25, 50, 75, 100, 300]);
 
     return $view;
 };
