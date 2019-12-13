@@ -90,7 +90,7 @@ class CotizacionController
 
         return $this->container->view->render($response, 'invoices/cotizaciones.twig', [
             'cotizaciones' => $list,
-            'datos' => json_encode($list),
+            'datos' => str_replace('\\"', '\\\\"', json_encode($list)),
         ]);
     }
 
