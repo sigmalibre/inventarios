@@ -13,6 +13,6 @@ class DeleteOldest
 
     public function write()
     {
-        return $this->connection->execute('DELETE FROM Cotizaciones WHERE CotizacionID <= (SELECT CotizacionID FROM Cotizaciones ORDER BY CotizacionID DESC LIMIT 100, 1)', []);
+        return $this->connection->execute('DELETE FROM Cotizaciones WHERE CotizacionID <= (SELECT CotizacionID FROM (SELECT CotizacionID FROM Cotizaciones ORDER BY CotizacionID DESC LIMIT 100, 1) as X)', []);
     }
 }
